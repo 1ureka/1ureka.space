@@ -5,10 +5,10 @@ import { NextLinkComposed } from "./Link";
 export default function TestNav() {
   return (
     <Toolbar>
-      <Button component={NextLinkComposed} to={{ pathname: "/books/scene" }}>
+      <Button component={NextLinkComposed} to={{ pathname: "/gallery/scene" }}>
         scene link
       </Button>
-      <Button component={NextLinkComposed} to={{ pathname: "/books/props" }}>
+      <Button component={NextLinkComposed} to={{ pathname: "/gallery/props" }}>
         props link
       </Button>
       <Button component={NextLinkComposed} to={{ pathname: "/tools/manager" }}>

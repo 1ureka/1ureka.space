@@ -1,6 +1,5 @@
 "use client";
 import { Comfortaa } from "next/font/google";
-import { Palette } from "@mui/material/styles";
 import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
 import { TypographyOptions } from "@mui/material/styles/createTypography";
 
@@ -10,7 +9,7 @@ const comfortaa = Comfortaa({
   display: "swap",
 });
 
-const typography: (palette: Palette) => TypographyOptions = (palette) => ({
+const typography: TypographyOptions = {
   fontFamily: comfortaa.style.fontFamily,
   // h1: {},
   // h2: {},
@@ -30,16 +29,16 @@ const typography: (palette: Palette) => TypographyOptions = (palette) => ({
     fontSize: "1rem",
     lineHeight: 1.5,
   },
-  subTitle1: {
+  subtitle1: {
     fontWeight: 500,
     fontSize: "0.75rem",
     lineHeight: 1.66,
   },
-  subTitle2: {
+  subtitle2: {
     fontWeight: 500,
     fontSize: "0.75rem",
     lineHeight: 1.66,
-    color: palette.text.secondary,
+    color: "var(--mui-palette-text-secondary)",
   },
   body1: {
     fontSize: "0.75rem",
@@ -48,20 +47,44 @@ const typography: (palette: Palette) => TypographyOptions = (palette) => ({
   body2: {
     fontSize: "0.75rem",
     lineHeight: 1.66,
-    color: palette.text.secondary,
+    color: "var(--mui-palette-text-secondary)",
   },
   caption: {
     fontSize: "0.65rem",
     lineHeight: 1.66,
-    color: palette.text.secondary,
+    color: "var(--mui-palette-text-secondary)",
   },
   button: {
     fontSize: "0.75rem",
     lineHeight: 1.66,
   },
   // overline : {}
-});
+};
 
 export const theme = extendTheme({
   typography,
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: "#e783ad",
+          contrastText: "#fff",
+        },
+        secondary: {
+          main: "#83e7bd",
+          contrastText: "#fff",
+        }
+      }
+    },
+    dark: {
+      palette: {
+        primary: {
+          main: "#e783ad",
+        },
+        secondary: {
+          main: "#83e7bd",
+        },
+      }
+    }
+  }
 });

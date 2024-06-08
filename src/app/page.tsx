@@ -1,6 +1,6 @@
-import { AnimateMenu, HomeTitle, ThemeMenu } from "@/components";
-import { PasswordInput, UserInput } from "@/components";
-import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { AnimateMenu, HomeTitle, ThemeMenu } from "@/components/(home)";
+import { PasswordInput, UserInput } from "@/components/(home)";
+import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 
 export default function Home() {

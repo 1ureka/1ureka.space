@@ -1,8 +1,67 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Box, Paper, Stack } from "@mui/material";
+import { Variants, motion } from "framer-motion";
+import { Box, IconButton, Paper, Stack } from "@mui/material";
 
 export const BoxM = motion(Box);
 export const PaperM = motion(Paper);
 export const StackM = motion(Stack);
+export const IconButtonM = motion(IconButton);
+
+// complex
+export const bookSpineCollapsedVar: Variants = {
+  open: { transition: { staggerChildren: 0.1 } },
+  close: { transition: { staggerChildren: 0.1 } },
+  initial: { x: "-100%" },
+  animate: {
+    x: 0,
+    transition: { type: "spring", bounce: 0, duration: 0.7 },
+  },
+};
+export const bookSpineCollapsedItemVar: Variants = {
+  open: {
+    opacity: 0,
+    x: -60,
+    height: 0,
+    transition: { type: "spring", stiffness: 150, damping: 16 },
+  },
+  close: {
+    opacity: 1,
+    x: 0,
+    height: "auto",
+    transition: { type: "spring", stiffness: 150, damping: 16 },
+  },
+};
+export const booksSpineExtandedVar: Variants = {
+  initial: {
+    scaleX: 0,
+    transition: { type: "spring", bounce: 0, duration: 0.5 },
+  },
+  animate: {
+    scaleX: 1,
+    transition: {
+      type: "spring",
+      bounce: 0,
+      duration: 0.5,
+      staggerChildren: 0.07,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+// common
+export const yVar: Variants = {
+  initial: { opacity: 0, y: 65, scale: 0.9, transition: { duration: 0 } },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 150,
+      damping: 16,
+      staggerChildren: 0.07,
+      delayChildren: 0.1,
+    },
+  },
+};

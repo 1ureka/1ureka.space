@@ -1,30 +1,35 @@
 "use client";
 
-import TestNav from "@/components/TestNav";
-import { Container } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { PaperM } from "@/components/Motion";
 import { AnimatePresence } from "framer-motion";
+import BookSpine from "@/components/(bookSpine)/BookSpine";
 
-const keys = [];
+function usePageKey() {
+  const pathname = usePathname();
+  const rootPath = pathname.match(/^\/\w+/)?.[0];
+  const ts = useRef(0);
+  const key = useMemo(() => {
+    ts.current += 1;
+    return ts.current + `key${rootPath}`;
+  }, [rootPath, ts]);
+
+  return key;
+}
 
 export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const rootPath = pathname.match(/^\/\w+/)?.[0];
-  const key = useMemo(() => {
-    keys.push(0);
-    return keys.length;
-  }, [rootPath]);
+  const key = usePageKey();
 
   return (
-    <div>
-      {/* bookSpine */}
-      <TestNav />
+    <Stack direction="row" sx={{ height: 1 }}>
+      <BookSpine />
+
       <Container>
         <AnimatePresence mode="wait">
           <PaperM
@@ -35,12 +40,12 @@ export default function Layout({
             exit={{ opacity: 0, y: 100 }}
             sx={{ p: 5 }}
           >
-            {/* booksmark */}
+            {/* booksmar k*/}
             <div>{key}</div>
             {children}
           </PaperM>
         </AnimatePresence>
       </Container>
-    </div>
+    </Stack>
   );
 }

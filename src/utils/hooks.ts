@@ -8,6 +8,7 @@ export function useTheme() {
   const { setMode } = useColorScheme();
 
   const setTheme = (value: string) => {
+    value = value.toLowerCase();
     _setTheme(value);
 
     if (value === "light" || value === "dark") {

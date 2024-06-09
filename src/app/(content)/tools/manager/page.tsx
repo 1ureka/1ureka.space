@@ -1,3 +1,8 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "tools",
+};
+
 import { BoxM } from "@/components/Motion";
 import { Typography } from "@mui/material";
 

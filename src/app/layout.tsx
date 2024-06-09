@@ -1,15 +1,20 @@
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: {
+    absolute: "1ureka's space",
+    template: "1ureka's space | %s",
+    default: "page",
+  },
+  description:
+    "A personal website for storing and managing a portfolio of 3D CG, with basic image editing capabilities.",
+};
 
-import ContextProvider from "@/context/ContextProvider";
-import ThemeProvider from "@/theme/ThemeProvider";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { CssBaseline } from "@mui/material";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "1ureka's space",
-  description: "WIP",
-};
+import ContextProvider from "@/context/ContextProvider";
+import ThemeProvider from "@/theme/ThemeProvider";
 
 export default function RootLayout({
   children,

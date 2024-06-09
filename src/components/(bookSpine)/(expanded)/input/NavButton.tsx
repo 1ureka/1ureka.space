@@ -1,10 +1,13 @@
-import type { MotionStyle } from "framer-motion";
+import type { MotionStyle, Variants } from "framer-motion";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { ButtonBase, Typography } from "@mui/material";
 
+import Image from "next/image";
+import flower from "@/images/flower2.png";
+
 import { NextLinkComposed } from "@/components/Link";
-import { BoxM } from "@/components/Motion";
+import { BoxM, StackM } from "@/components/Motion";
 
 const lineStyle: MotionStyle = {
   position: "absolute",
@@ -12,10 +15,13 @@ const lineStyle: MotionStyle = {
   height: "1px",
   background: "#fff",
 };
-
-const lineVariants = {
+const lineVariants: Variants = {
   selected: { originX: [0], scaleX: 1 },
   unselected: { originX: [1], scaleX: 0 },
+};
+const iconVariants: Variants = {
+  initial: { width: 0, opacity: 0 },
+  animate: { width: "40px", opacity: 0.2 },
 };
 
 export default function NavButton({
@@ -35,6 +41,23 @@ export default function NavButton({
       whileHover={["selected", "hover"]}
     >
       <ButtonBase component={NextLinkComposed} sx={{ p: 2 }} to={href}>
+        <StackM
+          justifyContent="center"
+          sx={{ translate: "-10px 0" }}
+          variants={iconVariants}
+          animate={selected ? "animate" : "initial"}
+        >
+          {selected && (
+            <Image
+              src={flower}
+              alt="flower decoration"
+              width={40}
+              height={40}
+              decoding="async"
+            />
+          )}
+        </StackM>
+
         <Typography variant="h5" sx={{ position: "relative" }}>
           {label}
           <motion.div

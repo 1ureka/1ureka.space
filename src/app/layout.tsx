@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   },
   description:
     "A personal website for storing and managing a portfolio of 3D CG, with basic image editing capabilities.",
+  icons: {
+    icon: "/favicon.webp",
+  },
 };
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";

@@ -1,6 +1,4 @@
 import type { IconButtonProps, Theme } from "@mui/material";
-import type {} from "@mui/material/themeCssVarsAugmentation";
-
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { BoxM, IconButtonM } from "@/components/Motion";

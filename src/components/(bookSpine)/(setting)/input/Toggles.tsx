@@ -1,5 +1,4 @@
 import type { Theme, ToggleButtonProps } from "@mui/material";
-import type {} from "@mui/material/themeCssVarsAugmentation";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 export default function Toggles({

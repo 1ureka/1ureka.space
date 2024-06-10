@@ -1,7 +1,8 @@
 "use client";
 import { Comfortaa } from "next/font/google";
 import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
-import { TypographyOptions } from "@mui/material/styles/createTypography";
+import type { TypographyOptions } from "@mui/material/styles/createTypography";
+import type {} from "@mui/material/themeCssVarsAugmentation";
 
 const comfortaa = Comfortaa({
   weight: ["300", "400", "500", "700"],
@@ -73,8 +74,14 @@ export const theme = extendTheme({
         secondary: {
           main: "#83e7bd",
           contrastText: "#fff",
-        }
-      }
+        },
+        content: {
+          layer1: "#ffffff", // top
+          layer2: "#e0e0e0",
+          layer3: "#bdbdbd",
+          backdrop: "#ffffffd8",
+        },
+      },
     },
     dark: {
       palette: {
@@ -84,7 +91,32 @@ export const theme = extendTheme({
         secondary: {
           main: "#83e7bd",
         },
-      }
-    }
-  }
+        content: {
+          layer1: "rgba(255, 255, 255, 0.05)",
+          layer2: "#121212",
+          layer3: "rgba(0, 0, 0, 0.25)",
+          backdrop: "#121212d8",
+        },
+      },
+    },
+  },
 });
+
+declare module "@mui/material/styles" {
+  interface PaletteOptions {
+    content: {
+      layer1: string;
+      layer2: string;
+      layer3: string;
+      backdrop: string;
+    };
+  }
+  interface Palette {
+    content: {
+      layer1: string;
+      layer2: string;
+      layer3: string;
+      backdrop: string;
+    };
+  }
+}

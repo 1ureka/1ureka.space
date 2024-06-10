@@ -1,6 +1,6 @@
 import { BoxM, yVar } from "@/components/Motion";
 import type { SxProps, Theme } from "@mui/material";
-import type {} from "@mui/material/themeCssVarsAugmentation";
+
 import flower from "@/images/flower.webp";
 import Image from "next/image";
 

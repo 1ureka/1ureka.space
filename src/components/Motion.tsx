@@ -10,9 +10,15 @@ export const IconButtonM = motion(IconButton);
 
 // complex
 export const bookSpineCollapsedVar: Variants = {
-  open: { transition: { staggerChildren: 0.1 } },
-  close: { transition: { staggerChildren: 0.1 } },
-  initial: { x: "-100%" },
+  open: {
+    transition: { staggerChildren: 0.1 },
+  },
+  close: {
+    transition: { staggerChildren: 0.1 },
+  },
+  initial: {
+    x: "-100%",
+  },
   animate: {
     x: 0,
     transition: { type: "spring", bounce: 0, duration: 0.7 },
@@ -47,6 +53,28 @@ export const booksSpineExtandedVar: Variants = {
       delayChildren: 0.2,
     },
   },
+};
+export const layoutMotionProps = {
+  variants: {
+    initial: {
+      opacity: 0,
+      y: 100,
+      transition: { duration: 0 },
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 150, damping: 15 },
+    },
+    exit: {
+      opacity: 0,
+      y: 50,
+      transition: { type: "spring", bounce: 0, duration: 0.5 },
+    },
+  },
+  initial: "initial",
+  animate: "animate",
+  exit: "exit",
 };
 
 // common

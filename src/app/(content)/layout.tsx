@@ -1,32 +1,50 @@
 "use client";
 
-import { Container, Stack } from "@mui/material";
-import { usePathname } from "next/navigation";
 import { useMemo, useRef } from "react";
-import { PaperM } from "@/components/Motion";
+import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
+import { Container, Stack } from "@mui/material";
+
+import { PaperM } from "@/components/Motion";
 import BookSpine from "@/components/(bookSpine)/BookSpine";
+import Bookmarks from "@/components/(bookmarks)/Bookmarks";
 
-function usePageKey() {
-  const pathname = usePathname();
-  const rootPath = pathname.match(/^\/\w+/)?.[0];
-  const ts = useRef(0);
-  const key = useMemo(() => {
-    ts.current += 1;
-    return ts.current + `key${rootPath}`;
-  }, [rootPath, ts]);
+type BookmarkOption = {
+  label: string;
+  href: string;
+};
 
-  return key;
-}
+const bookmarks: Record<string, BookmarkOption[]> = {
+  "/books": [
+    { label: "Scene", href: "/books/scene" },
+    { label: "Props", href: "/books/props" },
+  ],
+  "/tools": [
+    { label: "Manager", href: "/tools/manager" },
+    { label: "Editor", href: "/tools/editor" },
+  ],
+};
 
 export default function Layout({
   header,
   content,
-}: Readonly<{
+}: {
   header: React.ReactNode;
   content: React.ReactNode;
-}>) {
-  const key = usePageKey();
+}) {
+  const pathname = usePathname();
+  const rootPath = pathname.match(/^\/\w+/)?.[0] || "";
+
+  const ts = useRef(0);
+  const key = useMemo(() => {
+    ts.current += 1;
+    return `${rootPath}-${ts.current}`;
+  }, [rootPath]);
+
+  const options: BookmarkOption[] = useMemo(() => {
+    if (rootPath in bookmarks) return bookmarks[rootPath];
+    return [];
+  }, [rootPath]);
 
   return (
     <Stack direction="row" sx={{ height: 1 }}>
@@ -42,9 +60,8 @@ export default function Layout({
             exit={{ opacity: 0, y: 100 }}
             sx={{ p: 5 }}
           >
+            <Bookmarks options={options} />
             {header}
-            {/* booksmar k*/}
-            <div>{key}</div>
             {content}
           </PaperM>
         </AnimatePresence>

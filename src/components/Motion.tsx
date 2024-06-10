@@ -54,7 +54,12 @@ export const booksSpineExtandedVar: Variants = {
     },
   },
 };
-export const layoutMotionProps = {
+
+interface MotionProps {
+  variants: Variants;
+  [key: string]: unknown;
+}
+export const layoutMotionProps: MotionProps = {
   variants: {
     initial: {
       opacity: 0,
@@ -75,6 +80,20 @@ export const layoutMotionProps = {
   initial: "initial",
   animate: "animate",
   exit: "exit",
+};
+export const layoutChildMotionProps: MotionProps = {
+  variants: {
+    initial: {
+      transition: { duration: 0 },
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { delayChildren: 0.35, staggerChildren: 0.07 },
+    },
+  },
+  initial: "initial",
+  animate: "animate",
 };
 
 // common

@@ -20,9 +20,11 @@ function usePageKey() {
 }
 
 export default function Layout({
-  children,
+  header,
+  content,
 }: Readonly<{
-  children: React.ReactNode;
+  header: React.ReactNode;
+  content: React.ReactNode;
 }>) {
   const key = usePageKey();
 
@@ -40,9 +42,10 @@ export default function Layout({
             exit={{ opacity: 0, y: 100 }}
             sx={{ p: 5 }}
           >
+            {header}
             {/* booksmar k*/}
             <div>{key}</div>
-            {children}
+            {content}
           </PaperM>
         </AnimatePresence>
       </Container>

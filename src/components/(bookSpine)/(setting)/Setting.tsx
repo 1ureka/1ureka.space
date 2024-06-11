@@ -3,7 +3,8 @@ import { AnimatePresence } from "framer-motion";
 import { Divider, Stack, Typography } from "@mui/material";
 
 import { Toggles } from ".";
-import { PaperM, StackM, booksSpineExtandedVar, yVar } from "../../Motion";
+import { PaperM, StackM } from "../../Motion";
+import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
 import { useTheme } from "@/utils/hooks";
 import { BOOKS_FOLD } from "@/context/store";
 
@@ -46,12 +47,12 @@ function Content() {
 
   return (
     <Stack sx={{ width: 1, alignItems: "flex-start" }} spacing={2.5}>
-      <StackM variants={yVar} width={1} spacing={1.5} alignItems="center">
+      <StackM variants={yScaleVar} width={1} spacing={1.5} alignItems="center">
         <Divider flexItem />
         <Typography variant="subtitle1">Settings</Typography>
       </StackM>
 
-      <StackM variants={yVar} width={1}>
+      <StackM variants={yScaleVar} width={1}>
         <Typography variant="caption">MODE</Typography>
         <Toggles
           options={modeOptions}
@@ -61,7 +62,7 @@ function Content() {
         />
       </StackM>
 
-      <StackM variants={yVar} width={1}>
+      <StackM variants={yScaleVar} width={1}>
         <Typography variant="caption">BOOKS DISPLAY</Typography>
         <Toggles
           options={displayOptions}

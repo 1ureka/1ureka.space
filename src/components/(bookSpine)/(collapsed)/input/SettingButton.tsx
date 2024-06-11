@@ -1,7 +1,7 @@
 import type { Theme } from "@mui/material";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { BoxM, IconButtonM } from "@/components/Motion";
-import { bookSpineCollapsedItemVar } from "@/components/Motion";
+import { bookSpineCollapsedItemVar } from "@/components/MotionProps";
 
 const settingButtonVariants = {
   open: {

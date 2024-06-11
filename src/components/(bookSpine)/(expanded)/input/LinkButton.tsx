@@ -1,4 +1,5 @@
-import { StackM, yVar } from "@/components/Motion";
+import { StackM } from "@/components/Motion";
+import { yScaleVar } from "@/components/MotionProps";
 import type { IconButtonProps } from "@mui/material";
 import { Link, Stack, Typography } from "@mui/material";
 
@@ -19,7 +20,7 @@ export default function LinkButton({
   url: string;
 }) {
   return (
-    <StackM spacing={1} variants={yVar}>
+    <StackM spacing={1} variants={yScaleVar}>
       <Typography variant="caption">{label}</Typography>
       <Stack direction="row" spacing={2}>
         {icon}

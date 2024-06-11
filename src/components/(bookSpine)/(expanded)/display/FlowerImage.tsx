@@ -1,4 +1,5 @@
-import { BoxM, yVar } from "@/components/Motion";
+import { BoxM } from "@/components/Motion";
+import { yScaleVar } from "@/components/MotionProps";
 import type { SxProps, Theme } from "@mui/material";
 
 import flower from "@/images/flower.webp";
@@ -7,7 +8,7 @@ import Image from "next/image";
 export default function FlowerImage({ sx }: { sx: SxProps<Theme> }) {
   return (
     <BoxM
-      variants={yVar}
+      variants={yScaleVar}
       sx={{ position: "absolute", pointerEvents: "none", ...sx }}
     >
       <Image

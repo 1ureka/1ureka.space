@@ -4,7 +4,8 @@ import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import BrushRoundedIcon from "@mui/icons-material/BrushRounded";
 
 import { MenuButton, NavIconButton, SettingButton, SpineTitle } from ".";
-import { PaperM, bookSpineCollapsedVar } from "@/components/Motion";
+import { PaperM } from "@/components/Motion";
+import { bookSpineCollapsedVar } from "@/components/MotionProps";
 
 export default function Collapsed({
   open,

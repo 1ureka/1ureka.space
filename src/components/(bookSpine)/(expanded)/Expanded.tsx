@@ -4,8 +4,8 @@ import { Box, Divider, Link, Stack, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 
-import { BoxM, PaperM, StackM, yVar } from "@/components/Motion";
-import { booksSpineExtandedVar } from "@/components/Motion";
+import { BoxM, PaperM, StackM } from "@/components/Motion";
+import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
 import { FlowerImage, LinkButton, NavButton } from ".";
 
 const containerSx = {
@@ -39,6 +39,8 @@ export default function Expanded({ open }: { open: Boolean }) {
 }
 
 const configs = [
+  { variant: "subheader", label: "HOME" },
+  { variant: "button", label: "Index", href: "/" },
   { variant: "subheader", label: "BOOKS" },
   { variant: "button", label: "Scene", href: "/books/scene" },
   { variant: "button", label: "Props", href: "/books/props" },
@@ -54,7 +56,7 @@ function Content() {
 
       <Stack spacing={1}>
         {configs.map(({ variant, label, href }, i) => (
-          <BoxM key={label} variants={yVar}>
+          <BoxM key={label} variants={yScaleVar}>
             {variant === "subheader" ? (
               <Box sx={{ pt: i !== 0 ? 6 : null }}>
                 <Typography variant="caption">{label}</Typography>
@@ -82,7 +84,11 @@ function Content() {
           />
         </Stack>
 
-        <StackM variants={yVar} spacing={2.5} sx={{ whiteSpace: "nowrap" }}>
+        <StackM
+          variants={yScaleVar}
+          spacing={2.5}
+          sx={{ whiteSpace: "nowrap" }}
+        >
           <Divider flexItem />
           <Typography variant="caption">
             Design inspired by{" "}

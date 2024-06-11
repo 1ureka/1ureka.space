@@ -1,7 +1,8 @@
 import type { IconButtonProps } from "@mui/material";
 import { IconButton, Typography } from "@mui/material";
 
-import { StackM, bookSpineCollapsedItemVar } from "@/components/Motion";
+import { StackM } from "@/components/Motion";
+import { bookSpineCollapsedItemVar } from "@/components/MotionProps";
 import { NextLinkComposed } from "@/components/Link";
 
 const iconButtonSx: IconButtonProps["sx"] = {

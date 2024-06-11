@@ -3,14 +3,47 @@ export const metadata: Metadata = {
   title: { absolute: "1ureka's space" },
 };
 
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { BoxM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
+import { layoutChildMotionProps, yVar } from "@/components/MotionProps";
+import { NavCard } from "@/components/(home)";
 
 export default function Content() {
   return (
-    <BoxM {...layoutChildMotionProps}>
-      <Stack direction="row" spacing={3} flexWrap="wrap"></Stack>
+    <BoxM {...layoutChildMotionProps} sx={{ p: 4 }}>
+      <Stack direction="row" gap={7} flexWrap="wrap">
+        <Stack spacing={2}>
+          <BoxM variants={yVar}>
+            <Typography variant="subtitle2">BOOKS</Typography>
+          </BoxM>
+          <Stack direction="row" gap={3} flexWrap="wrap">
+            <NavCard
+              label="Scene"
+              caption="Anime and game scenes reimagined in realistic detail"
+            />
+            <NavCard
+              label="Props"
+              caption="A collection of 3D models for outdoor scenes, from tiny screws to entire buildings."
+            />
+          </Stack>
+        </Stack>
+
+        <Stack spacing={2}>
+          <BoxM variants={yVar}>
+            <Typography variant="subtitle2">TOOLS</Typography>
+          </BoxM>
+          <Stack direction="row" gap={3} flexWrap="wrap">
+            <NavCard
+              label="File Manager"
+              caption="Seamlessly manage album's images with real-time backend syncing."
+            />
+            <NavCard
+              label="Image Editor"
+              caption="Transform photos with conversion, compression, and filters."
+            />
+          </Stack>
+        </Stack>
+      </Stack>
     </BoxM>
   );
 }

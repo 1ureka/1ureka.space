@@ -76,7 +76,7 @@ export const layoutMotionProps: MotionProps = {
 export const layoutChildMotionProps: MotionProps = {
   variants: {
     animate: {
-      transition: { delayChildren: 0.35, staggerChildren: 0.07 },
+      transition: { delayChildren: 0.35, staggerChildren: 0.1 },
     },
   },
   initial: "initial",
@@ -94,7 +94,7 @@ export const yScaleVar: Variants = {
       type: "spring",
       stiffness: 150,
       damping: 16,
-      staggerChildren: 0.07,
+      staggerChildren: 0.1,
       delayChildren: 0.1,
     },
   },
@@ -108,7 +108,7 @@ export const yVar: Variants = {
       type: "spring",
       stiffness: 150,
       damping: 16,
-      staggerChildren: 0.07,
+      staggerChildren: 0.1,
       delayChildren: 0.1,
     },
   },

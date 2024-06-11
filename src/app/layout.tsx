@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import { CssBaseline } from "@mui/material";
+
+import ContextProvider from "@/context/ContextProvider";
+import ThemeProvider from "@/theme/ThemeProvider";
+import Frame from "./frame";
+
 export const metadata: Metadata = {
   title: {
-    absolute: "1ureka's space",
     template: "1ureka's space | %s",
     default: "page",
   },
@@ -12,26 +18,28 @@ export const metadata: Metadata = {
   },
 };
 
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import { CssBaseline } from "@mui/material";
-import "./globals.css";
-
-import ContextProvider from "@/context/ContextProvider";
-import ThemeProvider from "@/theme/ThemeProvider";
+const bodyStyle: React.CSSProperties = {
+  position: "absolute",
+  inset: 0,
+  margin: 0,
+  overflow: "hidden",
+};
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  header,
+  content,
+}: {
+  header: React.ReactNode;
+  content: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body>
+      <body style={bodyStyle}>
         <ContextProvider>
           <AppRouterCacheProvider>
             <ThemeProvider>
               <CssBaseline />
-              {children}
+              <Frame header={header} content={content} />
             </ThemeProvider>
           </AppRouterCacheProvider>
         </ContextProvider>

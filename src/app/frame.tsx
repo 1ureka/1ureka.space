@@ -5,16 +5,13 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Box, Divider, Stack } from "@mui/material";
 
-import { StackM, layoutMotionProps } from "@/components/Motion";
+import { StackM } from "@/components/Motion";
+import { layoutMotionProps } from "@/components/MotionProps";
 import BookSpine from "@/components/(bookSpine)/BookSpine";
 import Bookmarks from "@/components/(bookmarks)/Bookmarks";
 
-type BookmarkOption = {
-  label: string;
-  href: string;
-};
-
-const bookmarks: Record<string, BookmarkOption[]> = {
+const bookmarks: Record<string, { label: string; href: string }[]> = {
+  "/": [{ label: "Index", href: "/" }],
   "/books": [
     { label: "Scene", href: "/books/scene" },
     { label: "Props", href: "/books/props" },
@@ -25,7 +22,7 @@ const bookmarks: Record<string, BookmarkOption[]> = {
   ],
 };
 
-export default function Layout({
+export default function Frame({
   header,
   content,
 }: {
@@ -33,26 +30,13 @@ export default function Layout({
   content: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const rootPath = pathname.match(/^\/\w+/)?.[0] || "";
+  const rootPath = pathname.match(/^\/\w+/)?.[0] || "/";
 
   const ts = useRef(0);
   const key = useMemo(() => {
     ts.current += 1;
     return `${rootPath}-${ts.current}`;
   }, [rootPath]);
-  const options: BookmarkOption[] = useMemo(() => {
-    return bookmarks[rootPath] || [];
-  }, [rootPath]);
-
-  const layoutProps = {
-    sx: { position: "relative", height: 1 },
-    ...layoutMotionProps,
-  };
-  const mainSx = {
-    bgcolor: "content.layer1",
-    flexGrow: 1,
-    borderRadius: "0 50px 5px 5px",
-  };
 
   return (
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>
@@ -60,10 +44,21 @@ export default function Layout({
 
       <Box sx={{ px: 5, py: 3, height: 1, flexGrow: 1 }}>
         <AnimatePresence mode="wait">
-          <StackM key={key} {...layoutProps}>
-            <Bookmarks options={options} />
+          <StackM
+            key={key}
+            sx={{ position: "relative", height: 1 }}
+            {...layoutMotionProps}
+          >
+            <Bookmarks options={bookmarks[rootPath] || []} />
 
-            <Stack sx={mainSx} component={"main"}>
+            <Stack
+              component={"main"}
+              sx={{
+                bgcolor: "content.layer1",
+                flexGrow: 1,
+                borderRadius: "0 50px 5px 5px",
+              }}
+            >
               <Box sx={{ mt: "55px" }}>{header}</Box>
 
               <Divider flexItem variant="middle" />

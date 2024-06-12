@@ -3,7 +3,7 @@ import { atom } from "recoil";
 
 export const THEME = atom({
   key: "theme",
-  default: "system",
+  default: "",
 });
 export const BOOKS_FOLD = atom({
   key: "booksFold",

@@ -20,10 +20,12 @@ export default function Content() {
             <NavCard
               label="Scene"
               caption="Anime and game scenes reimagined in realistic detail"
+              href="/books/scene"
             />
             <NavCard
               label="Props"
               caption="A collection of 3D models for outdoor scenes, from tiny screws to entire buildings."
+              href="/books/props"
             />
           </Stack>
         </Stack>
@@ -36,10 +38,12 @@ export default function Content() {
             <NavCard
               label="File Manager"
               caption="Seamlessly manage album's images with real-time backend syncing."
+              href="/tools/manager"
             />
             <NavCard
               label="Image Editor"
               caption="Transform photos with conversion, compression, and filters."
+              href="/tools/editor"
             />
           </Stack>
         </Stack>

@@ -5,7 +5,7 @@ import { getSystemTheme } from "./client-utils";
 
 export function useTheme() {
   const [theme, _setTheme] = useRecoilState(THEME);
-  const { setMode } = useColorScheme();
+  const { mode, setMode } = useColorScheme();
 
   const setTheme = (value: string) => {
     value = value.toLowerCase();
@@ -18,5 +18,5 @@ export function useTheme() {
     }
   };
 
-  return { theme, setTheme };
+  return { theme: theme ? theme : mode ? mode : "light", setTheme };
 }

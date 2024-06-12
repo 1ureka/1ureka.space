@@ -1,19 +1,25 @@
-import { CardM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import type { LinkProps } from "next/link";
+import { NextLinkComposed } from "@/components/Link";
+
 import { CardActionArea, CardContent, CardMedia } from "@mui/material";
 import { Stack, Typography } from "@mui/material";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 
+import { CardM } from "@/components/Motion";
+import { yScaleVar } from "@/components/MotionProps";
+
 export default function NavCard({
   label,
   caption,
+  href,
 }: {
   label: string;
   caption: string;
+  href: LinkProps["href"];
 }) {
   return (
     <CardM variants={yScaleVar} sx={{ width: 345 }} elevation={3}>
-      <CardActionArea>
+      <CardActionArea component={NextLinkComposed} to={href}>
         <CardMedia>
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200">
             <rect width="100%" height="100%" fill="#e783ad" />

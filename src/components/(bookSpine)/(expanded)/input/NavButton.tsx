@@ -20,8 +20,8 @@ const lineVariants: Variants = {
   unselected: { originX: [1], scaleX: 0 },
 };
 const iconVariants: Variants = {
-  initial: { width: 0, opacity: 0 },
-  animate: { width: "40px", opacity: 0.2 },
+  initial: { width: 0, height: 0, opacity: 0 },
+  animate: { width: "auto", height: "auto", opacity: 0.2 },
 };
 
 export default function NavButton({
@@ -41,8 +41,7 @@ export default function NavButton({
       whileHover={["selected", "hover"]}
     >
       <ButtonBase component={NextLinkComposed} sx={{ p: 2 }} to={href}>
-        <StackM
-          justifyContent="center"
+        <BoxM
           sx={{ translate: "-10px 0" }}
           variants={iconVariants}
           animate={selected ? "animate" : "initial"}
@@ -54,9 +53,10 @@ export default function NavButton({
               width={40}
               height={40}
               decoding="async"
+              style={{ display: "block" }}
             />
           )}
-        </StackM>
+        </BoxM>
 
         <Typography variant="h5" sx={{ position: "relative" }}>
           {label}

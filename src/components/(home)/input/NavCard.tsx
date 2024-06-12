@@ -2,9 +2,10 @@ import type { LinkProps } from "next/link";
 import { NextLinkComposed } from "@/components/Link";
 
 import { Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
-import type { CardActionAreaProps } from "@mui/material";
+import type { CardActionAreaProps, CardProps } from "@mui/material";
 import { Stack, Typography } from "@mui/material";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
+import LockRoundedIcon from "@mui/icons-material/LockRounded";
 
 const cardActionAreaSx: CardActionAreaProps["sx"] = {
   display: "flex",
@@ -14,29 +15,29 @@ const cardActionAreaSx: CardActionAreaProps["sx"] = {
 };
 
 export default function NavCard({
-  label,
+  title,
+  subTitle,
   caption,
+  sx,
   href,
   disabled = false,
 }: {
-  label: string;
+  title: string;
+  subTitle: string;
   caption: string;
+  sx?: CardProps["sx"];
   href: LinkProps["href"];
   disabled?: boolean;
 }) {
   return (
-    <Card elevation={3}>
+    <Card sx={{ minHeight: 250, ...sx }} elevation={3}>
       <CardActionArea
         component={NextLinkComposed}
         to={href}
         sx={cardActionAreaSx}
         disabled={disabled}
       >
-        <CardMedia sx={{ height: 130 }}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <rect width="100%" height="100%" fill="#e783ad" />
-          </svg>
-        </CardMedia>
+        <CardMedia sx={{ flexGrow: 1, background: "#e783ad" }} />
 
         <CardContent>
           <Stack
@@ -44,10 +45,18 @@ export default function NavCard({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography gutterBottom variant="h5">
-              {label}
-            </Typography>
-            {disabled ? "" : <ArrowOutwardRoundedIcon color="primary" />}
+            <Stack direction="row" alignItems="baseline" gap={1.5}>
+              <Typography gutterBottom variant="h5">
+                {title}
+              </Typography>
+              <Typography variant="subtitle2">{subTitle}</Typography>
+            </Stack>
+
+            {disabled ? (
+              <LockRoundedIcon color="primary" />
+            ) : (
+              <ArrowOutwardRoundedIcon color="primary" />
+            )}
           </Stack>
 
           <Typography variant="caption">{caption}</Typography>

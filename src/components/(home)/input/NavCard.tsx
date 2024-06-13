@@ -1,18 +1,11 @@
 import type { LinkProps } from "next/link";
 import { NextLinkComposed } from "@/components/Link";
 
-import { Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
-import type { CardActionAreaProps, CardProps } from "@mui/material";
+import { Box, ButtonBase, Paper } from "@mui/material";
+import type { PaperProps } from "@mui/material";
 import { Stack, Typography } from "@mui/material";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
-
-const cardActionAreaSx: CardActionAreaProps["sx"] = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "stretch",
-  height: 1,
-};
 
 export default function NavCard({
   title,
@@ -25,43 +18,51 @@ export default function NavCard({
   title: string;
   subTitle: string;
   caption: string;
-  sx?: CardProps["sx"];
+  sx?: PaperProps["sx"];
   href: LinkProps["href"];
   disabled?: boolean;
 }) {
   return (
-    <Card sx={{ minHeight: 250, ...sx }} elevation={3}>
-      <CardActionArea
+    <Paper sx={{ overflow: "hidden", ...sx }} elevation={3}>
+      <ButtonBase
         component={NextLinkComposed}
         to={href}
-        sx={cardActionAreaSx}
         disabled={disabled}
+        sx={{ display: "block", height: 1 }}
       >
-        <CardMedia sx={{ flexGrow: 1, background: "#e783ad" }} />
+        <Stack direction="row" height={1}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ height: 1, background: "#e783ad" }} />
+          </Box>
 
-        <CardContent>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Stack direction="row" alignItems="baseline" gap={1.5}>
-              <Typography gutterBottom variant="h5">
-                {title}
-              </Typography>
-              <Typography variant="subtitle2">{subTitle}</Typography>
+          <Box sx={{ p: 3, width: 0.55 }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="baseline"
+            >
+              <Stack direction="row" alignItems="baseline" gap={1.5}>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  color={disabled ? "text.secondary" : ""}
+                >
+                  {title}
+                </Typography>
+                <Typography variant="subtitle2">{subTitle}</Typography>
+              </Stack>
+
+              {disabled ? (
+                <LockRoundedIcon sx={{ color: "text.secondary" }} />
+              ) : (
+                <ArrowOutwardRoundedIcon color="primary" />
+              )}
             </Stack>
 
-            {disabled ? (
-              <LockRoundedIcon color="primary" />
-            ) : (
-              <ArrowOutwardRoundedIcon color="primary" />
-            )}
-          </Stack>
-
-          <Typography variant="caption">{caption}</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+            <Typography variant="caption">{caption}</Typography>
+          </Box>
+        </Stack>
+      </ButtonBase>
+    </Paper>
   );
 }

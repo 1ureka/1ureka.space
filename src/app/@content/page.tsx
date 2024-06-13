@@ -17,12 +17,19 @@ export default function Content({
 
   return (
     <BoxM {...layoutChildMotionProps} sx={{ p: 4 }} height={1}>
-      <Grid container columns={4} rowSpacing={5} spacing={2} height={1}>
+      <Grid
+        container
+        columns={4}
+        rowSpacing={5}
+        spacing={2}
+        height={1}
+        minHeight={500}
+      >
         <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
           <NavCard
             sx={{ height: 1 }}
             title="Scene"
-            subTitle="books"
+            subTitle=" books "
             caption="Anime and game scenes reimagined in realistic detail."
             href="/books/scene"
             disabled={isGuest}
@@ -32,7 +39,7 @@ export default function Content({
           <NavCard
             sx={{ height: 1 }}
             title="Props"
-            subTitle="books"
+            subTitle=" books "
             caption="A collection of 3D models for outdoor scenes, from tiny screws to entire buildings."
             href="/books/props"
             disabled={isGuest}
@@ -42,7 +49,7 @@ export default function Content({
           <NavCard
             sx={{ height: 1 }}
             title="File Manager"
-            subTitle="tools"
+            subTitle=" tools "
             caption="Seamlessly manage album's images with real-time backend syncing."
             href="/tools/manager"
             disabled={isGuest}
@@ -52,7 +59,7 @@ export default function Content({
           <NavCard
             sx={{ height: 1 }}
             title="Image Editor"
-            subTitle="tools"
+            subTitle=" tools "
             caption="Transform photos with conversion, compression, and filters."
             href="/tools/editor"
           />

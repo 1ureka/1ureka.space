@@ -1,13 +1,13 @@
 import type { MotionStyle, Variants } from "framer-motion";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { ButtonBase, Typography } from "@mui/material";
+import { ButtonBase, Typography, useTheme } from "@mui/material";
 
 import Image from "next/image";
 import flower from "@/images/flower2.png";
 
 import { NextLinkComposed } from "@/components/Link";
-import { BoxM, StackM } from "@/components/Motion";
+import { BoxM } from "@/components/Motion";
 
 const lineStyle: MotionStyle = {
   position: "absolute",
@@ -34,6 +34,14 @@ export default function NavButton({
   const pathname = usePathname();
   const selected = pathname === href.split("?")[0];
 
+  const root = document.documentElement;
+  const style = window.getComputedStyle(root);
+  const defaultFontSizeString = style.getPropertyValue("font-size");
+  const defaultFontSize = parseFloat(defaultFontSizeString);
+
+  const { fontSize } = useTheme().typography;
+  const indicatorSize = 1.6 * 1.25 * (fontSize / 14) * defaultFontSize;
+
   return (
     <BoxM
       variants={{ hover: { x: 10 } }}
@@ -50,8 +58,8 @@ export default function NavButton({
             <Image
               src={flower}
               alt="flower decoration"
-              width={40}
-              height={40}
+              width={indicatorSize}
+              height={indicatorSize}
               decoding="async"
               style={{ display: "block" }}
             />

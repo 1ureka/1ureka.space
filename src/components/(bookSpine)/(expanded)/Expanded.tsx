@@ -1,12 +1,9 @@
 import { AnimatePresence } from "framer-motion";
 import { Box, Divider, Link, Stack, Typography } from "@mui/material";
 
-import GitHubIcon from "@mui/icons-material/GitHub";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-
 import { BoxM, PaperM, StackM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
-import { FlowerImage, LinkButton, NavButton } from ".";
+import { FlowerImage, NavButton } from ".";
 
 const containerSx = {
   position: "absolute",
@@ -68,41 +65,20 @@ function Content() {
         ))}
       </Stack>
 
-      <Stack spacing={2.5}>
-        <Stack direction="row" spacing={6.5}>
-          <LinkButton
-            label="SOURCE"
-            caption="GitHub"
-            icon={<GitHubIcon />}
-            url={"https://github.com/1ureka/1ureka.github.io"}
-          />
-          <LinkButton
-            label="WATCH"
-            caption="Youtube"
-            icon={<YouTubeIcon />}
-            url={"https://www.youtube.com/@1ureka-"}
-          />
-        </Stack>
-
-        <StackM
-          variants={yScaleVar}
-          spacing={2.5}
-          sx={{ whiteSpace: "nowrap" }}
-        >
-          <Divider flexItem />
-          <Typography variant="caption">
-            Design inspired by{" "}
-            <Link
-              href="https://alightinthewoods.net"
-              target="_blank"
-              rel="noopener"
-              color="text.secondary"
-            >
-              https://alightinthewoods.net
-            </Link>
-          </Typography>
-        </StackM>
-      </Stack>
+      <StackM variants={yScaleVar} spacing={2.5} sx={{ whiteSpace: "nowrap" }}>
+        <Divider flexItem />
+        <Typography variant="caption">
+          Design inspired by{" "}
+          <Link
+            href="https://alightinthewoods.net"
+            target="_blank"
+            rel="noopener"
+            color="text.secondary"
+          >
+            https://alightinthewoods.net
+          </Link>
+        </Typography>
+      </StackM>
     </Stack>
   );
 }

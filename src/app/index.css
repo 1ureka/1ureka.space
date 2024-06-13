@@ -1,0 +1,12 @@
+body {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+* {
+  scrollbar-color: gray transparent;
+  scrollbar-width: thin;
+}

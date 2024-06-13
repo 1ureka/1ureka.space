@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { CssBaseline } from "@mui/material";
+import "@/app/index.css";
 
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
@@ -18,13 +19,6 @@ export const metadata: Metadata = {
   },
 };
 
-const bodyStyle: React.CSSProperties = {
-  position: "absolute",
-  inset: 0,
-  margin: 0,
-  overflow: "hidden",
-};
-
 export default function RootLayout({
   header,
   content,
@@ -34,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={bodyStyle}>
+      <body>
         <ContextProvider>
           <AppRouterCacheProvider>
             <ThemeProvider>

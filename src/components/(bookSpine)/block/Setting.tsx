@@ -2,8 +2,8 @@ import { useRecoilState } from "recoil";
 import { AnimatePresence } from "framer-motion";
 import { Divider, Stack, Typography } from "@mui/material";
 
-import { Toggles } from ".";
-import { PaperM, StackM } from "../../Motion";
+import { Toggles } from "..";
+import { PaperM, StackM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
 import { useTheme } from "@/utils/hooks";
 import { BOOKS_FOLD } from "@/context/store";

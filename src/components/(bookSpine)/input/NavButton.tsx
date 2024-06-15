@@ -24,31 +24,43 @@ const iconVariants: Variants = {
   animate: { width: "auto", height: "auto", opacity: 0.2 },
 };
 
-export default function NavButton({
-  label,
-  href,
-}: {
-  label: string;
-  href: string;
-}) {
-  const pathname = usePathname();
-  const selected = pathname === href.split("?")[0];
-
+function getIndicatorSize(themeFontSize: number) {
   const root = document.documentElement;
   const style = window.getComputedStyle(root);
   const defaultFontSizeString = style.getPropertyValue("font-size");
   const defaultFontSize = parseFloat(defaultFontSizeString);
 
+  return 1.6 * 1.25 * (themeFontSize / 14) * defaultFontSize;
+}
+
+export default function NavButton({
+  label,
+  href,
+  disabled = false,
+}: {
+  label: string;
+  href: string;
+  disabled?: boolean;
+}) {
+  const pathname = usePathname();
+  const selected = pathname === href.split("?")[0];
+
   const { fontSize } = useTheme().typography;
-  const indicatorSize = 1.6 * 1.25 * (fontSize / 14) * defaultFontSize;
+  const indicatorSize = getIndicatorSize(fontSize);
 
   return (
     <BoxM
       variants={{ hover: { x: 10 } }}
       animate={selected ? "selected" : "unselected"}
       whileHover={["selected", "hover"]}
+      sx={{ pointerEvents: disabled ? "none" : null }}
     >
-      <ButtonBase component={NextLinkComposed} sx={{ p: 2 }} to={href}>
+      <ButtonBase
+        component={NextLinkComposed}
+        sx={{ p: 2 }}
+        to={href}
+        disabled={disabled}
+      >
         <BoxM
           sx={{ translate: "-10px 0" }}
           variants={iconVariants}
@@ -66,13 +78,15 @@ export default function NavButton({
           )}
         </BoxM>
 
-        <Typography variant="h5" sx={{ position: "relative" }}>
+        <Typography
+          variant="h5"
+          sx={{
+            position: "relative",
+            color: disabled ? "text.secondary" : null,
+          }}
+        >
           {label}
-          <motion.div
-            variants={lineVariants}
-            style={lineStyle}
-            aria-hidden="true"
-          />
+          <motion.div variants={lineVariants} style={lineStyle} />
         </Typography>
       </ButtonBase>
     </BoxM>

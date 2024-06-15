@@ -1,9 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Backdrop, Box } from "@mui/material";
-import Collapsed from "./(collapsed)/Collapsed";
-import Expanded from "./(expanded)/Expanded";
-import Setting from "./(setting)/Setting";
+import { Collapsed, Expanded, Setting } from ".";
 
 export default function BookSpine() {
   const [open, setOpen] = useState({ menu: false, setting: false });

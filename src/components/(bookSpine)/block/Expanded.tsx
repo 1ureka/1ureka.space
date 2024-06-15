@@ -1,9 +1,10 @@
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Box, Divider, Link, Stack, Typography } from "@mui/material";
 
 import { BoxM, PaperM, StackM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
-import { FlowerImage, NavButton } from ".";
+import { FlowerImage, NavButton } from "..";
 
 const containerSx = {
   position: "absolute",
@@ -35,31 +36,37 @@ export default function Expanded({ open }: { open: Boolean }) {
   );
 }
 
-const configs = [
-  { variant: "subheader", label: "HOME" },
-  { variant: "button", label: "Index", href: "/" },
-  { variant: "subheader", label: "BOOKS" },
-  { variant: "button", label: "Scene", href: "/books/scene" },
-  { variant: "button", label: "Props", href: "/books/props" },
-  { variant: "subheader", label: "TOOLS" },
-  { variant: "button", label: "Manager", href: "/tools/manager" },
-  { variant: "button", label: "Editor", href: "/tools/editor" },
-];
-
 function Content() {
+  const disabled = useSearchParams().get("guest") === "";
+
+  const configs = [
+    { variant: "subheader", label: "HOME" },
+    { variant: "button", label: "Index", href: "/" },
+    { variant: "subheader", label: "BOOKS" },
+    { variant: "button", label: "Scene", href: "/books/scene", disabled },
+    { variant: "button", label: "Props", href: "/books/props", disabled },
+    { variant: "subheader", label: "TOOLS" },
+    { variant: "button", label: "Manager", href: "/tools/manager", disabled },
+    { variant: "button", label: "Editor", href: "/tools/editor" },
+  ];
+
   return (
     <Stack alignItems="flex-start" justifyContent="space-between" height={1}>
       <FlowerImage sx={{ inset: "0 0 auto auto", p: 1 }} />
 
       <Stack spacing={1}>
-        {configs.map(({ variant, label, href }, i) => (
+        {configs.map(({ variant, label, href, disabled }, i) => (
           <BoxM key={label} variants={yScaleVar}>
             {variant === "subheader" ? (
               <Box sx={{ pt: i !== 0 ? 6 : null }}>
                 <Typography variant="caption">{label}</Typography>
               </Box>
             ) : (
-              <NavButton label={label} href={href ? href : "/"} />
+              <NavButton
+                label={label}
+                href={href ? href : "/"}
+                disabled={disabled}
+              />
             )}
           </BoxM>
         ))}

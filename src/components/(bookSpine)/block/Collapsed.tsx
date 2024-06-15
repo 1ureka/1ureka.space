@@ -1,9 +1,10 @@
+import { useSearchParams } from "next/navigation";
 import { Box, Stack } from "@mui/material";
 
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import BrushRoundedIcon from "@mui/icons-material/BrushRounded";
 
-import { MenuButton, NavIconButton, SettingButton, SpineTitle } from ".";
+import { MenuButton, NavIconButton, SettingButton, SpineTitle } from "..";
 import { PaperM } from "@/components/Motion";
 import { bookSpineCollapsedVar } from "@/components/MotionProps";
 
@@ -15,6 +16,7 @@ export default function Collapsed({
   onToggle: (section: "menu" | "setting") => void;
 }) {
   const containerSx = { height: 1, py: 3.5, px: 1.5, borderRadius: 0 };
+  const isGuest = useSearchParams().get("guest") === "";
 
   return (
     <PaperM
@@ -32,11 +34,13 @@ export default function Collapsed({
           label="Books"
           href="/books/scene"
           icon={<BookmarkRoundedIcon sx={{ fontSize: "20px" }} />}
+          disabled={isGuest}
         />
         <NavIconButton
           label="Tools"
           href="/tools/manager"
           icon={<BrushRoundedIcon sx={{ fontSize: "20px" }} />}
+          disabled={isGuest}
         />
 
         <SpineTitle sx={{ flexGrow: 1, width: 1 }} />

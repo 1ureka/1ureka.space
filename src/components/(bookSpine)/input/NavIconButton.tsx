@@ -16,10 +16,12 @@ export default function NavIconButton({
   icon,
   label,
   href,
+  disabled = false,
 }: {
   icon: React.ReactNode;
   label: string;
   href: string;
+  disabled?: boolean;
 }) {
   return (
     <StackM variants={bookSpineCollapsedItemVar} alignItems="center">
@@ -28,6 +30,7 @@ export default function NavIconButton({
         to={href}
         size="small"
         sx={iconButtonSx}
+        disabled={disabled}
       >
         {icon}
       </IconButton>

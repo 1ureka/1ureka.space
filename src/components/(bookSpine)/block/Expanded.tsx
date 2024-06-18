@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Box, Divider, Link, Stack, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 import { BoxM, PaperM, StackM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
@@ -18,7 +20,7 @@ const containerSx = {
   borderLeft: `solid 1px var(--mui-palette-divider)`,
 };
 
-export default function Expanded({ open }: { open: Boolean }) {
+export default function Expanded({ open }: { open: boolean }) {
   return (
     <AnimatePresence>
       {open && (
@@ -29,7 +31,15 @@ export default function Expanded({ open }: { open: Boolean }) {
           animate="animate"
           exit="initial"
         >
-          <Content />
+          <Suspense
+            fallback={
+              <Stack height={1} justifyContent="center" alignItems="center">
+                <CircularProgress size={30} />
+              </Stack>
+            }
+          >
+            <Content />
+          </Suspense>
         </PaperM>
       )}
     </AnimatePresence>
@@ -37,7 +47,7 @@ export default function Expanded({ open }: { open: Boolean }) {
 }
 
 function Content() {
-  const disabled = useSearchParams().get("guest") === "";
+  const disabled = useSearchParams().has("guest");
 
   const configs = [
     { variant: "subheader", label: "HOME" },

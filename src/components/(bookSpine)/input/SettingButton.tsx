@@ -17,7 +17,7 @@ export default function SettingButton({
   open,
   onClick,
 }: {
-  open: Boolean;
+  open: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) {
   const backgroundColor = open ? "#fff" : null;

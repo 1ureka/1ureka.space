@@ -27,7 +27,7 @@ export default function MenuButton({
   open,
   onClick,
 }: {
-  open: Boolean;
+  open: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) {
   return (

@@ -19,7 +19,7 @@ const containerSx = {
   borderWidth: "1px 1px 0px 1px",
 };
 
-export default function Setting({ open }: { open: Boolean }) {
+export default function Setting({ open }: { open: boolean }) {
   return (
     <AnimatePresence>
       {open && (

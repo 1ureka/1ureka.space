@@ -3,9 +3,9 @@
 import { useMemo, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import { Box, Divider, Stack } from "@mui/material";
+import { Box, CircularProgress, Divider, Stack } from "@mui/material";
 
-import { StackM } from "@/components/Motion";
+import { BoxM, StackM } from "@/components/Motion";
 import { layoutMotionProps } from "@/components/MotionProps";
 import BookSpine from "@/components/(bookSpine)/BookSpine";
 import Bookmarks from "@/components/(bookmarks)/Bookmarks";
@@ -70,6 +70,19 @@ export default function Frame({
           </StackM>
         </AnimatePresence>
       </Box>
+
+      <BoxM
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0, transitionEnd: { display: "none" } }}
+        sx={{
+          position: "fixed",
+          inset: 0,
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </BoxM>
     </Stack>
   );
 }

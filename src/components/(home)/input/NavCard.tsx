@@ -8,6 +8,7 @@ import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 
 export default function NavCard({
+  media,
   title,
   subTitle,
   caption,
@@ -15,6 +16,7 @@ export default function NavCard({
   href,
   disabled = false,
 }: {
+  media: React.ReactNode;
   title: string;
   subTitle: string;
   caption: string;
@@ -23,16 +25,42 @@ export default function NavCard({
   disabled?: boolean;
 }) {
   return (
-    <Paper sx={{ overflow: "hidden", ...sx }} elevation={3}>
+    <Paper
+      sx={{
+        pointerEvents: disabled ? "none" : null,
+        overflow: "hidden",
+        transition: "outline 0.25s ease",
+        outline: "0px solid #e783ad00",
+        "&:hover": {
+          outline: "7.5px solid #e783ad30",
+        },
+        ...sx,
+      }}
+      elevation={3}
+    >
       <ButtonBase
         component={NextLinkComposed}
         to={href}
         disabled={disabled}
-        sx={{ display: "block", height: 1 }}
+        sx={{
+          display: "block",
+          height: 1,
+          "&:hover .media > *": {
+            scale: "1.1",
+          },
+          "& .media > *": {
+            scale: "1.001",
+            transition: "scale 0.25s ease",
+          },
+        }}
       >
         <Stack direction="row" height={1}>
-          <Box sx={{ flexGrow: 1 }}>
-            <Box sx={{ height: 1, background: "#e783ad" }} />
+          <Box
+            className="media"
+            sx={{ position: "relative", flexGrow: 1, overflow: "hidden" }}
+          >
+            {/* <Box sx={{ height: 1, background: "#e783ad" }} /> */}
+            {media}
           </Box>
 
           <Box sx={{ p: 3, width: 0.55 }}>

@@ -3,10 +3,25 @@ export const metadata: Metadata = {
   title: { absolute: "1ureka's space" },
 };
 
+import Image from "next/image";
 import { Grid } from "@mui/material";
 import { BoxM, GridM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 import { NavCard } from "@/components/(home)";
+
+const placeholder =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN83rz2PwMRgHFUIX0VAgDrWR7n6UK5nAAAAABJRU5ErkJggg==";
+
+const frame = (src: string) => (
+  <Image
+    fill
+    src={src}
+    placeholder={"blur"}
+    blurDataURL={placeholder}
+    style={{ objectFit: "cover" }}
+    alt=""
+  />
+);
 
 export default function Content({
   searchParams,
@@ -20,13 +35,14 @@ export default function Content({
       <Grid
         container
         columns={4}
-        rowSpacing={5}
-        spacing={2}
+        rowSpacing={7}
+        spacing={4}
         height={1}
         minHeight={500}
       >
         <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
           <NavCard
+            media={frame("./frame1.svg")}
             sx={{ height: 1 }}
             title="Scene"
             subTitle=" books "
@@ -37,6 +53,7 @@ export default function Content({
         </GridM>
         <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
           <NavCard
+            media={frame("./frame2.svg")}
             sx={{ height: 1 }}
             title="Props"
             subTitle=" books "
@@ -47,6 +64,7 @@ export default function Content({
         </GridM>
         <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
           <NavCard
+            media={frame("./frame3.svg")}
             sx={{ height: 1 }}
             title="File Manager"
             subTitle=" tools "
@@ -57,6 +75,7 @@ export default function Content({
         </GridM>
         <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
           <NavCard
+            media={frame("./frame4.svg")}
             sx={{ height: 1 }}
             title="Image Editor"
             subTitle=" tools "
@@ -64,6 +83,7 @@ export default function Content({
             href="/tools/editor"
           />
         </GridM>
+        <Grid item xs={4} height={0} />
       </Grid>
     </BoxM>
   );

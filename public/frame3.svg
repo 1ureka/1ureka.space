@@ -1,0 +1,50 @@
+<svg width="980" height="927" viewBox="0 0 980 927" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_8_22)">
+<rect width="980" height="927" fill="#E783AD"/>
+<g filter="url(#filter0_d_8_22)">
+<rect x="318.011" y="287" width="312.691" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="719" y="289" width="140.525" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="898.612" y="289" width="158.207" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="231" y="287" width="53" height="53" rx="25" fill="white" fill-opacity="0.7"/>
+<rect x="318.011" y="388.001" width="347.125" height="53" rx="26.5" fill="white"/>
+<rect x="719" y="390.001" width="140.525" height="53" rx="26.5" fill="white"/>
+<rect x="934.91" y="390.001" width="121.912" height="53" rx="26.5" fill="white"/>
+<rect x="231" y="388" width="53" height="53" rx="25" fill="white"/>
+<rect x="318.011" y="489.002" width="253.131" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="719" y="491.002" width="120.982" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="916.296" y="491.001" width="140.525" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="231" y="489.001" width="53" height="53" rx="25" fill="white" fill-opacity="0.7"/>
+<rect x="318.011" y="590.002" width="282.912" height="53" rx="26.5" fill="white"/>
+<rect x="719" y="592.002" width="105.161" height="53" rx="26.5" fill="white"/>
+<rect x="898.612" y="592.002" width="158.207" height="53" rx="26.5" fill="white"/>
+<rect x="231" y="590.002" width="53" height="53" rx="25" fill="white"/>
+<rect x="318.011" y="691.003" width="282.912" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="719" y="693.003" width="140.525" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="954.452" y="693.003" width="102.369" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="231" y="691.002" width="53" height="53" rx="25" fill="white" fill-opacity="0.7"/>
+<rect x="318.011" y="792.004" width="282.912" height="53" rx="26.5" fill="white"/>
+<rect x="719" y="794.004" width="140.525" height="53" rx="26.5" fill="white"/>
+<rect x="954.452" y="794.004" width="102.369" height="53" rx="26.5" fill="white"/>
+<rect x="231" y="792.003" width="53" height="53" rx="25" fill="white"/>
+<rect x="318.011" y="893.005" width="282.912" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="719" y="895.005" width="140.525" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="954.452" y="895.005" width="102.369" height="53" rx="26.5" fill="white" fill-opacity="0.7"/>
+<rect x="231" y="893.004" width="53" height="53" rx="25" fill="white" fill-opacity="0.7"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_8_22" x="231" y="287" width="834.822" height="675.005" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="5" dy="10"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_8_22"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_8_22" result="shape"/>
+</filter>
+<clipPath id="clip0_8_22">
+<rect width="980" height="927" fill="white"/>
+</clipPath>
+</defs>
+</svg>

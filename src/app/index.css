@@ -10,3 +10,11 @@ body {
   scrollbar-color: gray transparent;
   scrollbar-width: thin;
 }
+.text-ellipsis {
+  white-space: pre-wrap;
+  text-wrap: pretty;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}

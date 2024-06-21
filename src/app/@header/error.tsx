@@ -22,8 +22,15 @@ export default function Error({
         spacing={1}
         direction={"row"}
         alignItems={"center"}
+        justifyContent={"center"}
       >
-        <Typography variant="body2">{error.message}</Typography>
+        <Typography
+          variant="body2"
+          className="text-ellipsis"
+          sx={{ maxWidth: 0.5 }}
+        >
+          {error.message}
+        </Typography>
         <IconButton onClick={() => reset()}>
           <ReplayRoundedIcon fontSize="small" color="primary" />
         </IconButton>

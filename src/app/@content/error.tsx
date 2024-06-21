@@ -20,7 +20,13 @@ export default function Error({
       <Stack spacing={3} alignItems={"center"}>
         <StackM variants={yScaleVar} spacing={1} alignItems={"center"}>
           <Typography variant="h6">Something went wrong...</Typography>
-          <Typography variant="body2">{error.message}</Typography>
+          <Typography
+            variant="body2"
+            className="text-ellipsis"
+            sx={{ maxWidth: 0.6 }}
+          >
+            {error.message}
+          </Typography>
         </StackM>
 
         <StackM variants={yScaleVar} direction="row" spacing={1}>

@@ -53,11 +53,11 @@ function Content() {
     { variant: "subheader", label: "HOME" },
     { variant: "button", label: "Index", href: "/" },
     { variant: "subheader", label: "BOOKS" },
-    { variant: "button", label: "Scene", href: "/books/scene", disabled },
-    { variant: "button", label: "Props", href: "/books/props", disabled },
+    { variant: "button", label: "Scene", href: "/scene", disabled },
+    { variant: "button", label: "Props", href: "/props", disabled },
     { variant: "subheader", label: "TOOLS" },
-    { variant: "button", label: "Manager", href: "/tools/manager", disabled },
-    { variant: "button", label: "Editor", href: "/tools/editor" },
+    { variant: "button", label: "Manager", href: "/manager", disabled },
+    { variant: "button", label: "Editor", href: "/editor" },
   ];
 
   return (

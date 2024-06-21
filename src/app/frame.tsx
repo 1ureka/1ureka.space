@@ -11,16 +11,26 @@ import BookSpine from "@/components/(bookSpine)/BookSpine";
 import Bookmarks from "@/components/(bookmarks)/Bookmarks";
 
 const bookmarks: Record<string, { label: string; href: string }[]> = {
-  "/": [{ label: "Index", href: "/" }],
-  "/books": [
-    { label: "Scene", href: "/books/scene" },
-    { label: "Props", href: "/books/props" },
+  index: [{ label: "Index", href: "/" }],
+  books: [
+    { label: "Scene", href: "/scene" },
+    { label: "Props", href: "/props" },
   ],
-  "/tools": [
-    { label: "Manager", href: "/tools/manager" },
-    { label: "Editor", href: "/tools/editor" },
+  tools: [
+    { label: "Manager", href: "/manager" },
+    { label: "Editor", href: "/editor" },
   ],
+  notFound: [],
 };
+
+function findBookmarkCategory(pathname: string): string {
+  for (const category of Object.keys(bookmarks)) {
+    if (bookmarks[category].some((item) => item.href === pathname)) {
+      return category;
+    }
+  }
+  return "notFound";
+}
 
 export default function Frame({
   header,
@@ -30,7 +40,7 @@ export default function Frame({
   content: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const rootPath = pathname.match(/^\/\w+/)?.[0] || "/";
+  const rootPath = findBookmarkCategory(pathname);
 
   const ts = useRef(0);
   const key = useMemo(() => {
@@ -49,7 +59,7 @@ export default function Frame({
             sx={{ position: "relative", height: 1 }}
             {...layoutMotionProps}
           >
-            <Bookmarks options={bookmarks[rootPath] || []} />
+            <Bookmarks options={bookmarks[rootPath]} />
 
             <Stack
               component={"main"}

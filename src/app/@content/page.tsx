@@ -47,7 +47,7 @@ export default function Content({
             title="Scene"
             subTitle=" books "
             caption="Anime and game scenes reimagined in realistic detail."
-            href="/books/scene"
+            href="/scene"
             disabled={isGuest}
           />
         </GridM>
@@ -58,7 +58,7 @@ export default function Content({
             title="Props"
             subTitle=" books "
             caption="A collection of 3D models for outdoor scenes, from tiny screws to entire buildings."
-            href="/books/props"
+            href="/props"
             disabled={isGuest}
           />
         </GridM>
@@ -69,7 +69,7 @@ export default function Content({
             title="File Manager"
             subTitle=" tools "
             caption="Seamlessly manage album's images with real-time backend syncing."
-            href="/tools/manager"
+            href="/manager"
             disabled={isGuest}
           />
         </GridM>
@@ -80,7 +80,7 @@ export default function Content({
             title="Image Editor"
             subTitle=" tools "
             caption="Transform photos with conversion, compression, and filters."
-            href="/tools/editor"
+            href="/editor"
           />
         </GridM>
         <Grid item xs={4} height={0} />

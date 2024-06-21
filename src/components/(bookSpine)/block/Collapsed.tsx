@@ -54,13 +54,13 @@ function Content({ open, onToggle }: CollapsedProps) {
 
       <NavIconButton
         label="Books"
-        href="/books/scene"
+        href="/scene"
         icon={<BookmarkRoundedIcon sx={{ fontSize: "20px" }} />}
         disabled={isGuest}
       />
       <NavIconButton
         label="Tools"
-        href="/tools/manager"
+        href="/manager"
         icon={<BrushRoundedIcon sx={{ fontSize: "20px" }} />}
         disabled={isGuest}
       />

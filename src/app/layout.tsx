@@ -10,7 +10,7 @@ import Frame from "./frame";
 export const metadata: Metadata = {
   title: {
     template: "1ureka's space | %s",
-    default: "page",
+    default: "1ureka's space",
   },
   description:
     "A personal website for storing and managing a portfolio of 3D CG, with basic image editing capabilities.",

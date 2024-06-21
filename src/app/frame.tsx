@@ -23,13 +23,15 @@ const bookmarks: Record<string, { label: string; href: string }[]> = {
   notFound: [],
 };
 
-function findBookmarkCategory(pathname: string): string {
+function findBookmarkCategory(pathname: string): string | null {
+  if (pathname === "/404") return "notFound";
+
   for (const category of Object.keys(bookmarks)) {
-    if (bookmarks[category].some((item) => item.href === pathname)) {
+    if (bookmarks[category].some((item) => item.href === pathname))
       return category;
-    }
   }
-  return "notFound";
+
+  return null;
 }
 
 export default function Frame({
@@ -47,6 +49,11 @@ export default function Frame({
     ts.current += 1;
     return `${rootPath}-${ts.current}`;
   }, [rootPath]);
+
+  if (typeof rootPath !== "string") {
+    if (typeof window !== "undefined") window.location.replace("/404");
+    return null;
+  }
 
   return (
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>

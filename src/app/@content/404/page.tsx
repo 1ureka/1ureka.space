@@ -1,8 +1,3 @@
-import type { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "404",
-};
-
 import { NextLinkComposed } from "@/components/Link";
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";

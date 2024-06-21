@@ -4,6 +4,7 @@ import { NextLinkComposed } from "@/components/Link";
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 import { Button, Stack, Typography } from "@mui/material";
+import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
 export default function Error({
   error,
@@ -17,14 +18,14 @@ export default function Error({
       {...layoutChildMotionProps}
       sx={{ height: 1, display: "grid", placeItems: "center" }}
     >
-      <Stack spacing={3} alignItems={"center"}>
+      <Stack spacing={3} alignItems={"center"} sx={{ maxWidth: 0.6 }}>
+        <BoxM variants={yScaleVar}>
+          <ErrorRoundedIcon fontSize="large" color="primary" />
+        </BoxM>
+
         <StackM variants={yScaleVar} spacing={1} alignItems={"center"}>
           <Typography variant="h6">Something went wrong...</Typography>
-          <Typography
-            variant="body2"
-            className="text-ellipsis"
-            sx={{ maxWidth: 0.6 }}
-          >
+          <Typography variant="body2" className="text-ellipsis">
             {error.message}
           </Typography>
         </StackM>

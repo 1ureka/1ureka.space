@@ -23,12 +23,9 @@ export default function Error({
         direction={"row"}
         alignItems={"center"}
         justifyContent={"center"}
+        sx={{ maxWidth: 0.5 }}
       >
-        <Typography
-          variant="body2"
-          className="text-ellipsis"
-          sx={{ maxWidth: 0.5 }}
-        >
+        <Typography variant="body2" className="text-ellipsis">
           {error.message}
         </Typography>
         <IconButton onClick={() => reset()}>

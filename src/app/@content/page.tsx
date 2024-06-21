@@ -66,10 +66,10 @@ export default function Content({
           <NavCard
             media={frame("./frame3.svg")}
             sx={{ height: 1 }}
-            title="File Manager"
+            title="File Shelf"
             subTitle=" tools "
             caption="Seamlessly manage album's images with real-time backend syncing."
-            href="/manager"
+            href="/files"
             disabled={isGuest}
           />
         </GridM>

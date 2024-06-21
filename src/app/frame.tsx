@@ -17,7 +17,7 @@ const bookmarks: Record<string, { label: string; href: string }[]> = {
     { label: "Props", href: "/props" },
   ],
   tools: [
-    { label: "Manager", href: "/manager" },
+    { label: "Shelf", href: "/files" },
     { label: "Editor", href: "/editor" },
   ],
   notFound: [],

@@ -7,7 +7,7 @@ import { BoxM } from "@/components/Motion";
 import { Typography } from "@mui/material";
 import { cookies } from "next/headers";
 
-export default async function Manager() {
+export default async function Shelf() {
   const cookie = cookies();
   console.log(cookie);
   await new Promise((res) => setTimeout(res, 7000));
@@ -18,7 +18,7 @@ export default async function Manager() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
     >
-      <Typography variant="h4">Manager</Typography>
+      <Typography variant="h4">Shelf</Typography>
     </BoxM>
   );
 }

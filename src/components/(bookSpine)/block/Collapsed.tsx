@@ -60,7 +60,7 @@ function Content({ open, onToggle }: CollapsedProps) {
       />
       <NavIconButton
         label="Tools"
-        href="/manager"
+        href="/files"
         icon={<BrushRoundedIcon sx={{ fontSize: "20px" }} />}
         disabled={isGuest}
       />

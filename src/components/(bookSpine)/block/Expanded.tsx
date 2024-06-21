@@ -56,7 +56,7 @@ function Content() {
     { variant: "button", label: "Scene", href: "/scene", disabled },
     { variant: "button", label: "Props", href: "/props", disabled },
     { variant: "subheader", label: "TOOLS" },
-    { variant: "button", label: "Manager", href: "/manager", disabled },
+    { variant: "button", label: "Shelf", href: "/files", disabled },
     { variant: "button", label: "Editor", href: "/editor" },
   ];
 

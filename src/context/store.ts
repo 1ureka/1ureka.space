@@ -1,7 +1,11 @@
 "use client";
 import { atom } from "recoil";
 
-export const MODE = atom({
-  key: "mode",
-  default: "system",
+export const THEME = atom({
+  key: "theme",
+  default: "",
+});
+export const BOOKS_FOLD = atom({
+  key: "booksFold",
+  default: true,
 });

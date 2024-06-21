@@ -1,21 +1,31 @@
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import type { Metadata } from "next";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import { CssBaseline } from "@mui/material";
+import "@/app/index.css";
 
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
-import { CssBaseline } from "@mui/material";
-import "./globals.css";
+import Frame from "./frame";
 
 export const metadata: Metadata = {
-  title: "1ureka's space",
-  description: "WIP",
+  title: {
+    template: "1ureka's space | %s",
+    default: "1ureka's space",
+  },
+  description:
+    "A personal website for storing and managing a portfolio of 3D CG, with basic image editing capabilities.",
+  icons: {
+    icon: "/favicon.webp",
+  },
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  header,
+  content,
+}: {
+  header: React.ReactNode;
+  content: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
@@ -23,7 +33,7 @@ export default function RootLayout({
           <AppRouterCacheProvider>
             <ThemeProvider>
               <CssBaseline />
-              {children}
+              <Frame header={header} content={content} />
             </ThemeProvider>
           </AppRouterCacheProvider>
         </ContextProvider>

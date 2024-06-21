@@ -12,6 +12,8 @@ export default async function Shelf() {
   console.log(cookie);
   await new Promise((res) => setTimeout(res, 7000));
 
+  throw new Error("custom content error for testing error UI");
+
   return (
     <BoxM
       initial={{ opacity: 0, y: 70 }}

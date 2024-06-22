@@ -3,17 +3,44 @@ export const metadata: Metadata = {
   title: "tools",
 };
 
-import { BoxM } from "@/components/Motion";
-import { Typography } from "@mui/material";
+import { useState } from "react";
+import { BoxM, StackM } from "@/components/Motion";
+import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
+import { EditOptionValues, EditOptions } from "@/components/(editor)";
 
 export default function Editor() {
+  const [values, setValues] = useState<EditOptionValues>({
+    saturate: 1,
+    contrast: 1,
+    exposure: 1,
+    maxSize: 1,
+    scale: 1,
+    type: 0,
+  });
+
   return (
-    <BoxM
-      initial={{ opacity: 0, y: 70 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
-      <Typography variant="h4">Editor</Typography>
-    </BoxM>
+    <StackM {...layoutChildMotionProps} direction="row" sx={{ height: 1 }}>
+      <BoxM variants={yScaleVar} sx={{ width: 0.25, height: 1 }}>
+        <EditOptions
+          values={values}
+          onChange={(type, val) =>
+            setValues((prev) => ({ ...prev, [type]: val }))
+          }
+        />
+      </BoxM>
+
+      <BoxM variants={yScaleVar} sx={{ width: 0.5, height: 1 }}>
+        {/* <EditingPreview /> */}
+      </BoxM>
+
+      <StackM
+        variants={yScaleVar}
+        sx={{ width: 0.25, height: 1, py: 3, px: 4 }}
+        spacing={3}
+      >
+        {/* <InputArea />
+        <Table /> */}
+      </StackM>
+    </StackM>
   );
 }

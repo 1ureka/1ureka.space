@@ -1,6 +1,9 @@
 "use client";
-
 import { Box, Stack, Typography } from "@mui/material";
+
+import { useRecoilState } from "recoil";
+import { EDITOR_VALS } from "@/context/store";
+
 import { StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 import { Number, Select, Slider } from "..";
@@ -22,27 +25,18 @@ export type EditOptionValues = {
   type: 0 | 1 | 2;
 };
 
-interface EditOptionsProps {
-  values: EditOptionValues;
-  onChange: (type: EditOptionType, val: number) => void;
-}
-
 const typeList = ["jpeg", "png", "webp"];
 
-export default function EditOptions({ values, onChange }: EditOptionsProps) {
-  const { saturate, contrast, exposure, maxSize, scale, type } = values;
+export default function EditOptions() {
+  const [{ saturate, contrast, exposure, maxSize, scale, type }, setValues] =
+    useRecoilState(EDITOR_VALS);
 
   const createSliderHandler =
     (type: EditOptionType) => (_: Event, val: number) =>
-      onChange(type, val);
+      setValues((prev) => ({ ...prev, [type]: val }));
 
-  const createNumberHandler = (type: EditOptionType) => (value: number) =>
-    onChange(type, value);
-
-  const createSelectHandler =
-    (type: EditOptionType) =>
-    ({ target }: React.ChangeEvent<HTMLInputElement>) =>
-      onChange(type, parseFloat(target.value));
+  const createNumberHandler = (type: EditOptionType) => (val: number) =>
+    setValues((prev) => ({ ...prev, [type]: val }));
 
   return (
     <Stack spacing={6} sx={{ height: "100%", py: 3, px: 4 }}>
@@ -116,7 +110,7 @@ export default function EditOptions({ values, onChange }: EditOptionsProps) {
             <Select
               options={typeList}
               value={type}
-              onChange={createSelectHandler("type")}
+              onChange={createNumberHandler("type")}
             />
           </StackM>
         </Box>

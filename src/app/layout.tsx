@@ -29,14 +29,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ContextProvider>
-          <AppRouterCacheProvider>
-            <ThemeProvider>
-              <CssBaseline />
+        <AppRouterCacheProvider>
+          <ThemeProvider>
+            <CssBaseline />
+            <ContextProvider>
               <Frame header={header} content={content} />
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </ContextProvider>
+            </ContextProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

@@ -13,22 +13,24 @@ type EditOptionType =
   | "scale"
   | "type";
 
+export type EditOptionValues = {
+  saturate: number;
+  contrast: number;
+  exposure: number;
+  maxSize: number;
+  scale: number;
+  type: 0 | 1 | 2;
+};
+
 interface EditOptionsProps {
-  options: {
-    saturate: number;
-    contrast: number;
-    exposure: number;
-    maxSize: number;
-    scale: number;
-    type: 0 | 1 | 2;
-  };
+  values: EditOptionValues;
   onChange: (type: EditOptionType, val: number) => void;
 }
 
 const typeList = ["jpeg", "png", "webp"];
 
-export default function EditOptions({ options, onChange }: EditOptionsProps) {
-  const { saturate, contrast, exposure, maxSize, scale, type } = options;
+export default function EditOptions({ values, onChange }: EditOptionsProps) {
+  const { saturate, contrast, exposure, maxSize, scale, type } = values;
 
   const createSliderHandler =
     (type: EditOptionType) => (_: Event, val: number) =>
@@ -88,7 +90,7 @@ export default function EditOptions({ options, onChange }: EditOptionsProps) {
               max={999}
               step={1}
               value={maxSize}
-              endAdornment={"MB"}
+              endText={"MB"}
               onChange={createNumberHandler("maxSize")}
             />
           </StackM>
@@ -102,7 +104,7 @@ export default function EditOptions({ options, onChange }: EditOptionsProps) {
               max={1.5}
               step={0.1}
               value={scale}
-              endAdornment={"x"}
+              endText={"x"}
               onChange={createNumberHandler("scale")}
             />
           </StackM>

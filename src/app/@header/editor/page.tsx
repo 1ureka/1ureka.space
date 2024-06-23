@@ -1,7 +1,7 @@
-import { StackM } from "@/components/Motion";
+import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 
 const text = {
   title: "Image Editor",
@@ -15,15 +15,20 @@ export default function Header() {
       {...layoutChildMotionProps}
       direction="row"
       alignItems="flex-end"
-      spacing={1}
-      sx={{ px: 4 }}
+      spacing={3}
+      sx={{ px: 9, py: 3, height: "fit-content" }}
     >
-      <StackM variants={yScaleVar} sx={{ p: 3 }}>
-        <Typography variant="h6">{text.title}</Typography>
-      </StackM>
-      <StackM variants={yVar} sx={{ flexGrow: 1, p: 3, alignItems: "center" }}>
+      <BoxM variants={yScaleVar}>
+        <Typography variant="h6" sx={{ whiteSpace: "nowrap" }}>
+          {text.title}
+        </Typography>
+      </BoxM>
+      <BoxM variants={yScaleVar} height={"auto"} alignSelf={"stretch"}>
+        <Divider orientation="vertical" />
+      </BoxM>
+      <BoxM variants={yVar}>
         <Typography variant="body2">{text.info}</Typography>
-      </StackM>
+      </BoxM>
     </StackM>
   );
 }

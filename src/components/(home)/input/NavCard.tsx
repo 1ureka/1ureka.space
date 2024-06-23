@@ -49,7 +49,7 @@ export default function NavCard({
             scale: "1.1",
           },
           "& .media > *": {
-            scale: "1.001",
+            scale: "1.01",
             transition: "scale 0.25s ease",
           },
         }}

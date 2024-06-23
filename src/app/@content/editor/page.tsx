@@ -5,27 +5,28 @@ export const metadata: Metadata = {
 
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
-import { EditOptions } from "@/components/(editor)";
+import { EditOptions, EditTabs } from "@/components/(editor)";
 
 export default function Editor() {
   return (
-    <StackM {...layoutChildMotionProps} direction="row" sx={{ height: 1 }}>
-      <BoxM variants={yScaleVar} sx={{ width: 0.25, height: 1 }}>
-        <EditOptions />
-      </BoxM>
-
-      <BoxM variants={yScaleVar} sx={{ width: 0.5, height: 1 }}>
+    <StackM
+      {...layoutChildMotionProps}
+      direction="row-reverse"
+      flexWrap="wrap"
+      justifyContent="center"
+      sx={{ height: 1, py: 7, px: 9 }}
+    >
+      <BoxM
+        variants={yScaleVar}
+        sx={{ flexGrow: 1, minWidth: 375, height: "55vh" }}
+      >
         {/* <EditingPreview /> */}
       </BoxM>
 
-      <StackM
-        variants={yScaleVar}
-        sx={{ width: 0.25, height: 1, py: 3, px: 4 }}
-        spacing={3}
-      >
-        {/* <InputArea />
-        <Table /> */}
-      </StackM>
+      <BoxM variants={yScaleVar} sx={{ minWidth: 375 }}>
+        <EditTabs />
+        <EditOptions />
+      </BoxM>
     </StackM>
   );
 }

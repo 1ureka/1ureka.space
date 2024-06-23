@@ -12,6 +12,14 @@ export const BOOKS_FOLD = atom({
 });
 
 // page
+export const EDITOR_TABS = atom<0 | 1>({
+  key: "editorTabs",
+  default: 0,
+});
+export const EDITOR_FILES = atom<{ display: boolean; file: File }[]>({
+  key: "editorFiles",
+  default: [],
+});
 export const EDITOR_VALS = atom({
   key: "editorVals",
   default: {

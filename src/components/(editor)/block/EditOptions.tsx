@@ -39,7 +39,7 @@ export default function EditOptions() {
     setValues((prev) => ({ ...prev, [type]: val }));
 
   return (
-    <Stack spacing={6} sx={{ height: "100%", py: 3, px: 4 }}>
+    <StackM variants={yScaleVar} spacing={6}>
       <Stack spacing={1}>
         <StackM variants={yScaleVar}>
           <Typography variant="subtitle2" sx={{ mb: 1 }}>
@@ -115,6 +115,6 @@ export default function EditOptions() {
           </StackM>
         </Box>
       </Stack>
-    </Stack>
+    </StackM>
   );
 }

@@ -19,7 +19,7 @@ export default function Editor() {
     >
       <BoxM
         variants={yScaleVar}
-        sx={{ flexGrow: 1, minWidth: 375, height: "55vh", minHeight: 300 }}
+        sx={{ flexGrow: 1, minWidth: 375, height: "62.5vh", minHeight: 300 }}
       >
         <EditPreview />
       </BoxM>

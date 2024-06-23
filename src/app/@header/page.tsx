@@ -11,7 +11,7 @@ export default function Header() {
         direction="row"
         justifyContent="space-between"
         alignItems="flex-end"
-        sx={{ p: 3, pr: 6 }}
+        sx={{ py: 3, px: 9 }}
         spacing={1}
       >
         <Stack direction="row" spacing={3} alignItems="flex-end">

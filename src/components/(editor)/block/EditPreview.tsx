@@ -12,7 +12,7 @@ export default function EditingPreview() {
       <PreviewBox />
       <BoxM variants={yScaleVar}>
         <Typography variant="caption">
-          {"* Drop in the box above or "}
+          {"* Drop images in the box above or "}
           <Button
             variant="outlined"
             size="small"

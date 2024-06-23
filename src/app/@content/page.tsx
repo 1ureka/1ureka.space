@@ -36,7 +36,7 @@ export default function Content({
       columns={4}
       rowSpacing={7}
       spacing={4}
-      sx={{ p: 4 }}
+      sx={{ pt: 5, pb: 7, px: 9 }}
     >
       <GridM item xs={4} lg={2} variants={yScaleVar}>
         <NavCard

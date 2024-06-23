@@ -5,7 +5,7 @@ export const metadata: Metadata = {
 
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
-import { EditOptions, EditTabs } from "@/components/(editor)";
+import { EditOptions, EditTabs, EditPreview } from "@/components/(editor)";
 
 export default function Editor() {
   return (
@@ -14,13 +14,14 @@ export default function Editor() {
       direction="row-reverse"
       flexWrap="wrap"
       justifyContent="center"
+      gap={7}
       sx={{ height: 1, py: 7, px: 9 }}
     >
       <BoxM
         variants={yScaleVar}
-        sx={{ flexGrow: 1, minWidth: 375, height: "55vh" }}
+        sx={{ flexGrow: 1, minWidth: 375, height: "55vh", minHeight: 300 }}
       >
-        {/* <EditingPreview /> */}
+        <EditPreview />
       </BoxM>
 
       <BoxM variants={yScaleVar} sx={{ minWidth: 375 }}>

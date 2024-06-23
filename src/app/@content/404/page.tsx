@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <BoxM
       {...layoutChildMotionProps}
-      sx={{ p: 10, display: "grid", placeItems: "center" }}
+      sx={{ display: "grid", placeItems: "center", minHeight: "70vh", p: 4 }}
     >
       <Stack spacing={3} alignItems={"center"} sx={{ maxWidth: 0.6 }}>
         <BoxM variants={yScaleVar}>

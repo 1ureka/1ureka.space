@@ -76,7 +76,7 @@ export default function Frame({
                 borderRadius: "0 50px 10px 10px",
               }}
             >
-              <Box sx={{ mt: "55px" }}>{header}</Box>
+              <Box sx={{ mt: "55px", zIndex: 1 }}>{header}</Box>
 
               <Divider flexItem variant="middle" />
 

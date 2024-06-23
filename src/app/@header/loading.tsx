@@ -1,5 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 
 export default function Loading() {
-  return <Box sx={{ p: 3 }} />;
+  return (
+    <Box sx={{ pt: 6 }}>
+      <LinearProgress />
+    </Box>
+  );
 }

@@ -59,11 +59,11 @@ export default function Frame({
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>
       <BookSpine />
 
-      <Box sx={{ px: 5, py: 3, height: 1, flexGrow: 1 }}>
+      <Box sx={{ px: 5, py: 3, height: 1, flexGrow: 1, overflowY: "auto" }}>
         <AnimatePresence mode="wait">
           <StackM
             key={key}
-            sx={{ position: "relative", height: 1 }}
+            sx={{ position: "relative", minHeight: 1 }}
             {...layoutMotionProps}
           >
             <Bookmarks options={bookmarks[rootPath]} />
@@ -73,16 +73,14 @@ export default function Frame({
               sx={{
                 bgcolor: "content.layer1",
                 flexGrow: 1,
-                borderRadius: "0 50px 5px 5px",
+                borderRadius: "0 50px 10px 10px",
               }}
             >
               <Box sx={{ mt: "55px" }}>{header}</Box>
 
               <Divider flexItem variant="middle" />
 
-              <Box sx={{ flexGrow: 1, height: "1px", overflowY: "auto" }}>
-                {content}
-              </Box>
+              <Box sx={{ flexGrow: 1 }}>{content}</Box>
             </Stack>
           </StackM>
         </AnimatePresence>

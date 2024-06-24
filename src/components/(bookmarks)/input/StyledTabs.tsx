@@ -2,7 +2,7 @@ import type { TabsProps, Theme } from "@mui/material";
 
 import { Tabs } from "@mui/material";
 
-type StyledTabsProps = TabsProps & {
+export type StyledTabsProps = TabsProps & {
   children: React.ReactNode;
 };
 

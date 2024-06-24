@@ -18,7 +18,7 @@ export default function Error({
       {...layoutChildMotionProps}
       spacing={3}
       alignItems={"center"}
-      sx={{ maxWidth: 375, m: "auto", p: 10 }}
+      sx={{ maxWidth: 675, m: "auto", p: 10 }}
     >
       <BoxM variants={yScaleVar}>
         <ErrorRoundedIcon fontSize="large" color="primary" />

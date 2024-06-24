@@ -15,7 +15,7 @@ export default function Error({
   return (
     <BoxM
       {...layoutChildMotionProps}
-      sx={{ display: "grid", placeItems: "center", p: 1 }}
+      sx={{ display: "grid", placeItems: "center" }}
     >
       <StackM
         variants={yScaleVar}
@@ -23,7 +23,7 @@ export default function Error({
         direction={"row"}
         alignItems={"center"}
         justifyContent={"center"}
-        sx={{ maxWidth: 0.5 }}
+        sx={{ p: 1, maxWidth: 675 }}
       >
         <Typography variant="body2" className="text-ellipsis">
           {error.message}

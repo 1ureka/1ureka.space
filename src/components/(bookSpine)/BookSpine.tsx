@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import { Backdrop, Box } from "@mui/material";
+import { Backdrop, Box, type BoxProps } from "@mui/material";
 import { Collapsed, Expanded, Setting } from ".";
 
-export default function BookSpine() {
+export default function BookSpine(props: BoxProps) {
   const [open, setOpen] = useState({ menu: false, setting: false });
 
   const handleToggle = (section: "menu" | "setting") => {
@@ -14,6 +14,7 @@ export default function BookSpine() {
     <Box
       data-mui-color-scheme="dark"
       sx={{ position: "relative", height: 1, zIndex: "drawer" }}
+      {...props}
     >
       <Backdrop
         sx={{ backdropFilter: "blur(5px)", zIndex: -1 }}

@@ -1,9 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { blobGetDataUrl, createFilter, decode, delay } from "./client-utils";
+import type { CheckboxProps } from "@mui/material";
+
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { EDITOR_FILES, EDITOR_VALS } from "@/context/store";
-import { useRecoilValue } from "recoil";
+
+import {
+  blobGetDataUrl,
+  createFilter,
+  decode,
+  delay,
+  replaceFileExtension,
+} from "./client-utils";
 
 //
 // general
@@ -54,8 +63,73 @@ export function useDecode(src: string | null): [string, boolean] {
   return [_src, state];
 }
 
+export function useDropArea(onDrop: (files: FileList) => void) {
+  const [isDragOver, setDragOver] = useState(false);
+
+  const handleDragOver: React.DragEventHandler = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+  };
+
+  const handleDrop: React.DragEventHandler = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    onDrop(e.dataTransfer.files);
+  };
+
+  const DropProps = {
+    onDrop: handleDrop,
+    onDragOver: handleDragOver,
+    onDragEnter: () => setDragOver(true),
+    onDragLeave: (e: React.DragEvent) => {
+      const relatedTarget = e.relatedTarget as Node | null;
+      if (e.currentTarget.contains(relatedTarget)) return;
+      setDragOver(false);
+    },
+  };
+
+  return { isDragOver, DropProps };
+}
+
 //
 // page
+export function useEditorInput() {
+  const [files, setFiles] = useRecoilState(EDITOR_FILES);
+  const fileNames = files.map(({ file }) => file.name);
+
+  const copyName = (fileName: string) => {
+    const dotIndex = fileName.lastIndexOf(".");
+    const name = fileName.slice(0, dotIndex);
+    const extension = fileName.slice(dotIndex + 1);
+    return `${name} (copy).${extension}`;
+  };
+
+  const action = (fileList: FileList) => {
+    const files = Array.from(fileList);
+    const imageFiles = files.filter((file) => file.type.startsWith("image/"));
+
+    const filteredFiles = imageFiles.map((file) => {
+      if (!fileNames.includes(file.name)) return file;
+      return new File([file], copyName(file.name), { type: file.type });
+    });
+
+    if (filteredFiles.length === 0) return;
+
+    const newFiles = filteredFiles.map((file, i) => ({
+      selected: true,
+      display: i + 1 === filteredFiles.length,
+      file,
+    }));
+
+    setFiles((prev) => {
+      const prevFiles = prev.map((file) => ({ ...file, display: false }));
+      return [...prevFiles, ...newFiles];
+    });
+  };
+
+  return action;
+}
+
 export function useEditorPreview() {
   const editorOptions = useRecoilValue(EDITOR_VALS);
   const fileList = useRecoilValue(EDITOR_FILES);
@@ -103,4 +177,81 @@ export function useEditorPreview() {
   const originUrl = useBlob(file);
 
   return { name, originUrl, previewUrl, filterString };
+}
+
+export function useEditorSelection() {
+  const setFiles = useSetRecoilState(EDITOR_FILES);
+
+  const handleSelectAll: CheckboxProps["onChange"] = ({ target }) => {
+    setFiles((prev) =>
+      prev.map((file) => ({ ...file, selected: target.checked }))
+    );
+  };
+
+  const handleSelect = (name: string) => {
+    setFiles((prev) =>
+      prev.map(({ file, selected, display }) => ({
+        file,
+        selected: file.name === name ? !selected : selected,
+        display,
+      }))
+    );
+  };
+
+  return { handleSelectAll, handleSelect };
+}
+
+export function useEditorDisplay() {
+  const setFiles = useSetRecoilState(EDITOR_FILES);
+
+  const handleDisplay = (name: string) => {
+    setFiles((prev) =>
+      prev.map(({ file, selected }) => ({
+        file,
+        selected,
+        display: file.name === name,
+      }))
+    );
+  };
+
+  return { handleDisplay };
+}
+
+export function useEditorConversion() {
+  const options = useRecoilValue(EDITOR_VALS);
+  const [files, setFiles] = useRecoilState(EDITOR_FILES);
+  const [loading, setLoading] = useState(false);
+
+  const handleConvert = async () => {
+    setLoading(true);
+
+    const selectedFiles = files.filter(({ selected }) => selected);
+    const results = await Promise.all(
+      selectedFiles.map(async ({ file }) => {
+        // const filtered = await filterImage(file, options);
+        // options.maxSize *= 1024 * 1024;
+        // const blob = await compressImage(filtered, options);
+        // const dataUrl = await blobGetDataUrl(blob);
+        await delay(1000);
+        return {
+          dataUrl: "",
+          name: replaceFileExtension(file.name, options.type),
+        };
+      })
+    );
+
+    setFiles((prev) => prev.filter((file) => !file.selected));
+
+    results.forEach(({ dataUrl }) => {
+      if (typeof dataUrl !== "string") return;
+      // const link = document.createElement("a");
+      // link.href = dataUrl;
+      // link.download = name;
+      // link.click();
+    });
+
+    setLoading(false);
+  };
+
+  return { handleConvert, loading };
 }

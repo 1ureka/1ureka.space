@@ -34,6 +34,12 @@ function findBookmarkCategory(pathname: string): string | null {
   return null;
 }
 
+const articleSx = {
+  bgcolor: "content.layer1",
+  flexGrow: 1,
+  borderRadius: "0 50px 10px 10px",
+};
+
 export default function Frame({
   header,
   content,
@@ -57,30 +63,30 @@ export default function Frame({
 
   return (
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>
-      <BookSpine />
+      <BookSpine component="nav" />
 
-      <Box sx={{ px: 5, py: 3, height: 1, flexGrow: 1, overflowY: "auto" }}>
+      <Box
+        component="main"
+        sx={{ px: 5, py: 3, height: 1, flexGrow: 1, overflowY: "auto" }}
+      >
         <AnimatePresence mode="wait">
           <StackM
             key={key}
             sx={{ position: "relative", minHeight: 1 }}
             {...layoutMotionProps}
           >
-            <Bookmarks options={bookmarks[rootPath]} />
+            <Bookmarks component="nav" options={bookmarks[rootPath]} />
 
-            <Stack
-              component={"main"}
-              sx={{
-                bgcolor: "content.layer1",
-                flexGrow: 1,
-                borderRadius: "0 50px 10px 10px",
-              }}
-            >
-              <Box sx={{ mt: "55px", zIndex: 1 }}>{header}</Box>
+            <Stack component="article" sx={articleSx}>
+              <Box component="section" sx={{ mt: "55px", zIndex: 1 }}>
+                {header}
+              </Box>
 
               <Divider flexItem variant="middle" />
 
-              <Box sx={{ display: "grid", flexGrow: 1 }}>{content}</Box>
+              <Box component="section" sx={{ display: "grid", flexGrow: 1 }}>
+                {content}
+              </Box>
             </Stack>
           </StackM>
         </AnimatePresence>

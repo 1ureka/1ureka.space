@@ -14,20 +14,14 @@ export default function SelectInput({
   onChange,
 }: {
   options: string[];
-  value: number;
-  onChange: (val: number) => void;
+  value: string;
+  onChange: (val: string) => void;
 }) {
   const handleChange: React.ChangeEventHandler<
     HTMLTextAreaElement | HTMLInputElement
   > = ({ target }) => {
     const { value } = target;
-    const parsedValue = parseInt(value, 10);
-    if (
-      Number.isInteger(parsedValue) &&
-      parsedValue >= 0 &&
-      parsedValue < options.length
-    )
-      onChange(parsedValue);
+    if (options.includes(value)) onChange(value);
   };
 
   return (
@@ -39,8 +33,8 @@ export default function SelectInput({
       InputProps={{ sx: inputSx }}
       SelectProps={{ IconComponent: ArrowDropDownRoundedIcon }}
     >
-      {options.map((option, i) => (
-        <MenuItem key={option} value={i}>
+      {options.map((option) => (
+        <MenuItem key={option} value={option}>
           <Typography>{option}</Typography>
         </MenuItem>
       ))}

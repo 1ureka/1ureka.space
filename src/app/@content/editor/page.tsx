@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 import { Box } from "@mui/material";
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
-import { EditOptions, EditTabs, EditPreview } from "@/components/(editor)";
+
+import { EditPanel, EditPreview } from "@/components/(editor)";
 
 export default function Editor() {
   return (
@@ -33,9 +34,8 @@ export default function Editor() {
         </Box>
       </BoxM>
 
-      <BoxM variants={yScaleVar} sx={{ minWidth: 375 }}>
-        <EditTabs />
-        <EditOptions />
+      <BoxM variants={yScaleVar} sx={{ width: 375 }}>
+        <EditPanel />
       </BoxM>
     </StackM>
   );

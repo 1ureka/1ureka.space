@@ -22,7 +22,7 @@ export type EditOptionValues = {
   exposure: number;
   maxSize: number;
   scale: number;
-  type: 0 | 1 | 2;
+  type: "jpeg" | "png" | "webp";
 };
 
 const typeList = ["jpeg", "png", "webp"];
@@ -35,8 +35,9 @@ export default function EditOptions() {
     (type: EditOptionType) => (_: Event, val: number) =>
       setValues((prev) => ({ ...prev, [type]: val }));
 
-  const createNumberHandler = (type: EditOptionType) => (val: number) =>
-    setValues((prev) => ({ ...prev, [type]: val }));
+  const createNumberHandler =
+    (type: EditOptionType) => (val: number | string) =>
+      setValues((prev) => ({ ...prev, [type]: val }));
 
   return (
     <StackM variants={yScaleVar} spacing={6}>

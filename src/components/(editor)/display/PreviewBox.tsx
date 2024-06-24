@@ -31,7 +31,7 @@ export default function PreviewBox() {
           borderColor: "divider",
           borderStyle: "dashed",
           borderRadius: 3,
-          p: 4,
+          overflow: "hidden",
         }}
       >
         <Typography
@@ -41,15 +41,15 @@ export default function PreviewBox() {
           {name}
         </Typography>
 
-        <Box sx={{ position: "relative", width: 1, height: 1 }}>
+        <Box sx={{ position: "absolute", inset: 0, p: 4 }}>
           {originState && (
             <motion.img
               variants={yScaleVar}
               src={originSrc}
               alt={""}
               style={{
-                width: 1,
-                height: 1,
+                width: "100%",
+                height: "100%",
                 objectFit: "contain",
                 clipPath: clipPathL,
               }}
@@ -63,8 +63,6 @@ export default function PreviewBox() {
               style={{
                 position: "absolute",
                 inset: 0,
-                width: 1,
-                height: 1,
                 objectFit: "contain",
                 clipPath: clipPathR,
                 filter: filterString,

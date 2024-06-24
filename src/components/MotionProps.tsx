@@ -113,3 +113,17 @@ export const yVar: Variants = {
     },
   },
 };
+export const xVar: Variants = {
+  initial: { opacity: 0, x: 65, transition: { duration: 0 } },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      stiffness: 150,
+      damping: 16,
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};

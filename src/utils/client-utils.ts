@@ -61,3 +61,20 @@ export function createFilter({
 
   return filters;
 }
+
+/** 將指定的檔案名稱替換成新的副檔名。 */
+export function replaceFileExtension(
+  fileName: string,
+  newExtension: string
+): string {
+  if (!fileName || !fileName.trim())
+    throw new Error("File name cannot be empty.");
+  if (!newExtension || !newExtension.trim().replace(".", ""))
+    throw new Error("New extension must contain at least one character.");
+
+  const lastDotIndex = fileName.lastIndexOf(".");
+  if (!newExtension.startsWith(".")) newExtension = `.${newExtension}`;
+
+  if (lastDotIndex === -1) return fileName + "." + newExtension;
+  return fileName.slice(0, lastDotIndex) + newExtension;
+}

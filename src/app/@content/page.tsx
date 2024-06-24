@@ -37,7 +37,12 @@ export default function Content({
       spacing={7}
       sx={{ pt: 5, pb: 7, px: 9 }}
     >
-      <GridM item xs={1} variants={yScaleVar}>
+      <GridM
+        item
+        xs={1}
+        variants={yScaleVar}
+        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+      >
         <NavCard
           media={frame("./frame1.svg")}
           title="Scene"
@@ -47,7 +52,12 @@ export default function Content({
           disabled={isGuest}
         />
       </GridM>
-      <GridM item xs={1} variants={yScaleVar}>
+      <GridM
+        item
+        xs={1}
+        variants={yScaleVar}
+        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+      >
         <NavCard
           media={frame("./frame2.svg")}
           title="Props"
@@ -57,7 +67,12 @@ export default function Content({
           disabled={isGuest}
         />
       </GridM>
-      <GridM item xs={1} variants={yScaleVar}>
+      <GridM
+        item
+        xs={1}
+        variants={yScaleVar}
+        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+      >
         <NavCard
           media={frame("./frame3.svg")}
           title="File Shelf"
@@ -67,7 +82,12 @@ export default function Content({
           disabled={isGuest}
         />
       </GridM>
-      <GridM item xs={1} variants={yScaleVar}>
+      <GridM
+        item
+        xs={1}
+        variants={yScaleVar}
+        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+      >
         <NavCard
           media={frame("./frame4.svg")}
           title="Image Editor"

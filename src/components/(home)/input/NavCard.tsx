@@ -4,8 +4,6 @@ import { NextLinkComposed } from "@/components/Link";
 
 import { Box, Stack, Typography } from "@mui/material";
 import { Card, CardContent, CardMedia, CardActionArea } from "@mui/material";
-import type { CardProps } from "@mui/material";
-
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 
@@ -14,7 +12,6 @@ interface NavCardProps {
   title: string;
   subTitle: string;
   caption: string;
-  sx?: CardProps["sx"];
   href: LinkProps["href"];
   disabled?: boolean;
 }
@@ -29,7 +26,7 @@ export default function CardBlog({
 }: NavCardProps) {
   return (
     <Card
-      sx={{ m: "auto", maxWidth: 700, borderRadius: 2, overflow: "initial" }}
+      sx={{ height: 1, borderRadius: 2, overflow: "visible" }}
       elevation={3}
     >
       <CardActionArea
@@ -37,6 +34,7 @@ export default function CardBlog({
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
+          height: 1,
           py: 2,
           "&:hover img": {
             scale: "1.1",
@@ -61,12 +59,9 @@ export default function CardBlog({
           sx={{
             position: "relative",
             width: 0.7,
-            mt: 0,
-            ml: -3,
-            height: 0,
-            pb: "max(25vh, 35%)",
+            ml: -4,
+            height: 1,
             borderRadius: 2,
-            transform: "translateX(-8px)",
             overflow: "hidden",
             zIndex: 1,
           }}
@@ -84,7 +79,9 @@ export default function CardBlog({
               {title}
             </Typography>
             <Typography variant="subtitle2">{subTitle}</Typography>
-            <Typography variant="caption">{caption}</Typography>
+            <Typography variant="caption" sx={{ width: 1 }}>
+              {caption}
+            </Typography>
           </Stack>
           <Box sx={{ pt: 2 }}>
             {disabled ? (

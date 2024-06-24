@@ -33,15 +33,13 @@ export default function Content({
     <GridM
       {...layoutChildMotionProps}
       container
-      columns={4}
-      rowSpacing={7}
-      spacing={4}
+      columns={{ xs: 1, lg: 2 }}
+      spacing={7}
       sx={{ pt: 5, pb: 7, px: 9 }}
     >
-      <GridM item xs={4} lg={2} variants={yScaleVar}>
+      <GridM item xs={1} variants={yScaleVar}>
         <NavCard
           media={frame("./frame1.svg")}
-          sx={{ height: "max(27.5vh, 190px)" }}
           title="Scene"
           subTitle=" books "
           caption="Anime and game scenes reimagined in realistic detail."
@@ -49,10 +47,9 @@ export default function Content({
           disabled={isGuest}
         />
       </GridM>
-      <GridM item xs={4} lg={2} variants={yScaleVar}>
+      <GridM item xs={1} variants={yScaleVar}>
         <NavCard
           media={frame("./frame2.svg")}
-          sx={{ height: "max(27.5vh, 190px)" }}
           title="Props"
           subTitle=" books "
           caption="A collection of 3D models for outdoor scenes, from tiny screws to entire buildings."
@@ -60,10 +57,9 @@ export default function Content({
           disabled={isGuest}
         />
       </GridM>
-      <GridM item xs={4} lg={2} variants={yScaleVar}>
+      <GridM item xs={1} variants={yScaleVar}>
         <NavCard
           media={frame("./frame3.svg")}
-          sx={{ height: "max(27.5vh, 190px)" }}
           title="File Shelf"
           subTitle=" tools "
           caption="Seamlessly manage album's images with real-time backend syncing."
@@ -71,17 +67,15 @@ export default function Content({
           disabled={isGuest}
         />
       </GridM>
-      <GridM item xs={4} lg={2} variants={yScaleVar}>
+      <GridM item xs={1} variants={yScaleVar}>
         <NavCard
           media={frame("./frame4.svg")}
-          sx={{ height: "max(27.5vh, 190px)" }}
           title="Image Editor"
           subTitle=" tools "
           caption="Transform photos with conversion, compression, and filters."
           href="/editor"
         />
       </GridM>
-      {/* <Grid item xs={4} height={0} /> */}
     </GridM>
   );
 }

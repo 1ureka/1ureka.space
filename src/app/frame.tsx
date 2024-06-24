@@ -80,7 +80,7 @@ export default function Frame({
 
               <Divider flexItem variant="middle" />
 
-              <Box sx={{ flexGrow: 1 }}>{content}</Box>
+              <Box sx={{ display: "grid", flexGrow: 1 }}>{content}</Box>
             </Stack>
           </StackM>
         </AnimatePresence>

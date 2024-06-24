@@ -6,5 +6,6 @@ export { default as PreviewBox } from "./display/PreviewBox";
 export { default as TableRow } from "./display/TableRow";
 
 export { default as EditOptions } from "./block/EditOptions";
+export { default as EditTable } from "./block/EditTable";
 export { default as EditPreview } from "./block/EditPreview";
 export * from "./block/EditOptions";

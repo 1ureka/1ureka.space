@@ -15,18 +15,18 @@ export default function Editor() {
       direction="row-reverse"
       flexWrap="wrap"
       justifyContent="center"
-      gap={7}
-      sx={{ height: 1, pt: 5, pb: 7, px: 9 }}
+      gap={12}
+      sx={{ height: 1, py: 7, px: 9 }}
     >
       <BoxM variants={yScaleVar} sx={{ flexGrow: 1 }}>
         <Box
           sx={{
+            position: { xs: "relative", lg: "sticky" },
+            top: { xs: "", lg: 0 },
             minWidth: 375,
             width: 1,
-            maxWidth: "max(80vh, 375px)",
             minHeight: 300,
             height: "62.5vh",
-            mx: "auto",
           }}
         >
           <EditPreview />

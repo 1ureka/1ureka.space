@@ -1,7 +1,5 @@
-import { Button, Skeleton, Typography } from "@mui/material";
-import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded";
-
-import { BoxM, StackM } from "@/components/Motion";
+import { Skeleton, Typography } from "@mui/material";
+import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 
@@ -17,11 +15,12 @@ export default function Header() {
       {...layoutChildMotionProps}
       direction="row"
       alignItems="flex-end"
-      spacing={1}
+      spacing={6}
+      sx={{ px: 9, py: 3 }}
     >
       <StackM
         variants={yScaleVar}
-        sx={{ p: 3, alignItems: "flex-start" }}
+        sx={{ alignItems: "flex-start" }}
         spacing={0.5}
       >
         <Typography variant="caption">PROJECTS:</Typography>
@@ -32,7 +31,7 @@ export default function Header() {
 
       <StackM
         variants={yScaleVar}
-        sx={{ p: 3, alignItems: "flex-start" }}
+        sx={{ alignItems: "flex-start" }}
         spacing={0.5}
       >
         <Typography variant="caption">INCLUDES:</Typography>
@@ -44,14 +43,10 @@ export default function Header() {
         </Typography> */}
       </StackM>
 
-      <StackM variants={yVar} alignItems="center" sx={{ flexGrow: 1, p: 3 }}>
-        <Typography variant="body2">{text.info}</Typography>
-      </StackM>
+      <DividerM variants={yScaleVar} orientation="vertical" flexItem />
 
-      <BoxM variants={yScaleVar} sx={{ p: 3 }}>
-        <Button startIcon={<AutoFixHighRoundedIcon fontSize="small" />}>
-          filter
-        </Button>
+      <BoxM variants={yVar} alignItems="center">
+        <Typography variant="body2">{text.info}</Typography>
       </BoxM>
     </StackM>
   );

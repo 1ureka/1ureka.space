@@ -62,6 +62,31 @@ export function createFilter({
   return filters;
 }
 
+type ImageDimensions = { width: number; height: number };
+/** 使用 async 獲取圖片的尺寸。 */
+export async function getImageDimensions<T extends boolean>(
+  dataUrl: string,
+  isAsString: T = false as T
+): Promise<T extends true ? string : ImageDimensions> {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onerror = rej;
+    img.onload = () => {
+      const dimensions = { width: img.width, height: img.height };
+      if (isAsString) {
+        res(
+          `${dimensions.width}px * ${dimensions.height}px` as T extends true
+            ? string
+            : ImageDimensions
+        );
+      } else {
+        res(dimensions as T extends true ? string : ImageDimensions);
+      }
+    };
+    img.src = dataUrl;
+  });
+}
+
 /** 將指定的檔案名稱替換成新的副檔名。 */
 export function replaceFileExtension(
   fileName: string,

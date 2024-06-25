@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, LinearProgress, Typography } from "@mui/material";
 import { useMotionTemplate, useMotionValue } from "framer-motion";
 import { motion, type MotionValue } from "framer-motion";
@@ -7,6 +7,36 @@ import { motion, type MotionValue } from "framer-motion";
 import { BoxM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 import { useDecode, useEditorPreview } from "@/utils/hooks";
+import { getImageDimensions } from "@/utils/client-utils";
+
+const anchorMap = {
+  lt: "0 auto auto 0",
+  rt: "0 0 auto auto",
+  lb: "auto auto 0 0",
+  rb: "auto 0 0 auto",
+};
+
+function Caption({
+  children,
+  anchor,
+}: {
+  children: React.ReactNode;
+  anchor: "lt" | "rt" | "lb" | "rb";
+}) {
+  return (
+    <Typography
+      variant="caption"
+      sx={{
+        position: "absolute",
+        inset: anchorMap[anchor],
+        p: 1,
+        zIndex: 1,
+      }}
+    >
+      {children}
+    </Typography>
+  );
+}
 
 export default function PreviewBox() {
   const constraintsRef = useRef(null);
@@ -17,6 +47,23 @@ export default function PreviewBox() {
   const clipPathR = useMotionTemplate`inset(0 0 0 calc(50% + ${x}px + 3px))`;
 
   const { name, originUrl, previewUrl, filterString } = useEditorPreview();
+
+  const [dimensions, setDimensions] = useState({ origin: "", preview: "" });
+  const setImageDimensions = (
+    type: "origin" | "preview",
+    dataUrl: string | null
+  ) => {
+    if (dataUrl) {
+      getImageDimensions(dataUrl, true).then((dimensions) =>
+        setDimensions((prev) => ({ ...prev, [type]: dimensions }))
+      );
+    } else {
+      setDimensions((prev) => ({ ...prev, [type]: "" }));
+    }
+  };
+  useEffect(() => setImageDimensions("origin", originUrl), [originUrl]);
+  useEffect(() => setImageDimensions("preview", previewUrl), [previewUrl]);
+
   const [originSrc, originState] = useDecode(originUrl);
   const [resultSrc, resultState] = useDecode(previewUrl);
 
@@ -34,12 +81,9 @@ export default function PreviewBox() {
           overflow: "hidden",
         }}
       >
-        <Typography
-          variant="caption"
-          sx={{ position: "absolute", inset: "0 auto auto 0", p: 1, zIndex: 1 }}
-        >
-          {name}
-        </Typography>
+        <Caption anchor="lt">{name}</Caption>
+        <Caption anchor="lb">{dimensions.origin}</Caption>
+        <Caption anchor="rb">{dimensions.preview}</Caption>
 
         <Box sx={{ position: "absolute", inset: 0, p: 4 }}>
           {originState && (

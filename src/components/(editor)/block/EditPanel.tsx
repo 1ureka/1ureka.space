@@ -1,8 +1,11 @@
 "use client";
 
-import { EditOptions, EditTable } from "..";
-import { Button, ButtonGroup } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+import { Button, ButtonGroup } from "@mui/material";
+
+const EditOptions = dynamic(() => import("..").then((mod) => mod.EditOptions));
+const EditTable = dynamic(() => import("..").then((mod) => mod.EditTable));
 
 export default function EditPanel() {
   const [tab, setTab] = useState<0 | 1>(0);

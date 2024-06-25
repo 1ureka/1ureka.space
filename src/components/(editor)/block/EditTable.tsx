@@ -30,7 +30,7 @@ export default function EditTable() {
 
   return (
     <PaperM variants={yScaleVar} sx={{ borderRadius: 2, overflowX: "hidden" }}>
-      <TableContainer sx={{ overflowX: "hidden", minHeight: 375 }}>
+      <TableContainer sx={{ overflowX: "hidden", minHeight: 335 }}>
         <Table sx={{ tableLayout: "fixed" }}>
           <TableHead>
             <TableRow>

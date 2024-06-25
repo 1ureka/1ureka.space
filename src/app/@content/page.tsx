@@ -22,6 +22,39 @@ const frame = (src: string) => (
   />
 );
 
+const cardData = [
+  {
+    media: frame("./frame1.svg"),
+    title: "Scene",
+    subTitle: "books",
+    caption: "Anime and game scenes reimagined in realistic detail.",
+    href: "/scene",
+  },
+  {
+    media: frame("./frame2.svg"),
+    title: "Props",
+    subTitle: "books",
+    caption:
+      "A collection of 3D models for outdoor scenes, from tiny screws to entire buildings.",
+    href: "/props",
+  },
+  {
+    media: frame("./frame3.svg"),
+    title: "File Shelf",
+    subTitle: "tools",
+    caption: "Seamlessly manage album's images with real-time backend syncing.",
+    href: "/files",
+  },
+  {
+    media: frame("./frame4.svg"),
+    title: "Image Editor",
+    subTitle: "tools",
+    caption: "Transform photos with conversion, compression, and filters.",
+    href: "/editor",
+    disabled: false,
+  },
+];
+
 export default function Content({
   searchParams,
 }: {
@@ -37,65 +70,17 @@ export default function Content({
       spacing={7}
       sx={{ pt: 5, pb: 7, px: 9 }}
     >
-      <GridM
-        item
-        xs={1}
-        variants={yScaleVar}
-        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
-      >
-        <NavCard
-          media={frame("./frame1.svg")}
-          title="Scene"
-          subTitle=" books "
-          caption="Anime and game scenes reimagined in realistic detail."
-          href="/scene"
-          disabled={isGuest}
-        />
-      </GridM>
-      <GridM
-        item
-        xs={1}
-        variants={yScaleVar}
-        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
-      >
-        <NavCard
-          media={frame("./frame2.svg")}
-          title="Props"
-          subTitle=" books "
-          caption="A collection of 3D models for outdoor scenes, from tiny screws to entire buildings."
-          href="/props"
-          disabled={isGuest}
-        />
-      </GridM>
-      <GridM
-        item
-        xs={1}
-        variants={yScaleVar}
-        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
-      >
-        <NavCard
-          media={frame("./frame3.svg")}
-          title="File Shelf"
-          subTitle=" tools "
-          caption="Seamlessly manage album's images with real-time backend syncing."
-          href="/files"
-          disabled={isGuest}
-        />
-      </GridM>
-      <GridM
-        item
-        xs={1}
-        variants={yScaleVar}
-        height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
-      >
-        <NavCard
-          media={frame("./frame4.svg")}
-          title="Image Editor"
-          subTitle=" tools "
-          caption="Transform photos with conversion, compression, and filters."
-          href="/editor"
-        />
-      </GridM>
+      {cardData.map((card, index) => (
+        <GridM
+          key={index}
+          item
+          xs={1}
+          variants={yScaleVar}
+          height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+        >
+          <NavCard disabled={isGuest} {...card} />
+        </GridM>
+      ))}
     </GridM>
   );
 }

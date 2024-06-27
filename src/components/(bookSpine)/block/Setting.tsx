@@ -1,18 +1,18 @@
-import { useRecoilState } from "recoil";
 import { AnimatePresence } from "framer-motion";
-import { Divider, Stack, Typography } from "@mui/material";
+import { Avatar, IconButton, Switch, useColorScheme } from "@mui/material";
+import { List, ListItemIcon, ListItemText } from "@mui/material";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 
-import { Toggles } from "..";
-import { PaperM, StackM } from "@/components/Motion";
+import { AlertM, DividerM, ListItemM, PaperM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
-import { useTheme } from "@/theme/useTheme";
-import { BOOKS_FOLD } from "@/context/store";
 
 const containerSx = {
   position: "absolute",
   bottom: -10,
   left: "100%",
-  p: 5,
+  p: 3.5,
   transformOrigin: "left",
   borderRadius: "0 20px 0 0",
   border: `solid 1px var(--mui-palette-divider)`,
@@ -25,7 +25,7 @@ export default function Setting({ open }: { open: boolean }) {
       {open && (
         <PaperM
           sx={containerSx}
-          variants={booksSpineExtandedVar}
+          variants={booksSpineExtandedVar(0.08)}
           initial="initial"
           animate="animate"
           exit="initial"
@@ -38,39 +38,43 @@ export default function Setting({ open }: { open: boolean }) {
 }
 
 function Content() {
-  const modeOptions = ["Light", "Dark", "System"];
-  const { theme, setTheme } = useTheme();
-
-  const displayOptions = ["Fold", "Expand"];
-  const [fold, setFold] = useRecoilState(BOOKS_FOLD);
-  const display = fold ? "Fold" : "Expand";
+  const { mode, setMode } = useColorScheme();
 
   return (
-    <Stack sx={{ width: 1, alignItems: "flex-start" }} spacing={2.5}>
-      <StackM variants={yScaleVar} width={1} spacing={1.5} alignItems="center">
-        <Divider flexItem />
-        <Typography variant="subtitle1">Settings</Typography>
-      </StackM>
+    <List>
+      <AlertM
+        variants={yScaleVar}
+        icon={<WarningRoundedIcon fontSize="inherit" />}
+        severity="warning"
+        sx={{ whiteSpace: "nowrap" }}
+      >
+        * Sign In is for internal only
+      </AlertM>
 
-      <StackM variants={yScaleVar} width={1}>
-        <Typography variant="caption">MODE</Typography>
-        <Toggles
-          options={modeOptions}
-          value={theme.charAt(0).toUpperCase() + theme.slice(1)}
-          onChange={(theme) => setTheme(theme)}
-          sx={{ width: "100%" }}
-        />
-      </StackM>
+      <ListItemM variants={yScaleVar}>
+        <ListItemIcon>
+          <Avatar sx={{ width: 24, height: 24 }} />
+        </ListItemIcon>
+        <ListItemText primary="Guest" />
+        <IconButton size="small" onClick={() => {}}>
+          <LoginRoundedIcon fontSize="small" />
+        </IconButton>
+      </ListItemM>
 
-      <StackM variants={yScaleVar} width={1}>
-        <Typography variant="caption">BOOKS DISPLAY</Typography>
-        <Toggles
-          options={displayOptions}
-          value={display}
-          onChange={(mode) => setFold(mode === "Fold")}
-          sx={{ width: "100%" }}
+      <DividerM variants={yScaleVar} flexItem />
+
+      <ListItemM variants={yScaleVar}>
+        <ListItemIcon>
+          <DarkModeRoundedIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Dark mode" />
+        <Switch
+          size="small"
+          edge="end"
+          onChange={() => setMode(mode === "dark" ? "light" : "dark")}
+          checked={mode === "dark"}
         />
-      </StackM>
-    </Stack>
+      </ListItemM>
+    </List>
   );
 }

@@ -1,17 +1,8 @@
 "use client";
 import { atom, selector } from "recoil";
 
-// app(global)
-export const THEME = atom({
-  key: "theme",
-  default: "",
-});
-export const BOOKS_FOLD = atom({
-  key: "booksFold",
-  default: true,
-});
-
-// page
+//
+// editor
 export const EDITOR_ORDER = atom<"desc" | "asc">({
   key: "editorOrder",
   default: "asc",

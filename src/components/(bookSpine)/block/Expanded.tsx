@@ -2,13 +2,14 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Box, Divider, Link, Stack, Typography } from "@mui/material";
+import type { PaperProps } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
 import { BoxM, PaperM, StackM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
 import { FlowerImage, NavButton } from "..";
 
-const containerSx = {
+const containerSx: PaperProps["sx"] = {
   position: "absolute",
   height: 1,
   top: 0,
@@ -26,7 +27,7 @@ export default function Expanded({ open }: { open: boolean }) {
       {open && (
         <PaperM
           sx={containerSx}
-          variants={booksSpineExtandedVar}
+          variants={booksSpineExtandedVar(0.06)}
           initial="initial"
           animate="animate"
           exit="initial"

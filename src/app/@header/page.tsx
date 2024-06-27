@@ -5,7 +5,7 @@ import { yScaleVar, yVar } from "@/components/MotionProps";
 
 export default function Header() {
   return (
-    <BoxM {...layoutChildMotionProps}>
+    <BoxM {...layoutChildMotionProps()}>
       <Stack
         direction="row"
         justifyContent="space-between"

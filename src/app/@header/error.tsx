@@ -14,7 +14,7 @@ export default function Error({
 }) {
   return (
     <BoxM
-      {...layoutChildMotionProps}
+      {...layoutChildMotionProps()}
       sx={{ display: "grid", placeItems: "center" }}
     >
       <StackM

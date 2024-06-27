@@ -57,7 +57,7 @@ const cardData = [
 export default function Content() {
   return (
     <GridM
-      {...layoutChildMotionProps}
+      {...layoutChildMotionProps()}
       container
       columns={{ xs: 1, lg: 2 }}
       spacing={7}

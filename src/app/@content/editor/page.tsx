@@ -12,7 +12,7 @@ import { EditPanel, EditPreview } from "@/components/(editor)";
 export default function Editor() {
   return (
     <StackM
-      {...layoutChildMotionProps}
+      {...layoutChildMotionProps()}
       direction="row-reverse"
       flexWrap="wrap"
       justifyContent="center"

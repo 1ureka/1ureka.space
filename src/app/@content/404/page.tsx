@@ -7,7 +7,7 @@ import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 export default function NotFound() {
   return (
     <StackM
-      {...layoutChildMotionProps}
+      {...layoutChildMotionProps()}
       spacing={3}
       alignItems={"center"}
       sx={{ maxWidth: 675, m: "auto", p: 10 }}

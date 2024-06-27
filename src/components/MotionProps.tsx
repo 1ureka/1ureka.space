@@ -75,15 +75,20 @@ export const layoutMotionProps: MotionProps = {
   animate: "animate",
   exit: "exit",
 };
-export const layoutChildMotionProps: MotionProps = {
+export const layoutChildMotionProps = (props?: {
+  stagger?: number;
+}): MotionProps => ({
   variants: {
     animate: {
-      transition: { delayChildren: 0.35, staggerChildren: 0.1 },
+      transition: {
+        delayChildren: 0.35,
+        staggerChildren: props?.stagger ?? 0.1,
+      },
     },
   },
   initial: "initial",
   animate: "animate",
-};
+});
 
 // common
 export const yScaleVar: Variants = {

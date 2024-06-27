@@ -20,7 +20,7 @@ export default async function Header() {
 
   return (
     <StackM
-      {...layoutChildMotionProps}
+      {...layoutChildMotionProps()}
       direction="row"
       alignItems="flex-end"
       spacing={1}

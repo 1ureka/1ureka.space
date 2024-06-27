@@ -12,7 +12,7 @@ const text = {
 export default function Header() {
   return (
     <StackM
-      {...layoutChildMotionProps}
+      {...layoutChildMotionProps()}
       direction="row"
       alignItems="flex-end"
       spacing={6}

@@ -15,7 +15,7 @@ export default function Error({
 }) {
   return (
     <StackM
-      {...layoutChildMotionProps}
+      {...layoutChildMotionProps()}
       spacing={3}
       alignItems={"center"}
       sx={{ maxWidth: 675, m: "auto", p: 10 }}

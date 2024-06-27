@@ -30,7 +30,9 @@ export const bookSpineCollapsedItemVar: Variants = {
     transition: { type: "spring", stiffness: 150, damping: 16 },
   },
 };
-export const booksSpineExtandedVar: Variants = {
+export const booksSpineExtandedVar: (stagger?: number) => Variants = (
+  stagger = 0.1
+) => ({
   initial: {
     scaleX: 0,
     transition: { type: "spring", bounce: 0, duration: 0.5 },
@@ -41,11 +43,11 @@ export const booksSpineExtandedVar: Variants = {
       type: "spring",
       bounce: 0,
       duration: 0.5,
-      staggerChildren: 0.07,
+      staggerChildren: stagger,
       delayChildren: 0.2,
     },
   },
-};
+});
 
 interface MotionProps {
   variants: Variants;

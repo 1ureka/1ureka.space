@@ -1,6 +1,5 @@
-import { Button, Stack, Typography } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import { BoxM, DividerM, StackM } from "@/components/Motion";
+import { Stack, Typography } from "@mui/material";
+import { BoxM, DividerM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 
@@ -26,11 +25,6 @@ export default function Header() {
             </Typography>
           </BoxM>
         </Stack>
-
-        <StackM variants={yScaleVar}>
-          <Typography variant="caption">Sign In</Typography>
-          <Button startIcon={<GitHubIcon fontSize="small" />}>GitHub</Button>
-        </StackM>
       </Stack>
     </BoxM>
   );

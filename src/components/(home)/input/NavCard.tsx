@@ -5,7 +5,6 @@ import { NextLinkComposed } from "@/components/Link";
 import { Box, Stack, Typography } from "@mui/material";
 import { Card, CardContent, CardMedia, CardActionArea } from "@mui/material";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
-import LockRoundedIcon from "@mui/icons-material/LockRounded";
 
 interface NavCardProps {
   media: React.ReactNode;
@@ -13,7 +12,6 @@ interface NavCardProps {
   subTitle: string;
   caption: string;
   href: LinkProps["href"];
-  disabled?: boolean;
 }
 
 export default function CardBlog({
@@ -22,7 +20,6 @@ export default function CardBlog({
   subTitle,
   caption,
   href,
-  disabled = false,
 }: NavCardProps) {
   return (
     <Card
@@ -51,7 +48,6 @@ export default function CardBlog({
             outline: "7.5px solid #e783ad30",
           },
         }}
-        disabled={disabled}
         component={NextLinkComposed}
         to={href}
       >
@@ -75,20 +71,14 @@ export default function CardBlog({
             flexWrap="wrap"
             gap={1.5}
           >
-            <Typography variant="h5" color={disabled ? "text.secondary" : ""}>
-              {title}
-            </Typography>
+            <Typography variant="h5">{title}</Typography>
             <Typography variant="subtitle2">{subTitle}</Typography>
             <Typography variant="caption" sx={{ width: 1 }}>
               {caption}
             </Typography>
           </Stack>
           <Box sx={{ pt: 2 }}>
-            {disabled ? (
-              <LockRoundedIcon sx={{ color: "text.secondary" }} />
-            ) : (
-              <ArrowOutwardRoundedIcon color="primary" />
-            )}
+            <ArrowOutwardRoundedIcon color="primary" />
           </Box>
         </CardContent>
       </CardActionArea>

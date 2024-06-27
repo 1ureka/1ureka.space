@@ -51,17 +51,10 @@ const cardData = [
     subTitle: "tools",
     caption: "Transform photos with conversion, compression, and filters.",
     href: "/editor",
-    disabled: false,
   },
 ];
 
-export default function Content({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const isGuest = searchParams?.guest === "";
-
+export default function Content() {
   return (
     <GridM
       {...layoutChildMotionProps}
@@ -78,7 +71,7 @@ export default function Content({
           variants={yScaleVar}
           height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
         >
-          <NavCard disabled={isGuest} {...card} />
+          <NavCard {...card} />
         </GridM>
       ))}
     </GridM>

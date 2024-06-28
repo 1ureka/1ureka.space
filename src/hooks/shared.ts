@@ -3,8 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { blobGetDataUrl, decode, delay } from "@/utils/client-utils";
 
+/**
+ * 用於從 Blob 物件取得資料 URL。
+ */
 export function useBlob(blob: Blob | undefined) {
-  const [src, setSrc] = useState<string | null>("");
+  const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
     const callback = () => setSrc(null);
@@ -23,7 +26,10 @@ export function useBlob(blob: Blob | undefined) {
   return src;
 }
 
-export function useDecode(src: string | null): [string, boolean] {
+/**
+ * 用於從資料 URL 解碼圖片。
+ */
+export function useDecode(dataUrl: string | null): [string, boolean] {
   const [state, setState] = useState(false);
   const [_src, setSrc] = useState("");
   const timeStamp = useRef<number | null>(null);
@@ -44,12 +50,16 @@ export function useDecode(src: string | null): [string, boolean] {
   useEffect(() => {
     timeStamp.current = Date.now();
     setState(false);
-    if (src) decoding(src, timeStamp.current);
-  }, [src]);
+    if (dataUrl) decoding(dataUrl, timeStamp.current);
+  }, [dataUrl]);
 
   return [_src, state];
 }
 
+/**
+ * 自定義 hook，用於管理檔案拖放區域。
+ * @returns 一個物件，包含 `isDragOver` 狀態（表示是否有檔案在區域上方）和 `DropProps` 物件（用於設定拖放區域元素的屬性）。
+ */
 export function useDropArea(onDrop: (files: FileList) => void) {
   const [isDragOver, setDragOver] = useState(false);
 

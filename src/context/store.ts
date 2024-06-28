@@ -3,6 +3,14 @@ import { atom, selector } from "recoil";
 
 //
 // books
+export const BOOKS_IS_EXPANDED = atom({
+  key: "booksIsExpanded",
+  default: false,
+});
+export const BOOKS_SELECT_GROUP = atom({
+  key: "booksSelectGroup",
+  default: "",
+});
 export const BOOKS_CAROUSELS = atom({
   key: "booksCarousels",
   default: "",

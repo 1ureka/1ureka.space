@@ -37,24 +37,11 @@ export function delay(ms: number): Promise<void> {
 export async function getImageIndex(category: string) {
   await delay((Math.random() + 1) * 250);
 
+  console.log("SEARCH: Images table " + category);
+
   type ImageListItem = { name: string; group: string };
   const imageList: ImageListItem[] = I; // TODO get real index
 
-  type GroupLists = { [group: string]: string[] };
-  const imagesByGroup: GroupLists = imageList.reduce(
-    (acc: GroupLists, curr: ImageListItem) => {
-      acc[curr.group] = acc[curr.group] || [];
-      acc[curr.group].push(curr.name);
-
-      return acc;
-    },
-    {}
-  );
-
-  Object.keys(imagesByGroup).forEach((g) => {
-    imagesByGroup[g].sort();
-  });
-
   // console.log("check this message only show on server");
-  return imagesByGroup;
+  return imageList;
 }

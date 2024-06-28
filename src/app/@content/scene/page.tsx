@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 import { BoxM } from "@/components/Motion";
 import { Typography } from "@mui/material";
 
-export default function Scene() {
+export default function SceneContent() {
   return (
     <BoxM
       initial={{ opacity: 0, y: 70 }}

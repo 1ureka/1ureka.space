@@ -10,6 +10,10 @@ import { blobGetDataUrl, delay } from "@/utils/client-utils";
 import { createFilter, replaceFileExtension } from "@/utils/client-utils";
 import { useBlob } from ".";
 
+/**
+ * 用於處理編輯器輸入的檔案。
+ * @returns 一個函式，用於處理拖曳到編輯器區域的檔案列表。
+ */
 export function useEditorInput() {
   const [files, setFiles] = useRecoilState(EDITOR_FILES);
   const fileNames = files.map(({ file }) => file.name);
@@ -47,6 +51,10 @@ export function useEditorInput() {
   return action;
 }
 
+/**
+ * 用於管理編輯器的預覽功能。
+ * @returns 一個包含預覽資料、原始資料、濾鏡字串和檔名的物件。
+ */
 export function useEditorPreview() {
   const editorOptions = useRecoilValue(EDITOR_VALS);
   const fileList = useRecoilValue(EDITOR_FILES);
@@ -96,6 +104,10 @@ export function useEditorPreview() {
   return { name, originUrl, previewUrl, filterString };
 }
 
+/**
+ * 用於管理編輯器中檔案的選擇狀態。
+ * @returns 一個包含全選和單選處理函式的物件。
+ */
 export function useEditorSelection() {
   const setFiles = useSetRecoilState(EDITOR_FILES);
 
@@ -118,6 +130,10 @@ export function useEditorSelection() {
   return { handleSelectAll, handleSelect };
 }
 
+/**
+ * 用於管理編輯器中檔案的顯示狀態。
+ * @returns 一個包含控制檔案顯示的函式的物件。
+ */
 export function useEditorDisplay() {
   const setFiles = useSetRecoilState(EDITOR_FILES);
 
@@ -134,6 +150,10 @@ export function useEditorDisplay() {
   return { handleDisplay };
 }
 
+/**
+ * 用於處理編輯器中的檔案轉換。
+ * @returns 一個包含轉換處理函式和載入狀態的物件。
+ */
 export function useEditorConversion() {
   const options = useRecoilValue(EDITOR_VALS);
   const [files, setFiles] = useRecoilState(EDITOR_FILES);

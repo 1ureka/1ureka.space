@@ -9,6 +9,8 @@ import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomiz
 
 import { AlertM, DividerM, ListItemM, PaperM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
+import { useRecoilState } from "recoil";
+import { BOOKS_IS_EXPANDED } from "@/context/store";
 
 const containerSx = {
   position: "absolute",
@@ -41,6 +43,7 @@ export default function Setting({ open }: { open: boolean }) {
 
 function Content() {
   const { mode, setMode } = useColorScheme();
+  const [isExpanded, setIsExpanded] = useRecoilState(BOOKS_IS_EXPANDED);
 
   return (
     <List>
@@ -73,8 +76,8 @@ function Content() {
         <Switch
           size="small"
           edge="end"
-          onChange={() => {}}
-          // checked={mode === "dark"}
+          onChange={() => setIsExpanded((prev) => !prev)}
+          checked={isExpanded}
         />
       </ListItemM>
 

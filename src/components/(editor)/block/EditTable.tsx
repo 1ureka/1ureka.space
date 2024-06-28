@@ -11,8 +11,8 @@ import { yScaleVar } from "@/components/MotionProps";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { EDITOR_ORDER, EDITOR_ORDERED_FILES } from "@/context/store";
 
-import { useEditorDisplay, useEditorSelection } from "@/utils/hooks";
-import { useEditorConversion } from "@/utils/hooks";
+import { useEditorDisplay, useEditorSelection } from "@/hooks";
+import { useEditorConversion } from "@/hooks";
 
 export default function EditTable() {
   const [order, setOrder] = useRecoilState(EDITOR_ORDER);

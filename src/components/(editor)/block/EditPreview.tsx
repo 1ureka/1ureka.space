@@ -1,6 +1,6 @@
 "use client";
 import { Button, Typography, styled } from "@mui/material";
-import { useDropArea, useEditorInput } from "@/utils/hooks";
+import { useDropArea, useEditorInput } from "@/hooks";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";

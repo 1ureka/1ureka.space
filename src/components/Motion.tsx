@@ -12,6 +12,7 @@ import {
   Alert,
   Divider,
   IconButton,
+  ButtonBase,
 } from "@mui/material";
 
 export const BoxM = motion(Box);
@@ -21,6 +22,7 @@ export const GridM = motion(Grid);
 
 export const DividerM = motion(Divider);
 export const IconButtonM = motion(IconButton);
+export const ButtonBaseM = motion(ButtonBase);
 export const TableRowM = motion(TableRow);
 export const TableBodyM = motion(TableBody);
 

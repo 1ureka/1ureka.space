@@ -1,9 +1,11 @@
 import { AnimatePresence } from "framer-motion";
 import { Avatar, IconButton, Switch, useColorScheme } from "@mui/material";
 import { List, ListItemIcon, ListItemText } from "@mui/material";
+
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
 
 import { AlertM, DividerM, ListItemM, PaperM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
@@ -62,6 +64,19 @@ function Content() {
       </ListItemM>
 
       <DividerM variants={yScaleVar} flexItem />
+
+      <ListItemM variants={yScaleVar}>
+        <ListItemIcon>
+          <DashboardCustomizeRoundedIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Expand photos (books)" />
+        <Switch
+          size="small"
+          edge="end"
+          onChange={() => {}}
+          // checked={mode === "dark"}
+        />
+      </ListItemM>
 
       <ListItemM variants={yScaleVar}>
         <ListItemIcon>

@@ -1,0 +1,58 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 感覺會發生當Meatadata不見時，資料庫會遺留大量byte資料，並且我不會知道
+// model ImageMetadata {
+//   id          String      @id @default(cuid())
+//   category    String
+//   group       String
+//   name        String
+//   thumbnail   Thumbnail   @relation(fields: [thumbnailId], references: [id])
+//   thumbnailId String      @unique
+//   origin      Origin      @relation(fields: [originId], references: [id])
+//   originId    String      @unique
+// }
+
+// model Thumbnail {
+//   id          String      @id @default(cuid())
+//   bytes       Bytes
+//   metadata    ImageMetadata?
+// }
+
+// model Origin {
+//   id          String      @id @default(cuid())
+//   bytes       Bytes
+//   metadata    ImageMetadata?
+// }
+
+// 雖然有可能Bytes不見，但是至少我能夠知道，並且多餘的metadata，也比較不佔空間
+model ImageMetadata {
+  id          String      @id @default(cuid())
+  category    String
+  group       String
+  name        String
+  thumbnail   Thumbnail?   
+  origin      Origin?
+  deletedAt   DateTime?
+}
+
+model Thumbnail {
+  id          String         @id @default(cuid())
+  bytes       Bytes
+  metadata    ImageMetadata  @relation(fields: [metadataId], references: [id], onDelete: Cascade)
+  metadataId  String         @unique
+}
+
+model Origin {
+  id          String      @id @default(cuid())
+  bytes       Bytes
+  metadata    ImageMetadata  @relation(fields: [metadataId], references: [id], onDelete: Cascade)
+  metadataId  String         @unique
+}
+

@@ -6,7 +6,7 @@ import { motion, type MotionValue } from "framer-motion";
 
 import { BoxM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import { useDecode, useEditorPreview } from "@/utils/hooks";
+import { useDecode, useEditorPreview } from "@/hooks";
 import { getImageDimensions } from "@/utils/client-utils";
 
 const anchorMap = {

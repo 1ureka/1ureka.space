@@ -2,6 +2,13 @@
 import { atom, selector } from "recoil";
 
 //
+// books
+export const BOOKS_CAROUSELS = atom({
+  key: "booksCarousels",
+  default: "",
+});
+
+//
 // editor
 export const EDITOR_ORDER = atom<"desc" | "asc">({
   key: "editorOrder",

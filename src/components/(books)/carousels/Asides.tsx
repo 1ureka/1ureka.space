@@ -30,7 +30,7 @@ export default function Asides({
 }
 
 function Indicator({ current, total }: { current: number; total: number }) {
-  return <div>{current + " / " + total}</div>;
+  return <div>{current + 1 + " / " + total}</div>;
 }
 
 function Hint() {

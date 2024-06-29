@@ -147,8 +147,12 @@ export async function getSortedMetadata(category: string) {
   const sortedMetadataList = metadataList
     .slice()
     .sort((a, b) => {
+      if (a.group < b.group) return -1;
+      if (a.group > b.group) return 1;
+
       if (a.name < b.name) return -1;
       if (a.name > b.name) return 1;
+
       return 0;
     })
     .map((metadata, i) => ({ index: i, ...metadata }));

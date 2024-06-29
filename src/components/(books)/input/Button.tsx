@@ -3,8 +3,10 @@
 import { Box, type ButtonBaseProps } from "@mui/material";
 import { motion, useSpring, useTransform } from "framer-motion";
 import type { MotionValue } from "framer-motion";
+
 import { ButtonBaseM } from "@/components/Motion";
 import { useBooksButtonHandler } from "@/hooks";
+import type { Metadata } from "@/data/table";
 
 const coverSx = {
   zIndex: 1,
@@ -23,18 +25,16 @@ const reflectSx = (clipPath: string, x: number): ButtonBaseProps["sx"] => ({
 });
 
 type ButtonProps = {
-  group: string;
-  name: string;
+  metadata: Metadata;
   children: React.ReactNode;
-  sx: ButtonBaseProps["sx"];
 };
 
-export default function Button({ group, name, children, sx }: ButtonProps) {
+export default function Button({ metadata, children }: ButtonProps) {
   const reflect = useSpring(0) as MotionValue<number>;
   const opacity = useTransform(reflect, (val) => val);
   const x = useTransform(reflect, (val) => -60 * val);
 
-  const handleClick = useBooksButtonHandler({ group, name });
+  const handleClick = useBooksButtonHandler(metadata);
 
   return (
     <ButtonBaseM
@@ -45,7 +45,8 @@ export default function Button({ group, name, children, sx }: ButtonProps) {
       sx={{
         borderRadius: 1,
         "&:hover": { zIndex: 1 },
-        ...sx,
+        width: 1,
+        height: 1,
       }}
       onClick={handleClick}
     >

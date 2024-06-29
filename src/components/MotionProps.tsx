@@ -1,6 +1,51 @@
 import { Variants } from "framer-motion";
 
-// complex
+interface MotionProps {
+  variants: Variants;
+  [key: string]: unknown;
+}
+export const layoutMotionProps: MotionProps = {
+  variants: {
+    initial: {
+      opacity: 0,
+      y: 100,
+      transition: { duration: 0 },
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 150, damping: 15 },
+    },
+    exit: {
+      opacity: 0,
+      y: 50,
+      transition: { type: "spring", bounce: 0, duration: 0.5 },
+    },
+  },
+  initial: "initial",
+  animate: "animate",
+  exit: "exit",
+};
+export const layoutChildMotionProps = (props?: {
+  stagger?: number;
+}): MotionProps => ({
+  variants: {
+    animate: {
+      transition: {
+        delayChildren: 0.35,
+        staggerChildren: props?.stagger ?? 0.1,
+      },
+    },
+  },
+  initial: "initial",
+  animate: "animate",
+});
+
+//
+//
+// Bookspine
+//
+//
 export const bookSpineCollapsedVar: Variants = {
   open: {
     transition: { staggerChildren: 0.1 },
@@ -49,48 +94,72 @@ export const booksSpineExtandedVar: (stagger?: number) => Variants = (
   },
 });
 
-interface MotionProps {
-  variants: Variants;
-  [key: string]: unknown;
-}
-export const layoutMotionProps: MotionProps = {
-  variants: {
-    initial: {
-      opacity: 0,
-      y: 100,
-      transition: { duration: 0 },
-    },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 150, damping: 15 },
-    },
-    exit: {
-      opacity: 0,
-      y: 50,
-      transition: { type: "spring", bounce: 0, duration: 0.5 },
+//
+//
+// Carousels
+//
+//
+export const carouselsVar = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      type: "spring",
+      bounce: 0,
+      duration: 0.5,
+      delayChildren: 0.2,
+      staggerChildren: 0.1,
     },
   },
-  initial: "initial",
-  animate: "animate",
-  exit: "exit",
+  exit: {
+    opacity: 0,
+    transition: {
+      type: "spring",
+      bounce: 0,
+      duration: 0.5,
+    },
+  },
 };
-export const layoutChildMotionProps = (props?: {
-  stagger?: number;
-}): MotionProps => ({
-  variants: {
-    animate: {
-      transition: {
-        delayChildren: 0.35,
-        staggerChildren: props?.stagger ?? 0.1,
-      },
-    },
+export const carouselsImageVar = {
+  initial: {
+    opacity: 0,
+    scale: 1.1,
   },
-  initial: "initial",
-  animate: "animate",
-});
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring", bounce: 0, duration: 1 },
+  },
+  exit: {
+    opacity: 0,
+    scale: 1.1,
+    transition: { type: "spring", bounce: 0, duration: 1 },
+  },
+};
+export const carouselsSlidesVar = {
+  initial: {
+    opacity: 0,
+    x: "30%",
+  },
+  animate: {
+    opacity: 1,
+    x: "0%",
+    transition: { type: "spring", bounce: 0, duration: 1 },
+  },
+  exit: {
+    opacity: 0,
+    x: "100%",
+    transition: { type: "spring", bounce: 0, duration: 1 },
+  },
+};
 
+//
+//
 // common
+//
+//
 export const yScaleVar: Variants = {
   initial: { opacity: 0, y: 65, scale: 0.9, transition: { duration: 0 } },
   animate: {

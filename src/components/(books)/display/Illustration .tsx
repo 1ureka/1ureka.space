@@ -3,21 +3,14 @@
 import { useEffect, useState } from "react";
 import { Box, Skeleton } from "@mui/material";
 import { delay } from "@/utils/client-utils";
+import type { Metadata } from "@/data/table";
 
-interface IllustrationProps {
-  group: string;
-  thumbnailId: string;
-}
-
-export default function Illustration({
-  group,
-  thumbnailId,
-}: IllustrationProps) {
+export default function Illustration({ metadata }: { metadata: Metadata }) {
   const [data, setData] = useState("");
 
   useEffect(() => {
     delay((Math.random() + 1) * 1000).then(() => setData("finished"));
-    // TODO: create api route and get data safely
+    // TODO: create api route query metadataId and get data safely
   }, []);
 
   if (!data)
@@ -29,5 +22,9 @@ export default function Illustration({
       />
     );
 
-  return <Box sx={{ bgcolor: group, width: 1, height: 1, borderRadius: 1 }} />;
+  return (
+    <Box
+      sx={{ bgcolor: metadata.group, width: 1, height: 1, borderRadius: 1 }}
+    />
+  );
 }

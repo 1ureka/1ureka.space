@@ -2,10 +2,10 @@ import { Badge as MuiBadge, Stack } from "@mui/material";
 import PhotoLibraryRoundedIcon from "@mui/icons-material/PhotoLibraryRounded";
 
 export default function Badge({
-  number,
+  count,
   children,
 }: {
-  number: number;
+  count: number;
   children: React.ReactNode;
 }) {
   return (
@@ -13,7 +13,7 @@ export default function Badge({
       badgeContent={
         <Stack direction="row" alignItems="center" gap={0.5}>
           <PhotoLibraryRoundedIcon sx={{ fontSize: 15, pb: 0.3 }} />
-          {number}
+          {count}
         </Stack>
       }
       color="primary"

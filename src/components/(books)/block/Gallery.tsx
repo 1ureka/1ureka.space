@@ -1,11 +1,12 @@
 "use client";
 
-import { type BoxProps } from "@mui/material";
-
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 import { Badge, Button, Illustration } from "@/components/(books)";
+
+import type { BoxProps } from "@mui/material";
 import { useBooksGallery } from "@/hooks";
+import type { Metadata } from "@/data/table";
 
 const containerSx: BoxProps["sx"] = {
   display: "grid",
@@ -15,43 +16,46 @@ const containerSx: BoxProps["sx"] = {
   pb: 7,
   px: 9,
   height: "fit-content",
-};
+} as const;
 
-const itemSx: BoxProps["sx"] = {
-  width: 1,
-  aspectRatio: 16 / 9,
-};
+function GridItem({ children }: { children: React.ReactNode }) {
+  return (
+    <BoxM variants={yScaleVar} layout sx={{ width: 1, aspectRatio: 16 / 9 }}>
+      {children}
+    </BoxM>
+  );
+}
 
 export default function Gallery({
-  imagesList,
+  metadataList,
 }: {
-  imagesList: { name: string; group: string }[];
+  metadataList: Metadata[];
 }) {
-  const { imagesByGroup, imagesCount, isGroupExpanded } =
-    useBooksGallery(imagesList);
+  const { metadataListByGroup, count, isGroupExpanded } =
+    useBooksGallery(metadataList);
 
-  const groupEntries = Object.entries(imagesByGroup);
-  const stagger = 0.3 / (imagesCount ?? 1);
+  const groupEntries = Object.entries(metadataListByGroup);
+  const stagger = 0.3 / (count ?? 1);
 
   return (
     <BoxM sx={containerSx} {...layoutChildMotionProps({ stagger })}>
-      {groupEntries.map(([group, names]) =>
+      {groupEntries.map(([group, metadataList]) =>
         isGroupExpanded(group) ? (
-          names.map((name) => (
-            <BoxM key={name} variants={yScaleVar} layout sx={itemSx}>
-              <Button group={group} name={name} sx={{ width: 1, height: 1 }}>
-                <Illustration group={group} thumbnailId={name} />
+          metadataList.map((metadata) => (
+            <GridItem key={metadata.id}>
+              <Button metadata={metadata}>
+                <Illustration metadata={metadata} />
               </Button>
-            </BoxM>
+            </GridItem>
           ))
         ) : (
-          <BoxM key={names[0]} variants={yScaleVar} layout sx={itemSx}>
-            <Button group={group} name={names[0]} sx={{ width: 1, height: 1 }}>
-              <Badge number={names.length}>
-                <Illustration group={group} thumbnailId={names[0]} />
+          <GridItem key={metadataList[0].id}>
+            <Button metadata={metadataList[0]}>
+              <Badge count={metadataList.length}>
+                <Illustration metadata={metadataList[0]} />
               </Badge>
             </Button>
-          </BoxM>
+          </GridItem>
         )
       )}
     </BoxM>

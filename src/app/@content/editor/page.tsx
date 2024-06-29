@@ -9,7 +9,7 @@ import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
 import { EditPanel, EditPreview } from "@/components/(editor)";
 
-export default function Editor() {
+export default function EditorContent() {
   return (
     <StackM
       {...layoutChildMotionProps()}

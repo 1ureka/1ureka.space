@@ -1,5 +1,12 @@
 // import { db } from "./db";
 
+export type Metadata = {
+  index: number;
+  id: string;
+  name: string;
+  group: string;
+};
+
 // export async function getPosts() {
 //   // ...
 // }

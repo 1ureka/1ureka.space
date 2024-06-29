@@ -7,7 +7,7 @@ import { BoxM } from "@/components/Motion";
 import { Typography } from "@mui/material";
 import { cookies } from "next/headers";
 
-export default async function Shelf() {
+export default async function ShelfContent() {
   const cookie = cookies();
   console.log(cookie);
   await new Promise((res) => setTimeout(res, 7000));

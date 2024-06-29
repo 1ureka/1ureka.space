@@ -13,7 +13,7 @@ export const BOOKS_SELECT_GROUP = atom({
 });
 export const BOOKS_CAROUSELS = atom({
   key: "booksCarousels",
-  default: "",
+  default: -1,
 });
 
 //

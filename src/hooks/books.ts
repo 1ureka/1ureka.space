@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { type AnimationDefinition, useMotionValue } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BOOKS_IS_EXPANDED, BOOKS_SELECT_GROUP } from "@/context/store";
 import { BOOKS_CAROUSELS } from "@/context/store";
@@ -63,10 +64,45 @@ export const useBooksButtonHandler = ({ group, index }: Metadata) => {
     : handleGroupClick;
 };
 
-export const useCarousels = () => {
-  const setCarousels = useSetRecoilState(BOOKS_CAROUSELS);
+/**
+ * 用於管理書籍輪播 (carousel) 的狀態和互動。
+ * @returns 包含以下屬性：
+ *   * `CarouselsProps` - 傳遞給輪播组件的 props，處理右鍵選單、動畫開始和滑鼠滾輪事件。
+ *   * `index` - 要顯示的書籍索引（若關閉時會自動設定回 1）。
+ *   * `open` - 指示輪播是否打開的布林值。
+ *   * `pointerEvents` - 控制輪播是否響應指標事件的 MotionValue。
+ */
+export const useCarousels = (metadataList: Metadata[]) => {
+  const pointerEvents = useMotionValue("");
+  const listLength = metadataList.length;
+
+  const [index, setIndex] = useRecoilState(BOOKS_CAROUSELS);
+  const open = index >= 0 && index < listLength;
+  const indexToShow = open ? index : 1;
 
   useEffect(() => {
-    setCarousels(-1);
-  }, [setCarousels]);
+    setIndex(-1);
+  }, [setIndex]);
+
+  const onContextMenu: React.MouseEventHandler = (e) => {
+    e.preventDefault();
+    setIndex(-1);
+    pointerEvents.set("none");
+  };
+
+  const onAnimationStart = (e: AnimationDefinition) => {
+    if (e === "animate") pointerEvents.set(""); // 若未完全關閉又再次打開時
+  };
+
+  const onWheel: React.WheelEventHandler = (e) => {
+    const change = e.deltaY > 0 ? 1 : -1;
+    setIndex((prev) => (prev + change + listLength) % listLength);
+  };
+
+  return {
+    CarouselsProps: { onContextMenu, onAnimationStart, onWheel },
+    index: indexToShow,
+    open,
+    pointerEvents,
+  };
 };

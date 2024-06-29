@@ -1,6 +1,5 @@
-import { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import { Box, CircularProgress, Stack } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
+import { Box, Stack } from "@mui/material";
 import type { PaperProps } from "@mui/material";
 
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
@@ -30,21 +29,21 @@ export default function Collapsed({ open, onToggle }: CollapsedProps) {
       initial="initial"
       animate={open.menu ? ["open", "animate"] : ["close", "animate"]}
     >
-      <Suspense
-        fallback={
-          <Stack height={1} justifyContent="center" alignItems="center">
-            <CircularProgress size={30} />
-          </Stack>
-        }
-      >
-        <Content open={open} onToggle={onToggle} />
-      </Suspense>
+      <Content open={open} onToggle={onToggle} />
     </PaperM>
   );
 }
 
 function Content({ open, onToggle }: CollapsedProps) {
-  const isGuest = useSearchParams().has("guest");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const routeGroups = {
+    Books: ["/scene", "/props"],
+    Tools: ["/files", "/editor"],
+  };
+
+  const isInGroup = (g: "Books" | "Tools") => routeGroups[g].includes(pathname);
 
   return (
     <Stack sx={{ height: 1, alignItems: "center" }} spacing={2.5}>
@@ -54,15 +53,13 @@ function Content({ open, onToggle }: CollapsedProps) {
 
       <NavIconButton
         label="Books"
-        href="/scene"
         icon={<BookmarkRoundedIcon sx={{ fontSize: "20px" }} />}
-        disabled={isGuest}
+        onClick={() => !isInGroup("Books") && router.push(routeGroups.Books[0])}
       />
       <NavIconButton
         label="Tools"
-        href="/files"
         icon={<BrushRoundedIcon sx={{ fontSize: "20px" }} />}
-        disabled={isGuest}
+        onClick={() => !isInGroup("Tools") && router.push(routeGroups.Tools[0])}
       />
 
       <SpineTitle sx={{ flexGrow: 1, width: 1 }} />

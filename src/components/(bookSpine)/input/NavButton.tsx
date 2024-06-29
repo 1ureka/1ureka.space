@@ -36,11 +36,9 @@ function getIndicatorSize(themeFontSize: number) {
 export default function NavButton({
   label,
   href,
-  disabled = false,
 }: {
   label: string;
   href: string;
-  disabled?: boolean;
 }) {
   const pathname = usePathname();
   const selected = pathname === href.split("?")[0];
@@ -53,14 +51,8 @@ export default function NavButton({
       variants={{ hover: { x: 10 } }}
       animate={selected ? "selected" : "unselected"}
       whileHover={["selected", "hover"]}
-      sx={{ pointerEvents: disabled ? "none" : null }}
     >
-      <ButtonBase
-        component={NextLinkComposed}
-        sx={{ p: 2 }}
-        to={href}
-        disabled={disabled}
-      >
+      <ButtonBase component={NextLinkComposed} sx={{ p: 2 }} to={href}>
         <BoxM
           sx={{ translate: "-10px 0" }}
           variants={iconVariants}
@@ -78,13 +70,7 @@ export default function NavButton({
           )}
         </BoxM>
 
-        <Typography
-          variant="h5"
-          sx={{
-            position: "relative",
-            color: disabled ? "text.secondary" : null,
-          }}
-        >
+        <Typography variant="h5" sx={{ position: "relative" }}>
           {label}
           <motion.div variants={lineVariants} style={lineStyle} />
         </Typography>

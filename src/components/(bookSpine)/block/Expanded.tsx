@@ -1,9 +1,6 @@
-import { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Box, Divider, Link, Stack, Typography } from "@mui/material";
 import type { PaperProps } from "@mui/material";
-import { CircularProgress } from "@mui/material";
 
 import { BoxM, PaperM, StackM } from "@/components/Motion";
 import { booksSpineExtandedVar, yScaleVar } from "@/components/MotionProps";
@@ -32,15 +29,7 @@ export default function Expanded({ open }: { open: boolean }) {
           animate="animate"
           exit="initial"
         >
-          <Suspense
-            fallback={
-              <Stack height={1} justifyContent="center" alignItems="center">
-                <CircularProgress size={30} />
-              </Stack>
-            }
-          >
-            <Content />
-          </Suspense>
+          <Content />
         </PaperM>
       )}
     </AnimatePresence>
@@ -48,16 +37,14 @@ export default function Expanded({ open }: { open: boolean }) {
 }
 
 function Content() {
-  const disabled = useSearchParams().has("guest");
-
   const configs = [
     { variant: "subheader", label: "HOME" },
     { variant: "button", label: "Index", href: "/" },
     { variant: "subheader", label: "BOOKS" },
-    { variant: "button", label: "Scene", href: "/scene", disabled },
-    { variant: "button", label: "Props", href: "/props", disabled },
+    { variant: "button", label: "Scene", href: "/scene" },
+    { variant: "button", label: "Props", href: "/props" },
     { variant: "subheader", label: "TOOLS" },
-    { variant: "button", label: "Shelf", href: "/files", disabled },
+    { variant: "button", label: "Shelf", href: "/files" },
     { variant: "button", label: "Editor", href: "/editor" },
   ];
 
@@ -66,18 +53,14 @@ function Content() {
       <FlowerImage sx={{ inset: "0 0 auto auto", p: 1 }} />
 
       <Stack spacing={1}>
-        {configs.map(({ variant, label, href, disabled }, i) => (
+        {configs.map(({ variant, label, href }, i) => (
           <BoxM key={label} variants={yScaleVar}>
             {variant === "subheader" ? (
               <Box sx={{ pt: i !== 0 ? 6 : null }}>
                 <Typography variant="caption">{label}</Typography>
               </Box>
             ) : (
-              <NavButton
-                label={label}
-                href={href ? href : "/"}
-                disabled={disabled}
-              />
+              <NavButton label={label} href={href ? href : "/"} />
             )}
           </BoxM>
         ))}

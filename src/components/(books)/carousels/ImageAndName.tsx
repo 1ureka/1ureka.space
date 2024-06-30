@@ -1,11 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import type { Metadata } from "@/data/table";
+import Image from "next/image";
 
 import { BoxM } from "@/components/Motion";
-import { carouselsImageVar } from "@/components/MotionProps";
+import { carouselsImageVar, yScaleVar } from "@/components/MotionProps";
 import { delay } from "@/utils/client-utils";
 
 const containerSx = {
@@ -13,6 +21,16 @@ const containerSx = {
   inset: 0,
   display: "grid",
   placeItems: "center",
+};
+
+const alert = {
+  noSession: {
+    title: "No Session!",
+    button: "Sign In",
+    content: `This content is currently not public and for internal only. If your
+            account is unauthorized, you will not be able to access even after
+            completing the login process.`,
+  },
 };
 
 export default function ImageAndName({
@@ -26,8 +44,11 @@ export default function ImageAndName({
   metadataList: Metadata[];
   index: number;
 }) {
+  const metadata = metadataList[index];
+
   // TODO: move to hooks/books
-  const [image, setImage] = useState(null);
+  const [state1K, setState1K] = useState<boolean>(false);
+  const [src1K, setSrc1K] = useState<string | undefined>(undefined);
   useEffect(() => {
     let isCurr = true;
 
@@ -35,13 +56,15 @@ export default function ImageAndName({
       await delay(250);
       if (!isCurr) return;
       // TODO: fetch data and decode and setState
-      console.log("fetch: " + metadataList[index].name);
+      console.log("fetch: " + metadata.name);
     })();
 
     return () => {
       isCurr = false;
     };
-  }, [metadataList, index]);
+  }, [metadata]);
+
+  const session = false;
 
   const imageContainerSx = {
     position: "relative",
@@ -57,7 +80,39 @@ export default function ImageAndName({
   return (
     <Box sx={containerSx}>
       <BoxM variants={carouselsImageVar} sx={imageContainerSx}>
-        {/* <BooksCarouselsImage category={category} name={name} /> */}
+        {state1K && src1K ? (
+          <Image
+            src={src1K}
+            alt={metadata.name}
+            fill
+            style={{
+              display: "block",
+              scale: "1.1",
+              filter: "blur(5px) brightness(0.8)",
+            }}
+          />
+        ) : (
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            sx={{ width: 1, height: 1 }}
+          />
+        )}
+
+        <BoxM variants={yScaleVar} sx={{ position: "absolute" }}>
+          <Alert
+            severity="error"
+            sx={{ maxWidth: 500 }}
+            action={
+              <Button color="inherit" size="small">
+                {alert.noSession.button}
+              </Button>
+            }
+          >
+            <AlertTitle> {alert.noSession.title}</AlertTitle>
+            {alert.noSession.content}
+          </Alert>
+        </BoxM>
       </BoxM>
 
       <Typography variant="h6" sx={{ position: "absolute", bottom: "3%" }}>

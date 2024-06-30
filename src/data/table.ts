@@ -4,6 +4,7 @@ import type { ImageMetadata } from "@prisma/client";
 // temp
 import fs from "fs";
 import { shuffleArray } from "@/utils/utils";
+import { log } from "@/utils/server-utils";
 
 export type ImageMetadataWithIndex = {
   index: number;
@@ -59,13 +60,31 @@ export const generateFakeData = async () => {
 export async function getSortedMetadata(
   category: string
 ): Promise<ImageMetadataWithIndex[]> {
-  console.log("SEARCH: Images table " + category);
+  log("DATABASE", `list category (${category})`);
 
-  const metadataList = await db.imageMetadata.findMany({
-    where: { category },
-    include: { thumbnail: false, origin: false },
-    orderBy: [{ group: "asc" }, { name: "asc" }],
-  });
+  try {
+    const metadataList = await db.imageMetadata.findMany({
+      where: { category },
+      include: { thumbnail: false, origin: false },
+      orderBy: [{ group: "asc" }, { name: "asc" }],
+    });
 
-  return metadataList.map((data, index) => ({ index, ...data }));
+    return metadataList.map((data, index) => ({ index, ...data }));
+  } catch (error) {
+    throw new Error(`Failed to query image metadata`);
+  }
+}
+
+export async function getThumbnailById(metadataId: string) {
+  log("DATABASE", `get thumbnail by metadataId (${metadataId})`);
+
+  try {
+    const thumbnail = await db.thumbnail.findUnique({
+      where: { metadataId },
+      select: { bytes: true },
+    });
+    return thumbnail;
+  } catch (error) {
+    throw new Error(`Failed to query thumbnail`);
+  }
 }

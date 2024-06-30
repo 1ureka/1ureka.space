@@ -17,4 +17,4 @@ export default async function PropsContent() {
   );
 }
 
-export const dynamic = "force-dynamic"; // only for test
+export const dynamic = "force-dynamic";

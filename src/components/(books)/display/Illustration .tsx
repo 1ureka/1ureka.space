@@ -3,9 +3,13 @@
 import { useEffect, useState } from "react";
 import { Box, Skeleton } from "@mui/material";
 import { delay } from "@/utils/client-utils";
-import type { Metadata } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/table";
 
-export default function Illustration({ metadata }: { metadata: Metadata }) {
+export default function Illustration({
+  metadata,
+}: {
+  metadata: ImageMetadataWithIndex;
+}) {
   const [data, setData] = useState("");
 
   useEffect(() => {

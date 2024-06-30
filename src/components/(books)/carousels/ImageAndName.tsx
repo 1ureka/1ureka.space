@@ -1,20 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  Skeleton,
-  Typography,
-} from "@mui/material";
-import type { Metadata } from "@/data/table";
 import Image from "next/image";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
+import { Alert, AlertTitle } from "@mui/material";
 
+import type { ImageMetadataWithIndex } from "@/data/table";
+import { delay } from "@/utils/client-utils";
 import { BoxM } from "@/components/Motion";
 import { carouselsImageVar, yScaleVar } from "@/components/MotionProps";
-import { delay } from "@/utils/client-utils";
 
 const containerSx = {
   position: "fixed",
@@ -41,7 +35,7 @@ export default function ImageAndName({
 }: {
   width: string;
   height: string;
-  metadataList: Metadata[];
+  metadataList: ImageMetadataWithIndex[];
   index: number;
 }) {
   const metadata = metadataList[index];
@@ -63,8 +57,6 @@ export default function ImageAndName({
       isCurr = false;
     };
   }, [metadata]);
-
-  const session = false;
 
   const imageContainerSx = {
     position: "relative",

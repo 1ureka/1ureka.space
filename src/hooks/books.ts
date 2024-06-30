@@ -5,7 +5,7 @@ import { type AnimationDefinition, useMotionValue } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BOOKS_IS_EXPANDED, BOOKS_SELECT_GROUP } from "@/context/store";
 import { BOOKS_CAROUSELS } from "@/context/store";
-import type { Metadata } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/table";
 
 /**
  * 提供畫廊組件所需的資料與功能。
@@ -14,7 +14,7 @@ import type { Metadata } from "@/data/table";
  *   - `count`: 畫廊中應顯示的項目數量。如果所有組都展開，則為書籍總數；如果僅展開選定的組，則為組數。
  *   - `isGroupExpanded`: 一個函式，接受組名並返回 `true`（如果組已展開）或 `false`（如果組未展開）。
  */
-export const useBooksGallery = (metadataList: Metadata[]) => {
+export const useBooksGallery = (metadataList: ImageMetadataWithIndex[]) => {
   const isExpanded = useRecoilValue(BOOKS_IS_EXPANDED);
   const [selectGroup, setSelectGroup] = useRecoilState(BOOKS_SELECT_GROUP);
 
@@ -24,9 +24,9 @@ export const useBooksGallery = (metadataList: Metadata[]) => {
     return () => setSelectGroup("");
   }, [setSelectGroup]);
 
-  type MetadataListByGroup = { [group: string]: Metadata[] };
-  const metadataListByGroup: MetadataListByGroup = metadataList.reduce(
-    (acc: MetadataListByGroup, curr: Metadata) => {
+  type MetadataListByGroup = { [group: string]: ImageMetadataWithIndex[] };
+  const metadataListByGroup = metadataList.reduce(
+    (acc: MetadataListByGroup, curr: ImageMetadataWithIndex) => {
       acc[curr.group] = acc[curr.group] || [];
       acc[curr.group].push(curr);
 
@@ -46,7 +46,10 @@ export const useBooksGallery = (metadataList: Metadata[]) => {
  * 用於處理圖片或組別點擊事件。
  * @returns 點擊處理函式。
  */
-export const useBooksButtonHandler = ({ group, index }: Metadata) => {
+export const useBooksButtonHandler = ({
+  group,
+  index,
+}: ImageMetadataWithIndex) => {
   const isExpanded = useRecoilValue(BOOKS_IS_EXPANDED);
   const setCarousels = useSetRecoilState(BOOKS_CAROUSELS);
   const [selectGroup, setSelectGroup] = useRecoilState(BOOKS_SELECT_GROUP);
@@ -72,7 +75,7 @@ export const useBooksButtonHandler = ({ group, index }: Metadata) => {
  *   * `open` - 指示輪播是否打開的布林值。
  *   * `pointerEvents` - 控制輪播是否響應指標事件的 MotionValue。
  */
-export const useCarousels = (metadataList: Metadata[]) => {
+export const useCarousels = (metadataList: ImageMetadataWithIndex[]) => {
   const pointerEvents = useMotionValue("");
   const listLength = metadataList.length;
 

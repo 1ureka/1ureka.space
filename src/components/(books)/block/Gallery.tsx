@@ -6,7 +6,7 @@ import { Badge, Button, Illustration } from "@/components/(books)";
 
 import type { BoxProps } from "@mui/material";
 import { useBooksGallery } from "@/hooks";
-import type { Metadata } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/table";
 
 const containerSx: BoxProps["sx"] = {
   display: "grid",
@@ -29,7 +29,7 @@ function GridItem({ children }: { children: React.ReactNode }) {
 export default function Gallery({
   metadataList,
 }: {
-  metadataList: Metadata[];
+  metadataList: ImageMetadataWithIndex[];
 }) {
   const { metadataListByGroup, count, isGroupExpanded } =
     useBooksGallery(metadataList);

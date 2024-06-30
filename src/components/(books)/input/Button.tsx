@@ -6,7 +6,7 @@ import type { MotionValue } from "framer-motion";
 
 import { ButtonBaseM } from "@/components/Motion";
 import { useBooksButtonHandler } from "@/hooks";
-import type { Metadata } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/table";
 
 const coverSx = {
   zIndex: 1,
@@ -25,7 +25,7 @@ const reflectSx = (clipPath: string, x: number): ButtonBaseProps["sx"] => ({
 });
 
 type ButtonProps = {
-  metadata: Metadata;
+  metadata: ImageMetadataWithIndex;
   children: React.ReactNode;
 };
 

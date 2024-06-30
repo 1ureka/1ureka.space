@@ -6,7 +6,7 @@ import { Skeleton } from "@mui/material";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { carouselsSlidesVar } from "@/components/MotionProps";
-import type { Metadata } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/table";
 
 const imageSx = {
   display: "block",
@@ -24,7 +24,7 @@ export default function Slides({
 }: {
   width: string;
   right: string;
-  metadataList: Metadata[];
+  metadataList: ImageMetadataWithIndex[];
   index: number;
 }) {
   const spring = useSpring(0, { stiffness: 110, damping: 22 });

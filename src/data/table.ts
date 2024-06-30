@@ -1,11 +1,10 @@
 // import { db } from "./db";
 
-export type Metadata = {
+import { ImageMetadata } from "@prisma/client";
+
+export type ImageMetadataWithIndex = {
   index: number;
-  id: string;
-  name: string;
-  group: string;
-};
+} & ImageMetadata;
 
 // export async function getPosts() {
 //   // ...

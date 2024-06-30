@@ -3,7 +3,7 @@
 import { Portal, useTheme } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 
-import type { Metadata } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/table";
 import { useCarousels } from "@/hooks";
 
 import { carouselsVar } from "@/components/MotionProps";
@@ -12,7 +12,7 @@ import { Asides, ImageAndName, Slides } from "..";
 export default function Carousels({
   metadataList,
 }: {
-  metadataList: Metadata[];
+  metadataList: ImageMetadataWithIndex[];
 }) {
   const { CarouselsProps, index, open, pointerEvents } =
     useCarousels(metadataList);

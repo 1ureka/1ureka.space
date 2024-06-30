@@ -14,6 +14,8 @@ model ImageMetadata {
   name        String
   thumbnail   Thumbnail?   
   origin      Origin?
+  createAt    DateTime?   @default(now())
+  updateAt    DateTime?   @default(now()) @updatedAt
   deletedAt   DateTime?
 }
 

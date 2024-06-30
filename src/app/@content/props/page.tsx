@@ -4,7 +4,7 @@ export const metadata: Metadata = {
 };
 
 import { Carousels, Gallery } from "@/components/(books)";
-import { getSortedMetadata } from "@/utils/server-utils";
+import { getSortedMetadata } from "@/data/table";
 
 export default async function PropsContent() {
   const metadataList = await getSortedMetadata("props");

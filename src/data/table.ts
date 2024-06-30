@@ -64,7 +64,7 @@ export async function getSortedMetadata(
   const metadataList = await db.imageMetadata.findMany({
     where: { category },
     include: { thumbnail: false, origin: false },
-    orderBy: { name: "asc", group: "asc" },
+    orderBy: [{ group: "asc" }, { name: "asc" }],
   });
 
   return metadataList.map((data, index) => ({ index, ...data }));

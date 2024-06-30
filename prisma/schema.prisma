@@ -11,7 +11,7 @@ model ImageMetadata {
   id          String      @id @default(cuid())
   category    String
   group       String
-  name        String
+  name        String      @unique
   thumbnail   Thumbnail?   
   origin      Origin?
   createAt    DateTime?   @default(now())

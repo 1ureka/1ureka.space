@@ -19,6 +19,7 @@ export default function Illustration({
         alt={metadata.name}
         fill
         onLoad={() => setLoading(false)}
+        unoptimized
       />
       {loading && (
         <Skeleton

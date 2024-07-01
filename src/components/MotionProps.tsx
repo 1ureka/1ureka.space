@@ -154,6 +154,18 @@ export const carouselsSlidesVar = {
     transition: { type: "spring", bounce: 0, duration: 1 },
   },
 };
+export const carouselsOriginVar = {
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring", bounce: 0, duration: 1.5 },
+  },
+  hide: {
+    opacity: 0,
+    scale: 1.1,
+    transition: { type: "spring", bounce: 0 },
+  },
+};
 
 //
 //

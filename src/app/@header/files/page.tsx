@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import { StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
@@ -12,12 +10,7 @@ const text = {
     facilitating effortless addition, updating, and deletion of images.`,
 };
 
-export default async function Header() {
-  const cookie = cookies();
-  console.log(cookie);
-  await new Promise((res) => setTimeout(res, 3500));
-  throw new Error("custom header error for testing error UI");
-
+export default function Header() {
   return (
     <StackM
       {...layoutChildMotionProps()}

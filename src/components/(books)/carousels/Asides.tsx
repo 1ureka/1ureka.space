@@ -30,7 +30,7 @@ export default function Asides({
       </Typography>
 
       <Box sx={{ position: "absolute", inset: "auto auto 0 0" }}>
-        <Indicator current={current} total={total} />
+        <Indicator current={current + 1} total={total} />
       </Box>
     </Box>
   );

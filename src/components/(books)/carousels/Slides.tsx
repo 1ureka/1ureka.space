@@ -1,20 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSpring, useTransform } from "framer-motion";
-import { Skeleton } from "@mui/material";
+import { Box, Skeleton, useTheme } from "@mui/material";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { carouselsSlidesVar } from "@/components/MotionProps";
 import type { ImageMetadataWithIndex } from "@/data/table";
-
-const imageSx = {
-  display: "block",
-  width: "100%",
-  height: "auto",
-  aspectRatio: "16/9",
-  objectFit: "cover",
-} as const;
+import Image from "next/image";
 
 export default function Slides({
   width,
@@ -27,6 +20,12 @@ export default function Slides({
   metadataList: ImageMetadataWithIndex[];
   index: number;
 }) {
+  const [loading, setLoading] = useState(true);
+
+  const {
+    shape: { borderRadius },
+  } = useTheme();
+
   const spring = useSpring(0, { stiffness: 110, damping: 22 });
 
   useEffect(() => {
@@ -54,7 +53,23 @@ export default function Slides({
                 : { opacity: 0.85, scale: 0.65 }
             }
           >
-            <Skeleton animation="wave" variant="rounded" sx={imageSx} />
+            <Box sx={{ position: "relative", width: 1, aspectRatio: "16/9" }}>
+              <Image
+                src={`/api/image/${metadata.id}/thumbnail`}
+                alt={metadata.name}
+                fill
+                onLoad={() => setLoading(false)}
+                unoptimized
+                style={{ borderRadius, display: "block" }}
+              />
+              {loading && (
+                <Skeleton
+                  animation="wave"
+                  variant="rounded"
+                  sx={{ width: 1, height: 1 }}
+                />
+              )}
+            </Box>
           </BoxM>
         ))}
       </StackM>

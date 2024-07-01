@@ -3,13 +3,20 @@ import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 
+import { cookies } from "next/headers";
+
 const text = {
   project: "PJ27, PJ28",
   info: `Reimagining classic scenes from anime and games with a realistic
       touch, along with original works inspired by Japan’s countryside.`,
 };
 
-export default function Header() {
+export default async function Header() {
+  const cookie = cookies();
+  console.log(cookie);
+  await new Promise((res) => setTimeout(res, 3500));
+  throw new Error("custom header error for testing error UI");
+
   return (
     <StackM
       {...layoutChildMotionProps()}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Skeleton } from "@mui/material";
+import { Skeleton, useTheme } from "@mui/material";
 import type { ImageMetadataWithIndex } from "@/data/table";
 
 export default function Illustration({
@@ -12,6 +12,10 @@ export default function Illustration({
 }) {
   const [loading, setLoading] = useState(true);
 
+  const {
+    shape: { borderRadius },
+  } = useTheme();
+
   return (
     <>
       <Image
@@ -20,6 +24,7 @@ export default function Illustration({
         fill
         onLoad={() => setLoading(false)}
         unoptimized
+        style={{ borderRadius: borderRadius * 2 }}
       />
       {loading && (
         <Skeleton

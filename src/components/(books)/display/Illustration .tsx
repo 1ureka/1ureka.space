@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { Skeleton } from "@mui/material";
 import type { ImageMetadataWithIndex } from "@/data/table";
-import Image from "next/image";
 
 export default function Illustration({
   metadata,

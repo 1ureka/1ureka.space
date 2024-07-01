@@ -54,7 +54,7 @@ export async function GET(
       status: 200,
       headers: {
         "Content-Type": "image/webp",
-        "Cache-Control": "no-cache",
+        "Cache-Control": "max-age=120, must-revalidate",
         ETag,
       },
     });

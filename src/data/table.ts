@@ -75,6 +75,20 @@ export async function getSortedMetadata(
   }
 }
 
+export async function getMetadataById(metadataId: string) {
+  log("DATABASE", `get metadata by metadataId (${metadataId})`);
+
+  try {
+    const metadata = await db.imageMetadata.findUnique({
+      where: { id: metadataId },
+      include: { thumbnail: false, origin: false },
+    });
+    return metadata;
+  } catch (error) {
+    throw new Error(`Failed to query metadata`);
+  }
+}
+
 export async function getThumbnailById(metadataId: string) {
   log("DATABASE", `get thumbnail by metadataId (${metadataId})`);
 

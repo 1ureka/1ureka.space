@@ -5,6 +5,7 @@ export function log(
 ) {
   console.log(`${type} : ${message}`);
   console.log("( this message should only see on the server )");
+  console.log("");
 }
 
 /** 伺服器版本的延遲執行 Promise 函式，用於等待一定的時間。 */

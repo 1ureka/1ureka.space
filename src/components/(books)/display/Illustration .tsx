@@ -1,34 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Box, Skeleton } from "@mui/material";
-import { delay } from "@/utils/client-utils";
+import { useState } from "react";
+import { Skeleton } from "@mui/material";
 import type { ImageMetadataWithIndex } from "@/data/table";
+import Image from "next/image";
 
 export default function Illustration({
   metadata,
 }: {
   metadata: ImageMetadataWithIndex;
 }) {
-  const [data, setData] = useState("");
-
-  useEffect(() => {
-    delay((Math.random() + 1) * 1000).then(() => setData("finished"));
-    // TODO: create api route query metadataId and get data safely
-  }, []);
-
-  if (!data)
-    return (
-      <Skeleton
-        animation="wave"
-        variant="rounded"
-        sx={{ width: 1, height: 1 }}
-      />
-    );
+  const [loading, setLoading] = useState(true);
 
   return (
-    <Box
-      sx={{ bgcolor: metadata.group, width: 1, height: 1, borderRadius: 1 }}
-    />
+    <>
+      <Image
+        src={`/api/image/${metadata.id}/thumbnail`}
+        alt={metadata.name}
+        fill
+        onLoad={() => setLoading(false)}
+      />
+      {loading && (
+        <Skeleton
+          animation="wave"
+          variant="rounded"
+          sx={{ width: 1, height: 1 }}
+        />
+      )}
+    </>
   );
 }

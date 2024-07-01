@@ -35,14 +35,11 @@ export async function GET(
 
       return new NextResponse(buffer, {
         status: 200,
-        headers: {
-          "Content-Type": "image/webp",
-          "Cache-Control": "public, max-age=31536000, immutable", // 快取一年
-        },
+        headers: { "Content-Type": "image/webp" },
       });
     } catch (error) {
       return NextResponse.json(
-        { error: `Failed to fetch thumbnail` },
+        { error: `Failed to query thumbnail` },
         { status: 500 }
       );
     }

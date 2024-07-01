@@ -1,10 +1,11 @@
 import { db } from "@/data/db";
+import { log } from "@/utils/server-utils";
 import type { ImageMetadata } from "@prisma/client";
 
 // temp
 import fs from "fs";
-import { shuffleArray } from "@/utils/utils";
-import { log } from "@/utils/server-utils";
+import sharp from "sharp";
+import { arraySum, shuffleArray } from "@/utils/utils";
 
 export type ImageMetadataWithIndex = {
   index: number;
@@ -26,29 +27,38 @@ const I = [
   { name: "image13", group: "warning.main" },
   { name: "image14", group: "secondary.main" },
   { name: "image15", group: "info.main" },
-  { name: "image16", group: "primary.main" },
-  { name: "image17", group: "warning.main" },
-  { name: "image18", group: "secondary.main" },
-  { name: "image19", group: "info.main" },
-  { name: "image20", group: "primary.main" },
-  { name: "image21", group: "warning.main" },
-  { name: "image22", group: "secondary.main" },
-  { name: "image23", group: "info.main" },
-  { name: "image24", group: "primary.main" },
-  { name: "image25", group: "warning.main" },
 ];
 
 export const generateFakeData = async () => {
-  const buffer = fs.readFileSync(`./src/images/fakeData.webp`);
+  const basepath = "C:\\Users\\Summe\\Downloads\\fakedata";
+  const files = fs.readdirSync(basepath);
 
-  await db.imageMetadata.deleteMany({});
+  const thumbnails = await Promise.all(
+    files.map((file) =>
+      sharp(`${basepath}\\${file}`).webp({ quality: 65, effort: 6 }).toBuffer()
+    )
+  );
 
-  const imageData = shuffleArray(I).map(({ name, group }) => ({
+  const origins = await Promise.all(
+    files.map((file) =>
+      sharp(`${basepath}\\${file}`).webp({ quality: 100, effort: 6 }).toBuffer()
+    )
+  );
+
+  console.log(
+    arraySum(origins.map((file) => file.byteLength / 1024)) +
+      arraySum(thumbnails.map((file) => file.byteLength / 1024))
+  );
+
+  const imageData = shuffleArray(I).map(({ name, group }, i) => ({
     category: "props",
     group,
     name,
-    thumbnail: { create: { bytes: buffer } },
+    thumbnail: { create: { bytes: thumbnails[i] } },
+    origin: { create: { bytes: origins[i] } },
   }));
+
+  await db.imageMetadata.deleteMany({});
 
   const responce = await Promise.all(
     imageData.map((data) => db.imageMetadata.create({ data }))

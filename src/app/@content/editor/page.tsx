@@ -17,7 +17,7 @@ export default function EditorContent() {
       flexWrap="wrap"
       justifyContent="center"
       gap={12}
-      sx={{ height: 1, py: 7, px: 9 }}
+      sx={{ py: 7, px: 9 }}
     >
       <BoxM variants={yScaleVar} sx={{ flexGrow: 1 }}>
         <Box

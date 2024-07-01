@@ -3,6 +3,7 @@ export function log(
   type: "UTILS" | "DATABASE" | "API" | "ACTION",
   message: string
 ) {
+  console.log(new Date(Date.now()).toISOString() + ": ");
   console.log(`${type} : ${message}`);
   console.log("( this message should only see on the server )");
   console.log("");

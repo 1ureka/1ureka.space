@@ -59,7 +59,6 @@ function Numbers({ type, num }: { type: "large" | "small"; num: string }) {
   const numbers = Array(10)
     .fill(0)
     .map((_, i) => i);
-  console.log(numbers);
 
   return (
     <Box sx={{ position: "relative", overflow: "hidden" }}>

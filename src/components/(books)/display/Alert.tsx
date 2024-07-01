@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { type BoxProps, Button } from "@mui/material";
 import { Alert as MuiAlert, AlertTitle } from "@mui/material";
 
 import { BoxM } from "@/components/Motion";
@@ -14,9 +14,18 @@ const alert = {
   },
 };
 
-export default function Alert() {
+export default function Alert({
+  sx,
+  animated = true,
+}: {
+  sx?: BoxProps["sx"];
+  animated?: boolean;
+}) {
   return (
-    <BoxM variants={yScaleVar} sx={{ position: "absolute" }}>
+    <BoxM
+      variants={animated ? yScaleVar : {}}
+      sx={{ position: "absolute", ...sx }}
+    >
       <MuiAlert
         severity="error"
         sx={{ maxWidth: 500 }}

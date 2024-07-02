@@ -1,7 +1,7 @@
-import { TableBodyM, TableRowM } from "@/components/Motion";
+import { TableRowM } from "@/components/Motion";
 import { xVar } from "@/components/MotionProps";
 
-import { Checkbox, Skeleton, Typography } from "@mui/material";
+import { Checkbox, Skeleton, TableBody, Typography } from "@mui/material";
 import { TableCell } from "@mui/material";
 
 const imageMetadatas = [
@@ -14,11 +14,7 @@ const imageMetadatas = [
 
 export function TableBodyF() {
   return (
-    <TableBodyM
-      variants={{
-        animate: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
-      }}
-    >
+    <TableBody>
       {imageMetadatas.map(({ name, size }, i) => (
         <TableRowM
           key={name}
@@ -40,6 +36,6 @@ export function TableBodyF() {
           </TableCell>
         </TableRowM>
       ))}
-    </TableBodyM>
+    </TableBody>
   );
 }

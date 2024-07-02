@@ -1,4 +1,4 @@
-export { default as DryModeSwitch } from "./input/DryModeSwitch";
+export { default as UpdateButton } from "./input/UpdateButton";
 export { default as CategoryToggle } from "./input/CategoryToggle";
 export { default as AddButton } from "./input/AddButton";
 export { default as VerButton } from "./input/VerButton";

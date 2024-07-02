@@ -1,6 +1,7 @@
-import { Box, Skeleton, Typography, Switch, Button } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { FormControl, FormControlLabel, FormHelperText } from "@mui/material";
+import { IconButton, Button } from "@mui/material";
+import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 
 import { BoxM, StackM } from "@/components/Motion";
@@ -43,17 +44,12 @@ export default function OptionsF() {
 
       <BoxM variants={yScaleVar}>
         <Skeleton>
-          <FormControl variant="standard">
-            <FormControlLabel
-              control={<Switch size="small" />}
-              label={"dry mode"}
-            />
-            <FormHelperText>
-              <Typography variant="caption">
-                Simulates actions without affecting backend data.
-              </Typography>
-            </FormHelperText>
-          </FormControl>
+          <Typography variant="body2">
+            <IconButton>
+              <RefreshRoundedIcon fontSize="small" />
+            </IconButton>
+            * Last Updated: {new Date(Date.now()).toLocaleTimeString()}
+          </Typography>
         </Skeleton>
       </BoxM>
     </StackM>

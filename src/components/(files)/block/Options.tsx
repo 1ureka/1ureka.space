@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
+import { CategoryToggle, UpdateButton } from "@/components/(files)";
+import { AddButton, VerButton } from "@/components/(files)";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import { CategoryToggle, DryModeSwitch } from "@/components/(files)";
-import { AddButton, VerButton } from "@/components/(files)";
 
 export default function Options({ category }: { category: "scene" | "props" }) {
   return (
@@ -22,7 +22,7 @@ export default function Options({ category }: { category: "scene" | "props" }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <BoxM variants={yScaleVar}>
-        <DryModeSwitch />
+        <UpdateButton />
       </BoxM>
     </StackM>
   );

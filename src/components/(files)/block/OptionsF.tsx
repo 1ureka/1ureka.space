@@ -1,15 +1,17 @@
 import { Box, Skeleton, Typography } from "@mui/material";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { IconButton, Button } from "@mui/material";
+import type { StackProps } from "@mui/material";
+
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
-export default function OptionsF() {
+export default function OptionsF({ sx }: { sx?: StackProps["sx"] }) {
   return (
-    <StackM variants={yScaleVar} gap={8}>
+    <StackM variants={yScaleVar} gap={8} sx={sx}>
       <StackM variants={yScaleVar} gap={1} alignItems="flex-start">
         <Typography variant="subtitle2">CATEGORY:</Typography>
         <Skeleton>

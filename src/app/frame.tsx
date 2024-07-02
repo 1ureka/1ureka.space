@@ -36,7 +36,16 @@ function findBookmarkCategory(pathname: string): string | null {
 
 function OverflowContainer({ children }: { children: React.ReactNode }) {
   return (
-    <Box position="absolute" sx={{ inset: 0, px: 5, py: 3, overflowY: "auto" }}>
+    <Box
+      position="absolute"
+      sx={{
+        inset: 0,
+        px: 5,
+        py: 3,
+        overflowY: "auto",
+        scrollbarGutter: "stable",
+      }}
+    >
       {children}
     </Box>
   );

@@ -4,48 +4,39 @@ export const metadata: Metadata = {
 };
 
 import { redirect } from "next/navigation";
-import { Paper } from "@mui/material";
+import { getSortedMetadata } from "@/data/table";
 
-import { BoxM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
-import { Options, OptionsF } from "@/components/(files)";
-import { Alert } from "@/components/(books)";
+import { Options, OptionsF, TableF, Alert } from "@/components/(files)";
+import { StackM } from "@/components/Motion";
+import { layoutChildMotionProps } from "@/components/MotionProps";
 
-export default function ShelfContent({
+export default async function ShelfContent({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const category = searchParams.category ?? "scene";
+  if (category !== "scene" && category !== "props") {
+    redirect("/files?category=scene");
+  }
+
+  // TODO: get right category
+  const metadataList = await getSortedMetadata("props");
+
   const session = false; // TODO: check email
   if (!session) {
     return (
       <StackM
         direction="row"
         sx={{ position: "relative", py: 7, px: 9 }}
+        spacing={8}
         {...layoutChildMotionProps({ stagger: 0.375 })}
       >
         <OptionsF />
-
-        <BoxM
-          variants={yScaleVar}
-          sx={{
-            position: "absolute",
-            inset: 0,
-            display: "grid",
-            placeItems: "center",
-          }}
-        >
-          <Paper elevation={3}>
-            <Alert sx={{ position: "relative" }} animated={false} />
-          </Paper>
-        </BoxM>
+        <TableF sx={{ flexGrow: 1 }} count={metadataList.length} />
+        <Alert />
       </StackM>
     );
-  }
-
-  const { category } = searchParams;
-  if (category !== "scene" && category !== "props") {
-    redirect("/files?category=scene");
   }
 
   return (

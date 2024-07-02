@@ -11,8 +11,10 @@ import { Asides, ImageAndName, Slides } from "..";
 
 export default function Carousels({
   metadataList,
+  isAuth,
 }: {
   metadataList: ImageMetadataWithIndex[];
+  isAuth: boolean;
 }) {
   const { CarouselsProps, index, open, pointerEvents } =
     useCarousels(metadataList);
@@ -39,6 +41,7 @@ export default function Carousels({
             {...CarouselsProps}
           >
             <ImageAndName
+              isAuth={isAuth}
               width="75vw"
               height="77.5vh"
               metadataList={metadataList}

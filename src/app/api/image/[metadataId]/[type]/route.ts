@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMetadataById, getThumbnailById } from "@/data/table";
+import { getMetadataById, getOriginById, getThumbnailById } from "@/data/table";
 import { log } from "@/utils/server-utils";
 
 export async function GET(
@@ -40,7 +40,7 @@ export async function GET(
 
     let image: { bytes: Buffer } | null = null;
     if (type === "origin") {
-      // TODO: query and get origin
+      image = await getOriginById(metadataId);
     } else {
       image = await getThumbnailById(metadataId);
     }

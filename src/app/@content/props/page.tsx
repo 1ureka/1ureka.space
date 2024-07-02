@@ -8,11 +8,12 @@ import { getSortedMetadata } from "@/data/table";
 
 export default async function PropsContent() {
   const metadataList = await getSortedMetadata("props");
+  const isAuth = false; // TODO
 
   return (
     <>
       <Gallery metadataList={metadataList} />
-      <Carousels metadataList={metadataList} />
+      <Carousels metadataList={metadataList} isAuth={isAuth} />
     </>
   );
 }

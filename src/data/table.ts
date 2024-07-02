@@ -112,3 +112,17 @@ export async function getThumbnailById(metadataId: string) {
     throw new Error(`Failed to query thumbnail`);
   }
 }
+
+export async function getOriginById(metadataId: string) {
+  log("DATABASE", `get origin by metadataId (${metadataId})`);
+
+  try {
+    const origin = await db.origin.findUnique({
+      where: { metadataId },
+      select: { bytes: true },
+    });
+    return origin;
+  } catch (error) {
+    throw new Error(`Failed to query origin`);
+  }
+}

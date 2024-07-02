@@ -1,7 +1,10 @@
 export { default as Button } from "./input/Button";
-export { default as Illustration } from "./display/Illustration ";
 export { default as Badge } from "./display/Badge";
 export { default as Alert } from "./display/Alert";
+
+export { default as Illustration } from "./display/Illustration ";
+export { default as Thumbnail } from "./display/Thumbnail";
+export { default as Origin } from "./display/Origin";
 
 export { default as ImageAndName } from "./carousels/ImageAndName";
 export { default as Asides } from "./carousels/Asides";

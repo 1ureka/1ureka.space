@@ -4,7 +4,7 @@ import { TablePagination } from "@mui/material";
 import type { ImageMetadataWithIndex } from "@/data/type";
 import { useFilesPagination } from "@/hooks";
 
-export function TableFooter({
+export default function TableFooter({
   metadataList,
 }: {
   metadataList: ImageMetadataWithIndex[];

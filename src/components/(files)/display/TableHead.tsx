@@ -20,7 +20,7 @@ const headCells: {
   { id: "createAt", label: "Create at", align: "right" },
 ] as const;
 
-export function TableHead({
+export default function TableHead({
   metadataList,
 }: {
   metadataList: ImageMetadataWithIndex[];

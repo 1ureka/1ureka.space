@@ -20,7 +20,7 @@ const bodyCells: {
   { id: "createAt", align: "right" },
 ] as const;
 
-export function TableBody({
+export default function TableBody({
   metadataList,
 }: {
   metadataList: ImageMetadataWithIndex[];

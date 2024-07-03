@@ -7,7 +7,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 
-export function TableHeader() {
+export default function TableHeader() {
   const selected = useRecoilValue(FILES_SELECTED);
 
   return (

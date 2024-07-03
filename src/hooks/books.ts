@@ -2,9 +2,11 @@
 
 import { useEffect } from "react";
 import { type AnimationDefinition, useMotionValue } from "framer-motion";
+
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BOOKS_IS_EXPANDED, BOOKS_SELECT_GROUP } from "@/context/store";
 import { BOOKS_CAROUSELS } from "@/context/store";
+
 import type { ImageMetadataWithIndex } from "@/data/table";
 
 /**

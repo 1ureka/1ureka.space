@@ -28,7 +28,7 @@ export default function Table({
       <TableContainer>
         <MuiTable sx={{ minWidth: 300, overflow: "hidden" }}>
           <TableHead metadataList={metadataList} />
-          <TableBody />
+          <TableBody metadataList={metadataList} />
         </MuiTable>
       </TableContainer>
 

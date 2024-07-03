@@ -1,23 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-
 import { IconButton, Typography } from "@mui/material";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 
 import { StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
-export default function UpdateButton() {
-  const searchParams = useSearchParams();
-  const paramString = searchParams.toString();
-
+export default function UpdateButton({
+  category,
+}: {
+  category: "scene" | "props";
+}) {
   const [time, setTime] = useState<string | null>(null);
 
-  useEffect(() => {
+  const handleUpdate = () => {
     setTime(new Date(Date.now()).toLocaleTimeString());
-  }, [paramString]);
+  };
+
+  useEffect(() => {
+    handleUpdate();
+  }, [category]);
 
   return (
     <StackM
@@ -27,10 +30,7 @@ export default function UpdateButton() {
       spacing={1}
       alignItems="center"
     >
-      <IconButton
-        color="primary"
-        onClick={() => setTime(new Date(Date.now()).toLocaleTimeString())}
-      >
+      <IconButton color="primary" onClick={handleUpdate}>
         <RefreshRoundedIcon fontSize="small" />
       </IconButton>
       <Typography variant="body2">* Last Update: {time}</Typography>

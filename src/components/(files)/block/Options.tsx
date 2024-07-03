@@ -38,7 +38,7 @@ export default function Options({
       </Stack>
 
       <BoxM variants={yScaleVar}>
-        <UpdateButton />
+        <UpdateButton category={category} />
       </BoxM>
     </Stack>
   );

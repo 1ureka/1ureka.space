@@ -44,7 +44,7 @@ export default function TableBody({
 
   return (
     <TableBodyM key={key} variants={variants}>
-      {visibleRows.map((metadata, i) => (
+      {visibleRows.map((metadata) => (
         <TableRowM
           key={metadata.id}
           variants={xVar}

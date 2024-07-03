@@ -3,9 +3,12 @@
 import { useRecoilValue } from "recoil";
 import { FILES_SELECTED } from "@/context/store";
 
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+
+import { ButtonM, TypographyM } from "@/components/Motion";
+import { yScaleVar } from "@/components/MotionProps";
 
 export default function TableHeader() {
   const selected = useRecoilValue(FILES_SELECTED);
@@ -17,21 +20,25 @@ export default function TableHeader() {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Typography variant="button">{selected.length} Selected</Typography>
+      <TypographyM variant="button" variants={yScaleVar}>
+        {selected.length} Selected
+      </TypographyM>
 
       <Stack direction="row" alignItems="center" spacing={1.5}>
-        <Button
+        <ButtonM
           startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
           disabled={selected.length === 0}
+          variants={yScaleVar}
         >
           Modify
-        </Button>
-        <Button
+        </ButtonM>
+        <ButtonM
           startIcon={<DeleteRoundedIcon fontSize="small" />}
           disabled={selected.length === 0}
+          variants={yScaleVar}
         >
           Delete
-        </Button>
+        </ButtonM>
       </Stack>
     </Stack>
   );

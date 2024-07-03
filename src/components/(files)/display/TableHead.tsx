@@ -3,10 +3,13 @@
 import type { FilesTableCol } from "@/context/store";
 import type { ImageMetadataWithIndex } from "@/data/type";
 
-import { TableCell, TableRow, Checkbox, TableSortLabel } from "@mui/material";
+import { TableCell, Checkbox, TableSortLabel } from "@mui/material";
 import { TableHead as MuiTableHead } from "@mui/material";
 import type { TableCellProps } from "@mui/material";
 import { useFilesHead } from "@/hooks";
+
+import { TableRowM } from "@/components/Motion";
+import { xVar } from "@/components/MotionProps";
 
 const headCells: {
   id: FilesTableCol;
@@ -29,7 +32,7 @@ export default function TableHead({
 
   return (
     <MuiTableHead>
-      <TableRow>
+      <TableRowM variants={xVar}>
         <TableCell padding="checkbox">
           <Checkbox color="primary" size="small" {...CheckboxProps} />
         </TableCell>
@@ -39,7 +42,7 @@ export default function TableHead({
             <TableSortLabel {...SortLabelProps(id)}>{label}</TableSortLabel>
           </TableCell>
         ))}
-      </TableRow>
+      </TableRowM>
     </MuiTableHead>
   );
 }

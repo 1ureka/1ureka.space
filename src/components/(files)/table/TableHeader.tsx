@@ -1,7 +1,15 @@
-import { Button, Skeleton, Stack, Typography } from "@mui/material";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+"use client";
 
-export function TableHeaderF() {
+import { useRecoilValue } from "recoil";
+import { FILES_SELECTED } from "@/context/store";
+
+import { Button, Stack, Typography } from "@mui/material";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+
+export function TableHeader() {
+  const selected = useRecoilValue(FILES_SELECTED);
+
   return (
     <Stack
       direction="row"
@@ -9,22 +17,21 @@ export function TableHeaderF() {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Skeleton>
-        <Typography variant="subtitle1">0 selected</Typography>
-      </Skeleton>
+      <Typography variant="subtitle1">{selected.length} selected</Typography>
 
       <Stack direction="row" alignItems="center" spacing={1.5}>
-        <Skeleton>
-          <Button startIcon={<DeleteRoundedIcon fontSize="small" />}>
-            Modify
-          </Button>
-        </Skeleton>
-
-        <Skeleton>
-          <Button startIcon={<DeleteRoundedIcon fontSize="small" />}>
-            Delete
-          </Button>
-        </Skeleton>
+        <Button
+          startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
+          disabled={selected.length === 0}
+        >
+          Modify
+        </Button>
+        <Button
+          startIcon={<DeleteRoundedIcon fontSize="small" />}
+          disabled={selected.length === 0}
+        >
+          Delete
+        </Button>
       </Stack>
     </Stack>
   );

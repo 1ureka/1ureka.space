@@ -1,41 +1,45 @@
-import { Checkbox, Skeleton, Typography } from "@mui/material";
-import { TableCell, TableHead, TableRow } from "@mui/material";
+"use client";
 
-const headCells = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "File name",
-  },
-  {
-    id: "size",
-    numeric: true,
-    disablePadding: false,
-    label: "Size (KB)",
-  },
-];
+import type { FilesTableCol } from "@/context/store";
+import { ImageMetadataWithIndex } from "@/data/table";
 
-export function TableHeadF() {
+import { TableCell, TableRow, Checkbox, TableSortLabel } from "@mui/material";
+import { TableHead as MuiTableHead } from "@mui/material";
+import type { TableCellProps } from "@mui/material";
+import { useFilesHead } from "@/hooks";
+
+const headCells: {
+  id: FilesTableCol;
+  label: string;
+  align: TableCellProps["align"];
+}[] = [
+  { id: "name", label: "File name", align: "left" },
+  { id: "group", label: "Group", align: "right" },
+  { id: "size", label: "Size (KB)", align: "right" },
+  { id: "updateAt", label: "Update at", align: "right" },
+  { id: "createAt", label: "Create at", align: "right" },
+] as const;
+
+export function TableHead({
+  metadataList,
+}: {
+  metadataList: ImageMetadataWithIndex[];
+}) {
+  const { CheckboxProps, SortLabelProps } = useFilesHead(metadataList);
+
   return (
-    <TableHead>
+    <MuiTableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox color="primary" size="small" disabled />
+          <Checkbox color="primary" size="small" {...CheckboxProps} />
         </TableCell>
 
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            sx={{ p: 1.5 }}
-          >
-            <Skeleton>
-              <Typography>{headCell.label}</Typography>
-            </Skeleton>
+        {headCells.map(({ id, label, align }) => (
+          <TableCell key={id} align={align} sx={{ p: 1.5 }}>
+            <TableSortLabel {...SortLabelProps(id)}>{label}</TableSortLabel>
           </TableCell>
         ))}
       </TableRow>
-    </TableHead>
+    </MuiTableHead>
   );
 }

@@ -17,6 +17,31 @@ export const BOOKS_CAROUSELS = atom({
 });
 
 //
+// files
+export type FilesTableCol = "name" | "group" | "createAt" | "updateAt" | "size";
+
+export const FILES_ORDER = atom<"desc" | "asc">({
+  key: "filesOrder",
+  default: "asc",
+});
+export const FILES_ORDER_BY = atom<FilesTableCol>({
+  key: "filesOrderBy",
+  default: "name",
+});
+export const FILES_SELECTED = atom<string[]>({
+  key: "filesSelected",
+  default: [],
+});
+export const FILES_CURRENT_PAGE = atom<number>({
+  key: "filesCurrentPage",
+  default: 0,
+});
+export const FILES_ROWS_PER_PAGE = atom<number>({
+  key: "filesRowsPerPage",
+  default: 5,
+});
+
+//
 // editor
 export const EDITOR_ORDER = atom<"desc" | "asc">({
   key: "editorOrder",

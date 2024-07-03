@@ -1,4 +1,4 @@
-import { TableHeaderF, TableHeadF, TableBodyF, TableFooter } from "..";
+import { TableHeaderF, TableHeadF, TableBodyF, TableFooterF } from "..";
 import { PaperM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
@@ -21,7 +21,7 @@ export default function TableF({
   count: number;
 }) {
   return (
-    <PaperM variants={yScaleVar} sx={{ ...containerSx, ...sx }} elevation={1}>
+    <PaperM variants={yScaleVar} sx={{ ...containerSx, ...sx }}>
       <TableHeaderF />
 
       <TableContainer>
@@ -31,7 +31,7 @@ export default function TableF({
         </Table>
       </TableContainer>
 
-      <TableFooter count={count} />
+      <TableFooterF count={count} />
     </PaperM>
   );
 }

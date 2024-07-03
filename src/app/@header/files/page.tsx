@@ -1,7 +1,7 @@
 import { Divider, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
-import { Options } from "@/components/(files)";
+import { Alert, Options } from "@/components/(files)";
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
@@ -34,8 +34,11 @@ export default function Header({
         <Divider orientation="vertical" />
       </BoxM>
 
-      <Options category={category} sx={{ flexGrow: 1 }} />
-      {/* 沒有session時，不呈現Options，而是呈現一個w-full alert */}
+      {session ? (
+        <Options category={category} sx={{ flexGrow: 1 }} />
+      ) : (
+        <Alert />
+      )}
     </StackM>
   );
 }

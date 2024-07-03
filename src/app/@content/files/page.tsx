@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { Table } from "@/components/(files)";
+import { Table, UnAuthTable } from "@/components/(files)";
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 
@@ -22,18 +22,14 @@ export default async function FilesContent({
 
   // TODO: get right category
   const metadataList = await getSortedMetadata("props");
-  const session = true; // TODO: check email
+  const session = false; // TODO: check email
 
   return (
     <BoxM
       sx={{ position: "relative", py: 3, px: 7 }}
       {...layoutChildMotionProps()}
     >
-      {session ? (
-        <Table metadataList={metadataList} />
-      ) : (
-        <>{/* TODO: 呈現一個類似error的畫面? */}</>
-      )}
+      {session ? <Table metadataList={metadataList} /> : <UnAuthTable />}
     </BoxM>
   );
 }

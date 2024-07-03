@@ -1,9 +1,9 @@
-import { Options } from "@/components/(files)";
-import { BoxM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
-import { yScaleVar } from "@/components/MotionProps";
 import { Divider, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+
+import { Options } from "@/components/(files)";
+import { BoxM, StackM } from "@/components/Motion";
+import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
 export default function Header({
   searchParams,
@@ -14,6 +14,8 @@ export default function Header({
   if (category !== "scene" && category !== "props") {
     redirect("/files?category=scene");
   }
+
+  const session = true; // TODO: check email
 
   return (
     <StackM
@@ -33,6 +35,7 @@ export default function Header({
       </BoxM>
 
       <Options category={category} sx={{ flexGrow: 1 }} />
+      {/* 沒有session時，不呈現Options，而是呈現一個w-full alert */}
     </StackM>
   );
 }

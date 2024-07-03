@@ -6,11 +6,11 @@ export const metadata: Metadata = {
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { TableF, Alert, Table } from "@/components/(files)";
+import { Table } from "@/components/(files)";
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 
-export default async function ShelfContent({
+export default async function FilesContent({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -32,11 +32,7 @@ export default async function ShelfContent({
       {session ? (
         <Table metadataList={metadataList} />
       ) : (
-        <>
-          <TableF count={metadataList.length} />
-          <Alert />
-          {/* TODO: put Alert into TableF */}
-        </>
+        <>{/* TODO: 呈現一個類似error的畫面? */}</>
       )}
     </BoxM>
   );

@@ -6,7 +6,7 @@ import { Badge, Button, Illustration } from "@/components/(books)";
 
 import type { BoxProps } from "@mui/material";
 import { useBooksGallery } from "@/hooks";
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 const containerSx: BoxProps["sx"] = {
   display: "grid",

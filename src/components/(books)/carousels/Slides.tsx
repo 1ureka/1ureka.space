@@ -6,7 +6,7 @@ import { Box, Skeleton, useTheme } from "@mui/material";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { carouselsSlidesVar } from "@/components/MotionProps";
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 import Image from "next/image";
 
 export default function Slides({

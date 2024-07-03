@@ -1,7 +1,7 @@
 "use client";
 
 import type { FilesTableCol } from "@/context/store";
-import { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 import { TableCell, TableRow, Checkbox, TableSortLabel } from "@mui/material";
 import { TableHead as MuiTableHead } from "@mui/material";

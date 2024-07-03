@@ -1,15 +1,11 @@
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
-import type { ImageMetadata } from "@prisma/client";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 // temp
 import fs from "fs";
 import sharp from "sharp";
 import { arraySum, shuffleArray } from "@/utils/utils";
-
-export type ImageMetadataWithIndex = {
-  index: number;
-} & ImageMetadata;
 
 const I = [
   { name: "image01", group: "primary.main" },

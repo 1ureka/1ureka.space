@@ -3,7 +3,7 @@
 import { Portal, useTheme } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 import { useCarousels } from "@/hooks";
 
 import { carouselsVar } from "@/components/MotionProps";

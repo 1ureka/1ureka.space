@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 import { delay } from "@/utils/client-utils";
 
 import Image from "next/image";

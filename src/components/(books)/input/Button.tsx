@@ -6,7 +6,7 @@ import type { MotionValue } from "framer-motion";
 
 import { ButtonBaseM } from "@/components/Motion";
 import { useBooksButtonHandler } from "@/hooks";
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 const coverSx = {
   zIndex: 1,

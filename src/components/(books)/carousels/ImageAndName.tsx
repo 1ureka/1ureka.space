@@ -3,7 +3,7 @@
 import { Box, Typography } from "@mui/material";
 import { Alert, Origin, Thumbnail } from "..";
 
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 import { BoxM } from "@/components/Motion";
 import { carouselsImageVar } from "@/components/MotionProps";
 

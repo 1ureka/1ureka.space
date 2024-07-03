@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Skeleton, useTheme } from "@mui/material";
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 export default function Illustration({
   metadata,

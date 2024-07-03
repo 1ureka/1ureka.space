@@ -8,7 +8,7 @@ import { FILES_ORDER, FILES_ORDER_BY, FILES_SELECTED } from "@/context/store";
 import { FILES_CURRENT_PAGE, FILES_ROWS_PER_PAGE } from "@/context/store";
 
 import type { FilesTableCol } from "@/context/store";
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 /**
  * 管理排序狀態、全選功能，並返回控制全選框和排序標籤的Props。

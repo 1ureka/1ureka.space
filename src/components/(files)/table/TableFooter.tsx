@@ -1,7 +1,7 @@
 "use client";
 
 import { TablePagination } from "@mui/material";
-import { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 import { useFilesPagination } from "@/hooks";
 
 export function TableFooter({

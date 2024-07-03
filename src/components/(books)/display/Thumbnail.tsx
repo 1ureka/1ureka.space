@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "@mui/material";
 import Image from "next/image";
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 import { delay } from "@/utils/client-utils";
 
 export default function Thumbnail({
@@ -49,6 +49,7 @@ export default function Thumbnail({
             scale: "1.1",
             filter: "blur(5px) brightness(0.8)",
             opacity: loading ? 0 : 1,
+            transition: "opacity 0.3s ease",
           }}
         />
       )}

@@ -1,7 +1,7 @@
 import { TableHeader, TableHead, TableBody, TableFooter } from "..";
 import { BoxM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 import { Table as MuiTable, TableContainer } from "@mui/material";
 import type { PaperProps } from "@mui/material";

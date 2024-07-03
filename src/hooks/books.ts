@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BOOKS_IS_EXPANDED, BOOKS_SELECT_GROUP } from "@/context/store";
 import { BOOKS_CAROUSELS } from "@/context/store";
 
-import type { ImageMetadataWithIndex } from "@/data/table";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 /**
  * 提供畫廊組件所需的資料與功能。

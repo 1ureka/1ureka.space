@@ -1,5 +1,6 @@
 "use client";
 import { atom, selector } from "recoil";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 //
 // books
@@ -18,7 +19,14 @@ export const BOOKS_CAROUSELS = atom({
 
 //
 // files
-export type FilesTableCol = "name" | "group" | "createAt" | "updateAt" | "size";
+export type FilesTableCol = (
+  | "name"
+  | "group"
+  | "createAt"
+  | "updateAt"
+  | "size"
+) &
+  keyof ImageMetadataWithIndex;
 
 export const FILES_ORDER = atom<"desc" | "asc">({
   key: "filesOrder",

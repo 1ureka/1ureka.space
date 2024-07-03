@@ -1,16 +1,20 @@
+import { Options } from "@/components/(files)";
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
-import { yScaleVar, yVar } from "@/components/MotionProps";
+import { yScaleVar } from "@/components/MotionProps";
 import { Divider, Typography } from "@mui/material";
+import { redirect } from "next/navigation";
 
-const text = {
-  title: "File Manager",
-  info: `Synced in real-time with the backend, 
-    manage the images in your album with ease, 
-    facilitating effortless addition, updating, and deletion of images.`,
-};
+export default function Header({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const category = searchParams.category ?? "scene";
+  if (category !== "scene" && category !== "props") {
+    redirect("/files?category=scene");
+  }
 
-export default function Header() {
   return (
     <StackM
       {...layoutChildMotionProps()}
@@ -21,15 +25,14 @@ export default function Header() {
     >
       <BoxM variants={yScaleVar}>
         <Typography variant="h6" sx={{ whiteSpace: "nowrap" }}>
-          {text.title}
+          File Shelf
         </Typography>
       </BoxM>
       <BoxM variants={yScaleVar} height={"auto"} alignSelf={"stretch"}>
         <Divider orientation="vertical" />
       </BoxM>
-      <BoxM variants={yVar}>
-        <Typography variant="body2">{text.info}</Typography>
-      </BoxM>
+
+      <Options category={category} sx={{ flexGrow: 1 }} />
     </StackM>
   );
 }

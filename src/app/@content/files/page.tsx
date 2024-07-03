@@ -6,8 +6,8 @@ export const metadata: Metadata = {
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { Options, OptionsF, TableF, Alert, Table } from "@/components/(files)";
-import { StackM } from "@/components/Motion";
+import { TableF, Alert, Table } from "@/components/(files)";
+import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 
 export default async function ShelfContent({
@@ -25,24 +25,19 @@ export default async function ShelfContent({
   const session = true; // TODO: check email
 
   return (
-    <StackM
-      direction="row"
-      sx={{ position: "relative", py: 7, px: 9 }}
-      spacing={8}
-      {...layoutChildMotionProps({ stagger: 0.375 })}
+    <BoxM
+      sx={{ position: "relative", py: 3, px: 7 }}
+      {...layoutChildMotionProps()}
     >
       {session ? (
-        <>
-          <Options category={category} />
-          <Table sx={{ flexGrow: 1 }} metadataList={metadataList} />
-        </>
+        <Table metadataList={metadataList} />
       ) : (
         <>
-          <OptionsF />
-          <TableF sx={{ flexGrow: 1 }} count={metadataList.length} />
+          <TableF count={metadataList.length} />
           <Alert />
+          {/* TODO: put Alert into TableF */}
         </>
       )}
-    </StackM>
+    </BoxM>
   );
 }

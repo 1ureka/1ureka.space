@@ -9,12 +9,12 @@ export default function CategoryToggle({
   return (
     <ToggleButtonGroup color="primary" value={value} exclusive size="small">
       <Link href="/files?category=scene">
-        <ToggleButton value="scene" sx={{ py: 1 }}>
+        <ToggleButton value="scene" sx={{ px: 1, py: 0.5 }}>
           Scene
         </ToggleButton>
       </Link>
       <Link href="/files?category=props">
-        <ToggleButton value="props" sx={{ py: 1 }}>
+        <ToggleButton value="props" sx={{ px: 1, py: 0.5 }}>
           Props
         </ToggleButton>
       </Link>

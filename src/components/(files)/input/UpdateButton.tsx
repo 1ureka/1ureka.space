@@ -33,7 +33,7 @@ export default function UpdateButton() {
       >
         <RefreshRoundedIcon fontSize="small" />
       </IconButton>
-      <Typography variant="body2">* Last Updated: {time}</Typography>
+      <Typography variant="body2">* Last Update: {time}</Typography>
     </StackM>
   );
 }

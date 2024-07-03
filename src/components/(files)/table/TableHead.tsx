@@ -35,7 +35,7 @@ export function TableHead({
         </TableCell>
 
         {headCells.map(({ id, label, align }) => (
-          <TableCell key={id} align={align} sx={{ p: 1.5 }}>
+          <TableCell key={id} align={align}>
             <TableSortLabel {...SortLabelProps(id)}>{label}</TableSortLabel>
           </TableCell>
         ))}

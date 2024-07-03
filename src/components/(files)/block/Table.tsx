@@ -1,18 +1,16 @@
-import { TableHeader, TableHead, TableBody, TableFooter } from "..";
+import { TableHeader, TableHead, TableFooter } from "..";
 import { BoxM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 import type { ImageMetadataWithIndex } from "@/data/type";
 
 import { Table as MuiTable, TableContainer } from "@mui/material";
 import type { PaperProps } from "@mui/material";
+import dynamic from "next/dynamic";
 
-const containerSx = {
-  borderRadius: 2,
-  borderWidth: 2,
-  borderStyle: "solid",
-  borderColor: "divider",
-  height: "fit-content",
-} as const;
+const TableBody = dynamic(
+  () => import("..").then(({ TableBody }) => TableBody),
+  { ssr: false }
+);
 
 export default function Table({
   sx,
@@ -22,7 +20,7 @@ export default function Table({
   metadataList: ImageMetadataWithIndex[];
 }) {
   return (
-    <BoxM variants={yScaleVar} sx={{ ...containerSx, ...sx }}>
+    <BoxM variants={yScaleVar} sx={sx}>
       <TableHeader />
 
       <TableContainer>

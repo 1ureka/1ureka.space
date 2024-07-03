@@ -17,7 +17,7 @@ export function TableHeader() {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Typography variant="subtitle1">{selected.length} selected</Typography>
+      <Typography variant="button">{selected.length} Selected</Typography>
 
       <Stack direction="row" alignItems="center" spacing={1.5}>
         <Button

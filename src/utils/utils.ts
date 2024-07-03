@@ -53,3 +53,12 @@ export function comparator<
     }
   };
 }
+
+/**
+ * 切換字串在陣列中的存在狀態：若存在則移除，若不存在則新增。
+ */
+export function toggleStringInArray(arr: string[], str: string): string[] {
+  const set = new Set(arr);
+  set.delete(str) || set.add(str);
+  return Array.from(set);
+}

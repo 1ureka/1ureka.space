@@ -17,6 +17,7 @@ model ImageMetadata {
   createAt    DateTime?   @default(now())
   updateAt    DateTime?   @default(now()) @updatedAt
   deletedAt   DateTime?
+  size        Int
 }
 
 model Thumbnail {

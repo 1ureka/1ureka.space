@@ -52,6 +52,7 @@ export const generateFakeData = async () => {
     name,
     thumbnail: { create: { bytes: thumbnails[i] } },
     origin: { create: { bytes: origins[i] } },
+    size: origins[i].byteLength,
   }));
 
   await db.imageMetadata.deleteMany({});

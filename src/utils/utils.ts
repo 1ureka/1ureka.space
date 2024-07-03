@@ -11,3 +11,8 @@ export function shuffleArray<T>(array: T[]): T[] {
   }
   return array;
 }
+
+/** 從陣列中移除重複元素，返回一個新陣列。 */
+export function removeDuplicates<T>(array: T[]): T[] {
+  return Array.from(new Set(array));
+}

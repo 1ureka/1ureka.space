@@ -16,6 +16,9 @@ import {
   Skeleton,
   Typography,
   Button,
+  TableCell,
+  TablePagination,
+  type TablePaginationProps,
 } from "@mui/material";
 
 export const BoxM = motion(Box);
@@ -32,6 +35,10 @@ export const AlertM = motion(Alert);
 export const SkeletonM = motion(Skeleton);
 export const TypographyM = motion(Typography);
 
+export const ListItemM = motion(ListItem);
 export const TableRowM = motion(TableRow);
 export const TableBodyM = motion(TableBody);
-export const ListItemM = motion(ListItem);
+export const TableCellM = motion(TableCell);
+export const TablePaginationM = motion(TablePagination) as (
+  props: TablePaginationProps & { layout: boolean }
+) => React.ReactNode;

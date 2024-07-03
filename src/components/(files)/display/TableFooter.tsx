@@ -1,8 +1,8 @@
 "use client";
 
-import { TablePagination } from "@mui/material";
 import type { ImageMetadataWithIndex } from "@/data/type";
 import { useFilesPagination } from "@/hooks";
+import { TablePaginationM } from "@/components/Motion";
 
 export default function TableFooter({
   metadataList,
@@ -12,12 +12,13 @@ export default function TableFooter({
   const PaginationProps = useFilesPagination(metadataList);
 
   return (
-    <TablePagination
+    <TablePaginationM
       rowsPerPageOptions={[5, 10, 20]}
       component="div"
       showFirstButton
       showLastButton
       {...PaginationProps}
+      layout
     />
   );
 }

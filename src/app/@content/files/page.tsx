@@ -22,7 +22,7 @@ export default async function FilesContent({
 
   // TODO: get right category
   const metadataList = await getSortedMetadata("props");
-  const session = false; // TODO: check email
+  const session = true; // TODO: check email
 
   return (
     <BoxM

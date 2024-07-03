@@ -1,11 +1,8 @@
 import Link from "next/link";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Suspense } from "react";
 
-export default function CategoryToggle({
-  value,
-}: {
-  value: "scene" | "props";
-}) {
+export function CategoryToggle({ value }: { value: "scene" | "props" }) {
   return (
     <ToggleButtonGroup color="primary" value={value} exclusive size="small">
       <Link href="/files?category=scene">
@@ -19,5 +16,13 @@ export default function CategoryToggle({
         </ToggleButton>
       </Link>
     </ToggleButtonGroup>
+  );
+}
+
+export default function Wrapped({ value }: { value: "scene" | "props" }) {
+  return (
+    <Suspense>
+      <CategoryToggle value={value} />
+    </Suspense>
   );
 }

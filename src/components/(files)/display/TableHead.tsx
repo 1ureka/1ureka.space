@@ -8,7 +8,7 @@ import { TableHead as MuiTableHead } from "@mui/material";
 import type { TableCellProps } from "@mui/material";
 import { useFilesHead } from "@/hooks";
 
-import { TableRowM } from "@/components/Motion";
+import { TableCellM, TableRowM } from "@/components/Motion";
 import { xVar } from "@/components/MotionProps";
 
 const headCells: {
@@ -38,9 +38,9 @@ export default function TableHead({
         </TableCell>
 
         {headCells.map(({ id, label, align }) => (
-          <TableCell key={id} align={align}>
+          <TableCellM key={id} align={align} layout>
             <TableSortLabel {...SortLabelProps(id)}>{label}</TableSortLabel>
-          </TableCell>
+          </TableCellM>
         ))}
       </TableRowM>
     </MuiTableHead>

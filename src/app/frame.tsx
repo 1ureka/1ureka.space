@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef } from "react";
+import { Toaster } from "react-hot-toast";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Box, CircularProgress, Stack } from "@mui/material";
@@ -129,6 +130,16 @@ export default function Frame({
       >
         <CircularProgress />
       </BoxM>
+
+      <Toaster
+        toastOptions={{
+          className: "",
+          style: {
+            background: "var(--mui-palette-SnackbarContent-bg)",
+            color: "var(--mui-palette-SnackbarContent-color)",
+          },
+        }}
+      />
     </Stack>
   );
 }

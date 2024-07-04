@@ -11,6 +11,7 @@ export { default as TableFooter } from "./display/TableFooter";
 
 export { default as Options } from "./block/Options";
 export { default as Table } from "./block/Table";
+export { default as Dialog } from "./block/Dialog";
 
 export { default as UnAuthFooter } from "./unauthenticated/Footer";
 export { default as UnAuthTable } from "./unauthenticated/Table";

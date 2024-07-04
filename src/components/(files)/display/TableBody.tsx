@@ -31,6 +31,8 @@ export default function TableBody({
   const createLabel = (value: string | number | Date | null) => {
     if (value instanceof Date) {
       return value.toLocaleString();
+    } else if (typeof value === "number") {
+      return Math.round(value / 102.4) / 10;
     } else {
       return value;
     }

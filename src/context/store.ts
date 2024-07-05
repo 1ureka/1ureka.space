@@ -49,12 +49,6 @@ export const FILES_ROWS_PER_PAGE = atom<number>({
   default: 5,
 });
 
-export type DialogType = "upload" | "delete" | "modify";
-export const FILES_DIALOG = atom<{ open: boolean; type: DialogType }>({
-  key: "filesDialog",
-  default: { open: false, type: "upload" },
-});
-
 //
 // editor
 export const EDITOR_ORDER = atom<"desc" | "asc">({

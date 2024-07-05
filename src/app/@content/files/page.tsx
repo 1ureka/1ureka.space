@@ -30,7 +30,7 @@ export default async function FilesContent({
       {...layoutChildMotionProps()}
     >
       {session ? <Table metadataList={metadataList} /> : <UnAuthTable />}
-      {session && <Dialog />}
+      {session && <Dialog names={metadataList.map(({ name }) => name)} />}
     </BoxM>
   );
 }

@@ -1,6 +1,9 @@
 "use client";
 
 import { useFieldArray, useForm } from "react-hook-form";
+import { z } from "zod";
+import { createUploadSchema } from "@/schema/uploadSchema";
+
 import { useRecoilState } from "recoil";
 import { FILES_DIALOG } from "@/context/store";
 
@@ -12,30 +15,31 @@ import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
 import { FileDropField, UploadField } from "..";
 
-export interface ImageField {
-  data: {
-    category: "scene" | "props";
-    name: string;
-    group: string;
-    file: Blob;
-  }[];
-}
-
-export default function Dialog() {
+export default function Dialog({ names }: { names: string[] }) {
   const [{ open }, setDialog] = useRecoilState(FILES_DIALOG);
   const handleClose = () => setDialog((prev) => ({ ...prev, open: false }));
 
-  const { register, control, handleSubmit, formState } = useForm<ImageField>({
-    defaultValues: { data: [] },
+  const uploadSchema = createUploadSchema(names);
+  const { register, control, handleSubmit, formState } = useForm<
+    z.infer<typeof uploadSchema>
+  >({
+    defaultValues: { upload: [] },
   });
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "data",
+    name: "upload",
   });
 
-  const onSubmit = ({ data }: ImageField) => {
-    console.log(data);
-    handleClose();
+  const onSubmit = (data: z.infer<typeof uploadSchema>) => {
+    try {
+      uploadSchema.parse(data);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.log(error.errors); // 印出詳細錯誤訊息
+        // 這裡可以根據錯誤訊息做客製化處理，例如顯示給使用者
+      }
+    }
+    // handleClose();
   };
 
   const onAppend = (files: File[]) => {
@@ -91,9 +95,10 @@ export default function Dialog() {
       </DialogContentM>
 
       <DialogActionsM layout>
-        <Button type="submit" disabled={fields.length === 0}>
+        {/* <Button type="submit" disabled={fields.length === 0}>
           Save Change
-        </Button>
+        </Button> */}
+        <Button type="submit">Save Change</Button>
       </DialogActionsM>
     </MuiDialog>
   );

@@ -67,7 +67,7 @@ export const generateFakeData = async () => {
 export async function getSortedMetadata(
   category: string
 ): Promise<ImageMetadataWithIndex[]> {
-  log("DATABASE", `list category (${category})`);
+  log("DATABASE", `get sorted metadata list category (${category})`);
 
   try {
     const metadataList = await db.imageMetadata.findMany({
@@ -93,6 +93,20 @@ export async function getMetadataById(metadataId: string) {
     return metadata;
   } catch (error) {
     throw new Error(`Failed to query metadata`);
+  }
+}
+
+export async function getMetadataNames() {
+  log("DATABASE", `get all images names`);
+
+  try {
+    const metadataList = await db.imageMetadata.findMany({
+      select: { name: true },
+    });
+
+    return metadataList.map(({ name }) => name);
+  } catch (error) {
+    throw new Error(`Failed to query image names`);
   }
 }
 

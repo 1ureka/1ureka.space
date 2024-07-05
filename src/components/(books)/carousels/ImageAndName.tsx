@@ -49,8 +49,7 @@ export default function ImageAndName({
         sx={createImageContainerSx(width, height)}
       >
         <Thumbnail metadata={metadata} />
-        {isAuth && <Origin metadata={metadata} />}
-        {!isAuth && <Alert />}
+        {isAuth ? <Origin metadata={metadata} /> : <Alert />}
       </BoxM>
 
       <Typography variant="h6" sx={{ position: "absolute", bottom: "3%" }}>

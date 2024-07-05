@@ -15,6 +15,8 @@ export default async function FilesContent({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const form = searchParams.form;
+
   const category = searchParams.category ?? "scene";
   if (category !== "scene" && category !== "props") {
     redirect("/files?category=scene");
@@ -30,7 +32,13 @@ export default async function FilesContent({
       {...layoutChildMotionProps()}
     >
       {session ? <Table metadataList={metadataList} /> : <UnAuthTable />}
-      {session && <UploadForm names={metadataList.map(({ name }) => name)} />}
+      {session && (
+        <UploadForm
+          open={form === "upload"}
+          closeHref={{ pathname: "/files", query: { category } }}
+          names={metadataList.map(({ name }) => name)}
+        />
+      )}
     </BoxM>
   );
 }

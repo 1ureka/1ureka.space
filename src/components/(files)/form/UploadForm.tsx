@@ -4,21 +4,25 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { createUploadSchema } from "@/schema/uploadSchema";
 
-import { useRecoilState } from "recoil";
-import { FILES_DIALOG } from "@/context/store";
-
-import { Button, Grid, IconButton } from "@mui/material";
-import { Dialog as MuiDialog } from "@mui/material";
+import Link, { type LinkProps } from "next/link";
+import { Button, Grid, IconButton, Dialog } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
 import { FileDropField, UploadField } from "..";
 
-export default function Dialog({ names }: { names: string[] }) {
-  const [{ open }, setDialog] = useRecoilState(FILES_DIALOG);
-  const handleClose = () => setDialog((prev) => ({ ...prev, open: false }));
+interface UploadFormProps {
+  open: boolean;
+  closeHref: LinkProps["href"];
+  names: string[];
+}
 
+export default function UploadForm({
+  open,
+  closeHref,
+  names,
+}: UploadFormProps) {
   const uploadSchema = createUploadSchema(names);
   const { register, control, handleSubmit, formState } = useForm<
     z.infer<typeof uploadSchema>
@@ -39,7 +43,7 @@ export default function Dialog({ names }: { names: string[] }) {
         // 這裡可以根據錯誤訊息做客製化處理，例如顯示給使用者
       }
     }
-    // handleClose();
+    // remove()
   };
 
   const onAppend = (files: File[]) => {
@@ -54,20 +58,21 @@ export default function Dialog({ names }: { names: string[] }) {
   };
 
   return (
-    <MuiDialog
+    <Dialog
       fullWidth
       maxWidth="md"
       open={open}
-      onClose={handleClose}
       onTransitionExited={() => remove()}
       PaperProps={{ component: "form", onSubmit: handleSubmit(onSubmit) }}
     >
       <DialogTitleM layout>Upload Files</DialogTitleM>
 
       <BoxM layout sx={{ position: "absolute", inset: "0 0 auto auto" }}>
-        <IconButton onClick={handleClose} sx={{ mt: 1.5, mr: 1.5 }}>
-          <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
-        </IconButton>
+        <Link href={closeHref}>
+          <IconButton sx={{ mt: 1.5, mr: 1.5 }}>
+            <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
+          </IconButton>
+        </Link>
       </BoxM>
 
       <DialogContentM
@@ -100,6 +105,6 @@ export default function Dialog({ names }: { names: string[] }) {
         </Button> */}
         <Button type="submit">Save Change</Button>
       </DialogActionsM>
-    </MuiDialog>
+    </Dialog>
   );
 }

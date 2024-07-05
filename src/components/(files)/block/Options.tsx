@@ -1,8 +1,14 @@
+import Link from "next/link";
+
+import { Button, IconButton } from "@mui/material";
 import { Stack, Typography } from "@mui/material";
 import type { StackProps } from "@mui/material";
-import { CategoryToggle, UpdateButton } from "@/components/(files)";
-import { AddButton, VerButton } from "@/components/(files)";
 
+import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
+import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
+import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
+
+import { CategoryToggle } from "@/components/(files)";
 import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
@@ -31,14 +37,25 @@ export default function Options({
           <Typography variant="subtitle2">OPERATION:</Typography>
 
           <Stack direction="row" gap={1.5}>
-            <AddButton>Add Image</AddButton>
-            <VerButton>Verify Integrity</VerButton>
+            <Link
+              href={{ pathname: "/files", query: { category, form: "upload" } }}
+            >
+              <Button startIcon={<AddToPhotosRoundedIcon fontSize="small" />}>
+                Add Image
+              </Button>
+            </Link>
+
+            <Button startIcon={<ImageSearchRoundedIcon fontSize="small" />}>
+              Verify Integrity
+            </Button>
           </Stack>
         </StackM>
       </Stack>
 
       <BoxM variants={yScaleVar}>
-        <UpdateButton category={category} />
+        <IconButton color="primary">
+          <RefreshRoundedIcon />
+        </IconButton>
       </BoxM>
     </Stack>
   );

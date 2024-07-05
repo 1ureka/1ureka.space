@@ -91,7 +91,6 @@ export default function UploadField({
           size="small"
           label="File name"
           {...register(`upload.${index}.name`)}
-          defaultValue={field.name}
         />
         <TextField
           variant="filled"
@@ -99,7 +98,6 @@ export default function UploadField({
           size="small"
           label="Group"
           {...register(`upload.${index}.group`)}
-          defaultValue={field.group}
         />
       </Stack>
     </StackM>

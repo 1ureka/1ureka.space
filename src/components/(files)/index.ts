@@ -9,12 +9,12 @@ export { default as TableHead } from "./display/TableHead";
 export { default as TableBody } from "./display/TableBody";
 export { default as TableFooter } from "./display/TableFooter";
 
-export { default as FileDropField } from "./form/FileDropField";
-export { default as UploadField } from "./form/UploadField";
+export { default as FileDropField } from "./formField/FileDropField";
+export { default as UploadField } from "./formField/UploadField";
+export { default as Dialog } from "./form/UploadForm";
 
 export { default as Options } from "./block/Options";
 export { default as Table } from "./block/Table";
-export { default as Dialog } from "./block/Dialog";
 
 export { default as UnAuthFooter } from "./unauthenticated/Footer";
 export { default as UnAuthTable } from "./unauthenticated/Table";

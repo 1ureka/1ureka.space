@@ -57,6 +57,7 @@ export default function UploadForm({
         style: { minWidth: "25rem" },
       }
     );
+    console.log(data);
   };
 
   const onInvalid = () => {

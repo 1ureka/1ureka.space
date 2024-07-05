@@ -5,7 +5,7 @@ export function log(
 ) {
   console.log(new Date(Date.now()).toISOString() + ": ");
   console.log(`${type} : ${message}`);
-  console.log("( this message should only see on the server )");
+  console.log("( this message should only appear on the server )");
   console.log("");
 }
 

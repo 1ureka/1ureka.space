@@ -95,11 +95,12 @@ export const useFilesReset = () => {
   const setPage = useSetRecoilState(FILES_CURRENT_PAGE);
   const setSelected = useSetRecoilState(FILES_SELECTED);
   const searchParams = useSearchParams();
+  const category = searchParams.get("category");
 
   useEffect(() => {
     setPage(0);
     setSelected([]);
-  }, [searchParams.get("category")]);
+  }, [category, setPage, setSelected]);
 };
 
 /**

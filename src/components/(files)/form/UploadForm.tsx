@@ -100,10 +100,9 @@ export default function UploadForm({
       </DialogContentM>
 
       <DialogActionsM layout>
-        {/* <Button type="submit" disabled={fields.length === 0}>
+        <Button type="submit" disabled={fields.length === 0}>
           Save Change
-        </Button> */}
-        <Button type="submit">Save Change</Button>
+        </Button>
       </DialogActionsM>
     </Dialog>
   );

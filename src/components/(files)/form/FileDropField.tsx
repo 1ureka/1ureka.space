@@ -1,17 +1,43 @@
 "use client";
 
-import { type DropzoneOptions, useDropzone } from "react-dropzone";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
+import { useDropzone } from "react-dropzone";
+import type { FileRejection } from "react-dropzone";
+
 import { alpha, Box, Stack, Typography, useTheme } from "@mui/material";
 import OpenInBrowserRoundedIcon from "@mui/icons-material/OpenInBrowserRounded";
 import { ButtonBaseM } from "@/components/Motion";
 
 export default function FileDropField({
-  dropOptions,
+  onAppend,
 }: {
-  dropOptions: DropzoneOptions;
+  onAppend: (files: File[]) => void;
 }) {
-  const { getRootProps, getInputProps, isDragActive } =
-    useDropzone(dropOptions);
+  const onDrop = useCallback(
+    (acceptedFiles: File[], rejects: FileRejection[]) => {
+      if (acceptedFiles.length > 0) {
+        onAppend(acceptedFiles);
+      }
+
+      if (rejects.length > 0) {
+        rejects.forEach(({ errors }) =>
+          errors.forEach(({ message }) => toast.error(message))
+        );
+      }
+    },
+    [onAppend]
+  );
+
+  const onError = useCallback(() => {
+    toast.error(`Something went wrong`);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: { "image/jpeg": [], "image/png": [], "image/webp": [] },
+    onDrop,
+    onError,
+  });
 
   const { palette } = useTheme();
   const activeBgColor = alpha(palette.primary.main, 0.5);

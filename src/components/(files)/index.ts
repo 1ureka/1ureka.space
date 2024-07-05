@@ -11,7 +11,7 @@ export { default as TableFooter } from "./display/TableFooter";
 
 export { default as FileDropField } from "./formField/FileDropField";
 export { default as UploadField } from "./formField/UploadField";
-export { default as Dialog } from "./form/UploadForm";
+export { default as UploadForm } from "./form/UploadForm";
 
 export { default as Options } from "./block/Options";
 export { default as Table } from "./block/Table";

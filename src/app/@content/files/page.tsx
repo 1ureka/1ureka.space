@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { Table, UnAuthTable, Dialog } from "@/components/(files)";
+import { Table, UnAuthTable, UploadForm } from "@/components/(files)";
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 
@@ -30,7 +30,7 @@ export default async function FilesContent({
       {...layoutChildMotionProps()}
     >
       {session ? <Table metadataList={metadataList} /> : <UnAuthTable />}
-      {session && <Dialog names={metadataList.map(({ name }) => name)} />}
+      {session && <UploadForm names={metadataList.map(({ name }) => name)} />}
     </BoxM>
   );
 }

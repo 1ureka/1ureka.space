@@ -1,9 +1,11 @@
 "use client";
 
 import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { createUploadSchema } from "@/schema/uploadSchema";
 
+import toast from "react-hot-toast";
 import Link, { type LinkProps } from "next/link";
 import { Button, Grid, IconButton, Dialog } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -24,26 +26,29 @@ export default function UploadForm({
   names,
 }: UploadFormProps) {
   const uploadSchema = createUploadSchema(names);
-  const { register, control, handleSubmit, formState } = useForm<
-    z.infer<typeof uploadSchema>
-  >({
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof uploadSchema>>({
+    resolver: zodResolver(uploadSchema),
     defaultValues: { upload: [] },
   });
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "upload",
   });
 
-  const onSubmit = (data: z.infer<typeof uploadSchema>) => {
-    try {
-      uploadSchema.parse(data);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.log(error.errors); // 印出詳細錯誤訊息
-        // 這裡可以根據錯誤訊息做客製化處理，例如顯示給使用者
-      }
-    }
-    // remove()
+  const onValid = (data: z.infer<typeof uploadSchema>) => {
+    console.log("valid");
+    console.log(data); // loading toast with text saving...
+  };
+
+  const onInvalid = () => {
+    toast.error("Uh oh! There are a few errors in the form.");
   };
 
   const onAppend = (files: File[]) => {
@@ -63,7 +68,11 @@ export default function UploadForm({
       maxWidth="md"
       open={open}
       onTransitionExited={() => remove()}
-      PaperProps={{ component: "form", onSubmit: handleSubmit(onSubmit) }}
+      PaperProps={{
+        component: "form",
+        onSubmit: handleSubmit(onValid, onInvalid),
+        sx: { overflow: "hidden" },
+      }}
     >
       <DialogTitleM layout>Upload Files</DialogTitleM>
 
@@ -88,6 +97,7 @@ export default function UploadForm({
                   <UploadField
                     index={index}
                     field={field}
+                    errors={errors}
                     register={register}
                     remove={remove}
                   />

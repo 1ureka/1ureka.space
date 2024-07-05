@@ -1,6 +1,6 @@
 "use client";
 
-import type { FieldArrayWithId } from "react-hook-form";
+import type { FieldArrayWithId, FieldErrors } from "react-hook-form";
 import type { UseFieldArrayRemove, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import { uploadSchema } from "@/schema/uploadSchema";
@@ -33,6 +33,7 @@ const imageContainerSx = {
 interface UploadFieldProps {
   index: number;
   field: FieldArrayWithId<z.infer<typeof uploadSchema>, "upload", "id">;
+  errors: FieldErrors<z.infer<typeof uploadSchema>>;
   register: UseFormRegister<z.infer<typeof uploadSchema>>;
   remove: UseFieldArrayRemove;
 }
@@ -40,6 +41,7 @@ interface UploadFieldProps {
 export default function UploadField({
   index,
   field,
+  errors,
   register,
   remove,
 }: UploadFieldProps) {
@@ -47,6 +49,7 @@ export default function UploadField({
   const [src, state] = useDecode(dataUrl);
 
   const immutableCategory = useRef(field.category);
+  const error = errors.upload && errors.upload[index];
 
   return (
     <StackM variants={yScaleVar} sx={containerSx}>
@@ -58,6 +61,8 @@ export default function UploadField({
           select
           {...register(`upload.${index}.category`)}
           defaultValue={immutableCategory.current}
+          error={!!error?.category}
+          helperText={error?.category?.message}
         >
           <MenuItem value="scene">Scene</MenuItem>
           <MenuItem value="props">Props</MenuItem>
@@ -91,6 +96,8 @@ export default function UploadField({
           size="small"
           label="File name"
           {...register(`upload.${index}.name`)}
+          error={!!error?.name}
+          helperText={error?.name?.message}
         />
         <TextField
           variant="filled"
@@ -98,6 +105,8 @@ export default function UploadField({
           size="small"
           label="Group"
           {...register(`upload.${index}.group`)}
+          error={!!error?.group}
+          helperText={error?.group?.message}
         />
       </Stack>
     </StackM>

@@ -14,6 +14,9 @@ import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
 import { FileDropField, UploadField } from "..";
 
+// temp
+import { delay } from "@/utils/client-utils";
+
 interface UploadFormProps {
   open: boolean;
   closeHref: LinkProps["href"];
@@ -43,8 +46,17 @@ export default function UploadForm({
   });
 
   const onValid = (data: z.infer<typeof uploadSchema>) => {
-    console.log("valid");
-    console.log(data); // loading toast with text saving...
+    toast.promise(
+      delay(2000),
+      {
+        loading: "Saving changes...",
+        success: "Changes saved successfully!",
+        error: "Error when fetching",
+      },
+      {
+        style: { minWidth: "25rem" },
+      }
+    );
   };
 
   const onInvalid = () => {

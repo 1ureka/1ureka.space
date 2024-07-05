@@ -2,8 +2,8 @@ import { z } from "zod";
 
 const uploadItemSchema = z.object({
   category: z.enum(["scene", "props"]),
-  name: z.string().min(1, { message: "Name is required" }),
-  group: z.string().min(1, { message: "Group is required" }),
+  name: z.string().trim().min(1, { message: "Name is required" }),
+  group: z.string().trim().min(1, { message: "Group is required" }),
   file: z
     .instanceof(File)
     .refine((file) => file.type.startsWith("image/"), "File must be an image"),

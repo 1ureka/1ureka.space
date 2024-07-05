@@ -1,6 +1,6 @@
 "use client";
 
-import { useTableBody, useTableRows } from "@/hooks";
+import { useFilesBody, useFilesRows } from "@/hooks";
 import type { FilesTableCol } from "@/context/store";
 import type { ImageMetadataWithIndex } from "@/data/type";
 
@@ -25,8 +25,8 @@ export default function TableBody({
 }: {
   metadataList: ImageMetadataWithIndex[];
 }) {
-  const { key, visibleRows } = useTableBody(metadataList);
-  const { TableRowProps, CheckBoxProps } = useTableRows();
+  const { key, visibleRows } = useFilesBody(metadataList);
+  const { TableRowProps, CheckBoxProps } = useFilesRows();
 
   const createLabel = (value: string | number | Date | null) => {
     if (value instanceof Date) {

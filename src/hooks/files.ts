@@ -1,16 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+
 import type { CheckboxProps as MuiCheckBoxProps } from "@mui/material";
 import type { TablePaginationProps } from "@mui/material";
 
 import { FILES_ORDER, FILES_ORDER_BY, FILES_SELECTED } from "@/context/store";
 import { FILES_CURRENT_PAGE, FILES_ROWS_PER_PAGE } from "@/context/store";
+import { comparator, toggleStringInArray } from "@/utils/utils";
 
 import type { FilesTableCol } from "@/context/store";
 import type { ImageMetadataWithIndex } from "@/data/type";
-import { comparator, toggleStringInArray } from "@/utils/utils";
 
 /**
  * 管理排序狀態、全選功能，並返回控制全選框和排序標籤的Props。
@@ -87,12 +89,26 @@ export const useFilesPagination = (metadataList: ImageMetadataWithIndex[]) => {
 };
 
 /**
+ * 負責在Category改變時，將全局狀態重置
+ */
+export const useFilesReset = () => {
+  const setPage = useSetRecoilState(FILES_CURRENT_PAGE);
+  const setSelected = useSetRecoilState(FILES_SELECTED);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    setPage(0);
+    setSelected([]);
+  }, [searchParams.get("category")]);
+};
+
+/**
  * 這個 hook 用於獲取表格主體（body）的資料和相關狀態。
  * @returns 包含兩個屬性的物件：
  *   - `key`：由可見列的檔名組成的字串，用於表格的唯一鍵。
  *   - `visibleRows`：當前頁面可見的圖片元資料。
  */
-export const useTableBody = (metadataList: ImageMetadataWithIndex[]) => {
+export const useFilesBody = (metadataList: ImageMetadataWithIndex[]) => {
   const page = useRecoilValue(FILES_CURRENT_PAGE);
   const rowsPerPage = useRecoilValue(FILES_ROWS_PER_PAGE);
   const order = useRecoilValue(FILES_ORDER);
@@ -116,7 +132,7 @@ export const useTableBody = (metadataList: ImageMetadataWithIndex[]) => {
  *   - `TableRowProps`：一個函式，接受檔名參數，返回表格行所需的屬性，包括 `onClick` 和 `selected`。
  *   - `CheckBoxProps`：一個函式，接受檔名參數，返回複選框所需的 `checked` 屬性。
  */
-export const useTableRows = () => {
+export const useFilesRows = () => {
   const [selected, setSelected] = useRecoilState(FILES_SELECTED);
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;

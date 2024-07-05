@@ -22,8 +22,7 @@ export default async function FilesContent({
     redirect("/files?category=scene");
   }
 
-  // TODO: get right category
-  const metadataList = await getSortedMetadata("props");
+  const metadataList = await getSortedMetadata(category);
   const session = true; // TODO: check email
 
   return (

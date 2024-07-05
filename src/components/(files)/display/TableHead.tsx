@@ -6,7 +6,7 @@ import type { ImageMetadataWithIndex } from "@/data/type";
 import { TableCell, Checkbox, TableSortLabel } from "@mui/material";
 import { TableHead as MuiTableHead } from "@mui/material";
 import type { TableCellProps } from "@mui/material";
-import { useFilesHead } from "@/hooks";
+import { useFilesHead, useFilesReset } from "@/hooks";
 
 import { TableCellM, TableRowM } from "@/components/Motion";
 import { xVar } from "@/components/MotionProps";
@@ -29,6 +29,7 @@ export default function TableHead({
   metadataList: ImageMetadataWithIndex[];
 }) {
   const { CheckboxProps, SortLabelProps } = useFilesHead(metadataList);
+  useFilesReset();
 
   return (
     <MuiTableHead>

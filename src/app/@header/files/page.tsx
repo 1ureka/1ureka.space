@@ -1,7 +1,6 @@
 import { Divider, Typography } from "@mui/material";
-import { redirect } from "next/navigation";
-
 import { Alert, Options } from "@/components/(files)";
+
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
@@ -10,10 +9,8 @@ export default function Header({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const category = searchParams.category ?? "scene";
-  if (category !== "scene" && category !== "props") {
-    redirect("/files?category=scene");
-  }
+  const { category } = searchParams;
+  const isValidCategory = category === "scene" || category === "props";
 
   const session = true; // TODO: check email
 
@@ -35,7 +32,10 @@ export default function Header({
       </BoxM>
 
       {session ? (
-        <Options category={category} sx={{ flexGrow: 1 }} />
+        <Options
+          category={isValidCategory ? category : "scene"}
+          sx={{ flexGrow: 1 }}
+        />
       ) : (
         <Alert />
       )}

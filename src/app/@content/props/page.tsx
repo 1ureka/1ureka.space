@@ -3,17 +3,17 @@ export const metadata: Metadata = {
   title: "books",
 };
 
-import { Carousels, Gallery } from "@/components/(books)";
+import { Gallery } from "@/components/(books)";
+import { Carousels } from "@/components/(carousels)";
 import { getSortedMetadata } from "@/data/table";
 
 export default async function PropsContent() {
   const metadataList = await getSortedMetadata("props");
-  const isAuth = false; // TODO
 
   return (
     <>
       <Gallery metadataList={metadataList} />
-      <Carousels metadataList={metadataList} isAuth={isAuth} />
+      <Carousels metadataList={metadataList} />
     </>
   );
 }

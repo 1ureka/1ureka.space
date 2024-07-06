@@ -3,24 +3,24 @@
 import { useEffect, useState } from "react";
 import { useSpring, useTransform } from "framer-motion";
 import { Box, Skeleton, useTheme } from "@mui/material";
+import type { BoxProps } from "@mui/material";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { carouselsSlidesVar } from "@/components/MotionProps";
-import type { ImageMetadataWithIndex } from "@/data/type";
+
 import Image from "next/image";
+import { useCarouselIndex } from "@/hooks";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 export default function Slides({
-  width,
-  right,
   metadataList,
-  index,
+  sx,
 }: {
-  width: string;
-  right: string;
   metadataList: ImageMetadataWithIndex[];
-  index: number;
+  sx?: BoxProps["sx"];
 }) {
   const [loading, setLoading] = useState(true);
+  const index = useCarouselIndex(metadataList);
 
   const {
     shape: { borderRadius },
@@ -38,10 +38,7 @@ export default function Slides({
   );
 
   return (
-    <BoxM
-      sx={{ position: "absolute", inset: `0 ${right} 0 auto`, width }}
-      variants={carouselsSlidesVar}
-    >
+    <BoxM sx={sx} variants={carouselsSlidesVar}>
       <StackM style={{ y }}>
         {metadataList.map((metadata, i) => (
           <BoxM

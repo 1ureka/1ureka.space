@@ -73,7 +73,6 @@ export const useBooksButtonHandler = ({
  * 用於管理書籍輪播 (carousel) 的狀態和互動。
  * @returns 包含以下屬性：
  *   * `CarouselsProps` - 傳遞給輪播组件的 props，處理右鍵選單、動畫開始和滑鼠滾輪事件。
- *   * `index` - 要顯示的書籍索引（若關閉時會自動設定回 1）。
  *   * `open` - 指示輪播是否打開的布林值。
  *   * `pointerEvents` - 控制輪播是否響應指標事件的 MotionValue。
  */
@@ -83,7 +82,6 @@ export const useCarousels = (metadataList: ImageMetadataWithIndex[]) => {
 
   const [index, setIndex] = useRecoilState(BOOKS_CAROUSELS);
   const open = index >= 0 && index < listLength;
-  const indexToShow = open ? index : 1;
 
   useEffect(() => {
     setIndex(-1);
@@ -106,8 +104,20 @@ export const useCarousels = (metadataList: ImageMetadataWithIndex[]) => {
 
   return {
     CarouselsProps: { onContextMenu, onAnimationStart, onWheel },
-    index: indexToShow,
     open,
     pointerEvents,
   };
+};
+
+/**
+ * 用於管理書籍輪播 (carousel) 的當前顯示索引。
+ * @returns 要顯示的書籍索引（若關閉時會自動設定回 1）。
+ */
+export const useCarouselIndex = (metadataList: ImageMetadataWithIndex[]) => {
+  const listLength = metadataList.length;
+  const index = useRecoilValue(BOOKS_CAROUSELS);
+  const open = index >= 0 && index < listLength;
+  const indexToShow = open ? index : 1;
+
+  return indexToShow;
 };

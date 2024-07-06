@@ -7,17 +7,15 @@ import type { ImageMetadataWithIndex } from "@/data/type";
 import { useCarousels } from "@/hooks";
 
 import { carouselsVar } from "@/components/MotionProps";
-import { Asides, ImageAndName, Slides } from "..";
 
 export default function Carousels({
   metadataList,
-  isAuth,
+  children,
 }: {
   metadataList: ImageMetadataWithIndex[];
-  isAuth: boolean;
+  children: React.ReactNode;
 }) {
-  const { CarouselsProps, index, open, pointerEvents } =
-    useCarousels(metadataList);
+  const { CarouselsProps, open, pointerEvents } = useCarousels(metadataList);
 
   const theme = useTheme();
   const style = {
@@ -40,24 +38,7 @@ export default function Carousels({
             style={style}
             {...CarouselsProps}
           >
-            <ImageAndName
-              isAuth={isAuth}
-              width="75vw"
-              height="77.5vh"
-              metadataList={metadataList}
-              index={index}
-            />
-            <Slides
-              width="12.5%"
-              right="1%"
-              metadataList={metadataList}
-              index={index}
-            />
-            <Asides
-              inset="3% 10% 3% 2%"
-              total={metadataList.length}
-              current={index}
-            />
+            {children}
           </motion.div>
         )}
       </AnimatePresence>

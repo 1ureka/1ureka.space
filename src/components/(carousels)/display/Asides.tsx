@@ -5,21 +5,25 @@ import { useEffect } from "react";
 import { useMotionTemplate, useSpring } from "framer-motion";
 
 import { Box, Stack, Typography } from "@mui/material";
+import type { BoxProps } from "@mui/material";
 import PhotoRoundedIcon from "@mui/icons-material/PhotoRounded";
+
 import { StackM } from "@/components/Motion";
 import { RightClickIcon, LeftClickIcon } from "..";
+import { useCarouselIndex } from "@/hooks";
+import type { ImageMetadataWithIndex } from "@/data/type";
 
 export default function Asides({
-  inset,
-  current,
-  total,
+  metadataList,
+  sx,
 }: {
-  inset: string;
-  current: number;
-  total: number;
+  metadataList: ImageMetadataWithIndex[];
+  sx?: BoxProps["sx"];
 }) {
+  const index = useCarouselIndex(metadataList);
+
   return (
-    <Box sx={{ position: "absolute", inset, pointerEvents: "none" }}>
+    <Box sx={sx}>
       <Hint />
 
       <Typography
@@ -30,7 +34,7 @@ export default function Asides({
       </Typography>
 
       <Box sx={{ position: "absolute", inset: "auto auto 0 0" }}>
-        <Indicator current={current + 1} total={total} />
+        <Indicator current={index + 1} total={metadataList.length} />
       </Box>
     </Box>
   );

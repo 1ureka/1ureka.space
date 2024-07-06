@@ -3,14 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "@mui/material";
 import Image from "next/image";
+
 import type { ImageMetadataWithIndex } from "@/data/type";
 import { delay } from "@/utils/client-utils";
+import { useCarouselIndex } from "@/hooks";
 
 export default function Thumbnail({
-  metadata,
+  metadataList,
 }: {
-  metadata: ImageMetadataWithIndex;
+  metadataList: ImageMetadataWithIndex[];
 }) {
+  const index = useCarouselIndex(metadataList);
+  const metadata = metadataList[index];
+
   const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>();
   const shouldShowLoadingUI = useRef(true);
   const [loading, setLoading] = useState(true);

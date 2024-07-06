@@ -3,16 +3,20 @@
 import { useEffect, useState } from "react";
 import type { ImageMetadataWithIndex } from "@/data/type";
 import { delay } from "@/utils/client-utils";
+import { useCarouselIndex } from "@/hooks";
 
 import Image from "next/image";
 import { BoxM } from "@/components/Motion";
 import { carouselsOriginVar } from "@/components/MotionProps";
 
 export default function Origin({
-  metadata,
+  metadataList,
 }: {
-  metadata: ImageMetadataWithIndex;
+  metadataList: ImageMetadataWithIndex[];
 }) {
+  const index = useCarouselIndex(metadataList);
+  const metadata = metadataList[index];
+
   const [originSrc, setOriginSrc] = useState<string | undefined>();
   const [loadingO, setLoadingO] = useState(true);
 

@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { createMetadataWithFileSchema } from "@/schema/schema";
 
-import { useState } from "react";
 import toast from "react-hot-toast";
 import Link, { type LinkProps } from "next/link";
 import { uploadImages } from "@/utils/server-actions";
@@ -34,9 +33,9 @@ export default function UploadForm({
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof uploadSchema>>({
-    // resolver: zodResolver(uploadSchema),
+    resolver: zodResolver(uploadSchema),
     defaultValues: { fieldArray: [] },
   });
 
@@ -45,10 +44,13 @@ export default function UploadForm({
     name: "fieldArray",
   });
 
-  const [loading, setLoading] = useState(false);
+  const onValid = async (data: z.infer<typeof uploadSchema>) => {
+    if (isSubmitting) return;
 
-  const onValid = (data: z.infer<typeof uploadSchema>) => {
-    setLoading(true);
+    toast.loading("Saving changes...", {
+      style: { minWidth: "20rem" },
+      id: "submit",
+    });
 
     const files = new FormData();
     const fieldArray = data.fieldArray.map(
@@ -58,24 +60,19 @@ export default function UploadForm({
       }
     );
 
-    toast
-      .promise(
-        uploadImages({ fieldArray }, files),
-        {
-          loading: "Saving changes...",
-          success: "Changes saved successfully!",
-          error: "Error when submitting",
-        },
-        {
-          style: { minWidth: "25rem" },
-        }
-      )
-      .then((data) => {
-        const error = data?.error ?? [];
-        error.map((message) => toast.error(message));
+    try {
+      const result = await uploadImages({ fieldArray }, files);
+      const error = result?.error ?? [];
 
-        setLoading(false);
-      });
+      if (error.length === 0) {
+        toast.success("Changes saved successfully!", { id: "submit" });
+      } else {
+        toast.dismiss("submit");
+        error.map((message) => toast.error(message));
+      }
+    } catch {
+      toast.error("Something went wrong", { id: "submit" });
+    }
   };
 
   const onInvalid = () => {
@@ -141,7 +138,7 @@ export default function UploadForm({
       </DialogContentM>
 
       <DialogActionsM layout>
-        <Button type="submit" disabled={fields.length === 0 || loading}>
+        <Button type="submit" disabled={fields.length === 0 || isSubmitting}>
           Save Change
         </Button>
       </DialogActionsM>

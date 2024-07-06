@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Tech Stack
 
-## Getting Started
+**Frontend:**
 
-First, run the development server:
+- **Next.js App Router:** The React framework extension for building performant and dynamic web applications with features like server components, streaming, and improved routing.
+- **React:** The leading JavaScript library for building user interfaces.
+- **Recoil:** An experimental state management library for React, designed for simplicity and composability.
+- **Framer Motion:** A production-ready motion library for React, enabling smooth animations and transitions.
+- **Material UI:** A popular React component library offering a comprehensive set of modern, accessible UI elements.
+- **react-dropzone:** Simplify drag-and-drop file uploads in React applications.
+- **react-hook-form:** A performant, flexible, and extensible forms library for React.
+- **react-hot-toast:** A lightweight and customizable toast notification library for React.
+- **zod:** A TypeScript-first schema validation library for ensuring type safety and data integrity.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Backend:**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **NextAuth.js v5:** A complete open-source authentication solution for Next.js applications, providing features like social sign-in, email/passwordless authentication, and database adapters.
+- **Neon Postgres:** A fully-managed serverless PostgreSQL database, providing a fast, scalable, and reliable data storage solution.
+- **Prisma:** A modern database toolkit for TypeScript/JavaScript, simplifying database access and management.
+- **Sharp:** A high-performance Node.js image processing library for resizing, formatting, and optimizing images.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Deployment:**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Vercel:** A cloud platform optimized for deploying Next.js applications, with features like automatic scaling, global CDN, and serverless functions.
 
-## Learn More
+**Development Tools:**
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **TypeScript:** A superset of JavaScript that adds static types, enhancing developer productivity and code quality.
+- **ESLint with Next.js config:** A linter for enforcing consistent code style and catching potential errors in your Next.js project.

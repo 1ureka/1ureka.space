@@ -34,6 +34,7 @@ export default function UploadForm({
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<z.infer<typeof uploadSchema>>({
     resolver: zodResolver(uploadSchema),
     defaultValues: { fieldArray: [] },
@@ -66,6 +67,7 @@ export default function UploadForm({
 
       if (error.length === 0) {
         toast.success("Changes saved successfully!", { id: "submit" });
+        (async () => reset({ fieldArray: [] }))();
       } else {
         toast.dismiss("submit");
         error.map((message) => toast.error(message));

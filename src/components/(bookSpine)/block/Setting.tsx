@@ -1,8 +1,7 @@
 import { AnimatePresence } from "framer-motion";
-import { Avatar, IconButton, Switch, useColorScheme } from "@mui/material";
+import { Switch, useColorScheme } from "@mui/material";
 import { List, ListItemIcon, ListItemText } from "@mui/material";
 
-import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
@@ -23,7 +22,13 @@ const containerSx = {
   borderWidth: "1px 1px 0px 1px",
 };
 
-export default function Setting({ open }: { open: boolean }) {
+export default function Setting({
+  open,
+  UserButton,
+}: {
+  open: boolean;
+  UserButton: React.ReactNode;
+}) {
   return (
     <AnimatePresence>
       {open && (
@@ -34,14 +39,14 @@ export default function Setting({ open }: { open: boolean }) {
           animate="animate"
           exit="initial"
         >
-          <Content />
+          <Content UserButton={UserButton} />
         </PaperM>
       )}
     </AnimatePresence>
   );
 }
 
-function Content() {
+function Content({ UserButton }: { UserButton: React.ReactNode }) {
   const { mode, setMode } = useColorScheme();
   const [isExpanded, setIsExpanded] = useRecoilState(BOOKS_IS_EXPANDED);
 
@@ -56,15 +61,7 @@ function Content() {
         * Sign In is for internal only
       </AlertM>
 
-      <ListItemM variants={yScaleVar}>
-        <ListItemIcon>
-          <Avatar sx={{ width: 24, height: 24 }} />
-        </ListItemIcon>
-        <ListItemText primary="Guest" />
-        <IconButton size="small" onClick={() => {}}>
-          <LoginRoundedIcon fontSize="small" />
-        </IconButton>
-      </ListItemM>
+      {UserButton}
 
       <DividerM variants={yScaleVar} flexItem />
 

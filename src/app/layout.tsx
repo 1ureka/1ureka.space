@@ -6,6 +6,7 @@ import "@/app/index.css";
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
 import Frame from "./frame";
+import UserButton from "@/components/UserButton";
 
 export const metadata: Metadata = {
   title: {
@@ -33,7 +34,11 @@ export default function RootLayout({
           <ThemeProvider>
             <CssBaseline />
             <ContextProvider>
-              <Frame header={header} content={content} />
+              <Frame
+                header={header}
+                content={content}
+                UserButton={<UserButton />}
+              />
             </ContextProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

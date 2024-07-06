@@ -67,9 +67,11 @@ function ArticleContainer({ children }: { children: React.ReactNode }) {
 export default function Frame({
   header,
   content,
+  UserButton,
 }: {
   header: React.ReactNode;
   content: React.ReactNode;
+  UserButton: React.ReactNode;
 }) {
   const pathname = usePathname();
   const category = findBookmarkCategory(pathname);
@@ -87,7 +89,7 @@ export default function Frame({
 
   return (
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>
-      <BookSpine component="nav" />
+      <BookSpine component="nav" UserButton={UserButton} />
 
       <Box
         component="main"

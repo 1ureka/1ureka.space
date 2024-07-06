@@ -3,7 +3,10 @@ import { useState } from "react";
 import { Backdrop, Box, type BoxProps } from "@mui/material";
 import { Collapsed, Expanded, Setting } from ".";
 
-export default function BookSpine(props: BoxProps) {
+export default function BookSpine({
+  UserButton,
+  ...props
+}: BoxProps & { UserButton: React.ReactNode }) {
   const [open, setOpen] = useState({ menu: false, setting: false });
 
   const handleToggle = (section: "menu" | "setting") => {
@@ -23,7 +26,7 @@ export default function BookSpine(props: BoxProps) {
       />
 
       <Collapsed open={open} onToggle={handleToggle} />
-      <Setting open={open.setting} />
+      <Setting open={open.setting} UserButton={UserButton} />
       <Expanded open={open.menu} />
     </Box>
   );

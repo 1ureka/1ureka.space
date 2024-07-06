@@ -1,18 +1,18 @@
+import { auth } from "@/auth";
 import { Divider, Typography } from "@mui/material";
-import { Alert, Options } from "@/components/(files)";
 
+import { Alert, Options } from "@/components/(files)";
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
-export default function Header({
+export default async function Header({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const { category } = searchParams;
   const isValidCategory = category === "scene" || category === "props";
-
-  const session = true; // TODO: check email
+  const session = await auth();
 
   return (
     <StackM

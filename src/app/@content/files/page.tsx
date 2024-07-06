@@ -3,6 +3,7 @@ export const metadata: Metadata = {
   title: "tools",
 };
 
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
@@ -23,7 +24,7 @@ export default async function FilesContent({
   }
 
   const metadataList = await getSortedMetadata(category);
-  const session = true; // TODO: check email
+  const session = await auth();
 
   return (
     <BoxM

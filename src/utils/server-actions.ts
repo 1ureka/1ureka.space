@@ -3,8 +3,9 @@
 import { z } from "zod";
 import { createMetadataSchema, MetadataSchema } from "@/schema/schema";
 
-import { getMetadataNames } from "@/data/table";
 import { log } from "@/utils/server-utils";
+import { getMetadataNames } from "@/data/table";
+import { auth } from "@/auth";
 
 export async function uploadImages(
   data: z.infer<typeof MetadataSchema>,
@@ -13,6 +14,10 @@ export async function uploadImages(
   log("ACTION", "Uploading images");
 
   try {
+    const session = await auth();
+    if (!session)
+      return { error: ["Authentication required to upload files."] };
+
     const existingNames = await getMetadataNames();
     const schema = createMetadataSchema(existingNames);
     const result = schema.safeParse(data);
@@ -44,6 +49,9 @@ export async function updateImages(data: z.infer<typeof MetadataSchema>) {
   log("ACTION", "Updating images");
 
   try {
+    const session = await auth();
+    if (!session)
+      return { error: ["Authentication required to modify files."] };
     // TODO
   } catch (error) {
     return { error: ["Something went wrong"] };
@@ -56,6 +64,9 @@ export async function deleteImages(data: string[]) {
   log("ACTION", "Deleting images");
 
   try {
+    const session = await auth();
+    if (!session)
+      return { error: ["Authentication required to delete files."] };
     // TODO
   } catch (error) {
     return { error: ["Something went wrong"] };

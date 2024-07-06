@@ -6,7 +6,7 @@ import "@/app/index.css";
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
 import Frame from "./frame";
-import UserButton from "@/components/UserButton";
+import UserButton from "@/components/(auth)/UserButton";
 
 export const metadata: Metadata = {
   title: {

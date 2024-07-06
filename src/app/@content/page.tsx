@@ -7,6 +7,7 @@ import Image from "next/image";
 import { GridM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 import { NavCard } from "@/components/(home)";
+import AuthToast from "@/components/(auth)/AuthToast";
 
 const placeholder =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN83rz2PwMRgHFUIX0VAgDrWR7n6UK5nAAAAABJRU5ErkJggg==";
@@ -56,24 +57,27 @@ const cardData = [
 
 export default function Content() {
   return (
-    <GridM
-      {...layoutChildMotionProps()}
-      container
-      columns={{ xs: 1, lg: 2 }}
-      spacing={7}
-      sx={{ pt: 5, pb: 7, px: 9 }}
-    >
-      {cardData.map((card, index) => (
-        <GridM
-          key={index}
-          item
-          xs={1}
-          variants={yScaleVar}
-          height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
-        >
-          <NavCard {...card} />
-        </GridM>
-      ))}
-    </GridM>
+    <>
+      <GridM
+        {...layoutChildMotionProps()}
+        container
+        columns={{ xs: 1, lg: 2 }}
+        spacing={7}
+        sx={{ pt: 5, pb: 7, px: 9 }}
+      >
+        {cardData.map((card, index) => (
+          <GridM
+            key={index}
+            item
+            xs={1}
+            variants={yScaleVar}
+            height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+          >
+            <NavCard {...card} />
+          </GridM>
+        ))}
+      </GridM>
+      <AuthToast />
+    </>
   );
 }

@@ -13,12 +13,12 @@ export default async function UserButton() {
 
   async function login() {
     "use server";
-    await signIn("github");
+    await signIn("github", { redirectTo: "/?success=signIn" });
   }
 
   async function logout() {
     "use server";
-    await signOut();
+    await signOut({ redirectTo: "/?success=signOut" });
   }
 
   return (

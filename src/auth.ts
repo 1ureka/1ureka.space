@@ -8,7 +8,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signOut: "/",
     error: "/",
     verifyRequest: "/",
-    newUser: "/",
   },
   callbacks: {
     async signIn({ profile }) {

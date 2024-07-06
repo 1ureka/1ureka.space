@@ -3,19 +3,19 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { createUploadSchema } from "@/schema/uploadSchema";
+import { createMetadataWithFileSchema } from "@/schema/schema";
 
+import { useState } from "react";
 import toast from "react-hot-toast";
 import Link, { type LinkProps } from "next/link";
+import { uploadImages } from "@/utils/server-actions";
+
 import { Button, Grid, IconButton, Dialog } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
 import { FileDropField, UploadField } from "..";
-
-// temp
-import { delay } from "@/utils/client-utils";
 
 interface UploadFormProps {
   open: boolean;
@@ -28,7 +28,7 @@ export default function UploadForm({
   closeHref,
   names,
 }: UploadFormProps) {
-  const uploadSchema = createUploadSchema(names);
+  const uploadSchema = createMetadataWithFileSchema(names);
 
   const {
     register,
@@ -36,28 +36,46 @@ export default function UploadForm({
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof uploadSchema>>({
-    resolver: zodResolver(uploadSchema),
-    defaultValues: { upload: [] },
+    // resolver: zodResolver(uploadSchema),
+    defaultValues: { fieldArray: [] },
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "upload",
+    name: "fieldArray",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const onValid = (data: z.infer<typeof uploadSchema>) => {
-    toast.promise(
-      delay(2000),
-      {
-        loading: "Saving changes...",
-        success: "Changes saved successfully!",
-        error: "Error when fetching",
-      },
-      {
-        style: { minWidth: "25rem" },
+    setLoading(true);
+
+    const files = new FormData();
+    const fieldArray = data.fieldArray.map(
+      ({ category, group, name, file }, index) => {
+        files.append(index.toString(), file);
+        return { category, group, name };
       }
     );
-    console.log(data);
+
+    toast
+      .promise(
+        uploadImages({ fieldArray }, files),
+        {
+          loading: "Saving changes...",
+          success: "Changes saved successfully!",
+          error: "Error when submitting",
+        },
+        {
+          style: { minWidth: "25rem" },
+        }
+      )
+      .then((data) => {
+        const error = data?.error ?? [];
+        error.map((message) => toast.error(message));
+
+        setLoading(false);
+      });
   };
 
   const onInvalid = () => {
@@ -123,7 +141,7 @@ export default function UploadForm({
       </DialogContentM>
 
       <DialogActionsM layout>
-        <Button type="submit" disabled={fields.length === 0}>
+        <Button type="submit" disabled={fields.length === 0 || loading}>
           Save Change
         </Button>
       </DialogActionsM>

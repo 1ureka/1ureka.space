@@ -3,7 +3,7 @@
 import type { FieldArrayWithId, FieldErrors } from "react-hook-form";
 import type { UseFieldArrayRemove, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import { uploadSchema } from "@/schema/uploadSchema";
+import { MetadataWithFileSchema } from "@/schema/schema";
 
 import Image from "next/image";
 import { Box, Skeleton, Stack } from "@mui/material";
@@ -30,11 +30,12 @@ const imageContainerSx = {
   overflow: "hidden",
 } as const;
 
+type Z = z.infer<typeof MetadataWithFileSchema>;
 interface UploadFieldProps {
   index: number;
-  field: FieldArrayWithId<z.infer<typeof uploadSchema>, "upload", "id">;
-  errors: FieldErrors<z.infer<typeof uploadSchema>>;
-  register: UseFormRegister<z.infer<typeof uploadSchema>>;
+  field: FieldArrayWithId<Z, "fieldArray", "id">;
+  errors: FieldErrors<Z>;
+  register: UseFormRegister<Z>;
   remove: UseFieldArrayRemove;
 }
 
@@ -49,7 +50,7 @@ export default function UploadField({
   const [src, state] = useDecode(dataUrl);
 
   const immutableCategory = useRef(field.category);
-  const error = errors.upload && errors.upload[index];
+  const error = errors.fieldArray && errors.fieldArray[index];
 
   return (
     <StackM variants={yScaleVar} sx={containerSx}>
@@ -59,7 +60,7 @@ export default function UploadField({
           size="small"
           label="Category"
           select
-          {...register(`upload.${index}.category`)}
+          {...register(`fieldArray.${index}.category`)}
           defaultValue={immutableCategory.current}
           error={!!error?.category}
           helperText={error?.category?.message}
@@ -95,7 +96,7 @@ export default function UploadField({
           fullWidth
           size="small"
           label="File name"
-          {...register(`upload.${index}.name`)}
+          {...register(`fieldArray.${index}.name`)}
           error={!!error?.name}
           helperText={error?.name?.message}
         />
@@ -104,7 +105,7 @@ export default function UploadField({
           fullWidth
           size="small"
           label="Group"
-          {...register(`upload.${index}.group`)}
+          {...register(`fieldArray.${index}.group`)}
           error={!!error?.group}
           helperText={error?.group?.message}
         />

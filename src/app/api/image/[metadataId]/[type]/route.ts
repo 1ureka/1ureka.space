@@ -1,11 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getMetadataById, getOriginById, getThumbnailById } from "@/data/table";
 import { log } from "@/utils/server-utils";
+import { auth } from "@/auth";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { metadataId: string; type: string } }
-) {
+export const GET = auth(async function GET(request, segments) {
+  const { params } = segments as {
+    params: { metadataId: string; type: string };
+  };
+
   const { metadataId, type } = params;
   log("API", `/image/${type}/${metadataId} GET`);
 
@@ -17,8 +19,7 @@ export async function GET(
       );
     }
 
-    const session = false; // TODO: get real session
-    if (type === "origin" && !session) {
+    if (type === "origin" && !request.auth) {
       return NextResponse.json(
         { error: `Authentication required to access origin image.` },
         { status: 401 }
@@ -64,4 +65,4 @@ export async function GET(
       { status: 500 }
     );
   }
-}
+});

@@ -109,13 +109,15 @@ export async function updateImages(
  * 刪除圖片資料。
  * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
  */
-export async function deleteImages(data: string[]) {
+export async function deleteImages(ids: string[]) {
   log("ACTION", "Deleting images");
 
   try {
     const session = await auth();
     if (!session)
       return { error: ["Authentication required to delete files."] };
+
+    console.log(`Deleting images with ids: ${ids}`);
     // TODO
   } catch (error) {
     return { error: ["Something went wrong"] };

@@ -146,7 +146,7 @@ export async function createMetadata(
 
     return res.map(({ id }) => id);
   } catch (error) {
-    throw new Error(`Failed to create ImageMetadata`);
+    throw new Error(`Failed to create ImageMetadata: ${error}`);
   }
 }
 

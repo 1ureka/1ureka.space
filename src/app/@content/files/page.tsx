@@ -42,3 +42,5 @@ export default async function FilesContent({
     </BoxM>
   );
 }
+
+export const dynamic = "force-dynamic";

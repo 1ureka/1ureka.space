@@ -7,6 +7,7 @@ import { createMetadataWithFileSchema } from "@/schema/schema";
 
 import toast from "react-hot-toast";
 import Link, { type LinkProps } from "next/link";
+import { useRouter } from "next/navigation";
 import { uploadImages } from "@/utils/server-actions";
 
 import { Button, Grid, IconButton, Dialog } from "@mui/material";
@@ -27,13 +28,14 @@ export default function UploadForm({
   closeHref,
   names,
 }: UploadFormProps) {
+  const router = useRouter();
   const uploadSchema = createMetadataWithFileSchema(names);
 
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
     reset,
   } = useForm<z.infer<typeof uploadSchema>>({
     resolver: zodResolver(uploadSchema),
@@ -67,7 +69,10 @@ export default function UploadForm({
 
       if (error.length === 0) {
         toast.success("Changes saved successfully!", { id: "submit" });
-        (async () => reset({ fieldArray: [] }))();
+        (async () => {
+          reset({ fieldArray: [] });
+          router.refresh();
+        })();
       } else {
         toast.dismiss("submit");
         error.map((message) => toast.error(message));
@@ -140,6 +145,13 @@ export default function UploadForm({
       </DialogContentM>
 
       <DialogActionsM layout>
+        <Button
+          type="button"
+          onClick={() => reset({ fieldArray: [] })}
+          disabled={!isDirty || isSubmitting}
+        >
+          reset form
+        </Button>
         <Button type="submit" disabled={fields.length === 0 || isSubmitting}>
           Save Change
         </Button>

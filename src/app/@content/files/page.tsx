@@ -7,7 +7,9 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { Table, UnAuthTable, UploadForm } from "@/components/(files)";
+import { Table, UnAuthTable } from "@/components/(files)";
+import { DeleteForm, UploadForm } from "@/components/(files)";
+
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 
@@ -37,6 +39,13 @@ export default async function FilesContent({
           open={form === "upload"}
           closeHref={{ pathname: "/files", query: { category } }}
           names={metadataList.map(({ name }) => name)}
+        />
+      )}
+      {session && (
+        <DeleteForm
+          open={form === "delete"}
+          closeHref={{ pathname: "/files", query: { category } }}
+          metadataList={metadataList}
         />
       )}
     </BoxM>

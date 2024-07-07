@@ -4,13 +4,13 @@ import { useRecoilValue } from "recoil";
 import { FILES_SELECTED } from "@/context/store";
 import { useSearchParams } from "next/navigation";
 
-import { Stack } from "@mui/material";
+import { Stack, Button } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 
-import { ButtonM, TypographyM } from "@/components/Motion";
+import { BoxM, TypographyM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import Link from "next/link";
+import { NextLinkComposed } from "@/components/Link";
 
 export default function TableHeader() {
   const searchParams = useSearchParams();
@@ -29,25 +29,25 @@ export default function TableHeader() {
       </TypographyM>
 
       <Stack direction="row" alignItems="center" spacing={1.5}>
-        <ButtonM
-          startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
-          disabled={selected.length === 0}
-          variants={yScaleVar}
-        >
-          Modify
-        </ButtonM>
+        <BoxM variants={yScaleVar}>
+          <Button
+            startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
+            disabled={selected.length === 0}
+          >
+            Modify
+          </Button>
+        </BoxM>
 
-        <Link
-          href={{ pathname: "/files", query: { category, form: "delete" } }}
-        >
-          <ButtonM
+        <BoxM variants={yScaleVar}>
+          <Button
             startIcon={<DeleteRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
-            variants={yScaleVar}
+            component={NextLinkComposed}
+            to={{ pathname: "/files", query: { category, form: "delete" } }}
           >
             Delete
-          </ButtonM>
-        </Link>
+          </Button>
+        </BoxM>
       </Stack>
     </Stack>
   );

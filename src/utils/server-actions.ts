@@ -40,9 +40,11 @@ export async function uploadImages(
       return { error: errorMessages };
     }
 
-    const files = Array.from(filesFormdata.values()).filter(
-      (file) => file instanceof File
-    );
+    const files = Array.from(filesFormdata.values()) as File[];
+
+    if (!files.every((file) => file instanceof File)) {
+      return { error: ["Invalid files."] };
+    }
 
     if (files.length !== data.fieldArray.length) {
       return { error: ["Number of files does not match number of fields."] };

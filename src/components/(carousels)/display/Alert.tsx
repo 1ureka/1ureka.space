@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { Alert as MuiAlert, AlertTitle } from "@mui/material";
 import { BoxM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";

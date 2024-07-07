@@ -1,11 +1,11 @@
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
-import type { ImageMetadataWithIndex } from "@/data/type";
+import type { ImageMetadataWithIndex, ImageMetadata } from "@/data/type";
 
 // temp
 import fs from "fs";
 import sharp from "sharp";
-import { arraySum, shuffleArray } from "@/utils/utils";
+import { shuffleArray } from "@/utils/utils";
 
 const I = [
   { name: "image01", group: "primary.main" },
@@ -41,18 +41,13 @@ export const generateFakeData = async () => {
     )
   );
 
-  console.log(
-    arraySum(origins.map((file) => file.byteLength / 1024)) +
-      arraySum(thumbnails.map((file) => file.byteLength / 1024))
-  );
-
   const imageData = shuffleArray(I).map(({ name, group }, i) => ({
     category: "props",
     group,
     name,
     thumbnail: { create: { bytes: thumbnails[i] } },
     origin: { create: { bytes: origins[i] } },
-    size: origins[i].byteLength,
+    size: origins[i].byteLength + thumbnails[i].byteLength,
   }));
 
   await db.imageMetadata.deleteMany({});
@@ -135,5 +130,54 @@ export async function getOriginById(metadataId: string) {
     return origin;
   } catch (error) {
     throw new Error(`Failed to query origin`);
+  }
+}
+
+export async function createMetadata(
+  metadataList: Pick<ImageMetadata, "category" | "group" | "name" | "size">[]
+) {
+  log("DATABASE", `create metadata`);
+
+  try {
+    const res = await db.imageMetadata.createManyAndReturn({
+      data: metadataList.map((metadata) => metadata),
+      select: { id: true },
+    });
+
+    return res.map(({ id }) => id);
+  } catch (error) {
+    throw new Error(`Failed to create ImageMetadata`);
+  }
+}
+
+export async function createThumbnails(
+  thumbnailList: { metadataId: string; bytes: Buffer }[]
+) {
+  log("DATABASE", `create thumbnails`);
+
+  try {
+    const res = await db.thumbnail.createMany({
+      data: thumbnailList,
+    });
+
+    return res;
+  } catch (error) {
+    throw new Error(`Failed to create Thumbnails`);
+  }
+}
+
+export async function createOrigins(
+  originList: { metadataId: string; bytes: Buffer }[]
+) {
+  log("DATABASE", `create origins`);
+
+  try {
+    const res = await db.origin.createMany({
+      data: originList,
+    });
+
+    return res;
+  } catch (error) {
+    throw new Error(`Failed to create Origins`);
   }
 }

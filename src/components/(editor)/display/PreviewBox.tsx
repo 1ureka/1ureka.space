@@ -86,33 +86,37 @@ export default function PreviewBox() {
         <Caption anchor="rb">{dimensions.preview}</Caption>
 
         <Box sx={{ position: "absolute", inset: 0, p: 4 }}>
-          {originState && (
-            <motion.img
-              variants={yScaleVar}
-              src={originSrc}
-              alt={""}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-                clipPath: clipPathL,
-              }}
-            />
-          )}
-          {resultState && (
-            <motion.img
-              variants={yScaleVar}
-              src={resultSrc}
-              alt={""}
-              style={{
-                position: "absolute",
-                inset: 0,
-                objectFit: "contain",
-                clipPath: clipPathR,
-                filter: filterString,
-              }}
-            />
-          )}
+          <Box sx={{ position: "relative", width: 1, height: 1 }}>
+            {originState && (
+              <motion.img
+                variants={yScaleVar}
+                src={originSrc}
+                alt={""}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  clipPath: clipPathL,
+                }}
+              />
+            )}
+            {resultState && (
+              <motion.img
+                variants={yScaleVar}
+                src={resultSrc}
+                alt={""}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  clipPath: clipPathR,
+                  filter: filterString,
+                }}
+              />
+            )}
+          </Box>
         </Box>
 
         {name && (!originState || !resultState) && (

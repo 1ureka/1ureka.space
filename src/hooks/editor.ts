@@ -7,6 +7,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { EDITOR_FILES, EDITOR_VALS } from "@/context/store";
 
 import { blobGetDataUrl, delay } from "@/utils/client-utils";
+import { compressImage, filterImage } from "@/utils/client-utils";
 import { createFilter, replaceFileExtension } from "@/utils/client-utils";
 import { useBlob } from ".";
 
@@ -78,13 +79,11 @@ export function useEditorPreview() {
       await delay(500);
       if (!lastTrigger) return;
 
-      // const blob = await compressImage(file, {
-      //   maxSize: maxSize * 1024 * 1024,
-      //   scale,
-      //   type,
-      // });
-      const blob = null;
-      if (!blob) return callback;
+      const blob = await compressImage(file, {
+        maxSize: maxSize * 1024 * 1024,
+        scale,
+        type,
+      });
 
       const dataUrl = await blobGetDataUrl(blob);
       if (typeof dataUrl !== "string") return callback;
@@ -165,26 +164,28 @@ export function useEditorConversion() {
     const selectedFiles = files.filter(({ selected }) => selected);
     const results = await Promise.all(
       selectedFiles.map(async ({ file }) => {
-        // const filtered = await filterImage(file, options);
-        // options.maxSize *= 1024 * 1024;
-        // const blob = await compressImage(filtered, options);
-        // const dataUrl = await blobGetDataUrl(blob);
-        await delay(1000);
-        return {
-          dataUrl: "",
-          name: replaceFileExtension(file.name, options.type),
-        };
+        const filtered = await filterImage(file, options);
+
+        const blob = await compressImage(filtered, {
+          ...options,
+          maxSize: options.maxSize * 1024 * 1024,
+        });
+
+        const dataUrl = await blobGetDataUrl(blob);
+        const name = replaceFileExtension(file.name, options.type);
+
+        return { dataUrl, name };
       })
     );
 
     setFiles((prev) => prev.filter((file) => !file.selected));
 
-    results.forEach(({ dataUrl }) => {
+    results.forEach(({ dataUrl, name }) => {
       if (typeof dataUrl !== "string") return;
-      // const link = document.createElement("a");
-      // link.href = dataUrl;
-      // link.download = name;
-      // link.click();
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = name;
+      link.click();
     });
 
     setLoading(false);

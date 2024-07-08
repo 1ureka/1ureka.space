@@ -66,6 +66,7 @@ export default function DeleteField({ onRemove, metadata }: UploadFieldProps) {
           alt=""
           fill
           style={{ objectFit: "cover" }}
+          unoptimized
         />
       </Box>
 

@@ -1,14 +1,11 @@
 import Link from "next/link";
-
-import { Button, IconButton } from "@mui/material";
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import type { StackProps } from "@mui/material";
 
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
-import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 
-import { CategoryToggle } from "@/components/(files)";
+import { CategoryToggle, RefreshButton } from "@/components/(files)";
 import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
@@ -52,11 +49,7 @@ export default function Options({
         </StackM>
       </Stack>
 
-      <BoxM variants={yScaleVar}>
-        <IconButton color="primary">
-          <RefreshRoundedIcon />
-        </IconButton>
-      </BoxM>
+      <RefreshButton />
     </Stack>
   );
 }

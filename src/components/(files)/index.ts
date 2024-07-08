@@ -1,4 +1,5 @@
 export { default as CategoryToggle } from "./input/CategoryToggle";
+export { default as RefreshButton } from "./input/RefreshButton";
 export { default as FileDropField } from "./input/FileDropField";
 export { default as UploadField } from "./input/UploadField";
 export { default as DeleteField } from "./input/DeleteField";

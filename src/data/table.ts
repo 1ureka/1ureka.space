@@ -1,63 +1,23 @@
+import "server-only";
+
+import { auth } from "@/auth";
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
 import type { ImageMetadataWithIndex, ImageMetadata } from "@/data/type";
 
-// temp
-import fs from "fs";
-import sharp from "sharp";
-import { shuffleArray } from "@/utils/utils";
+async function dbAuth() {
+  const session = await auth();
 
-const I = [
-  { name: "image01", group: "primary.main" },
-  { name: "image02", group: "secondary.main" },
-  { name: "image03", group: "info.main" },
-  { name: "image04", group: "primary.main" },
-  { name: "image05", group: "warning.main" },
-  { name: "image06", group: "secondary.main" },
-  { name: "image07", group: "info.main" },
-  { name: "image08", group: "primary.main" },
-  { name: "image09", group: "warning.main" },
-  { name: "image10", group: "secondary.main" },
-  { name: "image11", group: "info.main" },
-  { name: "image12", group: "primary.main" },
-  { name: "image13", group: "warning.main" },
-  { name: "image14", group: "secondary.main" },
-  { name: "image15", group: "info.main" },
-];
+  if (!session || !session.user) {
+    throw new Error(`Unauthorized access to database: User session not found`);
+  }
 
-export const generateFakeData = async () => {
-  const basepath = "C:\\Users\\Summe\\Downloads\\fakedata";
-  const files = fs.readdirSync(basepath);
+  const id = JSON.stringify(session.user.id);
 
-  const thumbnails = await Promise.all(
-    files.map((file) =>
-      sharp(`${basepath}\\${file}`).webp({ quality: 65, effort: 6 }).toBuffer()
-    )
-  );
-
-  const origins = await Promise.all(
-    files.map((file) =>
-      sharp(`${basepath}\\${file}`).webp({ quality: 100, effort: 6 }).toBuffer()
-    )
-  );
-
-  const imageData = shuffleArray(I).map(({ name, group }, i) => ({
-    category: "props",
-    group,
-    name,
-    thumbnail: { create: { bytes: thumbnails[i] } },
-    origin: { create: { bytes: origins[i] } },
-    size: origins[i].byteLength + thumbnails[i].byteLength,
-  }));
-
-  await db.imageMetadata.deleteMany({});
-
-  const responce = await Promise.all(
-    imageData.map((data) => db.imageMetadata.create({ data }))
-  );
-
-  console.log("GENERATE: " + responce.length + "  DATAS");
-};
+  if (id !== process.env.ALLOWED_USER) {
+    throw new Error(`Unauthorized access to database: User not authorized`);
+  }
+}
 
 export async function getSortedMetadata(
   category: string
@@ -72,6 +32,20 @@ export async function getSortedMetadata(
     });
 
     return metadataList.map((data, index) => ({ index, ...data }));
+  } catch (error) {
+    throw new Error(`Failed to query image metadata`);
+  }
+}
+
+export async function getAllMetadata() {
+  log("DATABASE", `get all metadata list`);
+
+  try {
+    const metadataList = await db.imageMetadata.findMany({
+      include: { thumbnail: false, origin: false },
+    });
+
+    return metadataList;
   } catch (error) {
     throw new Error(`Failed to query image metadata`);
   }
@@ -105,6 +79,20 @@ export async function getMetadataNames() {
   }
 }
 
+export async function getMetadataIDs() {
+  log("DATABASE", `get all images ids`);
+
+  try {
+    const metadataList = await db.imageMetadata.findMany({
+      select: { id: true },
+    });
+
+    return metadataList.map(({ id }) => id);
+  } catch (error) {
+    throw new Error(`Failed to query image ids`);
+  }
+}
+
 export async function getThumbnailById(metadataId: string) {
   log("DATABASE", `get thumbnail by metadataId (${metadataId})`);
 
@@ -113,6 +101,7 @@ export async function getThumbnailById(metadataId: string) {
       where: { metadataId },
       select: { bytes: true },
     });
+
     return thumbnail;
   } catch (error) {
     throw new Error(`Failed to query thumbnail`);
@@ -123,10 +112,13 @@ export async function getOriginById(metadataId: string) {
   log("DATABASE", `get origin by metadataId (${metadataId})`);
 
   try {
+    await dbAuth();
+
     const origin = await db.origin.findUnique({
       where: { metadataId },
       select: { bytes: true },
     });
+
     return origin;
   } catch (error) {
     throw new Error(`Failed to query origin`);
@@ -139,6 +131,8 @@ export async function createMetadata(
   log("DATABASE", `create metadata`);
 
   try {
+    await dbAuth();
+
     const res = await db.imageMetadata.createManyAndReturn({
       data: metadataList.map((metadata) => metadata),
       select: { id: true },
@@ -156,6 +150,8 @@ export async function createThumbnails(
   log("DATABASE", `create thumbnails`);
 
   try {
+    await dbAuth();
+
     const res = await db.thumbnail.createMany({
       data: thumbnailList,
     });
@@ -172,6 +168,8 @@ export async function createOrigins(
   log("DATABASE", `create origins`);
 
   try {
+    await dbAuth();
+
     const res = await db.origin.createMany({
       data: originList,
     });
@@ -179,5 +177,21 @@ export async function createOrigins(
     return res;
   } catch (error) {
     throw new Error(`Failed to create Origins`);
+  }
+}
+
+export async function deleteMetadata(metadataIds: string[]) {
+  log("DATABASE", `delete metadata`);
+
+  try {
+    await dbAuth();
+
+    const res = await db.imageMetadata.deleteMany({
+      where: { id: { in: metadataIds } },
+    });
+
+    return res.count;
+  } catch (error) {
+    throw new Error(`Failed to delete ImageMetadata`);
   }
 }

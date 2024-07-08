@@ -6,7 +6,7 @@ import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
 
 import { CategoryToggle, RefreshButton } from "@/components/(files)";
-import { BoxM, StackM } from "@/components/Motion";
+import { StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
 export default function Options({

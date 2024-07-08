@@ -6,6 +6,8 @@ import { createMetadataSchema, MetadataSchema } from "@/schema/schema";
 
 import { auth } from "@/auth";
 import { log } from "@/utils/server-utils";
+import { createOriginBuffer } from "@/utils/server-utils";
+import { createThumbnailBuffer } from "@/utils/server-utils";
 
 import { createMetadata, createOrigins, createThumbnails } from "@/data/table";
 import { getMetadataIDs, getMetadataNames } from "@/data/table";
@@ -55,23 +57,14 @@ export async function uploadImages(
     const arrayBuffers = await Promise.all(
       files.map((file) => file.arrayBuffer())
     );
+    const buffers = arrayBuffers.map((arrayBuffer) => Buffer.from(arrayBuffer));
 
-    const bufferO = await Promise.all(
-      arrayBuffers.map((arrayBuffer) =>
-        sharp(Buffer.from(arrayBuffer))
-          .webp({ quality: 100, effort: 6 })
-          .toBuffer()
-      )
-    );
-
-    const bufferT = await Promise.all(
-      arrayBuffers.map((arrayBuffer) =>
-        sharp(Buffer.from(arrayBuffer))
-          .resize(480, 270, { fit: "cover" })
-          .webp({ quality: 50, effort: 6 })
-          .toBuffer()
-      )
-    );
+    const [bufferO, bufferT] = await Promise.all([
+      Promise.all(buffers.map((buffer) => createOriginBuffer(sharp(buffer)))),
+      Promise.all(
+        buffers.map((buffer) => createThumbnailBuffer(sharp(buffer)))
+      ),
+    ]);
 
     const metadataList = data.fieldArray.map((metadata, i) => ({
       ...metadata,

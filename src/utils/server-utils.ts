@@ -1,3 +1,6 @@
+import "server-only";
+import sharp from "sharp";
+
 /** 用於包裝所有在伺服器上log的函數 */
 export function log(
   type: "UTILS" | "DATABASE" | "API" | "ACTION",
@@ -16,6 +19,37 @@ export function delay(ms: number) {
   });
 }
 
-// export function compressImage(image: type, options: {}) {
-//   return image;
-// }
+/**
+ * 使用Sharp調整大小並轉換輸入圖像，創建原始圖像。
+ * 在調整大小時保持輸入圖像的寬高比。
+ * @returns 一個Promise，解析為包含調整大小和轉換後圖像的Buffer。
+ */
+export async function createOriginBuffer(sharp: sharp.Sharp) {
+  let { width, height } = await sharp.metadata();
+
+  if (width === undefined || height === undefined) {
+    throw new Error("there is no width or height in the image's metadata");
+  }
+
+  if (width / height > 16 / 9) {
+    width = Math.floor((height * 16) / 9);
+  } else if (width / height < 16 / 9) {
+    height = Math.floor((width * 9) / 16);
+  }
+
+  return sharp
+    .resize(width, height, { fit: "cover" })
+    .webp({ quality: 100, effort: 6 })
+    .toBuffer();
+}
+
+/**
+ * 使用Sharp調整大小並轉換輸入圖像，創建縮略圖。
+ * @returns 一個Promise，解析為包含調整大小和轉換後圖像的Buffer。
+ */
+export async function createThumbnailBuffer(sharp: sharp.Sharp) {
+  return sharp
+    .resize(480, 270, { fit: "cover" })
+    .webp({ quality: 50, effort: 6 })
+    .toBuffer();
+}

@@ -3,7 +3,6 @@ import { IconButton, Typography } from "@mui/material";
 
 import { StackM } from "@/components/Motion";
 import { bookSpineCollapsedItemVar } from "@/components/MotionProps";
-import { NextLinkComposed } from "@/components/Link";
 
 const iconButtonSx: IconButtonProps["sx"] = {
   outline: "1px solid gray",
@@ -15,23 +14,15 @@ const iconButtonSx: IconButtonProps["sx"] = {
 export default function NavIconButton({
   icon,
   label,
-  href,
-  disabled = false,
+  onClick,
 }: {
   icon: React.ReactNode;
   label: string;
-  href: string;
-  disabled?: boolean;
+  onClick: React.MouseEventHandler;
 }) {
   return (
     <StackM variants={bookSpineCollapsedItemVar} alignItems="center">
-      <IconButton
-        component={NextLinkComposed}
-        to={href}
-        size="small"
-        sx={iconButtonSx}
-        disabled={disabled}
-      >
+      <IconButton size="small" sx={iconButtonSx} onClick={onClick}>
         {icon}
       </IconButton>
       <Typography>{label}</Typography>

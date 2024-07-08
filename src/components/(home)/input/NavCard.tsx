@@ -1,96 +1,87 @@
+import React from "react";
 import type { LinkProps } from "next/link";
 import { NextLinkComposed } from "@/components/Link";
 
-import { Box, ButtonBase, Paper } from "@mui/material";
-import type { PaperProps } from "@mui/material";
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, CardActionArea } from "@mui/material";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
-import LockRoundedIcon from "@mui/icons-material/LockRounded";
 
-export default function NavCard({
-  media,
-  title,
-  subTitle,
-  caption,
-  sx,
-  href,
-  disabled = false,
-}: {
+interface NavCardProps {
   media: React.ReactNode;
   title: string;
   subTitle: string;
   caption: string;
-  sx?: PaperProps["sx"];
   href: LinkProps["href"];
-  disabled?: boolean;
-}) {
+}
+
+export default function CardBlog({
+  media,
+  title,
+  subTitle,
+  caption,
+  href,
+}: NavCardProps) {
   return (
-    <Paper
-      sx={{
-        pointerEvents: disabled ? "none" : null,
-        overflow: "hidden",
-        transition: "outline 0.25s ease",
-        outline: "0px solid #e783ad00",
-        "&:hover": {
-          outline: "7.5px solid #e783ad30",
-        },
-        ...sx,
-      }}
+    <Card
+      sx={{ height: 1, borderRadius: 2, overflow: "visible" }}
       elevation={3}
     >
-      <ButtonBase
-        component={NextLinkComposed}
-        to={href}
-        disabled={disabled}
+      <CardActionArea
         sx={{
-          display: "block",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
           height: 1,
-          "&:hover .media > *": {
+          py: 2,
+          "&:hover img": {
             scale: "1.1",
           },
-          "& .media > *": {
-            scale: "1.001",
+          "& img": {
+            scale: "1.01",
             transition: "scale 0.25s ease",
           },
+          "& :has(> img)": {
+            transition: "outline 0.25s ease",
+            outline: "0px solid #e783ad00",
+          },
+          "&:hover :has(> img)": {
+            outline: "7.5px solid #e783ad30",
+          },
         }}
+        component={NextLinkComposed}
+        to={href}
       >
-        <Stack direction="row" height={1}>
-          <Box
-            className="media"
-            sx={{ position: "relative", flexGrow: 1, overflow: "hidden" }}
+        <CardMedia
+          sx={{
+            position: "relative",
+            width: 0.7,
+            ml: -4,
+            height: 1,
+            borderRadius: 2,
+            overflow: "hidden",
+            zIndex: 1,
+          }}
+        >
+          {media}
+        </CardMedia>
+        <CardContent sx={{ width: 1 }}>
+          <Stack
+            direction="row"
+            alignItems="baseline"
+            flexWrap="wrap"
+            gap={1.5}
           >
-            {/* <Box sx={{ height: 1, background: "#e783ad" }} /> */}
-            {media}
+            <Typography variant="h5">{title}</Typography>
+            <Typography variant="subtitle2">{subTitle}</Typography>
+            <Typography variant="caption" sx={{ width: 1 }}>
+              {caption}
+            </Typography>
+          </Stack>
+          <Box sx={{ pt: 2 }}>
+            <ArrowOutwardRoundedIcon color="primary" />
           </Box>
-
-          <Box sx={{ p: 3, width: 0.55 }}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="baseline"
-            >
-              <Stack direction="row" alignItems="baseline" gap={1.5}>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  color={disabled ? "text.secondary" : ""}
-                >
-                  {title}
-                </Typography>
-                <Typography variant="subtitle2">{subTitle}</Typography>
-              </Stack>
-
-              {disabled ? (
-                <LockRoundedIcon sx={{ color: "text.secondary" }} />
-              ) : (
-                <ArrowOutwardRoundedIcon color="primary" />
-              )}
-            </Stack>
-
-            <Typography variant="caption">{caption}</Typography>
-          </Box>
-        </Stack>
-      </ButtonBase>
-    </Paper>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 }

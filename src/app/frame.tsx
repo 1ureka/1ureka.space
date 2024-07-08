@@ -1,11 +1,12 @@
 "use client";
 
 import { useMemo, useRef } from "react";
+import { Toaster } from "react-hot-toast";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import { Box, CircularProgress, Divider, Stack } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 
-import { BoxM, StackM } from "@/components/Motion";
+import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { layoutMotionProps } from "@/components/MotionProps";
 import BookSpine from "@/components/(bookSpine)/BookSpine";
 import Bookmarks from "@/components/(bookmarks)/Bookmarks";
@@ -34,58 +35,89 @@ function findBookmarkCategory(pathname: string): string | null {
   return null;
 }
 
+function OverflowContainer({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      position="absolute"
+      sx={{
+        inset: 0,
+        px: 5,
+        py: 3,
+        overflowY: "auto",
+        scrollbarGutter: "stable",
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+
+function ArticleContainer({ children }: { children: React.ReactNode }) {
+  const borderRadius = "0 50px 10px 10px";
+  return (
+    <Stack
+      component="article"
+      sx={{ bgcolor: "content.layer1", flexGrow: 1, borderRadius }}
+    >
+      {children}
+    </Stack>
+  );
+}
+
 export default function Frame({
   header,
   content,
+  UserButton,
 }: {
   header: React.ReactNode;
   content: React.ReactNode;
+  UserButton: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const rootPath = findBookmarkCategory(pathname);
+  const category = findBookmarkCategory(pathname);
 
   const ts = useRef(0);
   const key = useMemo(() => {
     ts.current += 1;
-    return `${rootPath}-${ts.current}`;
-  }, [rootPath]);
+    return `${category}-${ts.current}`;
+  }, [category]);
 
-  if (typeof rootPath !== "string") {
+  if (typeof category !== "string") {
     if (typeof window !== "undefined") window.location.replace("/404");
     return null;
   }
 
   return (
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>
-      <BookSpine />
+      <BookSpine component="nav" UserButton={UserButton} />
 
-      <Box sx={{ px: 5, py: 3, height: 1, flexGrow: 1 }}>
-        <AnimatePresence mode="wait">
-          <StackM
-            key={key}
-            sx={{ position: "relative", height: 1 }}
-            {...layoutMotionProps}
-          >
-            <Bookmarks options={bookmarks[rootPath]} />
+      <Box
+        component="main"
+        sx={{ position: "relative", flexGrow: 1, height: 1 }}
+      >
+        <div style={{ position: "absolute", inset: 0 }} id="portal-root" />
 
-            <Stack
-              component={"main"}
-              sx={{
-                bgcolor: "content.layer1",
-                flexGrow: 1,
-                borderRadius: "0 50px 5px 5px",
-              }}
+        <OverflowContainer>
+          <AnimatePresence mode="wait">
+            <StackM
+              key={key}
+              sx={{ position: "relative", minHeight: 1 }}
+              {...layoutMotionProps}
             >
-              <Box sx={{ mt: "55px" }}>{header}</Box>
+              <Bookmarks component="nav" options={bookmarks[category]} />
 
-              <Divider flexItem variant="middle" />
-
-              <Box sx={{ flexGrow: 1, height: "1px", overflowY: "auto" }}>
-                {content}
-              </Box>
-            </Stack>
-          </StackM>
-        </AnimatePresence>
+              <ArticleContainer>
+                <Box component="section" sx={{ mt: "55px", zIndex: 1 }}>
+                  {header}
+                </Box>
+                <DividerM layout flexItem variant="middle" />
+                <Box component="section" sx={{ display: "grid", flexGrow: 1 }}>
+                  {content}
+                </Box>
+              </ArticleContainer>
+            </StackM>
+          </AnimatePresence>
+        </OverflowContainer>
       </Box>
 
       <BoxM
@@ -100,6 +132,16 @@ export default function Frame({
       >
         <CircularProgress />
       </BoxM>
+
+      <Toaster
+        toastOptions={{
+          className: "",
+          style: {
+            background: "var(--mui-palette-SnackbarContent-bg)",
+            color: "var(--mui-palette-SnackbarContent-color)",
+          },
+        }}
+      />
     </Stack>
   );
 }

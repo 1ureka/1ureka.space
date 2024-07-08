@@ -3,24 +3,53 @@ export const metadata: Metadata = {
   title: "tools",
 };
 
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { getSortedMetadata } from "@/data/table";
+
+import { Table, UnAuthTable } from "@/components/(files)";
+import { DeleteForm, UploadForm } from "@/components/(files)";
+
 import { BoxM } from "@/components/Motion";
-import { Typography } from "@mui/material";
-import { cookies } from "next/headers";
+import { layoutChildMotionProps } from "@/components/MotionProps";
 
-export default async function Shelf() {
-  const cookie = cookies();
-  console.log(cookie);
-  await new Promise((res) => setTimeout(res, 7000));
+export default async function FilesContent({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const form = searchParams.form;
 
-  throw new Error("custom content error for testing error UI");
+  const category = searchParams.category ?? "scene";
+  if (category !== "scene" && category !== "props") {
+    redirect("/files?category=scene");
+  }
+
+  const metadataList = await getSortedMetadata(category);
+  const session = await auth();
 
   return (
     <BoxM
-      initial={{ opacity: 0, y: 70 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
+      sx={{ position: "relative", py: 3, px: 7 }}
+      {...layoutChildMotionProps()}
     >
-      <Typography variant="h4">Shelf</Typography>
+      {session ? <Table metadataList={metadataList} /> : <UnAuthTable />}
+      {session && (
+        <UploadForm
+          open={form === "upload"}
+          closeHref={{ pathname: "/files", query: { category } }}
+          names={metadataList.map(({ name }) => name)}
+        />
+      )}
+      {session && (
+        <DeleteForm
+          open={form === "delete"}
+          closeHref={{ pathname: "/files", query: { category } }}
+          metadataList={metadataList}
+        />
+      )}
     </BoxM>
   );
 }
+
+export const dynamic = "force-dynamic";

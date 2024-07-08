@@ -6,6 +6,7 @@ import "@/app/index.css";
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
 import Frame from "./frame";
+import UserButton from "@/components/(auth)/UserButton";
 
 export const metadata: Metadata = {
   title: {
@@ -29,14 +30,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ContextProvider>
-          <AppRouterCacheProvider>
-            <ThemeProvider>
-              <CssBaseline />
-              <Frame header={header} content={content} />
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </ContextProvider>
+        <AppRouterCacheProvider>
+          <ThemeProvider>
+            <CssBaseline />
+            <ContextProvider>
+              <Frame
+                header={header}
+                content={content}
+                UserButton={<UserButton />}
+              />
+            </ContextProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

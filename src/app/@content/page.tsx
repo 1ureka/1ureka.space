@@ -4,10 +4,10 @@ export const metadata: Metadata = {
 };
 
 import Image from "next/image";
-import { Grid } from "@mui/material";
-import { BoxM, GridM } from "@/components/Motion";
+import { GridM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 import { NavCard } from "@/components/(home)";
+import AuthToast from "@/components/(auth)/AuthToast";
 
 const placeholder =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN83rz2PwMRgHFUIX0VAgDrWR7n6UK5nAAAAABJRU5ErkJggg==";
@@ -23,68 +23,61 @@ const frame = (src: string) => (
   />
 );
 
-export default function Content({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const isGuest = searchParams?.guest === "";
+const cardData = [
+  {
+    media: frame("./frame1.svg"),
+    title: "Scene",
+    subTitle: "books",
+    caption: "Anime and game scenes reimagined in realistic detail.",
+    href: "/scene",
+  },
+  {
+    media: frame("./frame2.svg"),
+    title: "Props",
+    subTitle: "books",
+    caption:
+      "A collection of 3D models for outdoor scenes, from tiny screws to entire buildings.",
+    href: "/props",
+  },
+  {
+    media: frame("./frame3.svg"),
+    title: "File Shelf",
+    subTitle: "tools",
+    caption: "Seamlessly manage album's images with real-time backend syncing.",
+    href: "/files",
+  },
+  {
+    media: frame("./frame4.svg"),
+    title: "Image Editor",
+    subTitle: "tools",
+    caption: "Transform photos with conversion, compression, and filters.",
+    href: "/editor",
+  },
+];
 
+export default function Content() {
   return (
-    <BoxM {...layoutChildMotionProps} sx={{ p: 4 }} height={1}>
-      <Grid
+    <>
+      <GridM
+        {...layoutChildMotionProps()}
         container
-        columns={4}
-        rowSpacing={7}
-        spacing={4}
-        height={1}
-        minHeight={500}
+        columns={{ xs: 1, lg: 2 }}
+        spacing={7}
+        sx={{ pt: 5, pb: 7, px: 9 }}
       >
-        <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
-          <NavCard
-            media={frame("./frame1.svg")}
-            sx={{ height: 1 }}
-            title="Scene"
-            subTitle=" books "
-            caption="Anime and game scenes reimagined in realistic detail."
-            href="/scene"
-            disabled={isGuest}
-          />
-        </GridM>
-        <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
-          <NavCard
-            media={frame("./frame2.svg")}
-            sx={{ height: 1 }}
-            title="Props"
-            subTitle=" books "
-            caption="A collection of 3D models for outdoor scenes, from tiny screws to entire buildings."
-            href="/props"
-            disabled={isGuest}
-          />
-        </GridM>
-        <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
-          <NavCard
-            media={frame("./frame3.svg")}
-            sx={{ height: 1 }}
-            title="File Shelf"
-            subTitle=" tools "
-            caption="Seamlessly manage album's images with real-time backend syncing."
-            href="/files"
-            disabled={isGuest}
-          />
-        </GridM>
-        <GridM item xs={4} lg={2} variants={yScaleVar} height={0.5}>
-          <NavCard
-            media={frame("./frame4.svg")}
-            sx={{ height: 1 }}
-            title="Image Editor"
-            subTitle=" tools "
-            caption="Transform photos with conversion, compression, and filters."
-            href="/editor"
-          />
-        </GridM>
-        <Grid item xs={4} height={0} />
-      </Grid>
-    </BoxM>
+        {cardData.map((card, index) => (
+          <GridM
+            key={index}
+            item
+            xs={1}
+            variants={yScaleVar}
+            height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+          >
+            <NavCard {...card} />
+          </GridM>
+        ))}
+      </GridM>
+      <AuthToast />
+    </>
   );
 }

@@ -3,17 +3,19 @@ export const metadata: Metadata = {
   title: "books",
 };
 
-import { BoxM } from "@/components/Motion";
-import { Typography } from "@mui/material";
+import { Gallery } from "@/components/(books)";
+import { Carousels } from "@/components/(carousels)";
+import { getSortedMetadata } from "@/data/table";
 
-export default function Props() {
+export default async function PropsContent() {
+  const metadataList = await getSortedMetadata("props");
+
   return (
-    <BoxM
-      initial={{ opacity: 0, y: 70 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
-      <Typography variant="h4">Props</Typography>
-    </BoxM>
+    <>
+      <Gallery metadataList={metadataList} />
+      <Carousels metadataList={metadataList} />
+    </>
   );
 }
+
+export const dynamic = "force-dynamic";

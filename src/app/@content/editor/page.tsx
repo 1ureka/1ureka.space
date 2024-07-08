@@ -3,17 +3,40 @@ export const metadata: Metadata = {
   title: "tools",
 };
 
-import { BoxM } from "@/components/Motion";
-import { Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { BoxM, StackM } from "@/components/Motion";
+import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
-export default function Editor() {
+import { EditPanel, EditPreview } from "@/components/(editor)";
+
+export default function EditorContent() {
   return (
-    <BoxM
-      initial={{ opacity: 0, y: 70 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
+    <StackM
+      {...layoutChildMotionProps()}
+      direction="row-reverse"
+      flexWrap="wrap"
+      justifyContent="center"
+      gap={12}
+      sx={{ py: 7, px: 9 }}
     >
-      <Typography variant="h4">Editor</Typography>
-    </BoxM>
+      <BoxM variants={yScaleVar} sx={{ flexGrow: 1 }}>
+        <Box
+          sx={{
+            position: { xs: "relative", lg: "sticky" },
+            top: { xs: "", lg: 0 },
+            minWidth: 375,
+            width: 1,
+            minHeight: 300,
+            height: "62.5vh",
+          }}
+        >
+          <EditPreview />
+        </Box>
+      </BoxM>
+
+      <BoxM variants={yScaleVar} sx={{ width: 375 }}>
+        <EditPanel />
+      </BoxM>
+    </StackM>
   );
 }

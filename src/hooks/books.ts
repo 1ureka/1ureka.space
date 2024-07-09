@@ -117,7 +117,7 @@ export const useCarouselIndex = (metadataList: ImageMetadataWithIndex[]) => {
   const listLength = metadataList.length;
   const index = useRecoilValue(BOOKS_CAROUSELS);
   const open = index >= 0 && index < listLength;
-  const indexToShow = open ? index : 1;
+  const indexToShow = open ? index : 0;
 
   return indexToShow;
 };

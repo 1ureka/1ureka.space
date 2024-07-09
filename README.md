@@ -10,6 +10,7 @@
 - **react-dropzone:** Simplify drag-and-drop file uploads in React applications.
 - **react-hook-form:** A performant, flexible, and extensible forms library for React.
 - **react-hot-toast:** A lightweight and customizable toast notification library for React.
+- **react-zoom-pan-pinch**: A library for adding smooth zooming, panning, and pinch-to-zoom capabilities to images.
 - **zod:** A TypeScript-first schema validation library for ensuring type safety and data integrity.
 
 **Backend:**

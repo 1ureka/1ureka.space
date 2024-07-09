@@ -20,8 +20,6 @@ export const useBooksGallery = (metadataList: ImageMetadataWithIndex[]) => {
   const isExpanded = useRecoilValue(BOOKS_IS_EXPANDED);
   const [selectGroup, setSelectGroup] = useRecoilState(BOOKS_SELECT_GROUP);
 
-  const isGroupExpanded = (g: string) => isExpanded || g === selectGroup;
-
   useEffect(() => {
     return () => setSelectGroup("");
   }, [setSelectGroup]);
@@ -40,6 +38,9 @@ export const useBooksGallery = (metadataList: ImageMetadataWithIndex[]) => {
   const count = isExpanded
     ? metadataList.length
     : Object.keys(metadataListByGroup).length;
+
+  const isGroupExpanded = (g: string) =>
+    isExpanded || g === selectGroup || metadataListByGroup[g].length === 1;
 
   return { metadataListByGroup, count, isGroupExpanded };
 };

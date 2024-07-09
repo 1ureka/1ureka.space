@@ -1,4 +1,6 @@
-import { Skeleton, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { getMetadataCount } from "@/data/table";
+
 import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
@@ -10,7 +12,10 @@ const text = {
       based on instances.`,
 };
 
-export default function Header() {
+export default async function Header() {
+  const { project, info } = text;
+  const count = await getMetadataCount("props");
+
   return (
     <StackM
       {...layoutChildMotionProps()}
@@ -26,7 +31,7 @@ export default function Header() {
       >
         <Typography variant="caption">PROJECTS:</Typography>
         <Typography variant="caption" sx={{ color: "text.primary" }}>
-          {text.project}
+          {project}
         </Typography>
       </StackM>
 
@@ -36,18 +41,15 @@ export default function Header() {
         spacing={0.5}
       >
         <Typography variant="caption">INCLUDES:</Typography>
-        <Skeleton animation="wave">
-          <Typography variant="caption">10 Images</Typography>
-        </Skeleton>
-        {/* <Typography variant="caption" sx={{ color: "text.primary" }}>
-          {includes}
-        </Typography> */}
+        <Typography variant="caption" sx={{ color: "text.primary" }}>
+          {count} images
+        </Typography>
       </StackM>
 
       <DividerM variants={yScaleVar} orientation="vertical" flexItem />
 
       <BoxM variants={yVar} alignItems="center">
-        <Typography variant="body2">{text.info}</Typography>
+        <Typography variant="body2">{info}</Typography>
       </BoxM>
     </StackM>
   );

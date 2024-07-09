@@ -1,9 +1,9 @@
-import { Skeleton, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { getMetadataCount } from "@/data/table";
+
 import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
-
-import { cookies } from "next/headers";
 
 const text = {
   project: "PJ27, PJ28",
@@ -12,10 +12,8 @@ const text = {
 };
 
 export default async function Header() {
-  const cookie = cookies();
-  console.log(cookie);
-  await new Promise((res) => setTimeout(res, 3500));
-  throw new Error("custom header error for testing error UI");
+  const { project, info } = text;
+  const count = await getMetadataCount("scene");
 
   return (
     <StackM
@@ -32,7 +30,7 @@ export default async function Header() {
       >
         <Typography variant="caption">PROJECTS:</Typography>
         <Typography variant="caption" sx={{ color: "text.primary" }}>
-          {text.project}
+          {project}
         </Typography>
       </StackM>
 
@@ -42,18 +40,15 @@ export default async function Header() {
         spacing={0.5}
       >
         <Typography variant="caption">INCLUDES:</Typography>
-        <Skeleton animation="wave">
-          <Typography variant="caption">10 Images</Typography>
-        </Skeleton>
-        {/* <Typography variant="caption" sx={{ color: "text.primary" }}>
-          {includes}
-        </Typography> */}
+        <Typography variant="caption" sx={{ color: "text.primary" }}>
+          {count} images
+        </Typography>
       </StackM>
 
       <DividerM variants={yScaleVar} orientation="vertical" flexItem />
 
       <BoxM variants={yVar} alignItems="center">
-        <Typography variant="body2">{text.info}</Typography>
+        <Typography variant="body2">{info}</Typography>
       </BoxM>
     </StackM>
   );

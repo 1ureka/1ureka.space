@@ -51,6 +51,20 @@ export async function getAllMetadata() {
   }
 }
 
+export async function getMetadataCount(category: string) {
+  log("DATABASE", `get metadata count category (${category})`);
+
+  try {
+    const count = await db.imageMetadata.count({
+      where: { category },
+    });
+
+    return count;
+  } catch (error) {
+    throw new Error(`Failed to query metadata count`);
+  }
+}
+
 export async function getMetadataById(metadataId: string) {
   log("DATABASE", `get metadata by metadataId (${metadataId})`);
 

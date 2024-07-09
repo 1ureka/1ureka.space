@@ -3,24 +3,19 @@ export const metadata: Metadata = {
   title: "books",
 };
 
-import { BoxM } from "@/components/Motion";
-import { Typography } from "@mui/material";
-import { cookies } from "next/headers";
+import { Gallery } from "@/components/(books)";
+import { Carousels } from "@/components/(carousels)";
+import { getSortedMetadata } from "@/data/table";
 
-export default async function SceneContent() {
-  const cookie = cookies();
-  console.log(cookie);
-  await new Promise((res) => setTimeout(res, 2000));
-
-  throw new Error("custom content error for testing error UI");
+export default async function PropsContent() {
+  const metadataList = await getSortedMetadata("scene");
 
   return (
-    <BoxM
-      initial={{ opacity: 0, y: 70 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
-      <Typography variant="h4">Shelf</Typography>
-    </BoxM>
+    <>
+      <Gallery metadataList={metadataList} />
+      <Carousels metadataList={metadataList} />
+    </>
   );
 }
+
+export const dynamic = "force-dynamic";

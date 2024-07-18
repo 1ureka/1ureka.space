@@ -10,16 +10,19 @@ const metadataWithFileItem = metadataItem.extend({
     .instanceof(File)
     .refine((file) => file.type.startsWith("image/"), "File must be an image"),
 });
+const metadataWithIdItem = metadataItem.extend({
+  cuid: z.string().cuid("Invalid ID format"),
+});
 
 //
 //
 
-const metadataArray = metadataItem
-  .array()
-  .min(1, "At least one image is required");
-const metadataWithFileArray = metadataWithFileItem
-  .array()
-  .min(1, "At least one image is required");
+function arraySchema<T extends z.ZodType<any, any>>(item: T) {
+  return z.array(item).nonempty("At least one image is required");
+}
+const metadataArray = arraySchema(metadataItem);
+const metadataWithFileArray = arraySchema(metadataWithFileItem);
+const metadataWithIdArray = arraySchema(metadataWithIdItem);
 
 //
 //
@@ -56,6 +59,9 @@ export const MetadataSchema = z.object({
 export const MetadataWithFileSchema = z.object({
   fieldArray: metadataWithFileArray,
 });
+export const MetadataWithIdSchema = z.object({
+  fieldArray: metadataWithIdArray,
+});
 
 export const createMetadataSchema = (names: string[]) =>
   z.object({
@@ -64,4 +70,8 @@ export const createMetadataSchema = (names: string[]) =>
 export const createMetadataWithFileSchema = (names: string[]) =>
   z.object({
     fieldArray: metadataWithFileArray.superRefine(isUnique(names)),
+  });
+export const createMetadataWithIdSchema = (names: string[]) =>
+  z.object({
+    fieldArray: metadataWithIdArray.superRefine(isUnique(names)),
   });

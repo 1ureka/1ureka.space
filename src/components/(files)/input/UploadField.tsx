@@ -69,12 +69,8 @@ export default function UploadField({
           <MenuItem value="props">Props</MenuItem>
         </TextField>
 
-        <IconButton sx={{ mx: 1.5 }}>
-          <CloseRoundedIcon
-            fontSize="small"
-            sx={{ color: "grey.500" }}
-            onClick={() => remove(index)}
-          />
+        <IconButton sx={{ mx: 1.5 }} onClick={() => remove(index)}>
+          <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
         </IconButton>
       </Stack>
 

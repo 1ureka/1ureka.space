@@ -46,12 +46,8 @@ export default function DeleteField({ onRemove, metadata }: UploadFieldProps) {
           <MenuItem value="props">Props</MenuItem>
         </TextField>
 
-        <IconButton sx={{ mx: 1.5 }}>
-          <CloseRoundedIcon
-            fontSize="small"
-            sx={{ color: "grey.500" }}
-            onClick={onRemove}
-          />
+        <IconButton sx={{ mx: 1.5 }} onClick={onRemove}>
+          <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
         </IconButton>
       </Stack>
 

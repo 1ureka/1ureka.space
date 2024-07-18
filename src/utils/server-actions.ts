@@ -2,7 +2,8 @@
 
 import sharp from "sharp";
 import { z } from "zod";
-import { createMetadataSchema, MetadataSchema } from "@/schema/schema";
+import { createMetadataSchema } from "@/schema/schema";
+import { MetadataSchema, MetadataWithIdSchema } from "@/schema/schema";
 
 import { auth } from "@/auth";
 import { log } from "@/utils/server-utils";
@@ -99,10 +100,7 @@ export async function uploadImages(
  * 更新圖片資料。
  * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
  */
-export async function updateImages(
-  data: z.infer<typeof MetadataSchema>,
-  metadataIDs: string[]
-) {
+export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
   log("ACTION", "Updating images");
 
   try {
@@ -126,12 +124,15 @@ export async function updateImages(
       return { error: errorMessages };
     }
 
+    const metadataList = data.fieldArray;
     const existingIds = await getMetadataIDs();
-    if (!metadataIDs.every((id) => existingIds.includes(id))) {
+    if (!metadataList.every(({ cuid }) => existingIds.includes(cuid))) {
       return { error: ["Some ids do not exist."] };
     }
 
-    // TODO
+    console.log(`updateImages: metadataList: ${metadataList}`);
+
+    // TODO: update metadata
   } catch (error) {
     return { error: ["Something went wrong"] };
   }

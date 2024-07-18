@@ -33,6 +33,8 @@ export default function TableHeader() {
           <Button
             startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
+            component={NextLinkComposed}
+            to={{ pathname: "/files", query: { category, form: "modify" } }}
           >
             Modify
           </Button>

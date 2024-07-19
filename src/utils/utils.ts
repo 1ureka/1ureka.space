@@ -62,3 +62,10 @@ export function toggleStringInArray(arr: string[], str: string): string[] {
   set.delete(str) || set.add(str);
   return Array.from(set);
 }
+
+/**
+ * 檢查陣列是否不為空。
+ */
+export function isArrayNotEmpty<T>(arr: T[]): arr is [T, ...T[]] {
+  return Array.isArray(arr) && arr.length > 0;
+}

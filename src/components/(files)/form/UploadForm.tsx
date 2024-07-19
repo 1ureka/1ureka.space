@@ -16,6 +16,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
 import { FileDropField, UploadField } from "..";
+import { isArrayNotEmpty } from "@/utils/utils";
 
 interface UploadFormProps {
   open: boolean;
@@ -62,6 +63,11 @@ export default function UploadForm({
         return { category, group, name };
       }
     );
+
+    if (!isArrayNotEmpty(fieldArray)) {
+      toast.error("No files to upload", { id: "submit" });
+      return;
+    }
 
     try {
       const result = await uploadImages({ fieldArray }, files);

@@ -135,7 +135,8 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
       return { error: ["Some ids do not exist."] };
     }
 
-    console.log(`updateImages: metadataList: ${metadataList}`);
+    console.log(`updateImages: metadataList`);
+    console.log(metadataList);
 
     // TODO: update metadata
   } catch (error) {

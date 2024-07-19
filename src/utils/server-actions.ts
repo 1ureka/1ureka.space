@@ -133,6 +133,8 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
       return { error: ["Authentication required to modify files."] };
     }
 
+    //
+    // 排除正在上傳的圖片的名稱來創建Schema (使互換名稱或名稱欄位不更改成為可能)
     const existingMetadata = await getAllMetadata();
     const uploadIds = data.fieldArray.map(({ cuid }) => cuid);
     const dbNames = existingMetadata

@@ -110,7 +110,12 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
     }
 
     const existingNames = await getMetadataNames();
-    const schema = createMetadataSchema(existingNames);
+    const names = existingNames.filter((name) => {
+      const uploadNames = data.fieldArray.map(({ name }) => name);
+      return !uploadNames.includes(name);
+    });
+
+    const schema = createMetadataSchema(names);
     const result = schema.safeParse(data);
 
     if (!result.success) {

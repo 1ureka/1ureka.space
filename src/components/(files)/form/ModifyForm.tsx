@@ -42,9 +42,13 @@ export default function ModifyForm({
   closeHref,
   metadataList,
 }: ModifyFormProps) {
-  const router = useRouter();
-  const names = metadataList.map(({ name }) => name);
+  const [selected, setSelected] = useRecoilState(FILES_SELECTED);
+  const names = metadataList
+    .map(({ name }) => name)
+    .filter((name) => !selected.includes(name));
+
   const updateSchema = createMetadataWithIdSchema(names);
+  const router = useRouter();
 
   const {
     register,
@@ -57,7 +61,6 @@ export default function ModifyForm({
     defaultValues: { fieldArray: [] },
   });
 
-  const [selected, setSelected] = useRecoilState(FILES_SELECTED);
   useEffect(() => {
     reset({ fieldArray: generateFieldArray(selected, metadataList) });
   }, [selected, generateFieldArray, metadataList]);

@@ -20,7 +20,6 @@ import { ModifyField } from "..";
 import { useRecoilState } from "recoil";
 import { FILES_SELECTED } from "@/context/store";
 import { useEffect } from "react";
-import { dir } from "console";
 
 interface ModifyFormProps {
   open: boolean;
@@ -63,7 +62,7 @@ export default function ModifyForm({
 
   useEffect(() => {
     reset({ fieldArray: generateFieldArray(selected, metadataList) });
-  }, [selected, generateFieldArray, metadataList]);
+  }, [selected, metadataList, reset]);
 
   const { fields } = useFieldArray({
     control,

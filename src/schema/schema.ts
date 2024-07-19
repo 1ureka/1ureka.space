@@ -17,7 +17,7 @@ const metadataWithIdItem = metadataItem.extend({
 //
 //
 
-function arraySchema<T extends z.ZodType<any, any>>(item: T) {
+function arraySchema<T extends z.ZodType>(item: T) {
   return z.array(item).nonempty("At least one image is required");
 }
 const metadataArray = arraySchema(metadataItem);

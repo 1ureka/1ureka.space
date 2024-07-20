@@ -12,7 +12,7 @@ import { createThumbnailBuffer } from "@/utils/server-utils";
 
 import { createMetadata, createOrigins, createThumbnails } from "@/data/table";
 import { getMetadataIDs, getMetadataNames, getAllMetadata } from "@/data/table";
-import { deleteMetadata } from "@/data/table";
+import { deleteMetadata, updateMetadata } from "@/data/table";
 
 /**
  * 驗證相關的元數據並上傳圖片。
@@ -135,8 +135,15 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
 
     //
     // 排除正在上傳的圖片的名稱來創建Schema (使互換名稱或名稱欄位不更改成為可能)
+    const { fieldArray } = data;
     const existingMetadata = await getAllMetadata();
-    const uploadIds = data.fieldArray.map(({ cuid }) => cuid);
+    const uploadIds = fieldArray.map(({ cuid }) => cuid);
+
+    const existingIds = existingMetadata.map(({ id }) => id);
+    if (!uploadIds.every((id) => existingIds.includes(id))) {
+      return { error: ["Some ids do not exist."] };
+    }
+
     const dbNames = existingMetadata
       .filter(({ id }) => !uploadIds.includes(id))
       .map(({ name }) => name);
@@ -155,16 +162,13 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
       return { error: errorMessages };
     }
 
-    const metadataList = data.fieldArray;
-    const existingIds = await getMetadataIDs();
-    if (!metadataList.every(({ cuid }) => existingIds.includes(cuid))) {
-      return { error: ["Some ids do not exist."] };
-    }
-
-    console.log(`updateImages: metadataList`);
-    console.log(metadataList);
-
-    // TODO: update metadata
+    //
+    // 更新圖片資料
+    const metadataList = fieldArray.map(({ cuid, ...metadata }) => ({
+      id: cuid,
+      ...metadata,
+    }));
+    await updateMetadata(metadataList);
   } catch (error) {
     return { error: ["Something went wrong"] };
   }

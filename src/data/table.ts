@@ -209,3 +209,27 @@ export async function deleteMetadata(metadataIds: string[]) {
     throw new Error(`Failed to delete ImageMetadata`);
   }
 }
+
+export async function updateMetadata(
+  metadataList: Omit<
+    ImageMetadata,
+    "createAt" | "updateAt" | "deletedAt" | "size"
+  >[]
+): Promise<void> {
+  log("DATABASE", `update metadata`);
+
+  try {
+    await dbAuth();
+
+    const updateOperations = metadataList.map((metadata) =>
+      db.imageMetadata.update({
+        where: { id: metadata.id },
+        data: metadata,
+      })
+    );
+
+    await Promise.all(updateOperations);
+  } catch (error) {
+    throw new Error(`Failed to update ImageMetadata`);
+  }
+}

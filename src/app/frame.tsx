@@ -21,18 +21,16 @@ const bookmarks: Record<string, { label: string; href: string }[]> = {
     { label: "Shelf", href: "/files" },
     { label: "Editor", href: "/editor" },
   ],
-  notFound: [],
-};
+  notFound: [{ label: "Not Found", href: "/404" }],
+} as const;
 
-function findBookmarkCategory(pathname: string): string | null {
-  if (pathname === "/404") return "notFound";
-
+function findBookmarkCategory(pathname: string): keyof typeof bookmarks {
   for (const category of Object.keys(bookmarks)) {
     if (bookmarks[category].some((item) => item.href === pathname))
       return category;
   }
 
-  return null;
+  return "notFound";
 }
 
 function OverflowContainer({ children }: { children: React.ReactNode }) {
@@ -81,11 +79,6 @@ export default function Frame({
     ts.current += 1;
     return `${category}-${ts.current}`;
   }, [category]);
-
-  if (typeof category !== "string") {
-    if (typeof window !== "undefined") window.location.replace("/404");
-    return null;
-  }
 
   return (
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>

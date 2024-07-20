@@ -22,10 +22,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   header,
-  content,
+  children,
 }: {
   header: React.ReactNode;
-  content: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -36,7 +36,7 @@ export default function RootLayout({
             <ContextProvider>
               <Frame
                 header={header}
-                content={content}
+                content={children}
                 UserButton={<UserButton />}
               />
             </ContextProvider>

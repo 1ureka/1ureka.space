@@ -79,6 +79,7 @@ export default function ModifyField({
           sx={{ height: "auto", aspectRatio: 16 / 9 }}
         />
         <Image
+          unoptimized
           src={`/api/image/${field.cuid}/thumbnail`}
           alt=""
           fill

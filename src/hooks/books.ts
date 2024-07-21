@@ -49,25 +49,16 @@ export const useBooksGallery = (metadataList: ImageMetadataWithIndex[]) => {
  * 用於處理圖片或組別點擊事件。
  * @returns 點擊處理函式。
  */
-export const useBooksButtonHandler = ({
-  group,
-  index,
-}: ImageMetadataWithIndex) => {
-  const isExpanded = useRecoilValue(BOOKS_IS_EXPANDED);
+export const useBooksButtonHandler = (
+  type: "group" | "image",
+  { group, index }: ImageMetadataWithIndex
+) => {
   const setCarousels = useSetRecoilState(BOOKS_CAROUSELS);
-  const [selectGroup, setSelectGroup] = useRecoilState(BOOKS_SELECT_GROUP);
+  const setSelectGroup = useSetRecoilState(BOOKS_SELECT_GROUP);
 
-  const handleImageClick = () => {
-    setCarousels(index);
-  };
-
-  const handleGroupClick = () => {
-    setSelectGroup(group);
-  };
-
-  return isExpanded || selectGroup === group
-    ? handleImageClick
-    : handleGroupClick;
+  return type === "image"
+    ? () => setCarousels(index)
+    : () => setSelectGroup(group);
 };
 
 /**

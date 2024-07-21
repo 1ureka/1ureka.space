@@ -25,16 +25,17 @@ const reflectSx = (clipPath: string, x: number): ButtonBaseProps["sx"] => ({
 });
 
 type ButtonProps = {
+  type: "group" | "image";
   metadata: ImageMetadataWithIndex;
   children: React.ReactNode;
 };
 
-export default function Button({ metadata, children }: ButtonProps) {
+export default function Button({ type, metadata, children }: ButtonProps) {
   const reflect = useSpring(0) as MotionValue<number>;
   const opacity = useTransform(reflect, (val) => val);
   const x = useTransform(reflect, (val) => -60 * val);
 
-  const handleClick = useBooksButtonHandler(metadata);
+  const handleClick = useBooksButtonHandler(type, metadata);
 
   return (
     <ButtonBaseM

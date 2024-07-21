@@ -47,14 +47,14 @@ export default function Gallery({
         isGroupExpanded(group) ? (
           metadataList.map((metadata) => (
             <GridItem key={metadata.id}>
-              <Button metadata={metadata}>
+              <Button type="image" metadata={metadata}>
                 <Illustration metadata={metadata} />
               </Button>
             </GridItem>
           ))
         ) : (
           <GridItem key={metadataList[0].id}>
-            <Button metadata={metadataList[0]}>
+            <Button type="group" metadata={metadataList[0]}>
               <Badge count={metadataList.length}>
                 <Illustration metadata={metadataList[0]} />
               </Badge>

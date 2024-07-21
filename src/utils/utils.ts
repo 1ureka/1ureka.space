@@ -69,3 +69,21 @@ export function toggleStringInArray(arr: string[], str: string): string[] {
 export function isArrayNotEmpty<T>(arr: T[]): arr is [T, ...T[]] {
   return Array.isArray(arr) && arr.length > 0;
 }
+
+/**
+ * 追踪多個異步操作的進度，並在每個操作完成時調用進度回調函數。
+ */
+export function trackProgress<T>(
+  proms: Promise<T>[],
+  progress_cb: (progress: number, done: number) => void
+) {
+  let d = 0;
+  progress_cb(0, 0);
+  for (const p of proms) {
+    p.then(() => {
+      d++;
+      progress_cb((d * 100) / proms.length, d);
+    });
+  }
+  return Promise.all(proms);
+}

@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 import Link, { type LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 
-import { uploadImages } from "@/utils/server-actions";
-import { isArrayNotEmpty } from "@/utils/utils";
+import { uploadImage, verifyUpload } from "@/utils/server-actions";
+import { trackProgress, isArrayNotEmpty } from "@/utils/utils";
 import { compressImage } from "@/utils/client-utils";
 
 import { Button, Grid, IconButton, Dialog } from "@mui/material";
@@ -53,73 +53,89 @@ export default function UploadForm({
   const onValid = async (data: z.infer<typeof uploadSchema>) => {
     if (isSubmitting) return;
 
-    const totalLength = data.fieldArray.length;
-
-    toast.loading(`Compressing Files... (0 / ${totalLength})`, {
-      style: { minWidth: "20rem" },
-      id: "submit",
-    });
-
-    let totalSize = 0;
-    const files = new FormData();
-
-    for (const [index, { file }] of data.fieldArray.entries()) {
-      const compressedFile = await compressImage(file, {
-        type: "webp",
-        maxSize: 3 * 1024 * 1024,
-      });
-
-      totalSize += compressedFile.size;
-
-      if (totalSize > 4 * 1024 * 1024) {
-        toast.error(
-          `Total file size ${(totalSize / 1024 / 1024).toFixed(
-            2
-          )} MB exceeds 4 MB`,
-          { id: "submit" }
-        );
-        return;
-      }
-
-      files.append(index.toString(), compressedFile);
-
-      toast.loading(`Compressing Files... (${index + 1} / ${totalLength})`, {
-        id: "submit",
-      });
-    }
-
-    toast.loading(
-      `Saving changes... (${(totalSize / 1024 / 1024).toFixed(2)} MB)`,
-      { id: "submit" }
-    );
-
-    const fieldArray = data.fieldArray.map(({ category, group, name }) => ({
+    //
+    // 獲取表單數據
+    const { fieldArray } = data;
+    const totalCount = fieldArray.length;
+    const filesList = fieldArray.map(({ file }) => file);
+    const metadataList = fieldArray.map(({ category, group, name }) => ({
       category,
       group,
       name,
     }));
 
-    if (!isArrayNotEmpty(fieldArray)) {
-      toast.error("No files to upload", { id: "submit" });
+    if (!isArrayNotEmpty(metadataList)) {
+      toast.error("No files to upload");
       return;
     }
 
     try {
-      const result = await uploadImages({ fieldArray }, files);
-      const success = result?.success ?? [];
-      const error = result?.error ?? [];
+      //
+      // 壓縮圖片並且檢查每張圖片的大小
+      toast.loading(`Compressing Files... (0 / ${totalCount})`, {
+        style: { minWidth: "20rem" },
+        id: "submit",
+      });
 
-      if (success.length > 0) {
+      const compressedFiles = await trackProgress(
+        filesList.map((file) =>
+          compressImage(file, { type: "webp", maxSize: 4 * 1024 * 1024 })
+        ),
+        (_, done) =>
+          toast.loading(`Compressing Files... (${done + 1} / ${totalCount})`, {
+            id: "submit",
+          })
+      );
+
+      if (!compressedFiles.every(({ size }) => size <= 4 * 1024 * 1024)) {
+        toast.error("Some file size exceeds 4 MB", { id: "submit" });
+        return;
+      }
+
+      //
+      // 驗證元數據
+      toast.loading(`Verifing metadata`, { id: "submit" });
+      const result = await verifyUpload({ fieldArray: metadataList });
+
+      if (result?.error) {
+        toast.dismiss("submit");
+        result.error.map((message) => toast.error(message));
+        return;
+      }
+
+      //
+      // 上傳圖片
+      toast.loading(`Saving changes... (0 / ${totalCount})`, { id: "submit" });
+
+      const uploadPromises = compressedFiles.map((file, index) => {
+        const metadata = metadataList[index];
+        const formData = new FormData();
+        formData.append("file", file);
+
+        return uploadImage(metadata, formData);
+      });
+
+      const res = await trackProgress(uploadPromises, (_, done) =>
+        toast.loading(`Saving changes... (${done + 1} / ${totalCount})`, {
+          id: "submit",
+        })
+      );
+
+      //
+      // 處理上傳結果
+      if (res.every((r) => r.success)) {
         toast.success("Changes saved successfully!", { id: "submit" });
+
         (async () => {
           reset({ fieldArray: [] });
           router.refresh();
         })();
-      } else if (error.length === 0) {
-        toast.error("Something went wrong", { id: "submit" });
       } else {
         toast.dismiss("submit");
-        error.map((message) => toast.error(message));
+
+        res.forEach((r, index) => {
+          if (!r.success) toast.error(`Failed to upload image ${index + 1}`);
+        });
       }
     } catch {
       toast.error("Something went wrong", { id: "submit" });

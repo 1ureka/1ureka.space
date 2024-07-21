@@ -8,7 +8,10 @@ import { createMetadataWithFileSchema } from "@/schema/schema";
 import toast from "react-hot-toast";
 import Link, { type LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
+
 import { uploadImages } from "@/utils/server-actions";
+import { isArrayNotEmpty } from "@/utils/utils";
+import { compressImage } from "@/utils/client-utils";
 
 import { Button, Grid, IconButton, Dialog } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -16,7 +19,6 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
 import { FileDropField, UploadField } from "..";
-import { isArrayNotEmpty } from "@/utils/utils";
 
 interface UploadFormProps {
   open: boolean;
@@ -51,18 +53,51 @@ export default function UploadForm({
   const onValid = async (data: z.infer<typeof uploadSchema>) => {
     if (isSubmitting) return;
 
-    toast.loading("Saving changes...", {
+    const totalLength = data.fieldArray.length;
+
+    toast.loading(`Compressing Files... (0 / ${totalLength})`, {
       style: { minWidth: "20rem" },
       id: "submit",
     });
 
+    let totalSize = 0;
     const files = new FormData();
-    const fieldArray = data.fieldArray.map(
-      ({ category, group, name, file }, index) => {
-        files.append(index.toString(), file);
-        return { category, group, name };
+
+    for (const [index, { file }] of data.fieldArray.entries()) {
+      const compressedFile = await compressImage(file, {
+        type: "webp",
+        maxSize: 3 * 1024 * 1024,
+      });
+
+      totalSize += compressedFile.size;
+
+      if (totalSize > 4 * 1024 * 1024) {
+        toast.error(
+          `Total file size ${(totalSize / 1024 / 1024).toFixed(
+            2
+          )} MB exceeds 4 MB`,
+          { id: "submit" }
+        );
+        return;
       }
+
+      files.append(index.toString(), compressedFile);
+
+      toast.loading(`Compressing Files... (${index + 1} / ${totalLength})`, {
+        id: "submit",
+      });
+    }
+
+    toast.loading(
+      `Saving changes... (${(totalSize / 1024 / 1024).toFixed(2)} MB)`,
+      { id: "submit" }
     );
+
+    const fieldArray = data.fieldArray.map(({ category, group, name }) => ({
+      category,
+      group,
+      name,
+    }));
 
     if (!isArrayNotEmpty(fieldArray)) {
       toast.error("No files to upload", { id: "submit" });

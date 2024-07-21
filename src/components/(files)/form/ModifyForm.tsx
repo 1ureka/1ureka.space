@@ -28,12 +28,22 @@ interface ModifyFormProps {
 }
 
 const generateFieldArray = (names: string[], metadataList: ImageMetadata[]) => {
-  return names.map((name) => {
-    const { id, category, group } = metadataList.find(
-      (metadata) => metadata.name === name
-    ) as ImageMetadata;
-    return { cuid: id, category: category as "scene" | "props", name, group };
-  });
+  const fieldArray = [];
+
+  for (const name of names) {
+    const metadata = metadataList.find((metadata) => metadata.name === name);
+
+    if (metadata) {
+      fieldArray.push({
+        cuid: metadata.id,
+        category: metadata.category as "scene" | "props",
+        name: metadata.name,
+        group: metadata.group,
+      });
+    }
+  }
+
+  return fieldArray;
 };
 
 export default function ModifyForm({

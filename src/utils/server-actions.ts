@@ -15,16 +15,11 @@ import { getMetadataIDs, getMetadataNames, getAllMetadata } from "@/data/table";
 import { deleteMetadata, updateMetadata } from "@/data/table";
 
 /**
- * 驗證相關的元數據並上傳圖片。
+ * 驗證上傳的圖片元數據。
  * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
  */
-export async function uploadImages(
-  data: z.infer<typeof MetadataSchema>,
-  filesFormdata: FormData
-) {
-  log("ACTION", "Uploading images");
-
-  const startTime = performance.now();
+export async function verifyUpload(data: z.infer<typeof MetadataSchema>) {
+  log("ACTION", "Verifying upload");
 
   try {
     const session = await auth();
@@ -46,65 +41,63 @@ export async function uploadImages(
 
       return { error: errorMessages };
     }
-
-    //
-    // 檢查所有檔案是否有效
-    const files = Array.from(filesFormdata.values()) as File[];
-
-    if (!files.every((file) => file instanceof File)) {
-      return { error: ["Invalid files."] };
-    }
-
-    if (files.length !== data.fieldArray.length) {
-      return { error: ["Number of files does not match number of fields."] };
-    }
-
-    //
-    // 創建圖像資料
-    const arrayBuffers = await Promise.all(
-      files.map((file) => file.arrayBuffer())
-    );
-
-    const images = arrayBuffers.map((buffer) => sharp(buffer));
-    const [bufferO, bufferT] = await Promise.all([
-      Promise.all(images.map((image) => createOriginBuffer(image))),
-      Promise.all(images.map((image) => createThumbnailBuffer(image))),
-    ]);
-
-    //
-    // 上傳加上大小的圖片元數據
-    const metadataList = data.fieldArray.map((metadata, i) => ({
-      ...metadata,
-      size: bufferO[i].byteLength + bufferT[i].byteLength,
-    }));
-
-    const metadataIDs = await createMetadata(metadataList);
-
-    //
-    // 上傳原始圖片和縮略圖
-    const originList = bufferO.map((buffer, i) => ({
-      metadataId: metadataIDs[i],
-      bytes: buffer,
-    }));
-
-    const thumbnailList = bufferT.map((buffer, i) => ({
-      metadataId: metadataIDs[i],
-      bytes: buffer,
-    }));
-
-    await Promise.all([
-      createOrigins(originList),
-      createThumbnails(thumbnailList),
-    ]);
   } catch (error) {
     console.error(`Error: ${error}`);
     return { error: ["Something went wrong"] };
   }
+}
 
-  const endTime = performance.now();
-  console.log(`Upload time: ${endTime - startTime} ms`);
+/**
+ * 上傳單張圖片。
+ * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
+ */
+export async function uploadImage(
+  metadata: z.infer<typeof MetadataSchema>["fieldArray"][number],
+  fileData: FormData
+) {
+  log("ACTION", "Uploading images");
 
-  return { success: ["Images uploaded successfully."] };
+  try {
+    const session = await auth();
+    if (!session) {
+      return { error: ["Authentication required to upload files."] };
+    }
+
+    //
+    // 檢查檔案是否有效，創建圖像資料
+    const file = fileData.get("file");
+
+    if (!file || !(file instanceof File) || !file.type.startsWith("image/")) {
+      return { error: ["Invalid files."] };
+    }
+
+    const arrayBuffer = await file.arrayBuffer();
+
+    const image = sharp(arrayBuffer);
+    const [bufferO, bufferT] = await Promise.all([
+      createOriginBuffer(image),
+      createThumbnailBuffer(image),
+    ]);
+
+    //
+    // 上傳加上大小的圖片元數據與圖片
+    const metadataWithSize = {
+      ...metadata,
+      size: bufferO.byteLength + bufferT.byteLength,
+    };
+
+    const [id] = await createMetadata([metadataWithSize]);
+
+    const listO = [{ metadataId: id, bytes: bufferO }];
+    const listT = [{ metadataId: id, bytes: bufferT }];
+
+    await Promise.all([createOrigins(listO), createThumbnails(listT)]);
+
+    return { success: ["File uploaded successfully."] };
+  } catch (error) {
+    console.error(`Error: ${error}`);
+    return { error: ["Something went wrong"] };
+  }
 }
 
 /**

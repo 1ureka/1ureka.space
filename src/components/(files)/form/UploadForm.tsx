@@ -106,14 +106,17 @@ export default function UploadForm({
 
     try {
       const result = await uploadImages({ fieldArray }, files);
+      const success = result?.success ?? [];
       const error = result?.error ?? [];
 
-      if (error.length === 0) {
+      if (success.length > 0) {
         toast.success("Changes saved successfully!", { id: "submit" });
         (async () => {
           reset({ fieldArray: [] });
           router.refresh();
         })();
+      } else if (error.length === 0) {
+        toast.error("Something went wrong", { id: "submit" });
       } else {
         toast.dismiss("submit");
         error.map((message) => toast.error(message));

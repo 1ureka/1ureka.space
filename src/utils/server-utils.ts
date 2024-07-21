@@ -39,7 +39,7 @@ export async function createOriginBuffer(sharp: sharp.Sharp) {
 
   return sharp
     .resize(width, height, { fit: "cover" })
-    .webp({ quality: 100, effort: 6 })
+    .webp({ quality: 100 })
     .toBuffer();
 }
 
@@ -50,6 +50,6 @@ export async function createOriginBuffer(sharp: sharp.Sharp) {
 export async function createThumbnailBuffer(sharp: sharp.Sharp) {
   return sharp
     .resize(480, 270, { fit: "cover" })
-    .webp({ quality: 50, effort: 6 })
+    .webp({ quality: 50 })
     .toBuffer();
 }

@@ -60,4 +60,3 @@ export default async function FilesContent({
 }
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;

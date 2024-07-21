@@ -24,6 +24,8 @@ export async function uploadImages(
 ) {
   log("ACTION", "Uploading images");
 
+  const startTime = performance.now();
+
   try {
     const session = await auth();
     if (!session) {
@@ -62,26 +64,8 @@ export async function uploadImages(
     const arrayBuffers = await Promise.all(
       files.map((file) => file.arrayBuffer())
     );
-    const images = await Promise.all(
-      arrayBuffers.map((buffer) => sharp(buffer))
-    );
 
-    const dimmensions = await Promise.all(
-      images.map(async (image) => {
-        const metadata = await image.metadata();
-        return { width: metadata.width, height: metadata.height };
-      })
-    );
-
-    if (
-      !dimmensions.every(
-        ({ width, height }) =>
-          width && height && width >= 1080 && height >= 1080
-      )
-    ) {
-      return { error: ["All images must be at least 1080x1080."] };
-    }
-
+    const images = arrayBuffers.map((buffer) => sharp(buffer));
     const [bufferO, bufferT] = await Promise.all([
       Promise.all(images.map((image) => createOriginBuffer(image))),
       Promise.all(images.map((image) => createThumbnailBuffer(image))),
@@ -117,7 +101,10 @@ export async function uploadImages(
     return { error: ["Something went wrong"] };
   }
 
-  return;
+  const endTime = performance.now();
+  console.log(`Upload time: ${endTime - startTime} ms`);
+
+  return { success: ["Images uploaded successfully."] };
 }
 
 /**

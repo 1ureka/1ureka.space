@@ -37,6 +37,7 @@ interface UploadFieldProps {
   errors: FieldErrors<Z>;
   register: UseFormRegister<Z>;
   remove: UseFieldArrayRemove;
+  disabled?: boolean;
 }
 
 export default function UploadField({
@@ -45,6 +46,7 @@ export default function UploadField({
   errors,
   register,
   remove,
+  disabled,
 }: UploadFieldProps) {
   const dataUrl = useBlob(field.file);
   const [src, state] = useDecode(dataUrl);
@@ -64,12 +66,17 @@ export default function UploadField({
           defaultValue={immutableCategory.current}
           error={!!error?.category}
           helperText={error?.category?.message}
+          disabled={disabled}
         >
           <MenuItem value="scene">Scene</MenuItem>
           <MenuItem value="props">Props</MenuItem>
         </TextField>
 
-        <IconButton sx={{ mx: 1.5 }} onClick={() => remove(index)}>
+        <IconButton
+          sx={{ mx: 1.5 }}
+          onClick={() => remove(index)}
+          disabled={disabled}
+        >
           <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
         </IconButton>
       </Stack>
@@ -95,6 +102,7 @@ export default function UploadField({
           {...register(`fieldArray.${index}.name`)}
           error={!!error?.name}
           helperText={error?.name?.message}
+          disabled={disabled}
         />
         <TextField
           variant="filled"
@@ -104,6 +112,7 @@ export default function UploadField({
           {...register(`fieldArray.${index}.group`)}
           error={!!error?.group}
           helperText={error?.group?.message}
+          disabled={disabled}
         />
       </Stack>
     </StackM>

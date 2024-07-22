@@ -28,9 +28,14 @@ const imageContainerSx = {
 interface UploadFieldProps {
   onRemove: () => void;
   metadata: ImageMetadata;
+  disabled?: boolean;
 }
 
-export default function DeleteField({ onRemove, metadata }: UploadFieldProps) {
+export default function DeleteField({
+  onRemove,
+  metadata,
+  disabled,
+}: UploadFieldProps) {
   return (
     <StackM variants={yScaleVar} sx={containerSx}>
       <Stack direction="row" alignItems="center" spacing={2}>
@@ -46,7 +51,7 @@ export default function DeleteField({ onRemove, metadata }: UploadFieldProps) {
           <MenuItem value="props">Props</MenuItem>
         </TextField>
 
-        <IconButton sx={{ mx: 1.5 }} onClick={onRemove}>
+        <IconButton sx={{ mx: 1.5 }} onClick={onRemove} disabled={disabled}>
           <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
         </IconButton>
       </Stack>

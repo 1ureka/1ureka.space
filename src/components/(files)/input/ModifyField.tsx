@@ -35,6 +35,7 @@ interface ModifyFieldProps {
   errors: FieldErrors<Z>;
   register: UseFormRegister<Z>;
   isDirty: boolean;
+  disabled?: boolean;
 }
 
 export default function ModifyField({
@@ -43,6 +44,7 @@ export default function ModifyField({
   errors,
   register,
   isDirty,
+  disabled,
 }: ModifyFieldProps) {
   const immutableCategory = useRef(field.category);
   const error = errors.fieldArray && errors.fieldArray[index];
@@ -59,6 +61,7 @@ export default function ModifyField({
           defaultValue={immutableCategory.current}
           error={!!error?.category}
           helperText={error?.category?.message}
+          disabled={disabled}
         >
           <MenuItem value="scene">Scene</MenuItem>
           <MenuItem value="props">Props</MenuItem>
@@ -96,6 +99,7 @@ export default function ModifyField({
           {...register(`fieldArray.${index}.name`)}
           error={!!error?.name}
           helperText={error?.name?.message}
+          disabled={disabled}
         />
         <TextField
           variant="filled"
@@ -105,6 +109,7 @@ export default function ModifyField({
           {...register(`fieldArray.${index}.group`)}
           error={!!error?.group}
           helperText={error?.group?.message}
+          disabled={disabled}
         />
       </Stack>
     </StackM>

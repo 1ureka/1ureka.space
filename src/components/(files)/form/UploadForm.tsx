@@ -72,7 +72,10 @@ export default function UploadForm({
     try {
       //
       // 驗證元數據
-      toast.loading(`Verifing metadata`, { id: "submit" });
+      toast.loading(`Verifing metadata`, {
+        style: { minWidth: "20rem" },
+        id: "submit",
+      });
       const result = await verifyUpload({ fieldArray: metadataList });
 
       if (result?.error) {
@@ -84,7 +87,6 @@ export default function UploadForm({
       //
       // 壓縮圖片並且檢查每張圖片的大小
       toast.loading(`Compressing Files... (0 / ${totalCount})`, {
-        style: { minWidth: "20rem" },
         id: "submit",
       });
 

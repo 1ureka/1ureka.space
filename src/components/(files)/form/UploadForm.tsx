@@ -71,6 +71,17 @@ export default function UploadForm({
 
     try {
       //
+      // 驗證元數據
+      toast.loading(`Verifing metadata`, { id: "submit" });
+      const result = await verifyUpload({ fieldArray: metadataList });
+
+      if (result?.error) {
+        toast.dismiss("submit");
+        result.error.map((message) => toast.error(message));
+        return;
+      }
+
+      //
       // 壓縮圖片並且檢查每張圖片的大小
       toast.loading(`Compressing Files... (0 / ${totalCount})`, {
         style: { minWidth: "20rem" },
@@ -89,17 +100,6 @@ export default function UploadForm({
 
       if (!compressedFiles.every(({ size }) => size <= 4 * 1024 * 1024)) {
         toast.error("Some file size exceeds 4 MB", { id: "submit" });
-        return;
-      }
-
-      //
-      // 驗證元數據
-      toast.loading(`Verifing metadata`, { id: "submit" });
-      const result = await verifyUpload({ fieldArray: metadataList });
-
-      if (result?.error) {
-        toast.dismiss("submit");
-        result.error.map((message) => toast.error(message));
         return;
       }
 

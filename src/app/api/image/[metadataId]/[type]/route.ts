@@ -55,7 +55,7 @@ export const GET = auth(async function GET(request, segments) {
       status: 200,
       headers: {
         "Content-Type": "image/webp",
-        "Cache-Control": "max-age=120, must-revalidate",
+        "Cache-Control": "max-age=360, must-revalidate",
         ETag,
       },
     });

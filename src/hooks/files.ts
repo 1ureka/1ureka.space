@@ -95,7 +95,7 @@ export const useFilesReset = () => {
   const setPage = useSetRecoilState(FILES_CURRENT_PAGE);
   const setSelected = useSetRecoilState(FILES_SELECTED);
   const searchParams = useSearchParams();
-  const category = searchParams.get("category");
+  const category = searchParams.get("category") ?? "scene";
 
   useEffect(() => {
     setPage(0);

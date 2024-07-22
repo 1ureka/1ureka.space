@@ -195,6 +195,7 @@ export default function UploadForm({
                     errors={errors}
                     register={register}
                     remove={remove}
+                    disabled={isSubmitting}
                   />
                 </BoxM>
               </GridM>

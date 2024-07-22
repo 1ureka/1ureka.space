@@ -158,6 +158,7 @@ export default function ModifyForm({
                     errors={errors}
                     register={register}
                     isDirty={dirtyArray[index]}
+                    disabled={isSubmitting}
                   />
                 </BoxM>
               </GridM>

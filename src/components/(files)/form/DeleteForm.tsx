@@ -99,6 +99,7 @@ export default function DeleteForm({
                 <DeleteField
                   metadata={metadata}
                   onRemove={createHandleCancel(metadata.name)}
+                  disabled={isSubmitting}
                 />
               </BoxM>
             </GridM>

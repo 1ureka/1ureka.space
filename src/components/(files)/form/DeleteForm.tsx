@@ -10,7 +10,7 @@ import Link, { type LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 import { deleteImages } from "@/utils/server-actions";
 
-import { Button, Grid, IconButton, Dialog } from "@mui/material";
+import { Button, Grid, IconButton, Dialog, Typography } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
@@ -92,19 +92,27 @@ export default function DeleteForm({
         dividers
         layout
       >
-        <Grid container columns={2} spacing={3} minHeight={"20rem"}>
-          {selectedMetadata.map((metadata) => (
-            <GridM item layout xs={2} md={1} key={metadata.id}>
-              <BoxM initial="initial" animate="animate">
-                <DeleteField
-                  metadata={metadata}
-                  onRemove={createHandleCancel(metadata.name)}
-                  disabled={isSubmitting}
-                />
-              </BoxM>
-            </GridM>
-          ))}
-        </Grid>
+        {selectedMetadata.length === 0 ? (
+          <BoxM layout sx={{ display: "grid", placeItems: "center" }}>
+            <Typography variant="subtitle2" sx={{ p: 2.5 }}>
+              There is no file selected.
+            </Typography>
+          </BoxM>
+        ) : (
+          <Grid container columns={2} spacing={3}>
+            {selectedMetadata.map((metadata) => (
+              <GridM item layout xs={2} md={1} key={metadata.id}>
+                <BoxM initial="initial" animate="animate">
+                  <DeleteField
+                    metadata={metadata}
+                    onRemove={createHandleCancel(metadata.name)}
+                    disabled={isSubmitting}
+                  />
+                </BoxM>
+              </GridM>
+            ))}
+          </Grid>
+        )}
       </DialogContentM>
 
       <DialogActionsM layout>

@@ -11,15 +11,16 @@ import Link, { type LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 import { updateImages } from "@/utils/server-actions";
 
-import { Button, Grid, IconButton, Dialog } from "@mui/material";
+import { Button, Grid, IconButton, Dialog, Typography } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
 import { ModifyField } from "..";
 
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { FILES_SELECTED } from "@/context/store";
-import { useEffect } from "react";
 
 interface ModifyFormProps {
   open: boolean;
@@ -147,7 +148,13 @@ export default function ModifyForm({
         dividers
         layout
       >
-        {fields.length > 0 && (
+        {fields.length === 0 ? (
+          <BoxM layout sx={{ display: "grid", placeItems: "center" }}>
+            <Typography variant="subtitle2" sx={{ p: 2.5 }}>
+              There is no file selected.
+            </Typography>
+          </BoxM>
+        ) : (
           <Grid container columns={2} spacing={3}>
             {fields.map((field, index) => (
               <GridM item layout xs={2} md={1} key={field.id}>

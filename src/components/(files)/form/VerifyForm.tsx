@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link, { type LinkProps } from "next/link";
+import toast from "react-hot-toast";
+import { verifyIntegrity } from "@/utils/server-actions";
 
 import { Button, IconButton, Dialog, Divider, Box } from "@mui/material";
 import { Typography, Stack, Skeleton } from "@mui/material";
@@ -9,8 +11,6 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, DialogTitleM, StackM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
-import { verifyIntegrity } from "@/utils/server-actions";
-import toast from "react-hot-toast";
 
 interface VerifyFormProps {
   open: boolean;

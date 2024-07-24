@@ -7,8 +7,9 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { ModifyForm, Table, UnAuthTable } from "@/components/(files)";
+import { Table, UnAuthTable } from "@/components/(files)";
 import { DeleteForm, UploadForm } from "@/components/(files)";
+import { ModifyForm, VerifyForm } from "@/components/(files)";
 
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
@@ -53,6 +54,12 @@ export default async function FilesContent({
           open={form === "modify"}
           closeHref={{ pathname: "/files", query: { category } }}
           metadataList={metadataList}
+        />
+      )}
+      {session && (
+        <VerifyForm
+          open={form === "verify"}
+          closeHref={{ pathname: "/files", query: { category } }}
         />
       )}
     </BoxM>

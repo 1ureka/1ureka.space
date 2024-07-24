@@ -14,6 +14,7 @@ export { default as TableFooter } from "./display/TableFooter";
 export { default as UploadForm } from "./form/UploadForm";
 export { default as DeleteForm } from "./form/DeleteForm";
 export { default as ModifyForm } from "./form/ModifyForm";
+export { default as VerifyForm } from "./form/VerifyForm";
 
 export { default as Options } from "./block/Options";
 export { default as Table } from "./block/Table";

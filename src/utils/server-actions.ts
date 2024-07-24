@@ -14,6 +14,9 @@ import { createMetadata, createOrigins, createThumbnails } from "@/data/table";
 import { getMetadataIDs, getMetadataNames, getAllMetadata } from "@/data/table";
 import { deleteMetadata, updateMetadata } from "@/data/table";
 
+import { verifyAllCategory, summaryCategorySize } from "@/data/table";
+import { verifyAllOrigin, verifyAllThumbnail } from "@/data/table";
+
 /**
  * 驗證上傳的圖片元數據。
  * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
@@ -180,4 +183,37 @@ export async function deleteImages(ids: string[]) {
   }
 
   return;
+}
+
+/**
+ * 驗證圖片庫完整性。
+ * @returns 成功時回傳一個包含完整性檢查結果的物件，失敗時回傳一個包含錯誤訊息的物件。
+ */
+export async function verifyIntegrity() {
+  log("ACTION", "Verifying integrity");
+
+  try {
+    const session = await auth();
+    if (!session) {
+      return { error: ["Authentication required to verify integrity."] };
+    }
+
+    const [countC, countT, countO, summary] = await Promise.all([
+      verifyAllCategory(),
+      verifyAllThumbnail(),
+      verifyAllOrigin(),
+      summaryCategorySize(),
+    ]);
+
+    return {
+      success: {
+        category: countC === 0 ? "PASS" : "FAIL",
+        thumbnail: countT === 0 ? "PASS" : "FAIL",
+        origin: countO === 0 ? "PASS" : "FAIL",
+        summary,
+      },
+    };
+  } catch (error) {
+    return { error: ["Something went wrong"] };
+  }
 }

@@ -42,9 +42,13 @@ export default function Options({
               </Button>
             </Link>
 
-            <Button startIcon={<ImageSearchRoundedIcon fontSize="small" />}>
-              Verify Integrity
-            </Button>
+            <Link
+              href={{ pathname: "/files", query: { category, form: "verify" } }}
+            >
+              <Button startIcon={<ImageSearchRoundedIcon fontSize="small" />}>
+                Verify Integrity
+              </Button>
+            </Link>
           </Stack>
         </StackM>
       </Stack>

@@ -6,15 +6,13 @@ export const metadata: Metadata = {
 import { Box } from "@mui/material";
 import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
-
 import { EditPanel, EditPreview } from "@/components/(editor)";
 
 export default function EditorContent() {
   return (
     <StackM
       {...layoutChildMotionProps()}
-      direction="row-reverse"
-      flexWrap="wrap"
+      direction={{ xs: "column", lg: "row" }}
       justifyContent="center"
       gap={12}
       sx={{ py: 7, px: 9 }}
@@ -24,7 +22,6 @@ export default function EditorContent() {
           sx={{
             position: { xs: "relative", lg: "sticky" },
             top: { xs: "", lg: 0 },
-            minWidth: 375,
             width: 1,
             minHeight: 300,
             height: "62.5vh",
@@ -34,7 +31,7 @@ export default function EditorContent() {
         </Box>
       </BoxM>
 
-      <BoxM variants={yScaleVar} sx={{ width: 375 }}>
+      <BoxM variants={yScaleVar} sx={{ width: { xs: 1, lg: 375 } }}>
         <EditPanel />
       </BoxM>
     </StackM>

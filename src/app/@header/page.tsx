@@ -6,7 +6,7 @@ import { yScaleVar, yVar } from "@/components/MotionProps";
 export default function Header() {
   return (
     <BoxM {...layoutChildMotionProps()}>
-      <Box sx={{ py: 3, px: 9 }}>
+      <Box sx={{ py: 3, px: { xs: 4.5, sm: 9 } }}>
         <Stack
           direction={{ sm: "row" }}
           gap={{ xs: 1, sm: 3 }}

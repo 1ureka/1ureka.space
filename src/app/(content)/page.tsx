@@ -63,7 +63,7 @@ export default function Content() {
         container
         columns={{ xs: 1, lg: 2 }}
         spacing={7}
-        sx={{ pt: 5, pb: 7, px: 9 }}
+        sx={{ pt: 5, pb: 7, px: { xs: 3, sm: 9 } }}
       >
         {cardData.map((card, index) => (
           <GridM
@@ -71,7 +71,7 @@ export default function Content() {
             item
             xs={1}
             variants={yScaleVar}
-            height={{ xs: "max(35vh, 250px)", lg: 0.5 }}
+            height={{ xs: "fit-content", sm: "max(35vh, 250px)", lg: 0.5 }}
           >
             <NavCard {...card} />
           </GridM>

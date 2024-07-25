@@ -39,7 +39,7 @@ function OverflowContainer({ children }: { children: React.ReactNode }) {
       position="absolute"
       sx={{
         inset: 0,
-        px: 5,
+        px: { xs: 0, sm: 3, md: 5 },
         py: 3,
         overflowY: "auto",
         scrollbarGutter: "stable",

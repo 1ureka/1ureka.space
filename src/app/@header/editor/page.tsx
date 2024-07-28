@@ -16,7 +16,7 @@ export default function Header() {
       direction={{ sm: "row" }}
       alignItems={{ sm: "flex-end" }}
       gap={{ xs: 1, sm: 3 }}
-      sx={{ px: 9, py: 3 }}
+      sx={{ py: 3, px: { xs: 3, sm: 9 } }}
     >
       <BoxM variants={yScaleVar}>
         <Typography variant="h6" sx={{ whiteSpace: { md: "nowrap" } }}>

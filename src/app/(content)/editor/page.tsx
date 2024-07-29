@@ -15,7 +15,7 @@ export default function EditorContent() {
       direction={{ xs: "column", lg: "row" }}
       justifyContent="center"
       gap={12}
-      sx={{ py: 7, px: 9 }}
+      sx={{ py: 7, px: { xs: 3, sm: 9 } }}
     >
       <BoxM variants={yScaleVar} sx={{ flexGrow: 1 }}>
         <Box

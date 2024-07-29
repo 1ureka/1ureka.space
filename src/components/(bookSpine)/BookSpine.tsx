@@ -22,7 +22,7 @@ export default function BookSpine({
   );
 
   const sx: BoxProps["sx"] = isMobile
-    ? { position: "absolute", inset: "auto 0 0 0" }
+    ? { position: "fixed", inset: "auto 0 0 0" }
     : { position: "relative", height: 1 };
 
   return (

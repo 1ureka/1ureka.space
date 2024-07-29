@@ -31,7 +31,15 @@ export default async function FilesContent({
 
   return (
     <BoxM
-      sx={{ position: "relative", py: 3, px: 7 }}
+      sx={{
+        position: "relative",
+        py: 3,
+        px: { xs: 2, sm: 7 },
+
+        // 不知底下這個為何可以讓內部子元素的minWidth與overflowX: "auto"生效
+        // 是與Y無關的overflowX喔! 有夠詭異的，CSS真棒
+        overflowY: "hidden",
+      }}
       {...layoutChildMotionProps()}
     >
       {session ? <Table metadataList={metadataList} /> : <UnAuthTable />}

@@ -3,7 +3,7 @@ export const metadata: Metadata = {
   title: "books",
 };
 
-import { Gallery } from "@/components/(books)";
+import { Gallery, Accordion } from "@/components/(books)";
 import { Carousels } from "@/components/(carousels)";
 import { getSortedMetadata } from "@/data/table";
 
@@ -12,6 +12,7 @@ export default async function PropsContent() {
 
   return (
     <>
+      <Accordion />
       <Gallery metadataList={metadataList} />
       <Carousels metadataList={metadataList} />
     </>

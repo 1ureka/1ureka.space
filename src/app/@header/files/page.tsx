@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
-import { Divider, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import { Alert, Options } from "@/components/(files)";
-import { BoxM, StackM } from "@/components/Motion";
+import { BoxM, StackM, DividerM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
 export default async function Header({
@@ -19,17 +19,17 @@ export default async function Header({
       {...layoutChildMotionProps()}
       direction="row"
       alignItems="flex-end"
-      spacing={3}
-      sx={{ px: 9, py: 3, height: "fit-content" }}
+      flexWrap={{ xs: "wrap", sm: "nowrap" }}
+      gap={3}
+      sx={{ px: { xs: 3, sm: 9 }, py: 3, height: "fit-content" }}
     >
       <BoxM variants={yScaleVar}>
         <Typography variant="h6" sx={{ whiteSpace: "nowrap" }}>
           File Shelf
         </Typography>
       </BoxM>
-      <BoxM variants={yScaleVar} height={"auto"} alignSelf={"stretch"}>
-        <Divider orientation="vertical" />
-      </BoxM>
+
+      <DividerM variants={yScaleVar} orientation="vertical" flexItem />
 
       {session ? (
         <Options

@@ -21,9 +21,11 @@ export default function Options({
       direction="row"
       justifyContent="space-between"
       alignItems="flex-end"
+      flexWrap="wrap"
+      gap={{ xs: 3, sm: 5.5 }}
       sx={sx}
     >
-      <Stack direction="row" spacing={8}>
+      <Stack direction="row" flexWrap="wrap" gap={{ xs: 3, sm: 5.5, md: 8 }}>
         <StackM variants={yScaleVar} spacing={1}>
           <Typography variant="subtitle2">CATEGORY:</Typography>
 

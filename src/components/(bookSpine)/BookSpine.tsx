@@ -1,7 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Backdrop, Box, type BoxProps } from "@mui/material";
-import { Collapsed, Expanded, Setting } from ".";
+import { Backdrop, Box, useMediaQuery } from "@mui/material";
+import type { Theme, BoxProps } from "@mui/material";
+import { Expanded, Setting } from ".";
+
+import dynamic from "next/dynamic";
+const Collapsed = dynamic(() => import("./block/Collapsed"), { ssr: false });
 
 export default function BookSpine({
   UserButton,
@@ -13,12 +17,16 @@ export default function BookSpine({
     setOpen((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
+  const isMobile = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  );
+
+  const sx: BoxProps["sx"] = isMobile
+    ? { position: "absolute", inset: "auto 0 0 0" }
+    : { position: "relative", height: 1 };
+
   return (
-    <Box
-      data-mui-color-scheme="dark"
-      sx={{ position: "relative", height: 1, zIndex: "drawer" }}
-      {...props}
-    >
+    <Box data-mui-color-scheme="dark" sx={sx} zIndex="drawer" {...props}>
       <Backdrop
         sx={{ backdropFilter: "blur(5px)", zIndex: -1 }}
         open={open.menu}

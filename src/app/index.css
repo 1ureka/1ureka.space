@@ -20,3 +20,10 @@ body {
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
+
+#Gallery,
+#Carousels {
+  img {
+    transition: filter 0.3s ease-in-out;
+  }
+}

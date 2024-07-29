@@ -14,17 +14,13 @@ const containerSx: BoxProps["sx"] = {
   gap: 2.5,
   pt: 5,
   pb: 7,
-  px: 9,
+  px: { xs: 3, sm: 9 },
   height: "fit-content",
 } as const;
 
 function GridItem({ children }: { children: React.ReactNode }) {
   return (
-    <BoxM
-      variants={yScaleVar}
-      layout
-      sx={{ width: 1, aspectRatio: 16 / 9, maxWidth: "50vw" }}
-    >
+    <BoxM variants={yScaleVar} layout sx={{ width: 1, aspectRatio: 16 / 9 }}>
       {children}
     </BoxM>
   );

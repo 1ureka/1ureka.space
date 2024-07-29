@@ -21,8 +21,9 @@ export default async function Header() {
       {...layoutChildMotionProps()}
       direction="row"
       alignItems="flex-end"
-      spacing={6}
-      sx={{ px: 9, py: 3 }}
+      flexWrap={{ xs: "wrap", sm: "wrap", md: "nowrap" }}
+      gap={6}
+      sx={{ px: { xs: 3, sm: 9 }, py: 3 }}
     >
       <StackM
         variants={yScaleVar}

@@ -1,7 +1,9 @@
 import type { Theme } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+
 import { BoxM, IconButtonM } from "@/components/Motion";
-import { bookSpineCollapsedItemVar } from "@/components/MotionProps";
+import { createCollapsedItemVar } from "@/components/MotionProps";
 
 const settingButtonVariants = {
   open: {
@@ -29,8 +31,16 @@ export default function SettingButton({
       open ? theme.vars.palette.background.paper : null,
   };
 
+  const isMobile = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  );
+
+  const variants = isMobile
+    ? createCollapsedItemVar("y")
+    : createCollapsedItemVar("x");
+
   return (
-    <BoxM variants={bookSpineCollapsedItemVar}>
+    <BoxM variants={variants}>
       <IconButtonM
         variants={settingButtonVariants}
         animate={open ? "open" : "close"}

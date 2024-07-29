@@ -1,8 +1,8 @@
-import type { IconButtonProps } from "@mui/material";
-import { IconButton, Typography } from "@mui/material";
+import type { IconButtonProps, Theme } from "@mui/material";
+import { IconButton, Typography, useMediaQuery } from "@mui/material";
 
 import { StackM } from "@/components/Motion";
-import { bookSpineCollapsedItemVar } from "@/components/MotionProps";
+import { createCollapsedItemVar } from "@/components/MotionProps";
 
 const iconButtonSx: IconButtonProps["sx"] = {
   outline: "1px solid gray",
@@ -20,8 +20,16 @@ export default function NavIconButton({
   label: string;
   onClick: React.MouseEventHandler;
 }) {
+  const isMobile = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  );
+
+  const variants = isMobile
+    ? createCollapsedItemVar("y")
+    : createCollapsedItemVar("x");
+
   return (
-    <StackM variants={bookSpineCollapsedItemVar} alignItems="center">
+    <StackM variants={variants} alignItems="center">
       <IconButton size="small" sx={iconButtonSx} onClick={onClick}>
         {icon}
       </IconButton>

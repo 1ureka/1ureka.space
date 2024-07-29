@@ -46,7 +46,7 @@ export const layoutChildMotionProps = (props?: {
 // Bookspine
 //
 //
-export const bookSpineCollapsedVar: Variants = {
+export const createCollapsedVar = (type: "x" | "y"): Variants => ({
   open: {
     transition: { staggerChildren: 0.1 },
   },
@@ -54,36 +54,39 @@ export const bookSpineCollapsedVar: Variants = {
     transition: { staggerChildren: 0.1 },
   },
   initial: {
-    x: "-100%",
+    [type]: type === "x" ? "-100%" : "100%",
   },
   animate: {
-    x: 0,
+    [type]: 0,
     transition: { type: "spring", bounce: 0, duration: 0.7 },
   },
-};
-export const bookSpineCollapsedItemVar: Variants = {
+});
+
+export const createCollapsedItemVar = (type: "x" | "y"): Variants => ({
   open: {
     opacity: 0,
-    x: -60,
-    height: 0,
+    [type]: type === "x" ? -60 : 60,
+    [type === "x" ? "height" : "width"]: 0,
     transition: { type: "spring", stiffness: 150, damping: 16 },
   },
   close: {
     opacity: 1,
-    x: 0,
-    height: "auto",
+    [type]: 0,
+    [type === "x" ? "height" : "width"]: "auto",
     transition: { type: "spring", stiffness: 150, damping: 16 },
   },
-};
-export const booksSpineExtandedVar: (stagger?: number) => Variants = (
-  stagger = 0.1
-) => ({
+});
+
+export const createExtandedVar: (
+  stagger?: number,
+  type?: "x" | "y"
+) => Variants = (stagger = 0.1, type = "x") => ({
   initial: {
-    scaleX: 0,
+    [type === "x" ? "scaleX" : "scaleY"]: 0,
     transition: { type: "spring", bounce: 0, duration: 0.5 },
   },
   animate: {
-    scaleX: 1,
+    [type === "x" ? "scaleX" : "scaleY"]: 1,
     transition: {
       type: "spring",
       bounce: 0,

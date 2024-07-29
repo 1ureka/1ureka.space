@@ -12,7 +12,7 @@ const containerSx: BoxProps["sx"] = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
   gap: 2.5,
-  pt: 5,
+  pt: 2,
   pb: 7,
   px: { xs: 3, sm: 9 },
   height: "fit-content",
@@ -38,7 +38,11 @@ export default function Gallery({
   const stagger = 0.3 / (count ?? 1);
 
   return (
-    <BoxM sx={containerSx} {...layoutChildMotionProps({ stagger })}>
+    <BoxM
+      id="Gallery"
+      sx={containerSx}
+      {...layoutChildMotionProps({ stagger })}
+    >
       {groupEntries.map(([group, metadataList]) =>
         isGroupExpanded(group) ? (
           metadataList.map((metadata) => (

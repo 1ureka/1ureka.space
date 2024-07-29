@@ -1,20 +1,13 @@
 import { usePathname, useRouter } from "next/navigation";
-import { Box, Stack } from "@mui/material";
-import type { PaperProps } from "@mui/material";
+import { Box, Stack, useMediaQuery } from "@mui/material";
+import type { PaperProps, Theme } from "@mui/material";
 
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import BrushRoundedIcon from "@mui/icons-material/BrushRounded";
 
 import { MenuButton, NavIconButton, SettingButton, SpineTitle } from "..";
 import { PaperM } from "@/components/Motion";
-import { bookSpineCollapsedVar } from "@/components/MotionProps";
-
-const containerSx: PaperProps["sx"] = {
-  height: 1,
-  py: 3.5,
-  px: 1.5,
-  borderRadius: 0,
-};
+import { createCollapsedVar } from "@/components/MotionProps";
 
 type CollapsedProps = {
   open: { menu: boolean; setting: boolean };
@@ -22,19 +15,34 @@ type CollapsedProps = {
 };
 
 export default function Collapsed({ open, onToggle }: CollapsedProps) {
+  const isMobile = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  );
+
+  const containerSx: PaperProps["sx"] = {
+    height: isMobile ? "auto" : 1,
+    py: isMobile ? 1.5 : 3.5,
+    px: isMobile ? 3.5 : 1.5,
+    borderRadius: 0,
+  };
+
   return (
     <PaperM
       sx={containerSx}
-      variants={bookSpineCollapsedVar}
+      variants={isMobile ? createCollapsedVar("y") : createCollapsedVar("x")}
       initial="initial"
       animate={open.menu ? ["open", "animate"] : ["close", "animate"]}
     >
-      <Content open={open} onToggle={onToggle} />
+      {isMobile ? (
+        <Mobile open={open} onToggle={onToggle} />
+      ) : (
+        <Desktop open={open} onToggle={onToggle} />
+      )}
     </PaperM>
   );
 }
 
-function Content({ open, onToggle }: CollapsedProps) {
+function Desktop({ open, onToggle }: CollapsedProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -62,7 +70,19 @@ function Content({ open, onToggle }: CollapsedProps) {
         onClick={() => !isInGroup("Tools") && router.push(routeGroups.Tools[0])}
       />
 
-      <SpineTitle sx={{ flexGrow: 1, width: 1 }} />
+      <SpineTitle />
+
+      <SettingButton open={open.setting} onClick={() => onToggle("setting")} />
+    </Stack>
+  );
+}
+
+function Mobile({ open, onToggle }: CollapsedProps) {
+  return (
+    <Stack direction="row" spacing={2.5}>
+      <MenuButton open={open.menu} onClick={() => onToggle("menu")} />
+
+      <SpineTitle isMobile />
 
       <SettingButton open={open.setting} onClick={() => onToggle("setting")} />
     </Stack>

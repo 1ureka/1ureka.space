@@ -1,4 +1,5 @@
 export { default as Card } from "./display/Card";
+export { default as Chart } from "./display/Chart";
 
 export { default as CardMedia1 } from "./svg/CardMedia1";
 export { default as CardMedia2 } from "./svg/CardMedia2";

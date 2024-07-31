@@ -75,7 +75,7 @@ export default function Content() {
         variant="contained"
         color="primary"
         sx={{ gridArea: "main", ...staggerHoverSx() }}
-        href=""
+        href="/explore"
         media={<CardMedia5 />}
       >
         <Stack gap={1}>
@@ -114,7 +114,7 @@ export default function Content() {
             fillOpacity: 0.5,
           },
         }}
-        href=""
+        href="/scene"
         media={<CardMedia1 />}
       >
         <Stack gap={1}>
@@ -148,7 +148,7 @@ export default function Content() {
             fillOpacity: 0.5,
           },
         }}
-        href=""
+        href="/props"
         media={<CardMedia2 />}
       >
         <Stack gap={1}>
@@ -197,7 +197,7 @@ export default function Content() {
             fillOpacity: 0.1,
           },
         }}
-        href=""
+        href="/files"
         media={<CardMedia3 />}
       >
         <Stack gap={1}>
@@ -231,7 +231,7 @@ export default function Content() {
             fillOpacity: 0.75,
           },
         }}
-        href=""
+        href="/editor"
         media={<CardMedia4 />}
       >
         <Stack gap={1}>

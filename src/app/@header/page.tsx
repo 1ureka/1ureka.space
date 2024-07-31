@@ -1,12 +1,29 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import { Chart } from "@/components/(home)";
+import { summaryCategorySize } from "@/data/table";
+
 import { BoxM, DividerM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 
-export default function Header() {
+export default async function Header() {
+  const { props, scene } = await summaryCategorySize();
+  const propsSize = parseFloat((props / 1024 / 1024).toFixed(2));
+  const sceneSize = parseFloat((scene / 1024 / 1024).toFixed(2));
+
+  const data = [
+    { value: sceneSize, label: "scene", color: "#e783ad" },
+    { value: propsSize, label: "props", color: "#e783ad90" },
+  ];
+
   return (
     <BoxM {...layoutChildMotionProps()}>
-      <Box sx={{ py: 3, px: { xs: 4.5, sm: 9 } }}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        sx={{ py: 3, px: { xs: 4.5, sm: 7, md: 9 } }}
+        gap={3}
+      >
         <Stack
           direction={{ sm: "row" }}
           gap={{ xs: 1, sm: 3 }}
@@ -25,7 +42,11 @@ export default function Header() {
             </Typography>
           </BoxM>
         </Stack>
-      </Box>
+
+        <Chart data={data} />
+      </Stack>
     </BoxM>
   );
 }
+
+export const dynamic = "force-dynamic";

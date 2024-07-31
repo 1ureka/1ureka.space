@@ -286,8 +286,6 @@ export async function summaryCategorySize() {
   log("DATABASE", `summary category size`);
 
   try {
-    await dbAuth();
-
     const groupBy = await db.imageMetadata.groupBy({
       by: ["category"],
       _sum: { size: true },

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import {
   Box,
+  Card,
   Grid,
   ListItem,
   Paper,
@@ -41,6 +42,7 @@ export const AlertM = motion(Alert);
 export const SkeletonM = motion(Skeleton);
 export const TypographyM = motion(Typography);
 export const ListItemM = motion(ListItem);
+export const CardM = motion(Card);
 
 // table
 export const TableRowM = motion(TableRow);

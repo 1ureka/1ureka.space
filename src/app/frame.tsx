@@ -84,7 +84,8 @@ export default function Frame({
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>
       <BookSpine component="nav" UserButton={UserButton} />
 
-      <Box
+      <BoxM
+        layout
         component="main"
         sx={{ position: "relative", flexGrow: 1, height: 1 }}
       >
@@ -111,7 +112,7 @@ export default function Frame({
             </StackM>
           </AnimatePresence>
         </OverflowContainer>
-      </Box>
+      </BoxM>
 
       <BoxM
         initial={{ opacity: 1 }}

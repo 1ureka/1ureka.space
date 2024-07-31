@@ -29,7 +29,7 @@ const gridTemplateColumns = {
 const containerSx: BoxProps["sx"] = {
   pt: 5,
   pb: 7,
-  px: { xs: 3, sm: 9 },
+  px: { xs: 3, sm: 6.5, md: 8.5 },
   display: "grid",
   gridTemplateAreas,
   gridTemplateColumns,

@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-export default function AuthToast() {
+export default function AuthToastLogic() {
   const searchParams = useSearchParams();
 
   useEffect(() => {

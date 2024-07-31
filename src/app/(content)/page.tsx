@@ -3,81 +3,251 @@ export const metadata: Metadata = {
   title: { absolute: "1ureka's space" },
 };
 
-import Image from "next/image";
-import { GridM } from "@/components/Motion";
-import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
-import { NavCard } from "@/components/(home)";
-import AuthToast from "@/components/(auth)/AuthToast";
+import { Stack, Typography } from "@mui/material";
+import type { BoxProps } from "@mui/material";
+import MapRoundedIcon from "@mui/icons-material/MapRounded";
 
-const placeholder =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN83rz2PwMRgHFUIX0VAgDrWR7n6UK5nAAAAABJRU5ErkJggg==";
+import { BoxM } from "@/components/Motion";
+import { layoutChildMotionProps } from "@/components/MotionProps";
 
-const frame = (src: string) => (
-  <Image
-    fill
-    src={src}
-    placeholder={"blur"}
-    blurDataURL={placeholder}
-    style={{ objectFit: "cover" }}
-    alt=""
-  />
-);
+import AuthToastLogic from "@/components/(auth)/AuthToast";
+import { Card, CardMedia1, CardMedia2 } from "@/components/(home)";
+import { CardMedia3, CardMedia4, CardMedia5 } from "@/components/(home)";
 
-const cardData = [
-  {
-    media: frame("./frame1.svg"),
-    title: "Scene",
-    subTitle: "books",
-    caption: "Anime and game scenes reimagined in realistic detail.",
-    href: "/scene",
-  },
-  {
-    media: frame("./frame2.svg"),
-    title: "Props",
-    subTitle: "books",
-    caption:
-      "A collection of 3D models for outdoor scenes, from tiny screws to entire buildings.",
-    href: "/props",
-  },
-  {
-    media: frame("./frame3.svg"),
-    title: "File Shelf",
-    subTitle: "tools",
-    caption: "Seamlessly manage album's images with real-time backend syncing.",
-    href: "/files",
-  },
-  {
-    media: frame("./frame4.svg"),
-    title: "Image Editor",
-    subTitle: "tools",
-    caption: "Transform photos with conversion, compression, and filters.",
-    href: "/editor",
-  },
-];
+const gridTemplateAreas = {
+  xs: `"main" "book1" "book2" "tool1" "tool2"`,
+  md: `"main main" "book1 book2" "tool1 tool2"`,
+  lg: `"main main tool1" "book1 book2 tool2"`,
+};
+
+const gridTemplateColumns = {
+  xs: "1fr",
+  md: "1fr 1fr",
+  lg: "1fr 1fr 1fr",
+};
+
+const containerSx: BoxProps["sx"] = {
+  pt: 5,
+  pb: 7,
+  px: { xs: 3, sm: 9 },
+  display: "grid",
+  gridTemplateAreas,
+  gridTemplateColumns,
+  gap: { xs: 1.5, md: 3, lg: 5 },
+};
+
+const staggerHoverSx = () => {
+  return [1, 2, 3]
+    .map((i) => ({
+      [`& .ax05-circle:nth-child(${i})`]: {
+        transform: `rotate(${i * 120}deg)`,
+      },
+      [`& .ax05-circle:nth-child(${i}) :first-child`]: {
+        fillOpacity: 0.6,
+        transition: `all 1s cubic-bezier(0.22, 0.61, 0.36, 1) ${(i - 1) / 10}s`,
+      },
+      [`& .ax05-circle:nth-child(${i}) :last-child`]: {
+        strokeOpacity: 0.6,
+        strokeDasharray: "30",
+        strokeDashoffset: "120",
+        scale: "1",
+        transformOrigin: "center",
+        transition: `all 1s cubic-bezier(0.22, 0.61, 0.36, 1) ${(i - 1) / 10}s`,
+      },
+      [`&:hover .ax05-circle:nth-child(${i}) :first-child`]: {
+        fillOpacity: 1,
+      },
+      [`&:hover .ax05-circle:nth-child(${i}) :last-child`]: {
+        strokeDashoffset: "0",
+        scale: "1.2",
+      },
+    }))
+    .reduce(
+      (acc, curr) => ({ ...acc, ...curr }),
+      {} as Record<string, unknown>
+    );
+};
 
 export default function Content() {
   return (
-    <>
-      <GridM
-        {...layoutChildMotionProps()}
-        container
-        columns={{ xs: 1, lg: 2 }}
-        spacing={7}
-        sx={{ pt: 5, pb: 7, px: { xs: 3, sm: 9 } }}
+    <BoxM sx={containerSx} {...layoutChildMotionProps()}>
+      <Card
+        variant="contained"
+        color="primary"
+        sx={{ gridArea: "main", ...staggerHoverSx() }}
+        href=""
+        media={<CardMedia5 />}
       >
-        {cardData.map((card, index) => (
-          <GridM
-            key={index}
-            item
-            xs={1}
-            variants={yScaleVar}
-            height={{ xs: "fit-content", sm: "max(35vh, 250px)", lg: 0.5 }}
-          >
-            <NavCard {...card} />
-          </GridM>
-        ))}
-      </GridM>
-      <AuthToast />
-    </>
+        <Stack gap={1}>
+          <Stack direction="row" alignItems="flex-end" gap={1}>
+            <MapRoundedIcon
+              sx={{ fontSize: "h3.fontSize", color: "text.primary" }}
+            />
+            <Typography variant="h4" sx={{ color: "text.primary" }}>
+              Explore
+            </Typography>
+            <Typography variant="subtitle2" sx={{ alignSelf: "flex-end" }}>
+              BOOKS
+            </Typography>
+          </Stack>
+          <Typography variant="body2">
+            Anime and game scenes reimagined in realistic detail.
+          </Typography>
+        </Stack>
+      </Card>
+
+      <Card
+        variant="outlined"
+        color="primary"
+        sx={{
+          gridArea: "book1",
+          "& rect": {
+            transition: "all 1s cubic-bezier(0.22, 0.61, 0.36, 1)",
+            stroke: "var(--mui-palette-primary-main)",
+            fill: "var(--mui-palette-primary-main)",
+            fillOpacity: 0.2,
+            strokeDasharray: "300",
+            strokeDashoffset: "600",
+          },
+          "&:hover rect": {
+            strokeDashoffset: "0",
+            fillOpacity: 0.5,
+          },
+        }}
+        href=""
+        media={<CardMedia1 />}
+      >
+        <Stack gap={1}>
+          <Stack direction="row" alignItems="flex-end" gap={1}>
+            <Typography variant="h5" sx={{ color: "primary.main" }}>
+              Scene
+            </Typography>
+            <Typography variant="subtitle2">BOOKS</Typography>
+          </Stack>
+          <Typography variant="body2">
+            Anime and game scenes reimagined in realistic detail.
+          </Typography>
+        </Stack>
+      </Card>
+
+      <Card
+        variant="outlined"
+        color="primary"
+        sx={{
+          gridArea: "book2",
+          "& .MuiCardMedia-root svg > path": {
+            transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+            stroke: "var(--mui-palette-primary-main)",
+            fill: "var(--mui-palette-primary-main)",
+            fillOpacity: 0.2,
+            strokeDasharray: "0 1000",
+            strokeWidth: 5,
+          },
+          "&:hover .MuiCardMedia-root svg > path": {
+            strokeDasharray: "1000 0",
+            fillOpacity: 0.5,
+          },
+        }}
+        href=""
+        media={<CardMedia2 />}
+      >
+        <Stack gap={1}>
+          <Stack direction="row" alignItems="flex-end" gap={1}>
+            <Typography variant="h5" sx={{ color: "primary.main" }}>
+              Props
+            </Typography>
+            <Typography variant="subtitle2">BOOKS</Typography>
+          </Stack>
+          <Typography variant="body2">
+            A collection of 3D models for scenes, from tiny screws to entire
+            buildings.
+          </Typography>
+        </Stack>
+      </Card>
+
+      <Card
+        variant="contained"
+        color="secondary"
+        sx={{
+          gridArea: "tool1",
+          "& .icon": {
+            stroke: "white",
+            strokeOpacity: 0.4,
+            strokeDasharray: "150",
+            strokeDashoffset: "300",
+            transition: "all 1s",
+            fill: "white",
+            fillOpacity: 0.1,
+          },
+          "&:hover .icon": {
+            strokeDashoffset: "0",
+            fillOpacity: 0,
+          },
+          "& .text": {
+            stroke: "white",
+            strokeOpacity: 0,
+            strokeDasharray: "100",
+            transition: "all 1s",
+            fill: "white",
+            fillOpacity: 0.4,
+          },
+          "&:hover .text": {
+            strokeDasharray: "1000",
+            strokeOpacity: 0.4,
+            fillOpacity: 0.1,
+          },
+        }}
+        href=""
+        media={<CardMedia3 />}
+      >
+        <Stack gap={1}>
+          <Stack direction="row" alignItems="flex-end" gap={1}>
+            <Typography variant="h5" sx={{ color: "text.primary" }}>
+              File Shelf
+            </Typography>
+            <Typography variant="subtitle2">TOOLS</Typography>
+          </Stack>
+          <Typography variant="body2">
+            Seamlessly manage image collection with real-time backend syncing.
+          </Typography>
+        </Stack>
+      </Card>
+
+      <Card
+        variant="outlined"
+        color="secondary"
+        sx={{
+          gridArea: "tool2",
+          "& .MuiCardMedia-root svg > path": {
+            stroke: "var(--mui-palette-secondary-main)",
+            fill: "var(--mui-palette-secondary-main)",
+            strokeLinecap: "round",
+            strokeDasharray: "1000 0",
+            fillOpacity: 0.1,
+            transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+          },
+          "&:hover .MuiCardMedia-root svg > path": {
+            strokeDasharray: "0 1000",
+            fillOpacity: 0.75,
+          },
+        }}
+        href=""
+        media={<CardMedia4 />}
+      >
+        <Stack gap={1}>
+          <Stack direction="row" alignItems="flex-end" gap={1}>
+            <Typography variant="h5" sx={{ color: "secondary.dark" }}>
+              Image Editor
+            </Typography>
+            <Typography variant="subtitle2">TOOLS</Typography>
+          </Stack>
+          <Typography variant="body2">
+            Transform photos with conversion, compression, and filters.
+          </Typography>
+        </Stack>
+      </Card>
+
+      <AuthToastLogic />
+    </BoxM>
   );
 }

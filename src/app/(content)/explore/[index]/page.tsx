@@ -24,10 +24,49 @@ const fakeViewport = {
   ],
 };
 
+function randomizeViewport() {
+  const updatedViewport = {
+    ...fakeViewport,
+    points: fakeViewport.points.map((point) => ({
+      ...point,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+    })),
+  };
+  return updatedViewport;
+}
+
+const updatedViewports = Array.from({ length: 10 }, (_, index) => {
+  return randomizeViewport();
+});
+
 export default function ExploreContent({
   params: { index },
 }: {
   params: { index: number };
 }) {
-  return <Box sx={{ minHeight: "calc(100vw * 0.375)" }}></Box>;
+  return (
+    <Box sx={{ position: "relative", minHeight: "calc(100vw * 0.375)" }}>
+      {updatedViewports[index].points.map((point, index) => (
+        <Point key={index} x={point.x} y={point.y} />
+      ))}
+    </Box>
+  );
+}
+
+function Point({ x, y }: { x: number; y: number }) {
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        top: `${y}%`,
+        left: `${x}%`,
+        transform: "translate(-50%, -50%)",
+        width: 10,
+        height: 10,
+        borderRadius: "50%",
+        bgcolor: "grey",
+      }}
+    />
+  );
 }

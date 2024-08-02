@@ -75,7 +75,7 @@ export default function Content() {
         variant="contained"
         color="primary"
         sx={{ gridArea: "main", ...staggerHoverSx() }}
-        href="/explore"
+        href="/explore/0"
         media={<CardMedia5 />}
       >
         <Stack gap={1}>

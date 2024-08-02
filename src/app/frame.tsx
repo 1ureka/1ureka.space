@@ -14,6 +14,7 @@ import Bookmarks from "@/components/(bookmarks)/Bookmarks";
 const bookmarks: Record<string, { label: string; href: string }[]> = {
   index: [{ label: "Index", href: "/" }],
   books: [
+    { label: "Explore", href: "/explore/0" },
     { label: "Scene", href: "/scene" },
     { label: "Props", href: "/props" },
   ],
@@ -26,7 +27,13 @@ const bookmarks: Record<string, { label: string; href: string }[]> = {
 
 function findBookmarkCategory(pathname: string): keyof typeof bookmarks {
   for (const category of Object.keys(bookmarks)) {
-    if (bookmarks[category].some((item) => item.href === pathname))
+    if (
+      bookmarks[category].some((item) => {
+        const path = `/${item.href.split("/")[1]}`; // "/explore/0" -> "/explore"
+        if (path === "/") return pathname === "/"; // every path starts with "/"
+        return pathname.startsWith(path);
+      })
+    )
       return category;
   }
 

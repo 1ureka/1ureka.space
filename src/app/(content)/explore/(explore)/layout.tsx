@@ -31,7 +31,7 @@ export default function ExploreLayout(_: { children: React.ReactNode }) {
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "url(http://localhost:3000/api/image/clyy2gbux0003v0i3vciotrw1/thumbnail)",
+            "url(http://1ureka.vercel.app/api/image/clyy2gbux0003v0i3vciotrw1/thumbnail)",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundSize: "cover",

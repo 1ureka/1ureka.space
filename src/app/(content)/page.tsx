@@ -76,6 +76,7 @@ export default function Content() {
         color="primary"
         sx={{ gridArea: "main", ...staggerHoverSx() }}
         href="/explore/0"
+        hrefTitle="Explore"
         media={<CardMedia5 />}
       >
         <Stack gap={1}>
@@ -84,14 +85,16 @@ export default function Content() {
               sx={{ fontSize: "h3.fontSize", color: "text.primary" }}
             />
             <Typography variant="h4" sx={{ color: "text.primary" }}>
-              Explore
+              Explore{" "}
             </Typography>
             <Typography variant="subtitle2" sx={{ alignSelf: "flex-end" }}>
-              BOOKS
+              BOOKS{" "}
             </Typography>
           </Stack>
           <Typography variant="body2">
-            Anime and game scenes reimagined in realistic detail.
+            Investigating the dynamic visual changes within a 3D scene across
+            various viewpoints, spanning different times, weather patterns, and
+            seasonal shifts.
           </Typography>
         </Stack>
       </Card>
@@ -115,14 +118,15 @@ export default function Content() {
           },
         }}
         href="/scene"
+        hrefTitle="Scene"
         media={<CardMedia1 />}
       >
         <Stack gap={1}>
           <Stack direction="row" alignItems="flex-end" gap={1}>
             <Typography variant="h5" sx={{ color: "primary.main" }}>
-              Scene
+              Scene{" "}
             </Typography>
-            <Typography variant="subtitle2">BOOKS</Typography>
+            <Typography variant="subtitle2">BOOKS </Typography>
           </Stack>
           <Typography variant="body2">
             Anime and game scenes reimagined in realistic detail.
@@ -149,14 +153,15 @@ export default function Content() {
           },
         }}
         href="/props"
+        hrefTitle="Props"
         media={<CardMedia2 />}
       >
         <Stack gap={1}>
           <Stack direction="row" alignItems="flex-end" gap={1}>
             <Typography variant="h5" sx={{ color: "primary.main" }}>
-              Props
+              Props{" "}
             </Typography>
-            <Typography variant="subtitle2">BOOKS</Typography>
+            <Typography variant="subtitle2">BOOKS </Typography>
           </Stack>
           <Typography variant="body2">
             A collection of 3D models for scenes, from tiny screws to entire
@@ -198,14 +203,15 @@ export default function Content() {
           },
         }}
         href="/files"
+        hrefTitle="File Shelf"
         media={<CardMedia3 />}
       >
         <Stack gap={1}>
           <Stack direction="row" alignItems="flex-end" gap={1}>
             <Typography variant="h5" sx={{ color: "text.primary" }}>
-              File Shelf
+              File Shelf{" "}
             </Typography>
-            <Typography variant="subtitle2">TOOLS</Typography>
+            <Typography variant="subtitle2">TOOLS </Typography>
           </Stack>
           <Typography variant="body2">
             Seamlessly manage image collection with real-time backend syncing.
@@ -232,14 +238,15 @@ export default function Content() {
           },
         }}
         href="/editor"
+        hrefTitle="Image Editor"
         media={<CardMedia4 />}
       >
         <Stack gap={1}>
           <Stack direction="row" alignItems="flex-end" gap={1}>
             <Typography variant="h5" sx={{ color: "secondary.dark" }}>
-              Image Editor
+              Image Editor{" "}
             </Typography>
-            <Typography variant="subtitle2">TOOLS</Typography>
+            <Typography variant="subtitle2">TOOLS </Typography>
           </Stack>
           <Typography variant="body2">
             Transform photos with conversion, compression, and filters.

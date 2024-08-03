@@ -17,6 +17,7 @@ type SX = MuiCardProps["sx"];
 type CardProps = Omit<MuiCardProps, "variant"> & {
   variant: "contained" | "outlined";
   color: "primary" | "secondary";
+  hrefTitle: string;
   href: LinkProps["href"];
   media?: React.ReactNode;
 };
@@ -53,6 +54,7 @@ const outlinedSx: (color: CardProps["color"]) => SX = (color) => ({
 export default function Card({
   variant,
   color,
+  hrefTitle,
   href,
   sx,
   media,
@@ -71,7 +73,13 @@ export default function Card({
       sx={cardSx}
       data-mui-color-scheme={variant === "contained" && "dark"}
     >
-      <CardActionArea component={NextLinkComposed} to={href} sx={{ height: 1 }}>
+      <CardActionArea
+        component={NextLinkComposed}
+        to={href}
+        sx={{ height: 1 }}
+        title={hrefTitle}
+        id={hrefTitle}
+      >
         <CardMedia sx={{ position: "absolute", inset: 0, m: 0 }}>
           {media}
         </CardMedia>

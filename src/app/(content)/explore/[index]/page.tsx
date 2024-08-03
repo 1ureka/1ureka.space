@@ -1,8 +1,3 @@
-import type { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "books",
-};
-
 import { Box } from "@mui/material";
 
 const fakeViewport = {
@@ -36,7 +31,7 @@ function randomizeViewport() {
   return updatedViewport;
 }
 
-const updatedViewports = Array.from({ length: 10 }, (_, index) => {
+const updatedViewports = Array.from({ length: 10 }, (_) => {
   return randomizeViewport();
 });
 

@@ -218,3 +218,16 @@ export const xVar: Variants = {
     },
   },
 };
+export const opacityVar: Variants = {
+  initial: { opacity: 0, transition: { duration: 0 } },
+  animate: {
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 150,
+      damping: 16,
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};

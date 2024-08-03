@@ -5,7 +5,7 @@ import { NextLinkComposed } from "@/components/Link";
 
 import { Divider, TextField, Typography } from "@mui/material";
 import { MenuItem as MuiMenuItem } from "@mui/material";
-import type { MenuItemProps } from "@mui/material";
+import type { MenuItemProps, StackProps } from "@mui/material";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 
 import { StackM } from "@/components/Motion";
@@ -15,12 +15,18 @@ const MenuItem = MuiMenuItem as React.FC<
   MenuItemProps & { to: string; prefetch: boolean }
 >;
 
-export default function Indicator({ amount }: { amount: number }) {
+export default function Indicator({
+  amount,
+  sx,
+}: {
+  amount: number;
+  sx?: StackProps["sx"];
+}) {
   const params = useParams() as { index: string };
   const index = Number(params.index);
 
   return (
-    <StackM gap={1} alignItems="center" alignSelf="center" variants={yScaleVar}>
+    <StackM gap={1} alignItems="center" variants={yScaleVar} sx={sx}>
       <TextField
         select
         value={params.index}

@@ -11,10 +11,10 @@ import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 
 import { BoxM, StackM } from "@/components/Motion";
-import { yVar } from "@/components/MotionProps";
+import { yScaleVar, yVar } from "@/components/MotionProps";
 
-const imageWidth = 160;
-const imageHeight = 90;
+const imageWidth = 480;
+const imageHeight = 270;
 
 export default function Carousels({
   sx,
@@ -72,33 +72,39 @@ export default function Carousels({
         </StackM>
       </Box>
 
-      <Link href={`/explore/${prevIndex}`}>
-        <IconButton
-          aria-label="Previous"
-          sx={{
-            position: "absolute",
-            left: 0,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-        >
-          <ArrowLeftRoundedIcon />
-        </IconButton>
-      </Link>
+      <Box
+        sx={{
+          position: "absolute",
+          left: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+        }}
+      >
+        <BoxM variants={yScaleVar}>
+          <Link href={`/explore/${prevIndex}`}>
+            <IconButton aria-label="Previous">
+              <ArrowLeftRoundedIcon />
+            </IconButton>
+          </Link>
+        </BoxM>
+      </Box>
 
-      <Link href={`/explore/${nextIndex}`}>
-        <IconButton
-          aria-label="Next"
-          sx={{
-            position: "absolute",
-            right: 0,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-        >
-          <ArrowRightRoundedIcon />
-        </IconButton>
-      </Link>
+      <Box
+        sx={{
+          position: "absolute",
+          right: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+        }}
+      >
+        <BoxM variants={yScaleVar}>
+          <Link href={`/explore/${nextIndex}`}>
+            <IconButton aria-label="Next">
+              <ArrowRightRoundedIcon />
+            </IconButton>
+          </Link>
+        </BoxM>
+      </Box>
     </BoxM>
   );
 }

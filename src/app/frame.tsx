@@ -62,7 +62,12 @@ function ArticleContainer({ children }: { children: React.ReactNode }) {
   return (
     <Stack
       component="article"
-      sx={{ bgcolor: "content.layer1", flexGrow: 1, borderRadius }}
+      sx={{
+        position: "relative",
+        bgcolor: "content.layer1",
+        flexGrow: 1,
+        borderRadius,
+      }}
     >
       {children}
     </Stack>

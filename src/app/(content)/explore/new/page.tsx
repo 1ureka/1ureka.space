@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "edit explore",
+  title: "create explore",
 };
 
 import { ExploreForm } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 
-export default function EditPage({
-  params: { exploreId },
-}: {
-  params: { exploreId: string };
-}) {
+export default function CreatePage() {
   return (
     <BoxM
       {...layoutChildMotionProps()}

@@ -1,11 +1,11 @@
-import { BoxM, DividerM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
-import { opacityVar, yScaleVar, yVar } from "@/components/MotionProps";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "books",
+};
 
-import { Box, Skeleton, Typography } from "@mui/material";
-import { Button, Fab, TextField } from "@mui/material";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
+import { ExploreForm } from "@/components/(explore)";
+import { BoxM } from "@/components/Motion";
+import { layoutChildMotionProps } from "@/components/MotionProps";
 
 export default function EditPage({
   params: { exploreId },
@@ -15,120 +15,9 @@ export default function EditPage({
   return (
     <BoxM
       {...layoutChildMotionProps()}
-      sx={{
-        position: "relative",
-        display: "grid",
-        gridTemplateColumns: "minmax(325px, 0.5fr) 1fr",
-        py: 3,
-        px: { xs: 2, sm: 4, md: 7 },
-        gap: 4.5,
-      }}
+      sx={{ py: 3, px: { xs: 2, sm: 4, md: 7 } }}
     >
-      <StackM variants={yScaleVar} gap={1.5}>
-        <BoxM variants={yScaleVar}>
-          <TextField
-            label="Explore name"
-            variant="filled"
-            type="text"
-            size="small"
-            fullWidth
-          />
-        </BoxM>
-
-        <BoxM variants={yScaleVar}>
-          <Typography variant="subtitle1">Description: </Typography>
-          <TextField
-            variant="filled"
-            size="small"
-            fullWidth
-            multiline
-            minRows={4}
-            maxRows={4}
-            placeholder="Start with a new View. Each View needs at least one Variant and Points equal to the View count minus one within the Explore."
-          />
-        </BoxM>
-
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateRows: "1fr auto 1fr 1fr",
-            placeItems: "start stretch",
-            flexGrow: 1,
-            gap: 3,
-          }}
-        >
-          <StackM
-            variants={yScaleVar}
-            direction="row"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography variant="subtitle1">Views: </Typography>
-            <Button startIcon={<AddBoxRoundedIcon />} size="small">
-              <Typography variant="body1" color="inherit">
-                Add
-              </Typography>
-            </Button>
-          </StackM>
-
-          <DividerM variants={yVar} sx={{ height: "0px" }} />
-
-          <StackM
-            variants={yScaleVar}
-            direction="row"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography variant="subtitle1">Variants: </Typography>
-            <Button startIcon={<AddBoxRoundedIcon />} size="small">
-              <Typography variant="body1" color="inherit">
-                Add
-              </Typography>
-            </Button>
-          </StackM>
-
-          <StackM
-            variants={yScaleVar}
-            direction="row"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography variant="subtitle1">Points: </Typography>
-            <Typography variant="caption">{"( 0 / 3 )"}</Typography>
-          </StackM>
-        </Box>
-      </StackM>
-
-      <BoxM variants={opacityVar}>
-        <Box
-          sx={{
-            position: "sticky",
-            top: 0,
-            width: 1,
-            height: "auto",
-            aspectRatio: 16 / 9,
-          }}
-        >
-          <Skeleton
-            variant="rounded"
-            animation="wave"
-            sx={{ width: 1, height: 1 }}
-          />
-          <Fab
-            variant="extended"
-            color="primary"
-            sx={{
-              position: "absolute",
-              inset: "auto 0 0 auto",
-              translate: "0 50%",
-              mr: 2,
-              gap: 1,
-            }}
-          >
-            <SaveRoundedIcon /> Save
-          </Fab>
-        </Box>
-      </BoxM>
+      <ExploreForm />
     </BoxM>
   );
 }

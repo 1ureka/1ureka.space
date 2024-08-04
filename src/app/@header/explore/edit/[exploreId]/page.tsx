@@ -1,12 +1,34 @@
-export default function EditHeaderPage({
+import { NextLinkComposed } from "@/components/Link";
+import { StackM } from "@/components/Motion";
+import { yScaleVar } from "@/components/MotionProps";
+
+import { auth } from "@/auth";
+import { Button } from "@mui/material";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+
+export default async function EditHeaderPage({
   params: { exploreId },
 }: {
   params: { exploreId: string };
 }) {
+  const session = await auth();
+  const isAuth =
+    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+
   return (
-    <div>
-      <h1>Edit Explore Header Page</h1>
-      <p>Explore ID: {exploreId}</p>
-    </div>
+    <>
+      <StackM variants={yScaleVar}>
+        <Button
+          component={NextLinkComposed}
+          to={`/explore/0`}
+          startIcon={<ArrowBackIosNewRoundedIcon />}
+          variant="outlined"
+          disableElevation
+          color="inherit"
+        >
+          Go Back
+        </Button>
+      </StackM>
+    </>
   );
 }

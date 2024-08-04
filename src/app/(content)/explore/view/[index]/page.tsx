@@ -35,6 +35,7 @@ const updatedViewports = Array.from({ length: 10 }, (_) => {
   return randomizeViewport();
 });
 
+// includes all components in the portal
 export default function ExploreContent({
   params: { index },
 }: {

@@ -45,7 +45,7 @@ export default function Indicator({
               value={i}
               selected={index === i}
               component={NextLinkComposed}
-              to={`/explore/${i}`}
+              to={`/explore/view/${i}`}
               prefetch={false}
             >
               {String(i + 1).padStart(2, "0")}

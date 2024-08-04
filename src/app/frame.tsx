@@ -14,7 +14,7 @@ import Bookmarks from "@/components/(bookmarks)/Bookmarks";
 const bookmarks: Record<string, { label: string; href: string }[]> = {
   index: [{ label: "Index", href: "/" }],
   books: [
-    { label: "Explore", href: "/explore/0" },
+    { label: "Explore", href: "/explore/view/0" },
     { label: "Scene", href: "/scene" },
     { label: "Props", href: "/props" },
   ],

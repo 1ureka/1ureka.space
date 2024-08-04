@@ -81,7 +81,7 @@ export default function Carousels({
         }}
       >
         <BoxM variants={yScaleVar}>
-          <Link href={`/explore/${prevIndex}`}>
+          <Link href={`/explore/view/${prevIndex}`}>
             <IconButton aria-label="Previous">
               <ArrowLeftRoundedIcon />
             </IconButton>
@@ -98,7 +98,7 @@ export default function Carousels({
         }}
       >
         <BoxM variants={yScaleVar}>
-          <Link href={`/explore/${nextIndex}`}>
+          <Link href={`/explore/view/${nextIndex}`}>
             <IconButton aria-label="Next">
               <ArrowRightRoundedIcon />
             </IconButton>

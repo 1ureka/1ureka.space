@@ -11,8 +11,18 @@ import { BoxM, StackM, TypographyM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, opacityVar } from "@/components/MotionProps";
 
+import { auth } from "@/auth";
+
 // can play sound effect here
-export default function ExploreLayout(_: { children: React.ReactNode }) {
+export default async function ExploreLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await auth();
+  const isAuth =
+    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+
   return (
     <BoxM
       {...layoutChildMotionProps()}
@@ -49,6 +59,7 @@ export default function ExploreLayout(_: { children: React.ReactNode }) {
         variants={yScaleVar}
       >
         <Fab
+          disabled={!isAuth}
           variant="extended"
           color="primary"
           sx={{
@@ -62,7 +73,7 @@ export default function ExploreLayout(_: { children: React.ReactNode }) {
         >
           <NavigationRoundedIcon sx={{ mr: 1 }} />
           <Typography variant="h5" sx={{ lineHeight: 0.9 }}>
-            EXPLORE
+            {isAuth ? "Explore" : "Login to Explore"}
           </Typography>
         </Fab>
         <TypographyM variant="h6" variants={yScaleVar} zIndex={1}>
@@ -84,7 +95,7 @@ export default function ExploreLayout(_: { children: React.ReactNode }) {
         <Indicator amount={10} />
       </Box>
 
-      {/* info , like includes how many (absolute left bottom) */}
+      {/* {isAuth && children} */}
     </BoxM>
   );
 }

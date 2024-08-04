@@ -9,11 +9,17 @@ import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
 
-export default function ExploreHeaderLayout({
+import { auth } from "@/auth";
+
+export default async function ExploreHeaderLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+  const isAuth =
+    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+
   return (
     <StackM
       {...layoutChildMotionProps()}
@@ -27,6 +33,7 @@ export default function ExploreHeaderLayout({
 
       <StackM variants={yScaleVar}>
         <Button
+          disabled={!isAuth}
           component={NextLinkComposed}
           to={`/explore/new`}
           startIcon={<NoteAddRoundedIcon />}
@@ -38,7 +45,7 @@ export default function ExploreHeaderLayout({
         </Button>
       </StackM>
 
-      <StackM variants={yScaleVar}>{children}</StackM>
+      <StackM variants={yScaleVar}>{isAuth && children}</StackM>
 
       <Box sx={{ flexGrow: 1 }} />
 

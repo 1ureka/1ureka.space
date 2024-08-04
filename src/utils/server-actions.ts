@@ -11,8 +11,7 @@ import { createOriginBuffer } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
 import { createMetadata, createOrigins, createThumbnails } from "@/data/table";
-import { getMetadataIDs, getMetadataNames, getAllMetadata } from "@/data/table";
-import { deleteMetadata, updateMetadata } from "@/data/table";
+import { getAllMetadata, deleteMetadata, updateMetadata } from "@/data/table";
 
 import { verifyAllCategory, summaryCategorySize } from "@/data/table";
 import { verifyAllOrigin, verifyAllThumbnail } from "@/data/table";
@@ -30,7 +29,9 @@ export async function verifyUpload(data: z.infer<typeof MetadataSchema>) {
       return { error: ["Authentication required to upload files."] };
     }
 
-    const existingNames = await getMetadataNames();
+    const existingNames = (await getAllMetadata({ name: true })).map(
+      ({ name }) => name
+    );
     const schema = createMetadataSchema(existingNames);
     const result = schema.safeParse(data);
 
@@ -119,7 +120,7 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
     //
     // 排除正在上傳的圖片的名稱來創建Schema (使互換名稱或名稱欄位不更改成為可能)
     const { fieldArray } = data;
-    const existingMetadata = await getAllMetadata();
+    const existingMetadata = await getAllMetadata({ id: true, name: true });
     const uploadIds = fieldArray.map(({ cuid }) => cuid);
 
     const existingIds = existingMetadata.map(({ id }) => id);
@@ -172,7 +173,10 @@ export async function deleteImages(ids: string[]) {
       return { error: ["Authentication required to delete files."] };
     }
 
-    const existingIds = await getMetadataIDs();
+    const existingIds = (await getAllMetadata({ id: true })).map(
+      ({ id }) => id
+    );
+
     if (!ids.every((id) => existingIds.includes(id))) {
       return { error: ["Some ids do not exist."] };
     }

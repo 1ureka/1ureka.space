@@ -37,12 +37,16 @@ export async function getSortedMetadata(
   }
 }
 
-export async function getAllMetadata() {
-  log("DATABASE", `get all metadata list`);
+export async function getAllMetadata<
+  T extends Partial<Record<keyof ImageMetadata, boolean>>
+>(select: T) {
+  log("DATABASE", `get all metadata`);
 
   try {
+    await dbAuth();
+
     const metadataList = await db.imageMetadata.findMany({
-      include: { thumbnail: false, origin: false },
+      select,
     });
 
     return metadataList;
@@ -76,34 +80,6 @@ export async function getMetadataById(metadataId: string) {
     return metadata;
   } catch (error) {
     throw new Error(`Failed to query metadata`);
-  }
-}
-
-export async function getMetadataNames() {
-  log("DATABASE", `get all images names`);
-
-  try {
-    const metadataList = await db.imageMetadata.findMany({
-      select: { name: true },
-    });
-
-    return metadataList.map(({ name }) => name);
-  } catch (error) {
-    throw new Error(`Failed to query image names`);
-  }
-}
-
-export async function getMetadataIDs() {
-  log("DATABASE", `get all images ids`);
-
-  try {
-    const metadataList = await db.imageMetadata.findMany({
-      select: { id: true },
-    });
-
-    return metadataList.map(({ id }) => id);
-  } catch (error) {
-    throw new Error(`Failed to query image ids`);
   }
 }
 

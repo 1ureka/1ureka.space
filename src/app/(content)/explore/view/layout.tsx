@@ -3,17 +3,15 @@ export const metadata: Metadata = {
   title: "explore",
 };
 
-import { Box, Fab, Typography } from "@mui/material";
+import { auth } from "@/auth";
+import { Box, Typography } from "@mui/material";
 import NavigationRoundedIcon from "@mui/icons-material/NavigationRounded";
 
 import { Carousels, ExploreButton, Indicator } from "@/components/(explore)";
-import { BoxM, StackM, TypographyM } from "@/components/Motion";
+import { BoxM, StackM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, opacityVar } from "@/components/MotionProps";
 
-import { auth } from "@/auth";
-
-// can play sound effect here
 export default async function ExploreLayout({
   children,
 }: {
@@ -64,12 +62,8 @@ export default async function ExploreLayout({
             {isAuth ? "Explore" : "Login to Explore"}
           </Typography>
         </ExploreButton>
-        <TypographyM variant="h6" variants={yScaleVar} zIndex={1}>
-          {`Image 01 from "XXX"`}
-        </TypographyM>
-        <TypographyM variant="body2" variants={yScaleVar} zIndex={1}>
-          {`Image 01 is from "XXX" , it reveal the beauty of the world`}
-        </TypographyM>
+
+        {children}
       </StackM>
 
       <Box
@@ -82,8 +76,6 @@ export default async function ExploreLayout({
       >
         <Indicator amount={10} />
       </Box>
-
-      {children}
     </BoxM>
   );
 }

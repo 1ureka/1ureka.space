@@ -1,8 +1,13 @@
 import { auth } from "@/auth";
-import { PortalContainer } from "@/components/(explore)";
-import { Box, Typography } from "@mui/material";
+import { isValidIndex } from "@/utils/utils";
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Typography } from "@mui/material";
+
+import { PortalContainer } from "@/components/(explore)";
+import { TypographyM } from "@/components/Motion";
+import { yScaleVar } from "@/components/MotionProps";
 
 const fakeView = {
   points: [
@@ -11,7 +16,15 @@ const fakeView = {
   ],
 };
 
-// includes all components in the portal
+function generateFakeData(index: number) {
+  return {
+    title: `Image ${index + 1} from "XXX"`,
+    description: `Image ${
+      index + 1
+    } is from "XXX" , it reveal the beauty of the world`,
+  };
+}
+
 export default async function ExploreContent({
   params: { index: indexString },
   searchParams,
@@ -19,34 +32,45 @@ export default async function ExploreContent({
   params: { index: unknown };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  if (typeof indexString !== "string") {
-    notFound();
-  }
+  const index = isValidIndex(indexString, 10);
+  if (index === -1) notFound();
 
-  const index = parseInt(indexString, 10);
-
-  if (Number.isNaN(index) || index < 0 || index >= 10) {
-    notFound();
-  }
+  const { title, description } = generateFakeData(index);
 
   const session = await auth();
-  const isAuth =
-    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+  const userId = JSON.stringify(session?.user.id);
+  const expectedUserId = process.env.ALLOWED_USER;
 
-  if (!isAuth) {
-    return null;
+  if (!userId || !expectedUserId || userId !== expectedUserId) {
+    return <Title title={title} description={description} />;
   }
 
-  const isFullscreen = "fullscreen" in searchParams;
-
   return (
-    <PortalContainer id="portal-root" show={isFullscreen}>
-      <Typography variant="h1">
-        {`View ${index} - ${fakeView.points.length} points`}
-      </Typography>
-      <Link href={`/explore/view/${index}`}>
-        <Typography variant="h2">Exit</Typography>
-      </Link>
-    </PortalContainer>
+    <>
+      <Title title={title} description={description} />
+
+      <PortalContainer id="portal-root" show={"fullscreen" in searchParams}>
+        <Typography variant="h1">
+          {`View ${index} - ${fakeView.points.length} points`}
+        </Typography>
+        <Link href={`/explore/view/${index}`}>
+          <Typography variant="h2">Exit</Typography>
+        </Link>
+      </PortalContainer>
+    </>
+  );
+}
+
+function Title({ title, description }: { title: string; description: string }) {
+  return (
+    <>
+      <TypographyM variant="h6" variants={yScaleVar} zIndex={1}>
+        {title}
+      </TypographyM>
+
+      <TypographyM variant="body2" variants={yScaleVar} zIndex={1}>
+        {description}
+      </TypographyM>
+    </>
   );
 }

@@ -87,3 +87,15 @@ export function trackProgress<T>(
   }
   return Promise.all(proms);
 }
+
+/**
+ * 檢查任何值是否為有效的索引值，若是則返回索引值，否則返回 -1。
+ */
+export function isValidIndex(any: unknown, total: number) {
+  if (typeof any !== "string") return -1;
+
+  const index = parseInt(any, 10);
+  if (Number.isNaN(index) || index < 0 || index >= total) return -1;
+
+  return index;
+}

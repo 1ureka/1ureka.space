@@ -11,6 +11,10 @@ export default async function CreateHeader() {
   const isAuth =
     !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
 
+  if (!isAuth) {
+    return null;
+  }
+
   return (
     <>
       <StackM variants={yScaleVar}>

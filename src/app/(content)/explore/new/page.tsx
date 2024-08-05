@@ -3,11 +3,22 @@ export const metadata: Metadata = {
   title: "create explore",
 };
 
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
 import { ExploreForm } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 
-export default function CreatePage() {
+export default async function CreatePage() {
+  const session = await auth();
+  const isAuth =
+    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+
+  if (!isAuth) {
+    redirect("/unAuth");
+  }
+
   return (
     <BoxM
       {...layoutChildMotionProps()}

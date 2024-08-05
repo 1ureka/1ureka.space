@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "books",
+  title: "props",
 };
 
 import { Gallery, Accordion } from "@/components/(books)";

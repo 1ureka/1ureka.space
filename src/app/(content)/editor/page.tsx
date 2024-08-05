@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "tools",
+  title: "editor",
 };
 
 import { Box } from "@mui/material";

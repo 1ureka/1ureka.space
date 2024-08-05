@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "tools",
+  title: "files",
 };
 
 import { auth } from "@/auth";

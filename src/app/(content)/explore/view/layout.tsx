@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 import { Box, Fab, Typography } from "@mui/material";
 import NavigationRoundedIcon from "@mui/icons-material/NavigationRounded";
 
-import { Carousels, Indicator } from "@/components/(explore)";
+import { Carousels, ExploreButton, Indicator } from "@/components/(explore)";
 import { BoxM, StackM, TypographyM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
 import { yScaleVar, opacityVar } from "@/components/MotionProps";
@@ -58,24 +58,12 @@ export default async function ExploreLayout({
         sx={{ alignSelf: "flex-start", gap: 1.5, alignItems: "center" }}
         variants={yScaleVar}
       >
-        <Fab
-          disabled={!isAuth}
-          variant="extended"
-          color="primary"
-          sx={{
-            mt: -6,
-            "&:hover": { bgcolor: "primary.light", scale: "1.1" },
-            transition: "all 0.25s",
-            scale: "1.001",
-            "&:active": { scale: "0.97" },
-            width: "fit-content",
-          }}
-        >
+        <ExploreButton disabled={!isAuth}>
           <NavigationRoundedIcon sx={{ mr: 1 }} />
           <Typography variant="h5" sx={{ lineHeight: 0.9 }}>
             {isAuth ? "Explore" : "Login to Explore"}
           </Typography>
-        </Fab>
+        </ExploreButton>
         <TypographyM variant="h6" variants={yScaleVar} zIndex={1}>
           {`Image 01 from "XXX"`}
         </TypographyM>

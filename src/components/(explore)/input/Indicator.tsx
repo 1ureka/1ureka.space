@@ -10,6 +10,7 @@ import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 
 import { StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
+import { isValidIndex } from "@/utils/utils";
 
 const MenuItem = MuiMenuItem as React.FC<
   MenuItemProps & { to: string; prefetch: boolean }
@@ -23,7 +24,8 @@ export default function Indicator({
   sx?: StackProps["sx"];
 }) {
   const params = useParams() as { index: string };
-  const index = Number(params.index);
+  const index = isValidIndex(params.index, 10);
+  if (index === -1) return null;
 
   return (
     <StackM gap={1} alignItems="center" variants={yScaleVar} sx={sx}>

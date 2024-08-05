@@ -1,6 +1,7 @@
 "use client";
 
 import { NextLinkComposed } from "@/components/Link";
+import { isValidIndex } from "@/utils/utils";
 import { Fab } from "@mui/material";
 import { useParams } from "next/navigation";
 
@@ -12,16 +13,8 @@ export default function ExploreButton({
   disabled?: boolean;
 }) {
   const params = useParams();
-
-  if (typeof params.index !== "string") {
-    throw new Error("Url parameter index is not a valid");
-  }
-
-  const index = parseInt(params.index, 10);
-
-  if (Number.isNaN(index)) {
-    throw new Error("Url parameter index is not a valid number");
-  }
+  const index = isValidIndex(params.index, 10);
+  if (index === -1) return null;
 
   return (
     <Fab

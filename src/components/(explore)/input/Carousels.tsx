@@ -12,6 +12,7 @@ import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar, yVar } from "@/components/MotionProps";
+import { isValidIndex } from "@/utils/utils";
 
 const imageWidth = 480;
 const imageHeight = 270;
@@ -24,7 +25,7 @@ export default function Carousels({
   amount: number;
 }) {
   const params = useParams() as { index: string };
-  const index = Number(params.index);
+  const index = isValidIndex(params.index, 10);
 
   const fakeData = Array(amount)
     .fill(0)
@@ -46,6 +47,8 @@ export default function Carousels({
     spring,
     (latest) => `calc(50% - ${latest * imageWidth}px)`
   );
+
+  if (index === -1) return null;
 
   const prevIndex = (index - 1 + amount) % amount;
   const nextIndex = (index + 1) % amount;

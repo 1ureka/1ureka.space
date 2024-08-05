@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import { auth } from "@/auth";
+import { notFound } from "next/navigation";
 
 const fakeViewport = {
   id: "cjs0v5z5z0000j1qg1z1z1z1z",
@@ -31,38 +32,25 @@ function randomizeViewport() {
   return updatedViewport;
 }
 
-const updatedViewports = Array.from({ length: 10 }, (_) => {
-  return randomizeViewport();
-});
-
 // includes all components in the portal
-export default function ExploreContent({
-  params: { index },
+export default async function ExploreContent({
+  params: { index: indexString },
 }: {
-  params: { index: number };
+  params: { index: unknown };
 }) {
-  return (
-    <Box sx={{ position: "relative", minHeight: "calc(100vw * 0.375)" }}>
-      {updatedViewports[index].points.map((point, index) => (
-        <Point key={index} x={point.x} y={point.y} />
-      ))}
-    </Box>
-  );
-}
+  if (typeof indexString !== "string") {
+    notFound();
+  }
 
-function Point({ x, y }: { x: number; y: number }) {
-  return (
-    <Box
-      sx={{
-        position: "absolute",
-        top: `${y}%`,
-        left: `${x}%`,
-        transform: "translate(-50%, -50%)",
-        width: 10,
-        height: 10,
-        borderRadius: "50%",
-        bgcolor: "grey",
-      }}
-    />
-  );
+  const index = parseInt(indexString, 10);
+
+  if (Number.isNaN(index) || index < 0 || index >= 10) {
+    notFound();
+  }
+
+  const session = await auth();
+  const isAuth =
+    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+
+  return null;
 }

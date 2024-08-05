@@ -95,7 +95,7 @@ export default async function ExploreLayout({
         <Indicator amount={10} />
       </Box>
 
-      {/* {isAuth && children} */}
+      {children}
     </BoxM>
   );
 }

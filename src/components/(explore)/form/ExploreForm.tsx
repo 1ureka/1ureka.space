@@ -3,7 +3,7 @@
 import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { opacityVar, yScaleVar, yVar } from "@/components/MotionProps";
 
-import { Box, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import { Button, Fab, TextField } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
@@ -52,44 +52,47 @@ export default function ExploreForm() {
             gap: 3,
           }}
         >
-          <StackM
-            variants={yScaleVar}
-            direction="row"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography variant="subtitle1">Views: </Typography>
-            <Button startIcon={<AddBoxRoundedIcon />} size="small">
-              <Typography variant="body1" color="inherit">
-                Add
-              </Typography>
-            </Button>
+          <StackM variants={yScaleVar}>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <Typography variant="subtitle1">Views: </Typography>
+              <Button startIcon={<AddBoxRoundedIcon />} size="small">
+                <Typography variant="body1" color="inherit">
+                  Add
+                </Typography>
+              </Button>
+            </Stack>
+
+            <Typography variant="caption" color="error.main">
+              * At least one View is required.
+            </Typography>
           </StackM>
 
           <DividerM variants={yVar} sx={{ height: "0px" }} />
 
-          <StackM
-            variants={yScaleVar}
-            direction="row"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography variant="subtitle1">Variants: </Typography>
-            <Button startIcon={<AddBoxRoundedIcon />} size="small">
-              <Typography variant="body1" color="inherit">
-                Add
-              </Typography>
-            </Button>
+          <StackM variants={yScaleVar}>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <Typography variant="subtitle1">Variants: </Typography>
+              <Button startIcon={<AddBoxRoundedIcon />} size="small">
+                <Typography variant="body1" color="inherit">
+                  Add
+                </Typography>
+              </Button>
+            </Stack>
+
+            <Typography variant="caption" color="error.main">
+              * At least one Variant is required.
+            </Typography>
           </StackM>
 
-          <StackM
-            variants={yScaleVar}
-            direction="row"
-            alignItems="center"
-            gap={1}
-          >
-            <Typography variant="subtitle1">Points: </Typography>
-            <Typography variant="caption">{"( 0 / 3 )"}</Typography>
+          <StackM variants={yScaleVar}>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <Typography variant="subtitle1">Points: </Typography>
+              <Typography variant="caption">{"( 0 / 3 )"}</Typography>
+            </Stack>
+
+            <Typography variant="caption" color="error.main">
+              * Some Points are missing.
+            </Typography>
           </StackM>
         </Box>
       </StackM>

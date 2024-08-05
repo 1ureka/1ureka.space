@@ -6,12 +6,17 @@ export const metadata: Metadata = {
 import { ExploreForm } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
 import { layoutChildMotionProps } from "@/components/MotionProps";
+import { notFound } from "next/navigation";
 
 export default function EditPage({
   params: { exploreId },
 }: {
-  params: { exploreId: string };
+  params: { exploreId: unknown };
 }) {
+  if (typeof exploreId !== "string") {
+    notFound();
+  }
+
   return (
     <BoxM
       {...layoutChildMotionProps()}

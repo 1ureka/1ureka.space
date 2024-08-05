@@ -1,42 +1,23 @@
 import { auth } from "@/auth";
+import { PortalContainer } from "@/components/(explore)";
+import { Box, Typography } from "@mui/material";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const fakeViewport = {
-  id: "cjs0v5z5z0000j1qg1z1z1z1z",
-  exploreId: "cjs0v5z5z0000j1qg1z1z1z1z",
+const fakeView = {
   points: [
-    {
-      x: 0.0,
-      y: 0.0,
-      sourceId: "cjs0v5z5z0000j1qg1z1z1z1z",
-      targetId: "cjs0v5z5z0000j1qg1z1z1z1z",
-    },
-    {
-      x: 0.0,
-      y: 0.0,
-      sourceId: "cjs0v5z5z0000j1qg1z1z1z1z",
-      targetId: "cjs0v5z5z0000j1qg1z1z1z1z",
-    },
+    { x: Math.random() * 100, y: Math.random() * 100 },
+    { x: Math.random() * 100, y: Math.random() * 100 },
   ],
 };
-
-function randomizeViewport() {
-  const updatedViewport = {
-    ...fakeViewport,
-    points: fakeViewport.points.map((point) => ({
-      ...point,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-    })),
-  };
-  return updatedViewport;
-}
 
 // includes all components in the portal
 export default async function ExploreContent({
   params: { index: indexString },
+  searchParams,
 }: {
   params: { index: unknown };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   if (typeof indexString !== "string") {
     notFound();
@@ -52,5 +33,20 @@ export default async function ExploreContent({
   const isAuth =
     !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
 
-  return null;
+  if (!isAuth) {
+    return null;
+  }
+
+  const isFullscreen = "fullscreen" in searchParams;
+
+  return (
+    <PortalContainer id="portal-root" show={isFullscreen}>
+      <Typography variant="h1">
+        {`View ${index} - ${fakeView.points.length} points`}
+      </Typography>
+      <Link href={`/explore/view/${index}`}>
+        <Typography variant="h2">Exit</Typography>
+      </Link>
+    </PortalContainer>
+  );
 }

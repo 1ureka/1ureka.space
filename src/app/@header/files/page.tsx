@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { Typography } from "@mui/material";
 
-import { Alert, Options } from "@/components/(files)";
+import { Options } from "@/components/(files)";
 import { BoxM, StackM, DividerM } from "@/components/Motion";
 import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
 
@@ -12,7 +12,14 @@ export default async function Header({
 }) {
   const { category } = searchParams;
   const isValidCategory = category === "scene" || category === "props";
+
   const session = await auth();
+  const isAuth =
+    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+
+  if (!isAuth) {
+    return null;
+  }
 
   return (
     <StackM
@@ -31,14 +38,10 @@ export default async function Header({
 
       <DividerM variants={yScaleVar} orientation="vertical" flexItem />
 
-      {session ? (
-        <Options
-          category={isValidCategory ? category : "scene"}
-          sx={{ flexGrow: 1 }}
-        />
-      ) : (
-        <Alert />
-      )}
+      <Options
+        category={isValidCategory ? category : "scene"}
+        sx={{ flexGrow: 1 }}
+      />
     </StackM>
   );
 }

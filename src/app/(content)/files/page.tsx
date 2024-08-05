@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { Table, UnAuthTable } from "@/components/(files)";
+import { Table } from "@/components/(files)";
 import { DeleteForm, UploadForm } from "@/components/(files)";
 import { ModifyForm, VerifyForm } from "@/components/(files)";
 
@@ -26,8 +26,15 @@ export default async function FilesContent({
     redirect("/files?category=scene");
   }
 
-  const metadataList = await getSortedMetadata(category);
   const session = await auth();
+  const isAuth =
+    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
+
+  if (!isAuth) {
+    redirect("/unAuth");
+  }
+
+  const metadataList = await getSortedMetadata(category);
 
   return (
     <BoxM
@@ -42,34 +49,26 @@ export default async function FilesContent({
       }}
       {...layoutChildMotionProps()}
     >
-      {session ? <Table metadataList={metadataList} /> : <UnAuthTable />}
-      {session && (
-        <UploadForm
-          open={form === "upload"}
-          closeHref={{ pathname: "/files", query: { category } }}
-          names={metadataList.map(({ name }) => name)}
-        />
-      )}
-      {session && (
-        <DeleteForm
-          open={form === "delete"}
-          closeHref={{ pathname: "/files", query: { category } }}
-          metadataList={metadataList}
-        />
-      )}
-      {session && (
-        <ModifyForm
-          open={form === "modify"}
-          closeHref={{ pathname: "/files", query: { category } }}
-          metadataList={metadataList}
-        />
-      )}
-      {session && (
-        <VerifyForm
-          open={form === "verify"}
-          closeHref={{ pathname: "/files", query: { category } }}
-        />
-      )}
+      <Table metadataList={metadataList} />
+      <UploadForm
+        open={form === "upload"}
+        closeHref={{ pathname: "/files", query: { category } }}
+        names={metadataList.map(({ name }) => name)}
+      />
+      <DeleteForm
+        open={form === "delete"}
+        closeHref={{ pathname: "/files", query: { category } }}
+        metadataList={metadataList}
+      />
+      <ModifyForm
+        open={form === "modify"}
+        closeHref={{ pathname: "/files", query: { category } }}
+        metadataList={metadataList}
+      />
+      <VerifyForm
+        open={form === "verify"}
+        closeHref={{ pathname: "/files", query: { category } }}
+      />
     </BoxM>
   );
 }

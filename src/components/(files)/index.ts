@@ -5,7 +5,6 @@ export { default as UploadField } from "./input/UploadField";
 export { default as DeleteField } from "./input/DeleteField";
 export { default as ModifyField } from "./input/ModifyField";
 
-export { default as Alert } from "./display/Alert";
 export { default as TableHeader } from "./display/TableHeader";
 export { default as TableHead } from "./display/TableHead";
 export { default as TableBody } from "./display/TableBody";
@@ -18,6 +17,3 @@ export { default as VerifyForm } from "./form/VerifyForm";
 
 export { default as Options } from "./block/Options";
 export { default as Table } from "./block/Table";
-
-export { default as UnAuthFooter } from "./unauthenticated/Footer";
-export { default as UnAuthTable } from "./unauthenticated/Table";

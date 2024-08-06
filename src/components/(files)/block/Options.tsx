@@ -39,7 +39,11 @@ export default function Options({
             <Link
               href={{ pathname: "/files", query: { category, form: "upload" } }}
             >
-              <Button startIcon={<AddToPhotosRoundedIcon fontSize="small" />}>
+              <Button
+                startIcon={<AddToPhotosRoundedIcon fontSize="small" />}
+                variant="contained"
+                disableElevation
+              >
                 Add Image
               </Button>
             </Link>
@@ -47,7 +51,10 @@ export default function Options({
             <Link
               href={{ pathname: "/files", query: { category, form: "verify" } }}
             >
-              <Button startIcon={<ImageSearchRoundedIcon fontSize="small" />}>
+              <Button
+                startIcon={<ImageSearchRoundedIcon fontSize="small" />}
+                variant="outlined"
+              >
                 Verify Integrity
               </Button>
             </Link>

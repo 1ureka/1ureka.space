@@ -3,7 +3,7 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { createMetadataWithIdSchema } from "@/schema/schema";
+import { createMetadataWithIdSchema } from "@/schema/metadataSchema";
 import type { ImageMetadata } from "@/data/type";
 
 import toast from "react-hot-toast";

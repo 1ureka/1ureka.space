@@ -2,8 +2,8 @@
 
 import sharp from "sharp";
 import { z } from "zod";
-import { createMetadataSchema } from "@/schema/schema";
-import { MetadataSchema, MetadataWithIdSchema } from "@/schema/schema";
+import { createMetadataSchema } from "@/schema/metadataSchema";
+import { MetadataSchema, MetadataWithIdSchema } from "@/schema/metadataSchema";
 
 import { auth } from "@/auth";
 import { log } from "@/utils/server-utils";

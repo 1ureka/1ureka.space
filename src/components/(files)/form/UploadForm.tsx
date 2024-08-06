@@ -3,7 +3,7 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { createMetadataWithFileSchema } from "@/schema/schema";
+import { createMetadataWithFileSchema } from "@/schema/metadataSchema";
 
 import toast from "react-hot-toast";
 import Link, { type LinkProps } from "next/link";

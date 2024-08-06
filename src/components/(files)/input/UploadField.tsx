@@ -3,7 +3,7 @@
 import type { FieldArrayWithId, FieldErrors } from "react-hook-form";
 import type { UseFieldArrayRemove, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import { MetadataWithFileSchema } from "@/schema/schema";
+import { MetadataWithFileSchema } from "@/schema/metadataSchema";
 
 import Image from "next/image";
 import { Box, Skeleton, Stack } from "@mui/material";

@@ -12,6 +12,7 @@ export { default as ImageCard } from "./form/ImageCard";
 export { default as PointField } from "./formField/PointField";
 export { default as VariantField } from "./formField/VariantField";
 export { default as ViewField } from "./formField/ViewField";
+export { default as TextField } from "./formField/TextField";
 
 export { default as PointSection } from "./formFieldArray/PointSection";
 export { default as VariantSection } from "./formFieldArray/VariantSection";

@@ -29,12 +29,14 @@ export default function ExploreForm({
     z.infer<typeof ExploreSchema>
   >({
     resolver: zodResolver(ExploreSchema),
-    // ...(defaultValues !== undefined && { defaultValues }),
-    defaultValues: {
-      name: "",
-      description: "",
-      views: [{ name: "", points: [], variant: [] }],
-    },
+    defaultValues:
+      defaultValues !== undefined
+        ? defaultValues
+        : {
+            name: "",
+            description: "",
+            views: [{ name: "", points: [], variant: [] }],
+          },
   });
 
   const { errors } = formState;

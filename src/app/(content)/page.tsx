@@ -202,7 +202,7 @@ export default function Content() {
             fillOpacity: 0.1,
           },
         }}
-        href="/files"
+        href="/files/images"
         hrefTitle="File Shelf"
         media={<CardMedia3 />}
       >

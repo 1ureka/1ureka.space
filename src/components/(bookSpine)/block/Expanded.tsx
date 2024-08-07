@@ -52,7 +52,7 @@ function Content({ isMobile }: { isMobile: boolean }) {
     { variant: "button", label: "Scene", href: "/scene" },
     { variant: "button", label: "Props", href: "/props" },
     { variant: "subheader", label: "TOOLS" },
-    { variant: "button", label: "Shelf", href: "/files" },
+    { variant: "button", label: "Shelf", href: "/files/images" },
     { variant: "button", label: "Editor", href: "/editor" },
   ];
 

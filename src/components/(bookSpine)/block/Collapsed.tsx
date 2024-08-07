@@ -47,11 +47,13 @@ function Desktop({ open, onToggle }: CollapsedProps) {
   const pathname = usePathname();
 
   const routeGroups = {
-    Books: ["/scene", "/props"],
+    Books: ["/explore", "/scene", "/props"],
     Tools: ["/files", "/editor"],
   };
 
-  const isInGroup = (g: "Books" | "Tools") => routeGroups[g].includes(pathname);
+  const isInGroup = (g: "Books" | "Tools") => {
+    return routeGroups[g].some((route) => pathname.startsWith(route));
+  };
 
   return (
     <Stack sx={{ height: 1, alignItems: "center" }} spacing={2.5}>
@@ -62,12 +64,12 @@ function Desktop({ open, onToggle }: CollapsedProps) {
       <NavIconButton
         label="Books"
         icon={<BookmarkRoundedIcon sx={{ fontSize: "20px" }} />}
-        onClick={() => !isInGroup("Books") && router.push(routeGroups.Books[0])}
+        onClick={() => !isInGroup("Books") && router.push("/explore/view/0")}
       />
       <NavIconButton
         label="Tools"
         icon={<BrushRoundedIcon sx={{ fontSize: "20px" }} />}
-        onClick={() => !isInGroup("Tools") && router.push(routeGroups.Tools[0])}
+        onClick={() => !isInGroup("Tools") && router.push("/files/images")}
       />
 
       <SpineTitle />

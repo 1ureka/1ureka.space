@@ -15,5 +15,4 @@ export { default as DeleteForm } from "./form/DeleteForm";
 export { default as ModifyForm } from "./form/ModifyForm";
 export { default as VerifyForm } from "./form/VerifyForm";
 
-export { default as Options } from "./block/Options";
 export { default as Table } from "./block/Table";

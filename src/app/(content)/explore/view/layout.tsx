@@ -39,7 +39,7 @@ export default async function ExploreLayout({
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "url(http://1ureka.vercel.app/api/image/clyy2gbux0003v0i3vciotrw1/thumbnail)",
+            "url(https://1ureka.vercel.app/api/image/clyy2gbux0003v0i3vciotrw1/thumbnail)",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundSize: "cover",

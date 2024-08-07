@@ -1,53 +1,77 @@
 "use client";
 
+import { useState } from "react";
 import type { ImageMetadata } from "@/data/type";
 
-import { PointSection, VariantSection, ViewSection, Point } from "..";
+import { TextField, Point } from "..";
+import { PointSection, VariantSection, ViewSection } from "..";
 import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { opacityVar, yScaleVar, yVar } from "@/components/MotionProps";
 
-import { Skeleton } from "@mui/material";
-import { Box, Typography, Fab, TextField } from "@mui/material";
+import { Skeleton, Box, Fab, Typography } from "@mui/material";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 
-function TextSection() {
-  return (
-    <>
-      <BoxM variants={yScaleVar}>
-        <TextField
-          label="Explore name"
-          variant="filled"
-          type="text"
-          size="small"
-          fullWidth
-          placeholder={`Sky city from "The Fifth Element"`}
-        />
-      </BoxM>
-
-      <BoxM variants={yScaleVar}>
-        <Typography variant="subtitle1">Description: </Typography>
-        <TextField
-          variant="filled"
-          size="small"
-          fullWidth
-          multiline
-          minRows={4}
-          maxRows={4}
-          placeholder="Start with a new View. Each View needs at least one Variant and Points equal to the View count minus one within the Explore."
-        />
-      </BoxM>
-    </>
-  );
-}
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ExploreSchema } from "@/schema/exploreSchema";
+import { useFieldArray, useForm } from "react-hook-form";
 
 export default function ExploreForm({
   metadataList,
+  defaultValues,
 }: {
   metadataList: ImageMetadata[];
+  defaultValues?: z.infer<typeof ExploreSchema>;
 }) {
+  const [selectedView, setSelectedView] = useState(0);
+
+  const { register, control, handleSubmit, formState } = useForm<
+    z.infer<typeof ExploreSchema>
+  >({
+    resolver: zodResolver(ExploreSchema),
+    // ...(defaultValues !== undefined && { defaultValues }),
+    defaultValues: {
+      name: "",
+      description: "",
+      views: [{ name: "", points: [], variant: [] }],
+    },
+  });
+
+  const { errors } = formState;
+  const zodErrors = errors as { "": { message: string } };
+  const rootError = zodErrors[""];
+
+  const {
+    fields: views,
+    append: appendView,
+    remove: removeView,
+  } = useFieldArray({
+    control,
+    name: "views",
+  });
+
+  const {
+    fields: variants,
+    append: appendVariant,
+    remove: removeVariant,
+  } = useFieldArray({
+    control,
+    name: `views.${selectedView}.variant`,
+  });
+
+  const {
+    fields: points,
+    append: appendPoint,
+    remove: removePoint,
+  } = useFieldArray({
+    control,
+    name: `views.${selectedView}.points`,
+  });
+
   return (
     <Box
       component="form"
+      onSubmit={handleSubmit((data) => console.log(data))}
       sx={{
         position: "relative",
         display: "grid",
@@ -56,7 +80,13 @@ export default function ExploreForm({
       }}
     >
       <StackM variants={yScaleVar} gap={1.5}>
-        <TextSection />
+        {rootError && (
+          <Typography variant="caption" color="error">
+            {rootError.message}
+          </Typography>
+        )}
+
+        <TextField register={register} errors={errors} />
 
         <Box
           sx={{
@@ -68,8 +98,18 @@ export default function ExploreForm({
             gap: 3,
           }}
         >
-          <ViewSection />
+          <ViewSection
+            selected={selectedView}
+            onSelect={setSelectedView}
+            fields={views}
+            errors={errors}
+            register={register}
+            remove={removeView}
+            append={appendView}
+          />
+
           <DividerM variants={yVar} sx={{ height: "0px" }} />
+
           <VariantSection metadataList={metadataList} />
           <PointSection />
         </Box>

@@ -1,42 +1,103 @@
 "use client";
 
+import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { FILES_SELECTED } from "@/context/store";
 import { useSearchParams } from "next/navigation";
+import { NextLinkComposed } from "@/components/Link";
 
-import { Stack, Button } from "@mui/material";
+import { Stack, Button, Menu, MenuItem, Checkbox } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 
 import { BoxM, TypographyM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import { NextLinkComposed } from "@/components/Link";
 
 export default function TableHeader() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category") ?? "scene";
   const selected = useRecoilValue(FILES_SELECTED);
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Stack
       direction="row"
-      sx={{ p: 1.5, pl: 2.5 }}
+      flexWrap="wrap"
+      sx={{ p: 1.5, pl: 1 }}
       justifyContent="space-between"
       alignItems="center"
     >
-      <TypographyM variant="button" variants={yScaleVar}>
-        {selected.length} Selected
-      </TypographyM>
+      <BoxM variants={yScaleVar}>
+        <Button
+          onClick={handleClick}
+          startIcon={<FilterListRoundedIcon />}
+          variant="outlined"
+        >
+          Filter List
+        </Button>
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <MenuItem
+            onClick={handleClose}
+            component={NextLinkComposed}
+            to={{ pathname: "/files/images", query: { category: "scene" } }}
+            sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
+            dense
+          >
+            <Checkbox checked={category === "scene"} size="small" />
+            Scene
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            component={NextLinkComposed}
+            to={{ pathname: "/files/images", query: { category: "props" } }}
+            sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
+            dense
+          >
+            <Checkbox checked={category === "props"} size="small" />
+            Props
+          </MenuItem>
+        </Menu>
+      </BoxM>
 
-      <Stack direction="row" alignItems="center" spacing={1.5}>
+      <Stack direction="row" alignItems="center" gap={1.5}>
+        <TypographyM
+          variants={yScaleVar}
+          sx={{ pr: 1.5, textTransform: "uppercase" }}
+          variant="subtitle2"
+        >
+          {selected.length} Selected:
+        </TypographyM>
+
         <BoxM variants={yScaleVar}>
           <Button
             startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
             component={NextLinkComposed}
-            to={{ pathname: "/files", query: { category, form: "modify" } }}
+            to={{
+              pathname: "/files/images",
+              query: { category, form: "modify" },
+            }}
           >
             Modify
+          </Button>
+        </BoxM>
+
+        <BoxM variants={yScaleVar}>
+          <Button
+            startIcon={<DownloadRoundedIcon fontSize="small" />}
+            disabled={selected.length === 0}
+          >
+            Download
           </Button>
         </BoxM>
 
@@ -45,7 +106,11 @@ export default function TableHeader() {
             startIcon={<DeleteRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
             component={NextLinkComposed}
-            to={{ pathname: "/files", query: { category, form: "delete" } }}
+            to={{
+              pathname: "/files/images",
+              query: { category, form: "delete" },
+            }}
+            color="error"
           >
             Delete
           </Button>

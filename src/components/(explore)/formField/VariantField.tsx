@@ -1,9 +1,9 @@
 "use client";
 
 import type { TextFieldProps } from "@mui/material";
-import { Box, Stack } from "@mui/material";
-import { Radio, TextField, IconButton } from "@mui/material";
+import { Stack, Radio, TextField, IconButton } from "@mui/material";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import { BoxM } from "@/components/Motion";
 
 export default function VariantField({
   NameFieldProps,
@@ -19,7 +19,8 @@ export default function VariantField({
   onDelete?: () => void;
 }) {
   return (
-    <Box
+    <BoxM
+      layout
       sx={{
         display: "grid",
         gridTemplateColumns: "1fr 0.15fr 0.15fr",
@@ -57,6 +58,6 @@ export default function VariantField({
         sx={{ p: 0.5 }}
         onClick={onSelect}
       />
-    </Box>
+    </BoxM>
   );
 }

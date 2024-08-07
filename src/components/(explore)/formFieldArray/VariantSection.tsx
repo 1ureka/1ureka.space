@@ -4,10 +4,10 @@ import { useState } from "react";
 import type { ImageMetadata } from "@/data/type";
 
 import { ImagesDialog, VariantField } from "..";
-import { StackM } from "@/components/Motion";
+import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
-import { Button, Box, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 
 import { z } from "zod";
@@ -52,7 +52,7 @@ export default function VariantSection({
 
   return (
     <StackM variants={yScaleVar} sx={{ display: isCurrentView ? "" : "none" }}>
-      <Box>
+      <BoxM layout="preserve-aspect">
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Variants: </Typography>
           <Button
@@ -75,9 +75,9 @@ export default function VariantSection({
         <Typography variant="caption" color="error.main">
           {errorMessage}
         </Typography>
-      </Box>
+      </BoxM>
 
-      <Stack gap={1}>
+      <StackM layout="preserve-aspect" gap={1}>
         {fields.map((field, i) => (
           <VariantField
             key={field.id}
@@ -97,7 +97,7 @@ export default function VariantSection({
             }}
           />
         ))}
-      </Stack>
+      </StackM>
     </StackM>
   );
 }

@@ -92,7 +92,7 @@ export default function ExploreForm({
             append={appendView}
           />
 
-          <DividerM variants={yVar} sx={{ height: "0px" }} />
+          <DividerM layout variants={yVar} sx={{ height: "0px" }} />
 
           {views.map(({ id }, i) => (
             <VariantSection

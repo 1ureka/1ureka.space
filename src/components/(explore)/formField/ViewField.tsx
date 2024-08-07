@@ -1,8 +1,9 @@
 "use client";
 
 import type { TextFieldProps } from "@mui/material";
-import { Box, Radio, TextField, IconButton } from "@mui/material";
+import { Radio, TextField, IconButton } from "@mui/material";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import { BoxM } from "@/components/Motion";
 
 export default function ViewField({
   TextFieldProps,
@@ -16,7 +17,8 @@ export default function ViewField({
   onDelete?: () => void;
 }) {
   return (
-    <Box
+    <BoxM
+      layout
       sx={{
         display: "grid",
         gridTemplateColumns: "1fr 0.15fr 0.15fr",
@@ -45,6 +47,6 @@ export default function ViewField({
         sx={{ p: 0.5 }}
         onClick={onSelect}
       />
-    </Box>
+    </BoxM>
   );
 }

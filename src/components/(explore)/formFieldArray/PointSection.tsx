@@ -1,14 +1,14 @@
 "use cleint";
 
 import { PointField } from "..";
-import { StackM } from "@/components/Motion";
+import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 export default function PointSection() {
   return (
     <StackM variants={yScaleVar}>
-      <Box>
+      <BoxM layout="preserve-aspect">
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Points: </Typography>
           <Typography variant="caption">{"( 0 / 3 )"}</Typography>
@@ -17,7 +17,7 @@ export default function PointSection() {
         <Typography variant="caption" color="error.main">
           * Some Points are missing.
         </Typography>
-      </Box>
+      </BoxM>
 
       <Stack gap={1}>
         <PointField from="View 1" to="View 2" type="edit" />

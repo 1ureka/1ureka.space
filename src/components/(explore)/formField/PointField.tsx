@@ -1,10 +1,10 @@
 "use client";
 
 import { Box, Typography, IconButton } from "@mui/material";
-
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import AddLocationRoundedIcon from "@mui/icons-material/AddLocationRounded";
 import EditLocationAltRoundedIcon from "@mui/icons-material/EditLocationAltRounded";
+import { BoxM } from "@/components/Motion";
 
 export default function PointField({
   from,
@@ -18,7 +18,8 @@ export default function PointField({
   onClick?: () => void;
 }) {
   return (
-    <Box
+    <BoxM
+      layout
       sx={{
         display: "grid",
         gridTemplateColumns: "auto 1fr auto 1fr auto",
@@ -44,6 +45,6 @@ export default function PointField({
           <EditLocationAltRoundedIcon fontSize="small" />
         )}
       </IconButton>
-    </Box>
+    </BoxM>
   );
 }

@@ -33,7 +33,7 @@ export default function ViewSection({
   append: UseFieldArrayAppend<Z, "views">;
 }) {
   return (
-    <StackM variants={yScaleVar}>
+    <StackM layout="preserve-aspect" variants={yScaleVar}>
       <Box>
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Views: </Typography>

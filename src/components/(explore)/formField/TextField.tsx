@@ -17,7 +17,7 @@ export default function TextSection({
 }) {
   return (
     <>
-      <BoxM variants={yScaleVar}>
+      <BoxM layout="preserve-aspect" variants={yScaleVar}>
         <TextField
           label="Explore name"
           variant="filled"
@@ -31,7 +31,7 @@ export default function TextSection({
         />
       </BoxM>
 
-      <BoxM variants={yScaleVar}>
+      <BoxM layout="preserve-aspect" variants={yScaleVar}>
         <Typography variant="subtitle1">Description: </Typography>
         <TextField
           variant="filled"

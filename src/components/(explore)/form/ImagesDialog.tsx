@@ -55,23 +55,16 @@ export default function DeleteForm({
       maxWidth="md"
       open={open}
       PaperProps={{ sx: { overflow: "hidden" } }}
+      onClose={() => onClose(undefined)}
     >
-      <DialogTitleM layout>Choose An Image</DialogTitleM>
-
-      <BoxM layout sx={{ position: "absolute", inset: "0 0 auto auto" }}>
-        <IconButton
-          sx={{ mt: 1.5, mr: 1.5 }}
-          onClick={() => onClose(undefined)}
-        >
-          <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
-        </IconButton>
-      </BoxM>
-
-      <DialogContentM
-        sx={{ display: "grid", gap: 4, scrollbarGutter: "stable both-edges" }}
-        dividers
+      <DialogTitleM
         layout
+        sx={{ display: "flex", alignItems: "center", gap: 2 }}
       >
+        <Typography sx={{ whiteSpace: "nowrap" }} variant="h6">
+          Select Image
+        </Typography>
+
         <TextField
           variant="filled"
           label="Search"
@@ -87,6 +80,21 @@ export default function DeleteForm({
           onChange={(e) => setSearch(e.target.value)}
         />
 
+        <IconButton onClick={() => onClose(undefined)}>
+          <CloseRoundedIcon fontSize="small" sx={{ color: "grey.500" }} />
+        </IconButton>
+      </DialogTitleM>
+
+      <DialogContentM
+        sx={{
+          display: "grid",
+          gap: 4,
+          scrollbarGutter: "stable both-edges",
+          minHeight: 375,
+        }}
+        dividers
+        layout
+      >
         {filteredMetadataList.length === 0 ? (
           <BoxM layout sx={{ display: "grid", placeItems: "center" }}>
             <Typography variant="subtitle2" sx={{ p: 2.5 }}>

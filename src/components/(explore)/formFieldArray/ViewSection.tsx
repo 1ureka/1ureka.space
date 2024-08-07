@@ -40,13 +40,7 @@ export default function ViewSection({
           <Button
             startIcon={<AddBoxRoundedIcon />}
             size="small"
-            onClick={() =>
-              append({
-                name: "",
-                points: [],
-                variant: [],
-              })
-            }
+            onClick={() => append({ name: "", points: [], variant: [] })}
           >
             <Typography variant="body1" color="inherit">
               Add

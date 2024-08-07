@@ -28,7 +28,7 @@ const pointSchema = z.object({
 const viewSchema = z
   .object({
     name: z.string().trim().min(1, { message: "Name is required" }),
-    variant: z.array(variantSchema).nonempty(),
+    variant: z.array(variantSchema).min(1),
     points: z.array(pointSchema),
   })
   .refine((value) => isUniqueName("variant", value), {

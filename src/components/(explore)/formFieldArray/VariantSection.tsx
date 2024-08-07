@@ -10,45 +10,93 @@ import { yScaleVar } from "@/components/MotionProps";
 import { Button, Box, Stack, Typography } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 
+import { z } from "zod";
+import { useFieldArray } from "react-hook-form";
+import type { Control, UseFormRegister, FieldErrors } from "react-hook-form";
+import { ExploreSchema } from "@/schema/exploreSchema";
+
+type Z = z.infer<typeof ExploreSchema>;
+
 export default function VariantSection({
   metadataList,
+  viewIndex,
+  isCurrentView,
+  errors,
+  register,
+  control,
 }: {
   metadataList: ImageMetadata[];
+  viewIndex: number;
+  isCurrentView: boolean;
+  errors: FieldErrors<Z>;
+  register: UseFormRegister<Z>;
+  control: Control<Z>;
 }) {
-  const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `views.${viewIndex}.variant`,
+  });
+
+  const handleDialogClose = (id: string | undefined) => {
+    if (id !== undefined) append({ name: "", group: "", metadataId: id });
+    setDialogOpen(false);
+  };
+
+  const errorMessage =
+    errors?.views?.[viewIndex]?.message ||
+    errors?.views?.[viewIndex]?.root?.message ||
+    errors?.views?.[viewIndex]?.variant?.message ||
+    errors?.views?.[viewIndex]?.variant?.root?.message;
 
   return (
-    <StackM variants={yScaleVar}>
+    <StackM variants={yScaleVar} sx={{ display: isCurrentView ? "" : "none" }}>
       <Box>
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Variants: </Typography>
           <Button
             startIcon={<AddBoxRoundedIcon />}
             size="small"
-            onClick={() => setOpen(true)}
+            onClick={() => setDialogOpen(true)}
           >
             <Typography variant="body1" color="inherit">
               Add
             </Typography>
           </Button>
+
           <ImagesDialog
-            open={open}
-            onClose={(id) => {
-              console.log(id);
-              setOpen(false);
-            }}
             metadataList={metadataList}
+            open={dialogOpen}
+            onClose={handleDialogClose}
           />
         </Stack>
 
         <Typography variant="caption" color="error.main">
-          * At least one Variant is required.
+          {errorMessage}
         </Typography>
       </Box>
 
       <Stack gap={1}>
-        <VariantField checked />
-        <VariantField checked={false} />
+        {fields.map((field, i) => (
+          <VariantField
+            key={field.id}
+            checked={i === 0}
+            onDelete={() => remove(i)}
+            NameFieldProps={{
+              ...register(`views.${viewIndex}.variant.${i}.name`),
+              error: !!errors?.views?.[viewIndex]?.variant?.[i]?.name,
+              helperText:
+                errors?.views?.[viewIndex]?.variant?.[i]?.name?.message,
+            }}
+            GroupFieldProps={{
+              ...register(`views.${viewIndex}.variant.${i}.group`),
+              error: !!errors?.views?.[viewIndex]?.variant?.[i]?.group,
+              helperText:
+                errors?.views?.[viewIndex]?.variant?.[i]?.group?.message,
+            }}
+          />
+        ))}
       </Stack>
     </StackM>
   );

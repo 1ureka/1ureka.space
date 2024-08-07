@@ -1,14 +1,19 @@
 "use client";
 
+import type { TextFieldProps } from "@mui/material";
 import { Box, Stack } from "@mui/material";
 import { Radio, TextField, IconButton } from "@mui/material";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 
 export default function VariantField({
+  NameFieldProps,
+  GroupFieldProps,
   checked,
-  onDelete,
   onSelect,
+  onDelete,
 }: {
+  NameFieldProps: TextFieldProps;
+  GroupFieldProps: TextFieldProps;
   checked: boolean;
   onSelect?: () => void;
   onDelete?: () => void;
@@ -26,8 +31,20 @@ export default function VariantField({
       }}
     >
       <Stack direction="row" sx={{ width: 1 }}>
-        <TextField size="small" variant="filled" label="name" fullWidth />
-        <TextField size="small" variant="filled" label="group" fullWidth />
+        <TextField
+          size="small"
+          variant="filled"
+          label="name"
+          fullWidth
+          {...NameFieldProps}
+        />
+        <TextField
+          size="small"
+          variant="filled"
+          label="group"
+          fullWidth
+          {...GroupFieldProps}
+        />
       </Stack>
 
       <IconButton size="small" onClick={onDelete}>

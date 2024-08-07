@@ -52,24 +52,6 @@ export default function ExploreForm({
     name: "views",
   });
 
-  const {
-    fields: variants,
-    append: appendVariant,
-    remove: removeVariant,
-  } = useFieldArray({
-    control,
-    name: `views.${selectedView}.variant`,
-  });
-
-  const {
-    fields: points,
-    append: appendPoint,
-    remove: removePoint,
-  } = useFieldArray({
-    control,
-    name: `views.${selectedView}.points`,
-  });
-
   return (
     <Box
       component="form"
@@ -112,7 +94,18 @@ export default function ExploreForm({
 
           <DividerM variants={yVar} sx={{ height: "0px" }} />
 
-          <VariantSection metadataList={metadataList} />
+          {views.map(({ id }, i) => (
+            <VariantSection
+              key={id}
+              metadataList={metadataList}
+              viewIndex={i}
+              isCurrentView={i === selectedView}
+              errors={errors}
+              register={register}
+              control={control}
+            />
+          ))}
+
           <PointSection />
         </Box>
       </StackM>

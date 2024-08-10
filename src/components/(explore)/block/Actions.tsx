@@ -6,6 +6,8 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 import { EditIconButton, Indicator } from "..";
 import { NextLinkComposed } from "@/components/Link";
+import { BoxM, StackM } from "@/components/Motion";
+import { yScaleVar } from "@/components/MotionProps";
 
 export default function ActionSection() {
   const wrapperSx = (type: "contained" | "outlined"): BoxProps["sx"] => ({
@@ -19,7 +21,8 @@ export default function ActionSection() {
 
   return (
     <Stack direction="row" alignItems="flex-end" gap={2} flexWrap="wrap">
-      <Box
+      <BoxM
+        variants={yScaleVar}
         sx={{
           ...wrapperSx("outlined"),
           display: "grid",
@@ -30,9 +33,9 @@ export default function ActionSection() {
         }}
       >
         <Indicator amount={10} />
-      </Box>
+      </BoxM>
 
-      <Stack direction="row" sx={wrapperSx("contained")}>
+      <StackM variants={yScaleVar} direction="row" sx={wrapperSx("contained")}>
         <IconButton
           size="small"
           component={NextLinkComposed}
@@ -52,7 +55,7 @@ export default function ActionSection() {
         <IconButton size="small" color="inherit">
           <PauseRoundedIcon fontSize="small" />
         </IconButton>
-      </Stack>
+      </StackM>
     </Stack>
   );
 }

@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 import { Box, Skeleton, Slider, Stack } from "@mui/material";
 import { ActionSection, Carousels } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
-import { layoutChildMotionProps, opacityVar } from "@/components/MotionProps";
+import { layoutChildMotionProps } from "@/components/MotionProps";
+import { opacityVar, yVar } from "@/components/MotionProps";
 
 export default function ExploreLayout({
   intro,
@@ -52,7 +53,7 @@ export default function ExploreLayout({
         </BoxM>
       </Box>
 
-      <Box sx={{ gridArea: "c" }}>
+      <BoxM variants={yVar} sx={{ gridArea: "c" }}>
         <Slider
           marks={[
             { label: "Day", value: 0 },
@@ -64,7 +65,7 @@ export default function ExploreLayout({
           defaultValue={25}
           size="small"
         />
-      </Box>
+      </BoxM>
 
       <Box sx={{ gridArea: "d", mt: 5 }}>
         <Carousels amount={10} />

@@ -14,8 +14,8 @@ import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 import { isValidIndex } from "@/utils/utils";
 
-const imageWidth = 480;
-const imageHeight = 270;
+const imageWidth = 240;
+const imageHeight = (240 * 9) / 16;
 
 export default function Carousels({
   sx,
@@ -34,6 +34,7 @@ export default function Carousels({
   const containerSx: BoxProps["sx"] = {
     position: "relative",
     overflowX: "hidden",
+    overflowY: "hidden",
     ...sx,
   };
 
@@ -61,7 +62,12 @@ export default function Carousels({
             "linear-gradient(to right, #0000 0%, #000 20%, #000 80%, #0000 100%)",
         }}
       >
-        <StackM direction="row" alignItems="center" style={{ x }}>
+        <StackM
+          direction="row"
+          alignItems="center"
+          style={{ x }}
+          sx={{ overflowY: "visible", overflowX: "vidible" }}
+        >
           {fakeData.map((i) => (
             <CarouselItem
               key={i}
@@ -84,7 +90,7 @@ export default function Carousels({
         }}
       >
         <BoxM variants={yScaleVar}>
-          <Link href={`/explore/view/${prevIndex}`}>
+          <Link href={`/explore/view/${prevIndex}`} scroll={false}>
             <IconButton aria-label="Previous">
               <ArrowLeftRoundedIcon />
             </IconButton>
@@ -101,7 +107,7 @@ export default function Carousels({
         }}
       >
         <BoxM variants={yScaleVar}>
-          <Link href={`/explore/view/${nextIndex}`}>
+          <Link href={`/explore/view/${nextIndex}`} scroll={false}>
             <IconButton aria-label="Next">
               <ArrowRightRoundedIcon />
             </IconButton>

@@ -2,18 +2,15 @@
 
 import { useParams } from "next/navigation";
 import { NextLinkComposed } from "@/components/Link";
+import { isValidIndex } from "@/utils/utils";
 
-import { Divider, TextField, Typography } from "@mui/material";
+import { Divider, Stack, TextField, Typography } from "@mui/material";
 import { MenuItem as MuiMenuItem } from "@mui/material";
 import type { MenuItemProps, StackProps } from "@mui/material";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 
-import { StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
-import { isValidIndex } from "@/utils/utils";
-
 const MenuItem = MuiMenuItem as React.FC<
-  MenuItemProps & { to: string; prefetch: boolean }
+  MenuItemProps & { to: string; prefetch: boolean; scroll: boolean }
 >;
 
 export default function Indicator({
@@ -28,7 +25,7 @@ export default function Indicator({
   if (index === -1) return null;
 
   return (
-    <StackM gap={1} alignItems="center" variants={yScaleVar} sx={sx}>
+    <Stack gap={1} alignItems="center" sx={sx}>
       <TextField
         select
         value={params.index}
@@ -36,8 +33,9 @@ export default function Indicator({
         SelectProps={{
           IconComponent: ArrowDropDownRoundedIcon,
           MenuProps: { PaperProps: { style: { maxHeight: 200 } } },
+          sx: { "& .MuiSelect-icon": { color: "inherit" }, color: "inherit" },
         }}
-        sx={{ "& fieldset": { border: "none" }, translate: "-0.7rem" }}
+        sx={{ "& fieldset": { border: "none" } }}
       >
         {Array(amount)
           .fill(0)
@@ -49,20 +47,16 @@ export default function Indicator({
               component={NextLinkComposed}
               to={`/explore/view/${i}`}
               prefetch={false}
+              scroll={false}
             >
               {String(i + 1).padStart(2, "0")}
             </MenuItem>
           ))}
       </TextField>
 
-      <Divider
-        flexItem
-        sx={{ minWidth: "3rem", scale: "1.2", transform: "rotate(-45deg)" }}
-      />
+      <Divider flexItem sx={{ minWidth: "3rem", borderColor: "inherit" }} />
 
-      <Typography variant="body2" sx={{ translate: "0.7rem" }}>
-        10
-      </Typography>
-    </StackM>
+      <Typography variant="body1">10</Typography>
+    </Stack>
   );
 }

@@ -27,7 +27,7 @@ export default async function Page({
     <Stack gap={0.5}>
       <Typography variant="h4">Explore Name {index + 1}</Typography>
       <Typography variant="subtitle2" sx={{ fontStyle: "italic" }}>
-        From "Artwork"
+        {`From "Artwork"`}
       </Typography>
       <Typography variant="body1" sx={{ mt: 1.5 }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod

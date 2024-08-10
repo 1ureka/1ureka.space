@@ -11,10 +11,31 @@ import { layoutMotionProps } from "@/components/MotionProps";
 import BookSpine from "@/components/(bookSpine)/BookSpine";
 import Bookmarks from "@/components/(bookmarks)/Bookmarks";
 
-const bookmarks: Record<string, { label: string; href: string }[]> = {
+type RouteGroup =
+  | "index"
+  | "exploreView"
+  | "exploreEdit"
+  | "exploreNew"
+  | "books"
+  | "tools"
+  | "notFound";
+
+const routeGroupMap: Record<RouteGroup, string[]> = {
+  index: ["/"],
+  exploreView: ["/explore/view/*"],
+  exploreEdit: ["/explore/edit/*"],
+  exploreNew: ["/explore/new"],
+  books: ["/scene", "/props"],
+  tools: ["/files/*", "/editor"],
+  notFound: [],
+} as const;
+
+const bookmarks: Record<RouteGroup, { label: string; href: string }[]> = {
   index: [{ label: "Index", href: "/" }],
+  exploreView: [{ label: "Explore", href: "/explore/view/0" }],
+  exploreEdit: [{ label: "Back", href: "/explore/view/0" }],
+  exploreNew: [{ label: "Back", href: "/explore/view/0" }],
   books: [
-    { label: "Explore", href: "/explore/view/0" },
     { label: "Scene", href: "/scene" },
     { label: "Props", href: "/props" },
   ],
@@ -25,16 +46,22 @@ const bookmarks: Record<string, { label: string; href: string }[]> = {
   notFound: [{ label: "Not Found", href: "/404" }],
 } as const;
 
-function findBookmarkCategory(pathname: string): keyof typeof bookmarks {
-  for (const category of Object.keys(bookmarks)) {
-    if (
-      bookmarks[category].some((item) => {
-        const path = `/${item.href.split("/")[1]}`; // "/explore/0" -> "/explore"
-        if (path === "/") return pathname === "/"; // every path starts with "/"
-        return pathname.startsWith(path);
-      })
-    )
-      return category;
+function findRouteGroup(pathname: string): RouteGroup {
+  const groupNames = Object.keys(routeGroupMap) as RouteGroup[];
+
+  for (const group of groupNames) {
+    const patterns = routeGroupMap[group];
+
+    for (const pattern of patterns) {
+      if (pattern.endsWith("*")) {
+        const prefix = pattern.slice(0, -1);
+        if (pathname.startsWith(prefix)) {
+          return group;
+        }
+      } else if (pathname === pattern) {
+        return group;
+      }
+    }
   }
 
   return "notFound";
@@ -84,13 +111,17 @@ export default function Frame({
   UserButton: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const category = findBookmarkCategory(pathname);
+  const routeGroup = findRouteGroup(pathname);
 
   const ts = useRef(0);
   const key = useMemo(() => {
     ts.current += 1;
-    return `${category}-${ts.current}`;
-  }, [category]);
+    return `${routeGroup}-${ts.current}`;
+  }, [routeGroup]);
+
+  const isNoHeader = ["exploreView", "exploreEdit", "exploreNew"].includes(
+    routeGroup
+  );
 
   return (
     <Stack direction="row" sx={{ height: 1, bgcolor: "content.layer2" }}>
@@ -110,13 +141,19 @@ export default function Frame({
               sx={{ position: "relative", minHeight: 1 }}
               {...layoutMotionProps}
             >
-              <Bookmarks component="nav" options={bookmarks[category]} />
+              <Bookmarks component="nav" options={bookmarks[routeGroup]} />
 
               <ArticleContainer>
-                <Box component="section" sx={{ mt: "55px", zIndex: 1 }}>
-                  {header}
-                </Box>
-                <DividerM layout flexItem variant="middle" />
+                {isNoHeader ? (
+                  <Box sx={{ mt: "25px" }} />
+                ) : (
+                  <>
+                    <Box component="section" sx={{ mt: "55px", zIndex: 1 }}>
+                      {header}
+                    </Box>
+                    <DividerM layout flexItem variant="middle" />
+                  </>
+                )}
                 <Box component="section" sx={{ display: "grid", flexGrow: 1 }}>
                   {content}
                 </Box>

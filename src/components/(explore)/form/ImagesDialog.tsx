@@ -61,7 +61,7 @@ export default function DeleteForm({
         layout
         sx={{ display: "flex", alignItems: "center", gap: 2 }}
       >
-        <Typography sx={{ whiteSpace: "nowrap" }} variant="h6">
+        <Typography sx={{ whiteSpace: "nowrap" }} variant="h6" component="span">
           Select Image
         </Typography>
 

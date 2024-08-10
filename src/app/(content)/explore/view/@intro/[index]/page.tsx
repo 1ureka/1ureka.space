@@ -2,17 +2,13 @@ import { auth } from "@/auth";
 import { isValidIndex } from "@/utils/utils";
 import { notFound } from "next/navigation";
 
-import { Skeleton } from "@mui/material";
-import { BoxM } from "@/components/Motion";
-import { opacityVar } from "@/components/MotionProps";
+import { Stack, Typography } from "@mui/material";
 import { delay } from "@/utils/server-utils";
 
 export default async function Page({
   params: { index: indexString },
-  searchParams,
 }: {
   params: { index: unknown };
-  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   await delay(Math.random() * 2000);
 
@@ -28,12 +24,15 @@ export default async function Page({
   }
 
   return (
-    <BoxM variants={opacityVar} sx={{ height: 1 }}>
-      <Skeleton
-        variant="rounded"
-        animation="wave"
-        sx={{ height: 1, width: 1 }}
-      />
-    </BoxM>
+    <Stack gap={0.5}>
+      <Typography variant="h4">Explore Name {index + 1}</Typography>
+      <Typography variant="subtitle2" sx={{ fontStyle: "italic" }}>
+        From "Artwork"
+      </Typography>
+      <Typography variant="body1" sx={{ mt: 1.5 }}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      </Typography>
+    </Stack>
   );
 }

@@ -3,78 +3,71 @@ export const metadata: Metadata = {
   title: "explore",
 };
 
-import { auth } from "@/auth";
-import { Box, Typography } from "@mui/material";
-import NavigationRoundedIcon from "@mui/icons-material/NavigationRounded";
+import { Box, Skeleton, Slider, Stack } from "@mui/material";
+import { ActionSection, Carousels } from "@/components/(explore)";
+import { BoxM } from "@/components/Motion";
+import { layoutChildMotionProps, opacityVar } from "@/components/MotionProps";
 
-import { Carousels, ExploreButton, Indicator } from "@/components/(explore)";
-import { BoxM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
-import { yScaleVar, opacityVar } from "@/components/MotionProps";
-
-export default async function ExploreLayout({
+export default function ExploreLayout({
+  intro,
   children,
 }: {
+  intro: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  const isAuth =
-    !!session && JSON.stringify(session.user.id) === process.env.ALLOWED_USER;
-
   return (
     <BoxM
-      {...layoutChildMotionProps()}
+      {...layoutChildMotionProps({ stagger: 0.25 })}
       sx={{
-        position: "relative",
-        py: 3,
-        px: { xs: 2, sm: 7 },
         display: "grid",
-        placeItems: "center",
-        gridTemplateRows: "0.45fr auto 0.45fr",
+        gridTemplateAreas: `"a b" "a c" "d d"`,
+        gridTemplateColumns: "1fr 2.2fr",
+        rowGap: 1,
+        columnGap: 5,
+        p: 7,
+        height: "fit-content",
       }}
     >
-      <BoxM
-        variants={opacityVar}
-        sx={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "url(https://1ureka.vercel.app/api/image/clyy2gbux0003v0i3vciotrw1/thumbnail)",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          maskImage: "radial-gradient(#000 0%, #0000 80%)",
-          filter: "blur(20px)",
-        }}
-      />
+      <Stack sx={{ gridArea: "a" }} justifyContent="space-between" gap={2}>
+        {intro}
+        <ActionSection />
+      </Stack>
 
-      <Box />
+      <Box sx={{ gridArea: "b" }}>
+        <BoxM
+          variants={opacityVar}
+          sx={{
+            position: "relative",
+            aspectRatio: "16/9",
+            borderRadius: 2,
+            overflow: "hidden",
+          }}
+        >
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            sx={{ position: "absolute", height: 1, width: 1 }}
+          />
+          {children}
+        </BoxM>
+      </Box>
 
-      <Carousels amount={10} sx={{ width: 1 }} />
+      <Box sx={{ gridArea: "c" }}>
+        <Slider
+          marks={[
+            { label: "Day", value: 0 },
+            { label: "Morning", value: 33 },
+            { label: "Night", value: 66 },
+            { label: "", value: 100 },
+          ]}
+          step={0.1}
+          defaultValue={25}
+          size="small"
+        />
+      </Box>
 
-      <StackM
-        sx={{ alignSelf: "flex-start", gap: 1.5, alignItems: "center" }}
-        variants={yScaleVar}
-      >
-        <ExploreButton disabled={!isAuth}>
-          <NavigationRoundedIcon sx={{ mr: 1 }} />
-          <Typography variant="h5" sx={{ lineHeight: 0.9 }}>
-            {isAuth ? "Explore" : "Login to Explore"}
-          </Typography>
-        </ExploreButton>
-
-        {children}
-      </StackM>
-
-      <Box
-        sx={{
-          position: "absolute",
-          inset: "auto 5% 5% auto",
-          scale: "1.25",
-          transformOrigin: "bottom right",
-        }}
-      >
-        <Indicator amount={10} />
+      <Box sx={{ gridArea: "d", mt: 5 }}>
+        <Carousels amount={10} />
       </Box>
     </BoxM>
   );

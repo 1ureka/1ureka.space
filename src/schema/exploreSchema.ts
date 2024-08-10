@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-function isUnique(values: string[]): boolean {
+function isUnique(values: unknown[]): boolean {
   const set = new Set(values);
   return values.length === set.size;
 }
@@ -22,7 +22,7 @@ const variantSchema = z.object({
 const pointSchema = z.object({
   x: z.number().gte(0).lte(100),
   y: z.number().gte(0).lte(100),
-  toViewName: z.string().trim().min(1, { message: "Target View is required" }),
+  toView: z.number().int().positive(),
 });
 
 const viewSchema = z
@@ -50,7 +50,7 @@ const viewSchema = z
   )
   .refine(
     (value) => {
-      const targets = value.points.map((point) => point.toViewName);
+      const targets = value.points.map((point) => point.toView);
       return isUnique(targets);
     },
     { message: "Point Target View should be unique" }
@@ -83,18 +83,18 @@ export const ExploreSchema = z
   )
   .refine(
     ({ views }) => {
-      const names = views.map((view) => view.name);
-      const toViewNames = views
-        .map(({ points }) => points.map(({ toViewName }) => toViewName))
+      const totalViews = views.length;
+      const toViews = views
+        .map(({ points }) => points.map(({ toView }) => toView))
         .flat();
 
-      for (const target of toViewNames) {
-        if (!names.includes(target)) return false;
+      for (const target of toViews) {
+        if (target >= totalViews) return false;
       }
 
       return true;
     },
-    { message: "Target View should exist" }
+    { message: "Target view index should be less than total views" }
   );
 
 // only can valid in backend:

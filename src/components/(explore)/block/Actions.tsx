@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, Stack } from "@mui/material";
+import { Divider, IconButton, Stack } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";

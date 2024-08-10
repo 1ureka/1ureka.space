@@ -9,7 +9,7 @@ export default function Loading() {
 
       <Skeleton variant="text" animation="wave">
         <Typography variant="subtitle2" sx={{ fontStyle: "italic" }}>
-          From "Artwork"
+          {`From "Artwork"`}
         </Typography>
       </Skeleton>
 

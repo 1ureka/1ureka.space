@@ -106,7 +106,16 @@ export default function ExploreForm({
             />
           ))}
 
-          <PointSection />
+          {views.map(({ id }, i) => (
+            <PointSection
+              key={id}
+              viewFields={views}
+              viewIndex={i}
+              isCurrentView={i === selectedView}
+              errors={errors}
+              control={control}
+            />
+          ))}
         </Box>
       </StackM>
 

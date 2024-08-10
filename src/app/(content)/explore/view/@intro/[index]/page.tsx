@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { isValidIndex } from "@/utils/utils";
 import { notFound } from "next/navigation";
 
@@ -15,14 +14,6 @@ export default async function Page({
 
   const index = isValidIndex(indexString, 10);
   if (index === -1) notFound();
-
-  const session = await auth();
-  const userId = JSON.stringify(session?.user.id);
-  const expectedUserId = process.env.ALLOWED_USER;
-
-  if (!userId || !expectedUserId || userId !== expectedUserId) {
-    return null;
-  }
 
   return (
     <StackM variants={yScaleVar} gap={0.5}>

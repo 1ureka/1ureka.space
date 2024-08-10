@@ -50,8 +50,10 @@ export default function VariantSection({
     errors?.views?.[viewIndex]?.variant?.message ||
     errors?.views?.[viewIndex]?.variant?.root?.message;
 
+  if (!isCurrentView) return null;
+
   return (
-    <StackM variants={yScaleVar} sx={{ display: isCurrentView ? "" : "none" }}>
+    <StackM variants={yScaleVar}>
       <BoxM layout="preserve-aspect">
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Variants: </Typography>

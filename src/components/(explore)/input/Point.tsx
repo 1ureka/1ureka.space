@@ -1,19 +1,23 @@
 import { BoxM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import { ButtonBase, Tooltip } from "@mui/material";
+import { ButtonBase, Tooltip, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 
 export default function Point({
+  isDragable,
   color,
   name,
   sx,
 }: {
+  isDragable?: boolean;
   color: React.CSSProperties["color"];
   name: string;
   sx?: BoxProps["sx"];
 }) {
   return (
     <BoxM
+      drag={isDragable}
+      dragMomentum={false}
       variants={yScaleVar}
       sx={{
         display: "grid",
@@ -37,11 +41,19 @@ export default function Point({
           strokeDashoffset: "0",
           scale: "1.2",
         },
+        overflow: "visible",
+        width: 0,
+        height: 0,
         ...sx,
       }}
     >
-      <Tooltip title={name} placement="right" arrow>
-        <ButtonBase sx={{ borderRadius: 999 }}>
+      <Tooltip
+        title={<Typography sx={{ whiteSpace: "nowrap" }}>{name}</Typography>}
+        placement="right"
+        arrow
+        PopperProps={{ disablePortal: true }}
+      >
+        <ButtonBase sx={{ position: "absolute", borderRadius: 999 }}>
           <Circle color={color} />
         </ButtonBase>
       </Tooltip>

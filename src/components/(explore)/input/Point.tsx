@@ -1,24 +1,38 @@
 import { BoxM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { opacityVar, yScaleVar } from "@/components/MotionProps";
 import { ButtonBase, Tooltip, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 
-export default function Point({
-  isDragable,
-  color,
-  name,
-  sx,
-}: {
-  isDragable?: boolean;
+type DragConstraints = React.ComponentProps<typeof BoxM>["dragConstraints"];
+
+type PointProps = {
   color: React.CSSProperties["color"];
   name: string;
   sx?: BoxProps["sx"];
-}) {
+} & (
+  | {
+      isDragable: true;
+      dragConstraints: DragConstraints;
+    }
+  | {
+      isDragable?: false;
+      dragConstraints?: never;
+    }
+);
+
+export default function Point({
+  isDragable,
+  dragConstraints = false,
+  color,
+  name,
+  sx,
+}: PointProps) {
   return (
     <BoxM
       drag={isDragable}
       dragMomentum={false}
-      variants={yScaleVar}
+      dragConstraints={dragConstraints}
+      variants={isDragable ? opacityVar : yScaleVar}
       sx={{
         display: "grid",
         placeItems: "center",

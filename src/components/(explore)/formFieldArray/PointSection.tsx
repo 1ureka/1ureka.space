@@ -16,12 +16,14 @@ import { ExploreSchema } from "@/schema/exploreSchema";
 type Z = z.infer<typeof ExploreSchema>;
 
 export default function PointSection({
+  imageContainerRef,
   viewFields,
   viewIndex,
   isCurrentView,
   errors,
   control,
 }: {
+  imageContainerRef: React.RefObject<HTMLDivElement>;
   viewFields: FieldArrayWithId<Z, "views">[];
   viewIndex: number;
   isCurrentView: boolean;
@@ -83,13 +85,14 @@ export default function PointSection({
       </Stack>
 
       {isCurrentView && (
-        <Portal container={() => document.getElementById("explore-form-image")}>
+        <Portal container={imageContainerRef.current}>
           {fields.map((field) => {
             if (field.x === -1) return null;
             return (
               <Point
                 key={`View ${field.toView}`}
                 isDragable
+                dragConstraints={imageContainerRef}
                 color="var(--mui-palette-secondary-dark)"
                 name={`View ${field.toView}`}
                 sx={{

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { ImageMetadata } from "@/data/type";
 
 import { TextField, Point } from "..";
@@ -23,6 +23,7 @@ export default function ExploreForm({
   metadataList: ImageMetadata[];
   defaultValues?: z.infer<typeof ExploreSchema>;
 }) {
+  const imageContainerRef = useRef<HTMLDivElement>(null);
   const [selectedView, setSelectedView] = useState(0);
 
   const { register, control, handleSubmit, formState } = useForm<
@@ -109,6 +110,7 @@ export default function ExploreForm({
           {views.map(({ id }, i) => (
             <PointSection
               key={id}
+              imageContainerRef={imageContainerRef}
               viewFields={views}
               viewIndex={i}
               isCurrentView={i === selectedView}
@@ -121,7 +123,7 @@ export default function ExploreForm({
 
       <BoxM variants={opacityVar}>
         <Box
-          id="explore-form-image"
+          ref={imageContainerRef}
           sx={{
             position: "sticky",
             top: 0,

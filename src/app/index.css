@@ -8,10 +8,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 * {
   scrollbar-color: gray transparent;
   scrollbar-width: thin;
+  overflow-wrap: break-word;
 }
+
 .text-ellipsis {
   white-space: pre-wrap;
   text-wrap: pretty;

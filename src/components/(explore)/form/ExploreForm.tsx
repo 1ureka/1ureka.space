@@ -121,6 +121,7 @@ export default function ExploreForm({
 
       <BoxM variants={opacityVar}>
         <Box
+          id="explore-form-image"
           sx={{
             position: "sticky",
             top: 0,
@@ -148,16 +149,6 @@ export default function ExploreForm({
           >
             <SaveRoundedIcon /> Save
           </Fab>
-
-          <Point
-            color="var(--mui-palette-secondary-dark)"
-            name="To View 2"
-            sx={{
-              position: "absolute",
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-          />
         </Box>
       </BoxM>
     </Box>

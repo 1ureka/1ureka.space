@@ -38,7 +38,7 @@ export default function PointField({
       <ChevronRightRoundedIcon color="action" />
       <Typography>{to}</Typography>
 
-      <IconButton size="small" onClick={onClick}>
+      <IconButton size="small" onClick={onClick} disabled={type === "edit"}>
         {type === "add" ? (
           <AddLocationRoundedIcon fontSize="small" />
         ) : (

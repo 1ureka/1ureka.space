@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import type { ImageMetadata } from "@/data/type";
 
-import { TextField, Point } from "..";
+import { TextField } from "..";
 import { PointSection, VariantSection, ViewSection } from "..";
 import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { opacityVar, yScaleVar, yVar } from "@/components/MotionProps";

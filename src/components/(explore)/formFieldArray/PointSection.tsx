@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Portal, Stack, Typography } from "@mui/material";
 
-import { PointField } from "..";
+import { Point, PointField } from "..";
 import { BoxM, StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
@@ -28,7 +28,7 @@ export default function PointSection({
   errors: FieldErrors<Z>;
   control: Control<Z>;
 }) {
-  const { fields, replace } = useFieldArray({
+  const { fields, replace, update } = useFieldArray({
     control,
     name: `views.${viewIndex}.points`,
   });
@@ -42,6 +42,12 @@ export default function PointSection({
 
     replace(points);
   }, [viewFields, viewIndex, replace]);
+
+  const handleAddPoint = (to: number) => {
+    const indexInForm = fields.findIndex((field) => field.toView === to);
+    if (indexInForm === -1) return;
+    update(indexInForm, { x: 50, y: 50, toView: to });
+  };
 
   const errorMessage =
     errors?.views?.[viewIndex]?.message ||
@@ -71,9 +77,31 @@ export default function PointSection({
             from={`View ${viewIndex}`}
             to={`View ${field.toView}`}
             type={field.x === -1 ? "add" : "edit"}
+            onClick={() => handleAddPoint(field.toView)}
           />
         ))}
       </Stack>
+
+      {isCurrentView && (
+        <Portal container={() => document.getElementById("explore-form-image")}>
+          {fields.map((field) => {
+            if (field.x === -1) return null;
+            return (
+              <Point
+                key={`View ${field.toView}`}
+                isDragable
+                color="var(--mui-palette-secondary-dark)"
+                name={`View ${field.toView}`}
+                sx={{
+                  position: "absolute",
+                  top: `${field.y}%`,
+                  left: `${field.x}%`,
+                }}
+              />
+            );
+          })}
+        </Portal>
+      )}
     </StackM>
   );
 }

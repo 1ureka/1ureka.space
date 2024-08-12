@@ -45,11 +45,21 @@ export default function PointSection({
     replace(points);
   }, [viewFields, viewIndex, replace]);
 
-  const handleAddPoint = (to: number) => {
+  const createHandleAddPoint = (to: number) => () => {
     const indexInForm = fields.findIndex((field) => field.toView === to);
     if (indexInForm === -1) return;
     update(indexInForm, { x: 50, y: 50, toView: to });
   };
+
+  const createHandleDragPoint: (
+    to: number
+  ) => React.ComponentProps<typeof Point>["onDragEnd"] =
+    (to) =>
+    (_, { point: { x, y } }) => {
+      const indexInForm = fields.findIndex((field) => field.toView === to);
+      if (indexInForm === -1) return;
+      console.log({ x, y, to });
+    };
 
   const errorMessage =
     errors?.views?.[viewIndex]?.message ||
@@ -79,7 +89,7 @@ export default function PointSection({
             from={`View ${viewIndex}`}
             to={`View ${field.toView}`}
             type={field.x === -1 ? "add" : "edit"}
-            onClick={() => handleAddPoint(field.toView)}
+            onClick={createHandleAddPoint(field.toView)}
           />
         ))}
       </Stack>
@@ -93,6 +103,7 @@ export default function PointSection({
                 key={`View ${field.toView}`}
                 isDragable
                 dragConstraints={imageContainerRef}
+                onDragEnd={createHandleDragPoint(field.toView)}
                 color="var(--mui-palette-secondary-dark)"
                 name={`View ${field.toView}`}
                 sx={{

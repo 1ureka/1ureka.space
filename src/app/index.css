@@ -13,6 +13,8 @@ body {
   scrollbar-color: gray transparent;
   scrollbar-width: thin;
   overflow-wrap: break-word;
+  text-decoration: none;
+  color: var(--mui-pallette-text-primary);
 }
 
 .text-ellipsis {

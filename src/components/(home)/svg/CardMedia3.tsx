@@ -48,6 +48,7 @@ export default function CardMedia() {
         viewBox="0 0 1057 934"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="index-card-media-3-svg"
         style={{
           position: "absolute",
           width: "90%",

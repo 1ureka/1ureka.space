@@ -18,6 +18,7 @@ export default function CardMedia() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute", width: "90%", left: "20%" }}
+        className="index-card-media-2-svg"
       >
         <mask id="path-1-inside-1_8_2" fill="white">
           <path

@@ -39,6 +39,7 @@ export default function CardMedia() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute", width: "90%", left: "20%" }}
+        className="index-card-media-1-svg"
       >
         {rects.map((rect, index) => (
           <rect

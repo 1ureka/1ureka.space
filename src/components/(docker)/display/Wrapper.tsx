@@ -3,8 +3,8 @@
 import { Children, cloneElement, forwardRef, useRef } from "react";
 import { useMotionValue, useSpring, useTransform, motion } from "framer-motion";
 import { Box, Stack } from "@mui/material";
+import type { BoxProps } from "@mui/material";
 import { StackM, TypographyM } from "@/components/Motion";
-import SVG from "./Svg";
 
 export type DockProps = {
   magnification?: number;
@@ -57,12 +57,12 @@ export const Dock = forwardRef<HTMLDivElement, DockProps>(
           sx={{
             position: "relative",
             bgcolor: "content.layer1",
-            px: 1,
+            px: 1.5,
             py: 2.5,
-            m: 2,
-            borderRadius: "999px",
-            outline: "3px solid",
+            borderRadius: "0 8px 8px 0",
+            outline: "2px solid",
             outlineColor: "divider",
+            boxShadow: 2,
           }}
         >
           {renderChildren()}
@@ -136,19 +136,40 @@ export const DockItem = ({
 DockItem.displayName = "DockItem";
 
 function Decoration() {
+  const sx: BoxProps["sx"] = {
+    width: 20,
+    height: 20,
+    borderRadius: 2,
+    bgcolor: "content.layer1",
+    outline: "2px solid",
+    outlineColor: "divider",
+    boxShadow: 2,
+  };
+
   return (
-    <Stack
-      sx={{ position: "absolute", inset: 0, pointerEvents: "none" }}
-      alignItems="center"
-    >
-      <Stack sx={{ position: "absolute", top: 0, translate: "0 -100%", p: 1 }}>
-        <SVG />
+    <Stack sx={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+      <Stack
+        sx={{
+          position: "absolute",
+          top: 0,
+          translate: "0 -100%",
+          px: 1.5,
+          py: 2,
+        }}
+      >
+        <Box sx={sx} />
       </Stack>
 
       <Stack
-        sx={{ position: "absolute", bottom: 0, translate: "0 100%", p: 1 }}
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          translate: "0 100%",
+          px: 1.5,
+          py: 2,
+        }}
       >
-        <SVG style={{ transform: "rotate(180deg)" }} />
+        <Box sx={sx} />
       </Stack>
     </Stack>
   );

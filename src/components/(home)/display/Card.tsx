@@ -1,142 +1,148 @@
-import { CardActionArea, CardContent, CardMedia } from "@mui/material";
+import { ButtonBase, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/material";
-import type { CardProps as MuiCardProps } from "@mui/material";
+import type { TypographyProps as TP } from "@mui/material";
 
-import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import ArrowCircleDownRoundedIcon from "@mui/icons-material/ArrowCircleDownRounded";
 import ArrowCircleRightRoundedIcon from "@mui/icons-material/ArrowCircleRightRounded";
 
-import { NextLinkComposed } from "@/components/Link";
-import type { LinkProps } from "next/link";
+import { BoxM, TypographyM } from "@/components/Motion";
+import Block from "@/components/Block";
+import Link from "next/link";
 
-import { CardM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
-
-type SX = MuiCardProps["sx"];
-
-type CardProps = Omit<MuiCardProps, "variant"> & {
+type CardProps = {
   variant: "contained" | "outlined";
   color: "primary" | "secondary";
-  hrefTitle: string;
-  href: LinkProps["href"];
+  href: string;
+  decoration?: React.ComponentProps<typeof Block>["decoration"];
   media?: React.ReactNode;
+  icon?: React.ReactNode;
+  title?: string;
+  subTitle?: string;
+  description?: string;
+  sx?: React.CSSProperties;
 };
 
-const hex = { primary: "#e783ad", secondary: "#83e7bd" };
+const hex: Record<CardProps["color"], string> = {
+  primary: "#e783ad",
+  secondary: "#83e7bd",
+};
 
-const hoverSx: (color: CardProps["color"]) => SX = (color) => ({
-  transition: "outline 0.25s ease",
-  outline: `0px solid ${hex[color]}00`,
-  "&:hover": {
-    outline: `7.5px solid ${hex[color]}35`,
-  },
-
-  "& .MuiCardMedia-root": {
-    transition: "scale 0.25s ease",
-    scale: "1.001",
-  },
-  "&:hover .MuiCardMedia-root": {
-    scale: "1.1",
-  },
-});
-
-const containedSx: (color: CardProps["color"]) => SX = (color) => ({
-  bgcolor: `${color}.main`,
-  backgroundImage:
-    color === "secondary" ? `linear-gradient(#00000020, #00000020)` : "",
-});
-
-const outlinedSx: (color: CardProps["color"]) => SX = (color) => ({
-  border: "1px solid",
-  borderColor: color === "primary" ? "primary.main" : "secondary.main",
-});
+function createHoverTypo(variant: TP["variant"], text: string, color: string) {
+  return (
+    <BoxM
+      variants={{ initial: { y: 0 }, hover: { y: 6 } }}
+      transition={{
+        type: "spring",
+        staggerChildren: 0.075,
+        delayChildren: 0.075,
+      }}
+    >
+      {text.split("").map((l, i) => (
+        <TypographyM
+          key={i}
+          variant={variant}
+          sx={{ color, display: "inline-block" }}
+          variants={{ initial: { y: 0 }, hover: { y: -12 } }}
+          transition={{ type: "spring" }}
+        >
+          {l}
+        </TypographyM>
+      ))}
+    </BoxM>
+  );
+}
 
 export default function Card({
   variant,
   color,
-  hrefTitle,
   href,
-  sx,
+  decoration = "both",
   media,
-  children,
+  icon,
+  title,
+  subTitle,
+  description,
+  sx,
 }: CardProps) {
-  const cardSx: SX = {
-    overflow: "hidden",
-    ...(variant === "contained" ? containedSx(color) : outlinedSx(color)),
-    ...hoverSx(color),
-    ...sx,
-  } as SX;
-
   return (
-    <CardM
-      variants={yScaleVar}
-      sx={cardSx}
-      data-mui-color-scheme={variant === "contained" && "dark"}
-    >
-      <CardActionArea
-        component={NextLinkComposed}
-        to={href}
-        sx={{ height: 1 }}
-        title={hrefTitle}
-        id={hrefTitle}
-      >
-        <CardMedia sx={{ position: "absolute", inset: 0, m: 0 }}>
-          {media}
-        </CardMedia>
+    <Link href={href} style={sx}>
+      <Block
+        variant={variant}
+        color={`${color}.main`}
+        decoration={decoration}
+        sx={{
+          width: 1,
+          height: 1,
 
-        <CardContent
-          sx={{
-            height: 1,
-            minHeight: 200,
-            display: "grid",
-            alignContent: "end",
-            zIndex: 1,
-          }}
-        >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-end"
-            gap={3}
-            zIndex={1}
+          "& > *": {
+            transition: "all 0.25s ease",
+          },
+          "&:hover > *": {
+            scale: "1.02",
+          },
+          "& > div:first-child": {
+            outline: `0px solid ${hex[color]}00`,
+          },
+          "&:hover > div:first-child": {
+            outline: `7.5px solid ${hex[color]}35`,
+          },
+          "& .card-media > *": {
+            transition: "scale 0.25s ease",
+            scale: "1.001",
+          },
+          "&:hover .card-media > *": {
+            scale: "1.1",
+          },
+        }}
+        SlotProps={{
+          childContainer: {
+            whileHover: "hover",
+            ...(variant === "contained" && {
+              "data-mui-color-scheme": "dark",
+              color: "text.primary",
+            }),
+          },
+        }}
+      >
+        {media && (
+          <Box
+            className="card-media"
+            sx={{ position: "absolute", inset: 0, overflow: "hidden" }}
           >
-            {children}
-            <ArrowIcon variant={variant} color={color} />
-          </Stack>
-        </CardContent>
+            {media}
+          </Box>
+        )}
 
         <Box
           sx={{
-            position: "absolute",
-            inset: "0 0 auto 0",
+            position: "relative",
+            height: 1,
+            minHeight: 200,
             display: "grid",
-            placeItems: "center",
+            alignItems: "end",
           }}
         >
-          <ArrowDropDownRoundedIcon color="action" fontSize="large" />
+          <Stack gap={1}>
+            <Stack direction="row" alignItems="flex-end" gap={1}>
+              {icon}
+              {createHoverTypo(
+                "h4",
+                `${title} `,
+                variant === "outlined" ? `${color}.main` : "text.primary"
+              )}
+              {createHoverTypo("subtitle2", `${subTitle} `, "text.secondary")}
+            </Stack>
+
+            <Typography variant="body2" sx={{ textAlign: "start" }}>
+              {description}
+            </Typography>
+          </Stack>
         </Box>
-      </CardActionArea>
-    </CardM>
-  );
-}
 
-type ArrowIconProps = {
-  variant: CardProps["variant"];
-  color: CardProps["color"];
-};
-
-function ArrowIcon({ variant, color }: ArrowIconProps) {
-  const fontSize = "h3.fontSize";
-  return variant === "contained" ? (
-    <ArrowCircleDownRoundedIcon
-      sx={{ fontSize, transform: "rotate(-90deg)", color: "text.primary" }}
-    />
-  ) : (
-    <ArrowCircleRightRoundedIcon
-      sx={{
-        fontSize,
-        color: color === "primary" ? "primary.main" : "secondary.dark",
-      }}
-    />
+        <ButtonBase
+          sx={{ position: "absolute", inset: "-3px", borderRadius: 2 }}
+        />
+      </Block>
+    </Link>
   );
 }

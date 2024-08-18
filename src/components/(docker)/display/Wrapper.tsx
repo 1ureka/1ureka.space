@@ -137,40 +137,40 @@ DockItem.displayName = "DockItem";
 
 function Decoration() {
   const sx: BoxProps["sx"] = {
-    width: 20,
-    height: 20,
-    borderRadius: 2,
+    width: 15,
+    height: 15,
+    borderRadius: 1,
     bgcolor: "content.layer1",
-    outline: "2px solid",
+    outline: "3px solid",
     outlineColor: "divider",
-    boxShadow: 2,
+    boxShadow: 1,
   };
 
   return (
     <Stack sx={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-      <Stack
+      <Box
         sx={{
           position: "absolute",
           top: 0,
           translate: "0 -100%",
-          px: 1.5,
+          px: 2.5,
           py: 2,
         }}
       >
         <Box sx={sx} />
-      </Stack>
+      </Box>
 
-      <Stack
+      <Box
         sx={{
           position: "absolute",
           bottom: 0,
           translate: "0 100%",
-          px: 1.5,
+          px: 2.5,
           py: 2,
         }}
       >
         <Box sx={sx} />
-      </Stack>
+      </Box>
     </Stack>
   );
 }

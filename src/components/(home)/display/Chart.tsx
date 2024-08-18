@@ -2,9 +2,8 @@
 
 import { Typography } from "@mui/material";
 import dynamic from "next/dynamic";
-const PieChart = dynamic(
-  () => import("@mui/x-charts/PieChart").then(({ PieChart }) => PieChart),
-  { ssr: false }
+const PieChart = dynamic(() =>
+  import("@mui/x-charts/PieChart").then(({ PieChart }) => PieChart)
 );
 
 import { StackM } from "@/components/Motion";

@@ -56,7 +56,7 @@ export const Dock = forwardRef<HTMLDivElement, DockProps>(
           gap={1.5}
           sx={{
             position: "relative",
-            bgcolor: "background.paper",
+            bgcolor: "content.layer1",
             px: 1,
             py: 2.5,
             m: 2,
@@ -109,6 +109,7 @@ export const DockItem = ({
     <motion.div
       ref={ref}
       className="dock-item"
+      whileHover="hover"
       style={{
         height,
         display: "flex",
@@ -116,13 +117,15 @@ export const DockItem = ({
         alignItems: "center",
         justifyItems: "center",
       }}
-      whileHover="hover"
     >
       {children}
       <TypographyM
         variant="caption"
         sx={{ height: 0, opacity: 0, fontSize: "0.5rem" }}
-        variants={{ hover: { opacity: 1, scale: 1.5 } }}
+        variants={{
+          initial: { scale: 0.5 },
+          hover: { opacity: 1, scale: 1.6 },
+        }}
       >
         {title?.toLowerCase()}
       </TypographyM>

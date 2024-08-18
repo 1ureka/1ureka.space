@@ -9,7 +9,7 @@ import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded";
 
 import { BoxM } from "@/components/Motion";
-import { layoutChildMotionProps, yVar } from "@/components/MotionProps";
+import { createStaggerVar, yVar } from "@/components/MotionProps";
 import { Slider } from "@/components/(editor)";
 
 type EditOptionType = "saturation" | "contrast" | "exposure";
@@ -73,7 +73,7 @@ export default function Accordion() {
   const { saturation, contrast, exposure } = parseFilter(filter);
 
   return (
-    <BoxM {...layoutChildMotionProps()}>
+    <BoxM {...createStaggerVar()}>
       <BoxM variants={yVar}>
         <MuiAccordion
           elevation={0}

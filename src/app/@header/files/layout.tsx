@@ -3,7 +3,7 @@ import { Stack, Typography } from "@mui/material";
 
 import { CategoryToggle, RefreshButton } from "@/components/(files)";
 import { BoxM, StackM, DividerM } from "@/components/Motion";
-import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
+import { createStaggerVar, yScaleVar } from "@/components/MotionProps";
 
 export default async function Header({
   children,
@@ -19,7 +19,7 @@ export default async function Header({
 
   return (
     <StackM
-      {...layoutChildMotionProps()}
+      {...createStaggerVar()}
       direction="row"
       alignItems="flex-end"
       flexWrap={{ xs: "wrap", sm: "nowrap" }}

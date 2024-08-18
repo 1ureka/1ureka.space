@@ -1,7 +1,7 @@
 "use client";
 
 import { BoxM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
+import { createStaggerVar, yScaleVar } from "@/components/MotionProps";
 import { IconButton, Typography } from "@mui/material";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 
@@ -14,7 +14,7 @@ export default function Error({
 }) {
   return (
     <BoxM
-      {...layoutChildMotionProps()}
+      {...createStaggerVar()}
       sx={{ display: "grid", placeItems: "center" }}
     >
       <StackM

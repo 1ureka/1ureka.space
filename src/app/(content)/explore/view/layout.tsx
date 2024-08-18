@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 import { Box, Skeleton, Slider, Stack } from "@mui/material";
 import { ActionSection, Carousels } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
+import { createStaggerVar } from "@/components/MotionProps";
 import { opacityVar, yVar } from "@/components/MotionProps";
 
 export default function ExploreLayout({
@@ -18,7 +18,7 @@ export default function ExploreLayout({
 }) {
   return (
     <BoxM
-      {...layoutChildMotionProps({ stagger: 0.25 })}
+      {...createStaggerVar({ stagger: 0.25 })}
       sx={{
         display: "grid",
         gridTemplateAreas: `"a b" "a c" "d d"`,

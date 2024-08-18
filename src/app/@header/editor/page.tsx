@@ -1,5 +1,5 @@
 import { BoxM, DividerM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
+import { createStaggerVar } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 import { Typography } from "@mui/material";
 
@@ -12,7 +12,7 @@ const text = {
 export default function Header() {
   return (
     <StackM
-      {...layoutChildMotionProps()}
+      {...createStaggerVar()}
       direction={{ sm: "row" }}
       alignItems={{ sm: "flex-end" }}
       gap={{ xs: 1, sm: 3 }}

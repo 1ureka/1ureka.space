@@ -3,7 +3,7 @@ import { Chart } from "@/components/(home)";
 import { summaryCategorySize } from "@/data/table";
 
 import { BoxM, DividerM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
+import { createStaggerVar } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 
 export default async function Header() {
@@ -17,7 +17,7 @@ export default async function Header() {
   ];
 
   return (
-    <BoxM {...layoutChildMotionProps()}>
+    <BoxM {...createStaggerVar()}>
       <Stack
         direction="row"
         justifyContent="space-between"

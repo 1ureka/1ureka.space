@@ -1,6 +1,5 @@
 "use client";
 import { BoxM } from "@/components/Motion";
-import { layoutMotionProps } from "@/components/MotionProps";
 import { Portal } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 
@@ -18,7 +17,6 @@ export default function PortalContainer({
       <AnimatePresence>
         {show && (
           <BoxM
-            {...layoutMotionProps}
             sx={{
               position: "absolute",
               inset: 0,

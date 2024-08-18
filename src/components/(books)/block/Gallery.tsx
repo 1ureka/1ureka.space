@@ -1,7 +1,7 @@
 "use client";
 
 import { BoxM } from "@/components/Motion";
-import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
+import { createStaggerVar, yScaleVar } from "@/components/MotionProps";
 import { Badge, Button, Illustration } from "@/components/(books)";
 
 import type { BoxProps } from "@mui/material";
@@ -38,11 +38,7 @@ export default function Gallery({
   const stagger = 0.3 / (count ?? 1);
 
   return (
-    <BoxM
-      id="Gallery"
-      sx={containerSx}
-      {...layoutChildMotionProps({ stagger })}
-    >
+    <BoxM id="Gallery" sx={containerSx} {...createStaggerVar({ stagger })}>
       {groupEntries.map(([group, metadataList]) =>
         isGroupExpanded(group) ? (
           metadataList.map((metadata) => (

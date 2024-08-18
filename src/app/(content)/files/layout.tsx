@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { BoxM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
+import { createStaggerVar } from "@/components/MotionProps";
 
 const containerSx = {
   position: "relative",
@@ -32,7 +32,7 @@ export default async function FilesContent({
   }
 
   return (
-    <BoxM sx={containerSx} {...layoutChildMotionProps()}>
+    <BoxM sx={containerSx} {...createStaggerVar()}>
       {children}
     </BoxM>
   );

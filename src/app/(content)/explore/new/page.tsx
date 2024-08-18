@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 import { ExploreForm } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
+import { createStaggerVar } from "@/components/MotionProps";
 import { getSortedMetadata } from "@/data/table";
 
 export default async function CreatePage() {
@@ -23,10 +23,7 @@ export default async function CreatePage() {
   const metadataList = await getSortedMetadata("scene");
 
   return (
-    <BoxM
-      {...layoutChildMotionProps()}
-      sx={{ py: 3, px: { xs: 2, sm: 4, md: 7 } }}
-    >
+    <BoxM {...createStaggerVar()} sx={{ py: 3, px: { xs: 2, sm: 4, md: 7 } }}>
       <ExploreForm metadataList={metadataList} />
     </BoxM>
   );

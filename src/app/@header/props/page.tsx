@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { getMetadataCount } from "@/data/table";
 
 import { BoxM, DividerM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps } from "@/components/MotionProps";
+import { createStaggerVar } from "@/components/MotionProps";
 import { yScaleVar, yVar } from "@/components/MotionProps";
 
 const text = {
@@ -18,7 +18,7 @@ export default async function Header() {
 
   return (
     <StackM
-      {...layoutChildMotionProps()}
+      {...createStaggerVar()}
       direction="row"
       alignItems="flex-end"
       flexWrap={{ xs: "wrap", sm: "wrap", md: "nowrap" }}

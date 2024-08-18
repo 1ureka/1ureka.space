@@ -5,14 +5,14 @@ export const metadata: Metadata = {
 
 import { NextLinkComposed } from "@/components/Link";
 import { BoxM, StackM } from "@/components/Motion";
-import { layoutChildMotionProps, yScaleVar } from "@/components/MotionProps";
+import { createStaggerVar, yScaleVar } from "@/components/MotionProps";
 import { Button, Typography } from "@mui/material";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
 export default function UnAuth() {
   return (
     <StackM
-      {...layoutChildMotionProps()}
+      {...createStaggerVar()}
       spacing={3}
       alignItems={"center"}
       sx={{ maxWidth: 675, m: "auto", p: 10 }}

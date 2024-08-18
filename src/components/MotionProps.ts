@@ -5,11 +5,13 @@ interface MotionProps {
   [key: string]: unknown;
 }
 export const createStaggerVar = (props?: {
+  delay?: number;
   stagger?: number;
 }): MotionProps => ({
   variants: {
     animate: {
       transition: {
+        delayChildren: props?.delay ?? 0.15,
         staggerChildren: props?.stagger ?? 0.15,
       },
     },

@@ -1,7 +1,7 @@
 "use client";
 
 import { BoxM } from "@/components/Motion";
-import { createMotionProps, yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 import { Badge, Button, Illustration } from "@/components/(books)";
 
 import type { BoxProps } from "@mui/material";
@@ -12,15 +12,16 @@ const containerSx: BoxProps["sx"] = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
   gap: 2.5,
-  pt: 2,
-  pb: 7,
-  px: { xs: 3, sm: 9 },
   height: "fit-content",
 } as const;
 
 function GridItem({ children }: { children: React.ReactNode }) {
   return (
-    <BoxM variants={yScaleVar} layout sx={{ width: 1, aspectRatio: 16 / 9 }}>
+    <BoxM
+      variants={createMotionVar()}
+      layout
+      sx={{ width: 1, aspectRatio: 16 / 9 }}
+    >
       {children}
     </BoxM>
   );
@@ -35,10 +36,14 @@ export default function Gallery({
     useBooksGallery(metadataList);
 
   const groupEntries = Object.entries(metadataListByGroup);
-  const stagger = 0.3 / (count ?? 1);
+  const staggerChildren = 1 / (count ?? 1);
 
   return (
-    <BoxM id="Gallery" sx={containerSx} {...createMotionProps({ stagger })}>
+    <BoxM
+      id="Gallery"
+      sx={containerSx}
+      variants={createMotionVar({ staggerChildren })}
+    >
       {groupEntries.map(([group, metadataList]) =>
         isGroupExpanded(group) ? (
           metadataList.map((metadata) => (

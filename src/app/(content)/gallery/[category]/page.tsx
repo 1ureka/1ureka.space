@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 import { getSortedMetadata } from "@/data/table";
 import { notFound } from "next/navigation";
 
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded";
@@ -137,8 +137,7 @@ export default async function Page({ params }: { params: unknown }) {
       </Block>
 
       <Block sx={{ gridArea: "gallery" }}>
-        {/* <Gallery metadataList={metadataList} /> */}
-        <Box sx={{ height: 500 }} />
+        <Gallery metadataList={metadataList} />
       </Block>
 
       {/* <Carousels metadataList={metadataList} /> */}

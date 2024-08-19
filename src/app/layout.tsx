@@ -23,7 +23,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       sx={{
         display: "grid",
         gridTemplateColumns: "auto 1fr",
-        height: 1,
+        height: "100dvh",
         bgcolor: "content.layer2",
       }}
     >
@@ -33,15 +33,17 @@ function Layout({ children }: { children: React.ReactNode }) {
         component="main"
         sx={{
           position: "relative",
-          height: 1,
+          height: "100dvh",
           px: { xs: 6, sm: 9, md: 12, lg: 15, xl: 18 },
           py: { xs: 1, sm: 3, md: 5, lg: 7 },
           overflowY: "auto",
           scrollbarGutter: "stable",
         }}
       >
-        <Box id="portal-root" sx={{ position: "absolute", inset: 0 }} />
-        <Box sx={{ position: "relative", minHeight: 1 }}>{children}</Box>
+        {/* <Box id="portal-root" sx={{ position: "absolute", inset: 0 }} /> */}
+        <Box sx={{ position: "relative", display: "grid", minHeight: 1 }}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );

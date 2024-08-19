@@ -2,7 +2,7 @@
 
 import ThemeProvider from "@/theme/ThemeProvider";
 import { BoxM, StackM } from "@/components/Motion";
-import { createMotionProps, yScaleVar } from "@/components/MotionProps";
+import { createMotionProps, createMotionVar } from "@/components/MotionProps";
 
 import Link from "next/link";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
@@ -54,18 +54,18 @@ function Content({
       alignItems={"center"}
       sx={{ maxWidth: 675 }}
     >
-      <BoxM variants={yScaleVar}>
+      <BoxM variants={createMotionVar()}>
         <ErrorRoundedIcon fontSize="large" color="primary" />
       </BoxM>
 
-      <StackM variants={yScaleVar} spacing={1} alignItems={"center"}>
+      <StackM variants={createMotionVar()} spacing={1} alignItems={"center"}>
         <Typography variant="h6">Something went wrong...</Typography>
         <Typography variant="body2" className="text-ellipsis">
           {error.message}
         </Typography>
       </StackM>
 
-      <StackM variants={yScaleVar} direction="row" spacing={1}>
+      <StackM variants={createMotionVar()} direction="row" spacing={1}>
         <Button onClick={() => reset()}>Try again</Button>
         <Button component={Link} href="/">
           Home

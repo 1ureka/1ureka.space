@@ -7,7 +7,7 @@ import { Box, Button, Skeleton, Stack } from "@mui/material";
 import { TextField } from "@mui/material";
 
 import { StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 const containerSx = {
   borderRadius: 2,
@@ -32,7 +32,7 @@ export default function ImageCard({
   onClick: (id: string) => void;
 }) {
   return (
-    <StackM variants={yScaleVar} sx={containerSx}>
+    <StackM variants={createMotionVar()} sx={containerSx}>
       <Box sx={imageContainerSx}>
         <Skeleton
           animation="wave"

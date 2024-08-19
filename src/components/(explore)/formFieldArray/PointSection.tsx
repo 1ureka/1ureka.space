@@ -5,7 +5,7 @@ import { Portal, Stack, Typography } from "@mui/material";
 
 import { Point, PointField } from "..";
 import { BoxM, StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 import { z } from "zod";
 import { useFieldArray } from "react-hook-form";
@@ -70,7 +70,7 @@ export default function PointSection({
   if (!isCurrentView) return null;
 
   return (
-    <StackM variants={yScaleVar}>
+    <StackM variants={createMotionVar()}>
       <BoxM layout="preserve-aspect">
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Points: </Typography>

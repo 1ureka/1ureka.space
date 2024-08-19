@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Box, CssBaseline } from "@mui/material";
-import "@/app/index.css";
+import "@/css/index.css";
 
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";

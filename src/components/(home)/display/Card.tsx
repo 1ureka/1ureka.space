@@ -1,11 +1,11 @@
+import "server-only";
+
 import { ButtonBase, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/material";
 import type { TypographyProps as TP } from "@mui/material";
-
-import ArrowCircleDownRoundedIcon from "@mui/icons-material/ArrowCircleDownRounded";
 import ArrowCircleRightRoundedIcon from "@mui/icons-material/ArrowCircleRightRounded";
 
-import { BoxM, TypographyM } from "@/components/Motion";
+import { BoxM, StackM, TypographyM } from "@/components/Motion";
 import Block from "@/components/Block";
 import Link from "next/link";
 
@@ -27,23 +27,33 @@ const hex: Record<CardProps["color"], string> = {
   secondary: "#83e7bd",
 };
 
+function createPRNG(seed: number) {
+  let x = seed;
+
+  // 線性同餘生成器 (Linear Congruential Generator, LCG) 是一個簡單的 PRNG 實現
+  function next() {
+    x = (x * 1664525 + 1013904223) % 4294967296;
+    return x / 4294967296; // 將結果縮放到 [0, 1) 之間
+  }
+
+  return next;
+}
+
 function createHoverTypo(variant: TP["variant"], text: string, color: string) {
+  const prng = createPRNG(text.length);
+
   return (
     <BoxM
-      variants={{ initial: { y: 0 }, hover: { y: 6 } }}
-      transition={{
-        type: "spring",
-        staggerChildren: 0.075,
-        delayChildren: 0.075,
-      }}
+      variants={{ hover: { y: -30 } }}
+      transition={{ type: "spring", delayChildren: 0.2 }}
     >
       {text.split("").map((l, i) => (
         <TypographyM
           key={i}
           variant={variant}
           sx={{ color, display: "inline-block" }}
-          variants={{ initial: { y: 0 }, hover: { y: -12 } }}
-          transition={{ type: "spring" }}
+          variants={{ hover: { y: 30 } }}
+          transition={{ type: "spring", bounce: 0, delay: prng() * 0.5 }}
         >
           {l}
         </TypographyM>
@@ -136,6 +146,19 @@ export default function Card({
             <Typography variant="body2" sx={{ textAlign: "start" }}>
               {description}
             </Typography>
+
+            <StackM
+              direction="row"
+              gap={1}
+              alignItems="center"
+              sx={{ opacity: 0, height: 0 }}
+              variants={{
+                hover: { opacity: 1, height: "auto" },
+              }}
+            >
+              <Typography variant="body2">LEARN MORE</Typography>
+              <ArrowCircleRightRoundedIcon />
+            </StackM>
           </Stack>
         </Box>
 

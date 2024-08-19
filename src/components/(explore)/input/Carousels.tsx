@@ -11,7 +11,7 @@ import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 
 import { BoxM, StackM } from "@/components/Motion";
-import { yScaleVar, yVar } from "@/components/MotionProps";
+import { yScaleVar } from "@/components/MotionProps";
 import { isValidIndex } from "@/utils/utils";
 
 const imageWidth = 240;
@@ -55,7 +55,7 @@ export default function Carousels({
   const nextIndex = (index + 1) % amount;
 
   return (
-    <BoxM variants={yVar} sx={containerSx}>
+    <Box sx={containerSx}>
       <Box
         sx={{
           maskImage:
@@ -114,7 +114,7 @@ export default function Carousels({
           </Link>
         </BoxM>
       </Box>
-    </BoxM>
+    </Box>
   );
 }
 

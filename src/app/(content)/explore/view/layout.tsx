@@ -4,10 +4,26 @@ export const metadata: Metadata = {
 };
 
 import { Box, Skeleton, Slider, Stack } from "@mui/material";
+import Block from "@/components/Block";
 import { ActionSection, Carousels } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
-import { createStaggerVar } from "@/components/MotionProps";
-import { opacityVar, yVar } from "@/components/MotionProps";
+import { createCommonVar, createStaggerVar } from "@/components/MotionProps";
+
+const gridTemplateAreas = {
+  xs: `"intro thumbnail" "intro slider" "slides slides"`,
+};
+
+const gridTemplateColumns = {
+  xs: "1fr 2.2fr",
+};
+
+const containerSx = {
+  display: "grid",
+  gridTemplateAreas,
+  gridTemplateColumns,
+  gap: 2.5,
+  height: "fit-content",
+};
 
 export default function ExploreLayout({
   intro,
@@ -17,32 +33,24 @@ export default function ExploreLayout({
   children: React.ReactNode;
 }) {
   return (
-    <BoxM
-      {...createStaggerVar({ stagger: 0.25 })}
-      sx={{
-        display: "grid",
-        gridTemplateAreas: `"a b" "a c" "d d"`,
-        gridTemplateColumns: "1fr 2.2fr",
-        rowGap: 1,
-        columnGap: 5,
-        p: 7,
-        height: "fit-content",
-      }}
-    >
-      <Stack sx={{ gridArea: "a" }} justifyContent="space-between" gap={2}>
-        {intro}
-        <ActionSection />
-      </Stack>
+    <BoxM {...createStaggerVar({ stagger: 0.25 })} sx={containerSx}>
+      <Block sx={{ gridArea: "intro" }} decoration="left">
+        <Stack gap={2} justifyContent="space-between" height={1}>
+          {intro}
+          <ActionSection />
+        </Stack>
+      </Block>
 
-      <Box sx={{ gridArea: "b" }}>
-        <BoxM
-          variants={opacityVar}
-          sx={{
-            position: "relative",
-            aspectRatio: "16/9",
-            borderRadius: 2,
-            overflow: "hidden",
-          }}
+      <Block
+        sx={{ gridArea: "thumbnail" }}
+        variant="outlined"
+        color="primary.light"
+        variants={createCommonVar({ from: { scale: 1, y: 0 } })}
+        SlotProps={{ childContainer: { sx: { p: 0 } } }}
+      >
+        <Box
+          position={"relative"}
+          sx={{ aspectRatio: "16/9", overflow: "hidden" }}
         >
           <Skeleton
             variant="rectangular"
@@ -50,10 +58,15 @@ export default function ExploreLayout({
             sx={{ position: "absolute", height: 1, width: 1 }}
           />
           {children}
-        </BoxM>
-      </Box>
+        </Box>
+      </Block>
 
-      <BoxM variants={yVar} sx={{ gridArea: "c" }}>
+      <Block
+        sx={{ gridArea: "slider" }}
+        decoration="right"
+        color="primary.light"
+        variants={createCommonVar({ from: { scale: 1 } })}
+      >
         <Slider
           marks={[
             { label: "Day", value: 0 },
@@ -65,11 +78,15 @@ export default function ExploreLayout({
           defaultValue={25}
           size="small"
         />
-      </BoxM>
+      </Block>
 
-      <Box sx={{ gridArea: "d", mt: 5 }}>
+      <Block
+        sx={{ gridArea: "slides" }}
+        color="secondary.dark"
+        variants={createCommonVar({ from: { scale: 1 } })}
+      >
         <Carousels amount={10} />
-      </Box>
+      </Block>
     </BoxM>
   );
 }

@@ -2,6 +2,7 @@
 
 import { Children, cloneElement, useRef } from "react";
 import { useMotionValue, useSpring, useTransform, motion } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { Box, Stack, type BoxProps } from "@mui/material";
 import { StackM, TypographyM } from "@/components/Motion";
 
@@ -14,7 +15,7 @@ export type DockProps = {
 export type DockItemProps = {
   magnification?: number;
   distance?: number;
-  mouseY?: any;
+  mouseY?: MotionValue<number>;
   children?: React.ReactNode;
 } & ({ isStatic: true; title?: never } | { isStatic?: false; title: string });
 
@@ -42,8 +43,8 @@ export function Dock({
   const mouseY = useMotionValue(Infinity);
 
   const renderChildren = () => {
-    return Children.map(children, (child: any) => {
-      return cloneElement(child, {
+    return Children.map(children, (child: unknown) => {
+      return cloneElement(child as React.ReactElement, {
         mouseY: mouseY,
         magnification: magnification,
         distance: distance,
@@ -73,19 +74,21 @@ export function DockItem({
 }: DockItemProps) {
   const ref = useRef<HTMLDivElement>(null);
 
+  if (!mouseY) throw new Error("DockItem must be a child of Dock");
+
   const distanceCalc = useTransform(mouseY, (val: number) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { y: 0, height: 0 };
 
     return val - bounds.y - bounds.height / 2;
   });
 
-  let heightSync = useTransform(
+  const heightSync = useTransform(
     distanceCalc,
     [-distance, 0, distance],
     [40, magnification, 40]
   );
 
-  let height = useSpring(heightSync, {
+  const height = useSpring(heightSync, {
     mass: 0.1,
     stiffness: 150,
     damping: 12,

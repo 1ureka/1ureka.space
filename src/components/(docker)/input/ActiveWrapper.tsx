@@ -17,8 +17,8 @@ export default function ActiveWrapper({
       : pathname.split("/")[1] === href.split("/")[1];
 
   const renderChildren = () => {
-    return Children.map(children, (child: any) => {
-      return cloneElement(child, {
+    return Children.map(children, (child: unknown) => {
+      return cloneElement(child as React.ReactElement, {
         className: active ? "active-link" : "",
       });
     });

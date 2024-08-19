@@ -1,13 +1,15 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Button, ButtonGroup } from "@mui/material";
 
-const EditOptions = dynamic(() => import("..").then((mod) => mod.EditOptions));
-const EditTable = dynamic(() => import("..").then((mod) => mod.EditTable));
-
-export default function EditPanel() {
+export default function EditPanel({
+  options,
+  output,
+}: {
+  options: React.ReactNode;
+  output: React.ReactNode;
+}) {
   const [tab, setTab] = useState<0 | 1>(0);
 
   return (
@@ -15,7 +17,7 @@ export default function EditPanel() {
       <ButtonGroup
         variant="text"
         size="small"
-        sx={{ mb: 4, color: "text.secondary" }}
+        sx={{ color: "text.secondary" }}
         fullWidth
       >
         <Button
@@ -31,7 +33,7 @@ export default function EditPanel() {
           Output
         </Button>
       </ButtonGroup>
-      {tab === 0 ? <EditOptions /> : <EditTable />}
+      {tab === 0 ? options : output}
     </>
   );
 }

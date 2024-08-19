@@ -11,7 +11,7 @@ import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 
 import { BoxM, StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 import { isValidIndex } from "@/utils/utils";
 
 const imageWidth = 240;
@@ -89,7 +89,7 @@ export default function Carousels({
           transform: "translateY(-50%)",
         }}
       >
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Link href={`/explore/view/${prevIndex}`} scroll={false}>
             <IconButton aria-label="Previous">
               <ArrowLeftRoundedIcon />
@@ -106,7 +106,7 @@ export default function Carousels({
           transform: "translateY(-50%)",
         }}
       >
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Link href={`/explore/view/${nextIndex}`} scroll={false}>
             <IconButton aria-label="Next">
               <ArrowRightRoundedIcon />

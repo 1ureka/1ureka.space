@@ -44,12 +44,12 @@ export default function Docker() {
           </NavLink>
         </DockItem>
         <DockItem title="Scene">
-          <NavLink href={"/scene"}>
+          <NavLink href={"/gallery/scene"}>
             <CollectionsRoundedIcon fontSize="small" />
           </NavLink>
         </DockItem>
         <DockItem title="Props">
-          <NavLink href={"/props"}>
+          <NavLink href={"/gallery/props"}>
             <CollectionsBookmarkRoundedIcon fontSize="small" />
           </NavLink>
         </DockItem>

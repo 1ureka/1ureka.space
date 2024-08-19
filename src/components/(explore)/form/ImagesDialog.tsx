@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ImageMetadata } from "@/data/type";
-import Fuse from "fuse.js";
-import { delay } from "@/utils/client-utils";
+import { useExploreSearch } from "@/hooks";
 
 import { Grid, Dialog, Typography } from "@mui/material";
 import { IconButton, TextField, InputAdornment } from "@mui/material";
@@ -20,34 +19,13 @@ type ImageDialogProps = {
   metadataList: ImageMetadata[];
 };
 
-export default function DeleteForm({
+export default function ImageDialog({
   open,
   onClose,
   metadataList,
 }: ImageDialogProps) {
   const [search, setSearch] = useState("");
-  const [filteredMetadataList, setFilteredMetadataList] =
-    useState(metadataList);
-
-  useEffect(() => {
-    if (search === "") {
-      setFilteredMetadataList(metadataList);
-      return;
-    }
-
-    let current = true;
-    (async () => {
-      await delay(250);
-      if (!current) return;
-      const fuse = new Fuse(metadataList, { keys: ["name"] });
-      const result = fuse.search(search);
-      setFilteredMetadataList(result.map((r) => r.item));
-    })();
-
-    return () => {
-      current = false;
-    };
-  }, [search, metadataList]);
+  const filteredMetadataList = useExploreSearch(search, metadataList);
 
   return (
     <Dialog

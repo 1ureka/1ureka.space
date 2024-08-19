@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import NextLink, { LinkProps as NextLinkProps } from "next/link";
+import NextLink, { type LinkProps as NextLinkProps } from "next/link";
 import { styled } from "@mui/material/styles";
 
 // Add support for the sx prop for consistency with the other branches.

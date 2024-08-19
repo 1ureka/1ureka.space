@@ -82,7 +82,6 @@ export default function ExploreLayout({
 
       <Block
         sx={{ gridArea: "slides" }}
-        color="secondary.dark"
         variants={createMotionVar({ from: { scale: 1 } })}
       >
         <Carousels amount={10} />

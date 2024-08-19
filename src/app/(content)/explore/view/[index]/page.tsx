@@ -1,16 +1,16 @@
 import { auth } from "@/auth";
 import { isValidIndex } from "@/utils/utils";
+import { delay } from "@/utils/server-utils";
 import { notFound } from "next/navigation";
 
 import { Skeleton } from "@mui/material";
 import { BoxM } from "@/components/Motion";
-import { opacityVar } from "@/components/MotionProps";
-import { delay } from "@/utils/server-utils";
+import { createMotionVar } from "@/components/MotionProps";
 
 export default async function Page({
   params: { index: indexString },
-  searchParams,
-}: {
+}: // searchParams,
+{
   params: { index: unknown };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
@@ -28,7 +28,10 @@ export default async function Page({
   }
 
   return (
-    <BoxM variants={opacityVar} sx={{ height: 1 }}>
+    <BoxM
+      variants={createMotionVar({ from: { scale: 1, y: 0 } })}
+      sx={{ height: 1 }}
+    >
       <Skeleton
         variant="rounded"
         animation="wave"

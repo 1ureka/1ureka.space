@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { FILES_SELECTED } from "@/context/store";
-import { useSearchParams } from "next/navigation";
-import { NextLinkComposed } from "@/components/Link";
 
 import { Stack, Button, Menu, MenuItem, Checkbox } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
@@ -48,8 +49,8 @@ export default function TableHeader() {
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           <MenuItem
             onClick={handleClose}
-            component={NextLinkComposed}
-            to={{ pathname: "/files/images", query: { category: "scene" } }}
+            component={Link}
+            href="/files/images?category=scene"
             sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
             dense
           >
@@ -58,8 +59,8 @@ export default function TableHeader() {
           </MenuItem>
           <MenuItem
             onClick={handleClose}
-            component={NextLinkComposed}
-            to={{ pathname: "/files/images", query: { category: "props" } }}
+            component={Link}
+            href="/files/images?category=props"
             sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
             dense
           >
@@ -82,11 +83,8 @@ export default function TableHeader() {
           <Button
             startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
-            component={NextLinkComposed}
-            to={{
-              pathname: "/files/images",
-              query: { category, form: "modify" },
-            }}
+            component={Link}
+            href={`/files/images?category=${category}&form=modify`}
           >
             Modify
           </Button>
@@ -105,11 +103,8 @@ export default function TableHeader() {
           <Button
             startIcon={<DeleteRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
-            component={NextLinkComposed}
-            to={{
-              pathname: "/files/images",
-              query: { category, form: "delete" },
-            }}
+            component={Link}
+            href={`/files/images?category=${category}&form=delete`}
             color="error"
           >
             Delete

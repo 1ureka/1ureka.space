@@ -1,11 +1,11 @@
-import { auth } from "@/auth";
+import Link from "next/link";
 import { Button, Stack, Typography } from "@mui/material";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
+import { auth } from "@/auth";
 
 import { StackM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
-import { NextLinkComposed } from "@/components/Link";
 
 export default async function Header({
   searchParams,
@@ -34,11 +34,8 @@ export default async function Header({
           startIcon={<AddToPhotosRoundedIcon fontSize="small" />}
           variant="contained"
           disableElevation
-          component={NextLinkComposed}
-          to={{
-            pathname: "/files/images",
-            query: { category, form: "upload" },
-          }}
+          component={Link}
+          href={`/files/images?category=${category}&form=upload`}
         >
           Add Image
         </Button>
@@ -46,11 +43,8 @@ export default async function Header({
         <Button
           startIcon={<ImageSearchRoundedIcon fontSize="small" />}
           variant="outlined"
-          component={NextLinkComposed}
-          to={{
-            pathname: "/files/images",
-            query: { category, form: "verify" },
-          }}
+          component={Link}
+          href={`/files/images?category=${category}&form=verify`}
         >
           Verify Integrity
         </Button>

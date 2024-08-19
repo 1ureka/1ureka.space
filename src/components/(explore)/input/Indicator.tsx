@@ -1,16 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useParams } from "next/navigation";
-import { NextLinkComposed } from "@/components/Link";
 import { isValidIndex } from "@/utils/utils";
 
-import { Divider, Stack, TextField, Typography } from "@mui/material";
-import { MenuItem as MuiMenuItem } from "@mui/material";
+import { Divider, Stack, TextField, Typography, MenuItem } from "@mui/material";
 import type { MenuItemProps, StackProps } from "@mui/material";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 
-const MenuItem = MuiMenuItem as React.FC<
-  MenuItemProps & { to: string; prefetch: boolean; scroll: boolean }
+const MenuItemLink = MenuItem as React.FC<
+  MenuItemProps & { href: string; prefetch: boolean; scroll: boolean }
 >;
 
 export default function Indicator({
@@ -40,17 +39,17 @@ export default function Indicator({
         {Array(amount)
           .fill(0)
           .map((_, i) => (
-            <MenuItem
+            <MenuItemLink
               key={i}
               value={i}
               selected={index === i}
-              component={NextLinkComposed}
-              to={`/explore/view/${i}`}
+              component={Link}
+              href={`/explore/view/${i}`}
               prefetch={false}
               scroll={false}
             >
               {String(i + 1).padStart(2, "0")}
-            </MenuItem>
+            </MenuItemLink>
           ))}
       </TextField>
 

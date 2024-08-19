@@ -1,10 +1,10 @@
 "use client";
 
-import { NextLinkComposed } from "@/components/Link";
-import { BoxM, StackM } from "@/components/Motion";
-import { createMotionProps, yScaleVar } from "@/components/MotionProps";
+import Link from "next/link";
 import { Button, Typography } from "@mui/material";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
+import { BoxM, StackM } from "@/components/Motion";
+import { createMotionProps, yScaleVar } from "@/components/MotionProps";
 
 export default function Error({
   error,
@@ -33,7 +33,7 @@ export default function Error({
 
       <StackM variants={yScaleVar} direction="row" spacing={1}>
         <Button onClick={() => reset()}>Try again</Button>
-        <Button component={NextLinkComposed} to="/">
+        <Button component={Link} href="/">
           Home
         </Button>
       </StackM>

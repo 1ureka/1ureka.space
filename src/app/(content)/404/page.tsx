@@ -1,8 +1,13 @@
-import { NextLinkComposed } from "@/components/Link";
-import { BoxM, StackM } from "@/components/Motion";
-import { createMotionProps, yScaleVar } from "@/components/MotionProps";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "404",
+};
+
+import Link from "next/link";
 import { Button, Typography } from "@mui/material";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
+import { BoxM, StackM } from "@/components/Motion";
+import { createMotionProps, yScaleVar } from "@/components/MotionProps";
 
 export default function NotFound() {
   return (
@@ -24,7 +29,7 @@ export default function NotFound() {
       </StackM>
 
       <BoxM variants={yScaleVar}>
-        <Button component={NextLinkComposed} to="/">
+        <Button component={Link} href="/">
           Home
         </Button>
       </BoxM>

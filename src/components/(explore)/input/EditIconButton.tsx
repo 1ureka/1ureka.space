@@ -1,11 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CircularProgress, IconButton } from "@mui/material";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-import { useEffect, useState } from "react";
-import { NextLinkComposed } from "@/components/Link";
-import { usePathname } from "next/navigation";
 import { delay } from "@/utils/client-utils";
 import { isValidIndex } from "@/utils/utils";
 
@@ -47,12 +47,7 @@ export default function EditIconButton() {
   }
 
   return (
-    <IconButton
-      size="small"
-      component={NextLinkComposed}
-      to={editUrl}
-      color="inherit"
-    >
+    <IconButton size="small" component={Link} href={editUrl} color="inherit">
       <EditRoundedIcon fontSize="small" />
     </IconButton>
   );

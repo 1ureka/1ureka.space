@@ -1,11 +1,10 @@
 "use client";
 
 import ThemeProvider from "@/theme/ThemeProvider";
-import { NextLinkComposed } from "@/components/Link";
-
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionProps, yScaleVar } from "@/components/MotionProps";
 
+import Link from "next/link";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Box, CssBaseline } from "@mui/material";
 import { Button, Typography } from "@mui/material";
@@ -68,7 +67,7 @@ function Content({
 
       <StackM variants={yScaleVar} direction="row" spacing={1}>
         <Button onClick={() => reset()}>Try again</Button>
-        <Button component={NextLinkComposed} to="/">
+        <Button component={Link} href="/">
           Home
         </Button>
       </StackM>

@@ -1,6 +1,6 @@
-import { NextLinkComposed } from "@/components/Link";
 import { IconButton, type IconButtonProps } from "@mui/material";
 import ActiveWrapper from "./ActiveWrapper";
+import Link from "next/link";
 
 export default function NavLink({
   href,
@@ -30,7 +30,7 @@ export default function NavLink({
 
   return (
     <ActiveWrapper href={href.toString()}>
-      <IconButton component={NextLinkComposed} to={href} sx={sx}>
+      <IconButton component={Link} href={href} sx={sx}>
         {children}
       </IconButton>
     </ActiveWrapper>

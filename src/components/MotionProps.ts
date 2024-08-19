@@ -4,7 +4,7 @@ interface MotionProps {
   variants?: Variants;
   [key: string]: unknown;
 }
-export const createStaggerVar = (props?: {
+export const createMotionProps = (props?: {
   delay?: number;
   stagger?: number;
 }): MotionProps => ({
@@ -19,7 +19,7 @@ export const createStaggerVar = (props?: {
   initial: "initial",
   animate: "animate",
 });
-export const createCommonVar = (props?: {
+export const createMotionVar = (props?: {
   delayChildren?: number;
   staggerChildren?: number;
   from?: { opacity?: number; y?: number; x?: number; scale?: number };

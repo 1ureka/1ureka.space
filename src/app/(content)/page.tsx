@@ -15,7 +15,7 @@ import Block from "@/components/Block";
 import { Card, CardMedia1, CardMedia2, Chart } from "@/components/(home)";
 import { CardMedia3, CardMedia4, CardMedia5 } from "@/components/(home)";
 import { BoxM, DividerM, StackM } from "@/components/Motion";
-import { createCommonVar, createStaggerVar } from "@/components/MotionProps";
+import { createMotionVar, createMotionProps } from "@/components/MotionProps";
 
 const gridTemplateAreas = {
   xs: `"main" "book1" "book2" "tool1" "tool2"`,
@@ -118,7 +118,7 @@ export default async function Page() {
   ];
 
   return (
-    <StackM gap={gap} height={1} {...createStaggerVar()}>
+    <StackM gap={gap} height={1} {...createMotionProps()}>
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr auto", gap }}>
         <Block decoration="left">
           <Stack
@@ -127,17 +127,17 @@ export default async function Page() {
             alignItems={{ sm: "flex-end" }}
             height={1}
           >
-            <BoxM variants={createCommonVar()}>
+            <BoxM variants={createMotionVar()}>
               <Typography variant="h5">{"1ureka's space"}</Typography>
             </BoxM>
 
             <DividerM
-              variants={createCommonVar()}
+              variants={createMotionVar()}
               orientation="vertical"
               flexItem
             />
 
-            <BoxM variants={createCommonVar({ from: { scale: 1 } })}>
+            <BoxM variants={createMotionVar({ from: { scale: 1 } })}>
               <Typography>
                 My personal website for storing and managing a portfolio of 3D
                 CG, with basic image editing capabilities.

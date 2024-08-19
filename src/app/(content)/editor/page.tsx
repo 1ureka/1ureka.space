@@ -5,13 +5,13 @@ export const metadata: Metadata = {
 
 import { Box } from "@mui/material";
 import { BoxM, StackM } from "@/components/Motion";
-import { createStaggerVar, yScaleVar } from "@/components/MotionProps";
+import { createMotionProps, yScaleVar } from "@/components/MotionProps";
 import { EditPanel, EditPreview } from "@/components/(editor)";
 
 export default function EditorContent() {
   return (
     <StackM
-      {...createStaggerVar()}
+      {...createMotionProps()}
       direction={{ xs: "column", lg: "row" }}
       justifyContent="center"
       gap={12}

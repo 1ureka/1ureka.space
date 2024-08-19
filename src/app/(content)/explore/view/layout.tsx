@@ -7,7 +7,7 @@ import { Box, Skeleton, Slider, Stack } from "@mui/material";
 import Block from "@/components/Block";
 import { ActionSection, Carousels } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";
-import { createCommonVar, createStaggerVar } from "@/components/MotionProps";
+import { createMotionVar, createMotionProps } from "@/components/MotionProps";
 
 const gridTemplateAreas = {
   xs: `"intro thumbnail" "intro slider" "slides slides"`,
@@ -33,7 +33,7 @@ export default function ExploreLayout({
   children: React.ReactNode;
 }) {
   return (
-    <BoxM {...createStaggerVar({ stagger: 0.25 })} sx={containerSx}>
+    <BoxM {...createMotionProps({ stagger: 0.25 })} sx={containerSx}>
       <Block sx={{ gridArea: "intro" }} decoration="left">
         <Stack gap={2} justifyContent="space-between" height={1}>
           {intro}
@@ -45,7 +45,7 @@ export default function ExploreLayout({
         sx={{ gridArea: "thumbnail" }}
         variant="outlined"
         color="primary.light"
-        variants={createCommonVar({ from: { scale: 1, y: 0 } })}
+        variants={createMotionVar({ from: { scale: 1, y: 0 } })}
         SlotProps={{ childContainer: { sx: { p: 0 } } }}
       >
         <Box
@@ -65,7 +65,7 @@ export default function ExploreLayout({
         sx={{ gridArea: "slider" }}
         decoration="right"
         color="primary.light"
-        variants={createCommonVar({ from: { scale: 1 } })}
+        variants={createMotionVar({ from: { scale: 1 } })}
       >
         <Slider
           marks={[
@@ -83,7 +83,7 @@ export default function ExploreLayout({
       <Block
         sx={{ gridArea: "slides" }}
         color="secondary.dark"
-        variants={createCommonVar({ from: { scale: 1 } })}
+        variants={createMotionVar({ from: { scale: 1 } })}
       >
         <Carousels amount={10} />
       </Block>

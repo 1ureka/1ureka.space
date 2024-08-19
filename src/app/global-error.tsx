@@ -4,7 +4,7 @@ import ThemeProvider from "@/theme/ThemeProvider";
 import { NextLinkComposed } from "@/components/Link";
 
 import { BoxM, StackM } from "@/components/Motion";
-import { createStaggerVar, yScaleVar } from "@/components/MotionProps";
+import { createMotionProps, yScaleVar } from "@/components/MotionProps";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Box, CssBaseline } from "@mui/material";
@@ -50,7 +50,7 @@ function Content({
 }) {
   return (
     <StackM
-      {...createStaggerVar()}
+      {...createMotionProps()}
       spacing={3}
       alignItems={"center"}
       sx={{ maxWidth: 675 }}

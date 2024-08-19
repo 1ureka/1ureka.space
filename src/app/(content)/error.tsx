@@ -2,7 +2,7 @@
 
 import { NextLinkComposed } from "@/components/Link";
 import { BoxM, StackM } from "@/components/Motion";
-import { createStaggerVar, yScaleVar } from "@/components/MotionProps";
+import { createMotionProps, yScaleVar } from "@/components/MotionProps";
 import { Button, Typography } from "@mui/material";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
@@ -15,7 +15,7 @@ export default function Error({
 }) {
   return (
     <StackM
-      {...createStaggerVar()}
+      {...createMotionProps()}
       spacing={3}
       alignItems={"center"}
       sx={{ maxWidth: 675, m: "auto", p: 10 }}

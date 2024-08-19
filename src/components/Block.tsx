@@ -1,10 +1,10 @@
 import { Box, type BoxProps } from "@mui/material";
 import { BoxM } from "./Motion";
-import { createCommonVar } from "./MotionProps";
+import { createMotionVar } from "./MotionProps";
 
 type BlockProps = {
   variant?: "outlined" | "contained";
-  variants?: ReturnType<typeof createCommonVar>;
+  variants?: ReturnType<typeof createMotionVar>;
   color?: string;
   decoration?: "both" | "left" | "right";
   sx?: BoxProps["sx"];
@@ -22,7 +22,7 @@ const STROKE = 2;
 
 export default function Block({
   variant = "outlined",
-  variants = createCommonVar({ delayChildren: 0.35 }),
+  variants = createMotionVar({ delayChildren: 0.35 }),
   color = "divider",
   decoration = "both",
   sx = {},
@@ -134,7 +134,7 @@ export default function Block({
         <DecorationWrapper sx={{ overflow: "visible" }}>
           {(decoration === "both" || decoration === "left") && (
             <BoxM
-              variants={createCommonVar({ from: { scale: 0, x: 0, y: -37.5 } })}
+              variants={createMotionVar({ from: { scale: 0, x: 0, y: -37.5 } })}
               sx={{
                 position: "absolute",
                 left: 0,
@@ -152,7 +152,7 @@ export default function Block({
           )}
           {(decoration === "both" || decoration === "right") && (
             <BoxM
-              variants={createCommonVar({ from: { scale: 0, x: 0, y: -37.5 } })}
+              variants={createMotionVar({ from: { scale: 0, x: 0, y: -37.5 } })}
               sx={{
                 position: "absolute",
                 right: 0,

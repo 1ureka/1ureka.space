@@ -1,9 +1,8 @@
 "use client";
 
-import { Children, cloneElement, forwardRef, useRef } from "react";
+import { Children, cloneElement, useRef } from "react";
 import { useMotionValue, useSpring, useTransform, motion } from "framer-motion";
-import { Box, Stack } from "@mui/material";
-import type { BoxProps } from "@mui/material";
+import { Box, Stack, type BoxProps } from "@mui/material";
 import { StackM, TypographyM } from "@/components/Motion";
 
 export type DockProps = {
@@ -22,67 +21,56 @@ export type DockItemProps = {
 const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
-export const Dock = forwardRef<HTMLDivElement, DockProps>(
-  (
-    {
-      children,
-      magnification = DEFAULT_MAGNIFICATION,
-      distance = DEFAULT_DISTANCE,
-    },
-    ref
-  ) => {
-    const mouseY = useMotionValue(Infinity);
+const DockSx: BoxProps["sx"] = {
+  position: "relative",
+  alignItems: "center",
+  gap: 1.5,
+  bgcolor: "content.layer1",
+  px: 1.5,
+  py: 2.5,
+  borderRadius: "0 8px 8px 0",
+  outline: "2px solid",
+  outlineColor: "divider",
+  boxShadow: 2,
+};
 
-    const renderChildren = () => {
-      return Children.map(children, (child: any) => {
-        return cloneElement(child, {
-          mouseY: mouseY,
-          magnification: magnification,
-          distance: distance,
-        });
+export function Dock({
+  children,
+  magnification = DEFAULT_MAGNIFICATION,
+  distance = DEFAULT_DISTANCE,
+}: DockProps) {
+  const mouseY = useMotionValue(Infinity);
+
+  const renderChildren = () => {
+    return Children.map(children, (child: any) => {
+      return cloneElement(child, {
+        mouseY: mouseY,
+        magnification: magnification,
+        distance: distance,
       });
-    };
+    });
+  };
 
-    return (
-      <Box
-        component="nav"
-        sx={{ display: "grid", alignItems: "center", height: 1 }}
-      >
-        <StackM
-          ref={ref}
-          onMouseMove={(e) => mouseY.set(e.pageY)}
-          onMouseLeave={() => mouseY.set(Infinity)}
-          alignItems="center"
-          gap={1.5}
-          sx={{
-            position: "relative",
-            bgcolor: "content.layer1",
-            px: 1.5,
-            py: 2.5,
-            borderRadius: "0 8px 8px 0",
-            outline: "2px solid",
-            outlineColor: "divider",
-            boxShadow: 2,
-          }}
-        >
-          {renderChildren()}
-          <Decoration />
-        </StackM>
-      </Box>
-    );
-  }
-);
+  return (
+    <StackM
+      onMouseMove={(e) => mouseY.set(e.pageY)}
+      onMouseLeave={() => mouseY.set(Infinity)}
+      sx={DockSx}
+    >
+      {renderChildren()}
+      <Decoration />
+    </StackM>
+  );
+}
 
-Dock.displayName = "Dock";
-
-export const DockItem = ({
+export function DockItem({
   magnification = DEFAULT_MAGNIFICATION,
   distance = DEFAULT_DISTANCE,
   mouseY,
   children,
   isStatic = false,
   title,
-}: DockItemProps) => {
+}: DockItemProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const distanceCalc = useTransform(mouseY, (val: number) => {
@@ -131,9 +119,7 @@ export const DockItem = ({
       </TypographyM>
     </motion.div>
   );
-};
-
-DockItem.displayName = "DockItem";
+}
 
 function Decoration() {
   const sx: BoxProps["sx"] = {

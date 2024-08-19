@@ -14,69 +14,79 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 
 export default function Docker() {
   return (
-    <Dock>
-      <DockItem title="Home">
-        <NavLink href={"/"}>
-          <DashboardRoundedIcon fontSize="small" />
-        </NavLink>
-      </DockItem>
+    <Box
+      component="nav"
+      sx={{
+        display: "grid",
+        alignItems: "center",
+        height: 1,
+        maxHeight: "100dvh",
+      }}
+    >
+      <Dock>
+        <DockItem title="Home">
+          <NavLink href={"/"}>
+            <DashboardRoundedIcon fontSize="small" />
+          </NavLink>
+        </DockItem>
 
-      <DockItem isStatic>
-        <Divider flexItem />
-      </DockItem>
+        <DockItem isStatic>
+          <Divider flexItem />
+        </DockItem>
 
-      <DockItem isStatic>
-        <Typography variant="caption">BOOK</Typography>
-      </DockItem>
+        <DockItem isStatic>
+          <Typography variant="caption">BOOK</Typography>
+        </DockItem>
 
-      <DockItem title="Explore">
-        <NavLink href={"/explore/view/0"}>
-          <AutoStoriesRoundedIcon fontSize="small" />
-        </NavLink>
-      </DockItem>
-      <DockItem title="Scene">
-        <NavLink href={"/scene"}>
-          <CollectionsRoundedIcon fontSize="small" />
-        </NavLink>
-      </DockItem>
-      <DockItem title="Props">
-        <NavLink href={"/props"}>
-          <CollectionsBookmarkRoundedIcon fontSize="small" />
-        </NavLink>
-      </DockItem>
+        <DockItem title="Explore">
+          <NavLink href={"/explore/view/0"}>
+            <AutoStoriesRoundedIcon fontSize="small" />
+          </NavLink>
+        </DockItem>
+        <DockItem title="Scene">
+          <NavLink href={"/scene"}>
+            <CollectionsRoundedIcon fontSize="small" />
+          </NavLink>
+        </DockItem>
+        <DockItem title="Props">
+          <NavLink href={"/props"}>
+            <CollectionsBookmarkRoundedIcon fontSize="small" />
+          </NavLink>
+        </DockItem>
 
-      <DockItem isStatic>
-        <Divider flexItem />
-      </DockItem>
+        <DockItem isStatic>
+          <Divider flexItem />
+        </DockItem>
 
-      <DockItem isStatic>
-        <Typography variant="caption">TOOL</Typography>
-      </DockItem>
+        <DockItem isStatic>
+          <Typography variant="caption">TOOL</Typography>
+        </DockItem>
 
-      <DockItem title="Files">
-        <NavLink href={"/files"}>
-          <BackupTableRoundedIcon fontSize="small" />
-        </NavLink>
-      </DockItem>
-      <DockItem title="Editor">
-        <NavLink href={"/editor"}>
-          <CompareRoundedIcon fontSize="small" />
-        </NavLink>
-      </DockItem>
+        <DockItem title="Files">
+          <NavLink href={"/files"}>
+            <BackupTableRoundedIcon fontSize="small" />
+          </NavLink>
+        </DockItem>
+        <DockItem title="Editor">
+          <NavLink href={"/editor"}>
+            <CompareRoundedIcon fontSize="small" />
+          </NavLink>
+        </DockItem>
 
-      <DockItem isStatic>
-        <Box sx={{ height: 48 }} />
-      </DockItem>
+        <DockItem isStatic>
+          <Box sx={{ height: 48 }} />
+        </DockItem>
 
-      <DockItem isStatic>
-        <Divider flexItem />
-      </DockItem>
+        <DockItem isStatic>
+          <Divider flexItem />
+        </DockItem>
 
-      <DockItem title="Settings">
-        <NavLink href={"/settings"}>
-          <SettingsRoundedIcon fontSize="small" />
-        </NavLink>
-      </DockItem>
-    </Dock>
+        <DockItem title="Settings">
+          <NavLink href={"/settings"}>
+            <SettingsRoundedIcon fontSize="small" />
+          </NavLink>
+        </DockItem>
+      </Dock>
+    </Box>
   );
 }

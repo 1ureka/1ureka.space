@@ -18,7 +18,7 @@ type CardProps = {
   title?: string;
   subTitle?: string;
   description?: string;
-  sx?: React.CSSProperties;
+  sx?: React.ComponentProps<typeof Block>["sx"];
 };
 
 const colorMap: Record<CardProps["color"], { main: string; hover: string }> = {
@@ -57,73 +57,80 @@ export default function Card(props: CardProps) {
   const { variant, color, href, decoration = "both", sx, ...rest } = props;
   const { media, icon, title, subTitle, description } = rest;
 
+  const containerSx = {
+    width: 1,
+    height: 1,
+    ...hoverSx(color),
+    ...sx,
+  } as React.ComponentProps<typeof Block>["sx"];
+
   return (
-    <Link href={href} style={sx}>
-      <Block
-        variant={variant}
-        color={colorMap[color].main}
-        decoration={decoration}
-        sx={{ width: 1, height: 1, ...hoverSx(color) }}
-        SlotProps={{
-          childContainer: {
-            whileHover: "hover",
-            ...(variant === "contained" && {
-              "data-mui-color-scheme": "dark",
-              color: "text.primary",
-            }),
-          },
-        }}
-      >
-        {media && (
-          <Box
-            className="card-media"
-            sx={{ position: "absolute", inset: 0, overflow: "hidden" }}
-          >
-            {media}
-          </Box>
-        )}
-
+    <Block
+      variant={variant}
+      color={colorMap[color].main}
+      decoration={decoration}
+      sx={containerSx}
+      SlotProps={{
+        childContainer: {
+          whileHover: "hover",
+          ...(variant === "contained" && {
+            "data-mui-color-scheme": "dark",
+            color: "text.primary",
+          }),
+        },
+      }}
+    >
+      {media && (
         <Box
-          position="relative"
-          sx={{ height: 1, minHeight: 200, display: "grid", alignItems: "end" }}
+          className="card-media"
+          sx={{ position: "absolute", inset: 0, overflow: "hidden" }}
         >
-          <Stack gap={1}>
-            <Stack direction="row" alignItems="flex-end" gap={1}>
-              {icon}
-
-              <HoverTypo
-                text={`${title} `}
-                variant="h4"
-                color={
-                  variant === "outlined" ? colorMap[color].main : "text.primary"
-                }
-              />
-
-              <HoverTypo
-                text={`${subTitle} `}
-                variant="subtitle2"
-                color="text.secondary"
-              />
-            </Stack>
-
-            <Typography variant="body2">{description}</Typography>
-
-            <StackM
-              direction="row"
-              sx={{ opacity: 0, height: 0, alignItems: "center", gap: 1 }}
-              variants={{ hover: { opacity: 1, height: "auto" } }}
-            >
-              <Typography variant="body2">LEARN MORE</Typography>
-              <ArrowCircleRightRoundedIcon />
-            </StackM>
-          </Stack>
+          {media}
         </Box>
+      )}
 
-        <ButtonBase
-          sx={{ position: "absolute", inset: "-3px", borderRadius: 2 }}
-        />
-      </Block>
-    </Link>
+      <Box
+        position="relative"
+        sx={{ height: 1, minHeight: 200, display: "grid", alignItems: "end" }}
+      >
+        <Stack gap={1}>
+          <Stack direction="row" alignItems="flex-end" gap={1}>
+            {icon}
+
+            <HoverTypo
+              text={`${title} `}
+              variant="h4"
+              color={
+                variant === "outlined" ? colorMap[color].main : "text.primary"
+              }
+            />
+
+            <HoverTypo
+              text={`${subTitle} `}
+              variant="subtitle2"
+              color="text.secondary"
+            />
+          </Stack>
+
+          <Typography variant="body2">{description}</Typography>
+
+          <StackM
+            direction="row"
+            sx={{ opacity: 0, height: 0, alignItems: "center", gap: 1 }}
+            variants={{ hover: { opacity: 1, height: "auto" } }}
+          >
+            <Typography variant="body2">LEARN MORE</Typography>
+            <ArrowCircleRightRoundedIcon />
+          </StackM>
+        </Stack>
+      </Box>
+
+      <ButtonBase
+        component={Link}
+        href={href}
+        sx={{ position: "absolute", inset: "-3px", borderRadius: 2 }}
+      />
+    </Block>
   );
 }
 

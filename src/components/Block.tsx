@@ -75,7 +75,10 @@ export default function Block({
           ...(variant === "outlined" ? oulinedSx : containedSx),
         }}
       >
-        <BoxM sx={{ height: 1, py: 3, px: 4 }} {...SlotProps?.childContainer}>
+        <BoxM
+          {...SlotProps?.childContainer}
+          sx={{ height: 1, py: 3, px: 4, ...SlotProps?.childContainer?.sx }}
+        >
           {children}
         </BoxM>
 

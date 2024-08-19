@@ -39,7 +39,7 @@ const containerSx: BoxProps["sx"] = {
   height: 1,
 };
 
-const CardsProps: React.ComponentProps<typeof Card>[] = [
+const cardsProps: React.ComponentProps<typeof Card>[] = [
   {
     variant: "contained",
     color: "primary",
@@ -152,7 +152,7 @@ export default async function Page() {
       </Box>
 
       <Box sx={containerSx}>
-        {CardsProps.map((props) => (
+        {cardsProps.map((props) => (
           <Card key={props.href} {...props} />
         ))}
 

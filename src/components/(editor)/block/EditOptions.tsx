@@ -1,11 +1,11 @@
 "use client";
-import { Box, Stack, Typography } from "@mui/material";
 
 import { useRecoilState } from "recoil";
 import { EDITOR_VALS } from "@/context/store";
 
+import { Box, Stack, Typography } from "@mui/material";
 import { StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 import { Number, Select, Slider } from "..";
 
 type EditOptionType =
@@ -40,32 +40,32 @@ export default function EditOptions() {
       setValues((prev) => ({ ...prev, [type]: val }));
 
   return (
-    <StackM variants={yScaleVar} spacing={6}>
+    <StackM variants={createMotionVar({ staggerChildren: 0.07 })} spacing={6}>
       <Stack spacing={1}>
-        <StackM variants={yScaleVar}>
+        <StackM variants={createMotionVar()}>
           <Typography variant="subtitle2" sx={{ mb: 1 }}>
             FILTER:
           </Typography>
         </StackM>
 
-        <StackM variants={yScaleVar}>
+        <StackM variants={createMotionVar()}>
           <Typography>saturation</Typography>
           <Slider value={saturate} onChange={createSliderHandler("saturate")} />
         </StackM>
 
-        <StackM variants={yScaleVar}>
+        <StackM variants={createMotionVar()}>
           <Typography>contrast</Typography>
           <Slider value={contrast} onChange={createSliderHandler("contrast")} />
         </StackM>
 
-        <StackM variants={yScaleVar}>
+        <StackM variants={createMotionVar()}>
           <Typography>exposure</Typography>
           <Slider value={exposure} onChange={createSliderHandler("exposure")} />
         </StackM>
       </Stack>
 
       <Stack spacing={1}>
-        <StackM variants={yScaleVar}>
+        <StackM variants={createMotionVar()}>
           <Typography variant="subtitle2" sx={{ mb: 1 }}>
             OUTPUT:
           </Typography>
@@ -76,10 +76,10 @@ export default function EditOptions() {
           sx={{ gridTemplateColumns: "0.6fr 1.2fr", alignItems: "center" }}
           gap={1.5}
         >
-          <StackM variants={yScaleVar}>
+          <StackM variants={createMotionVar()}>
             <Typography>max size</Typography>
           </StackM>
-          <StackM variants={yScaleVar}>
+          <StackM variants={createMotionVar()}>
             <Number
               min={1}
               max={999}
@@ -90,10 +90,10 @@ export default function EditOptions() {
             />
           </StackM>
 
-          <StackM variants={yScaleVar}>
+          <StackM variants={createMotionVar()}>
             <Typography>scale</Typography>
           </StackM>
-          <StackM variants={yScaleVar}>
+          <StackM variants={createMotionVar()}>
             <Number
               min={0.1}
               max={1.5}
@@ -104,10 +104,10 @@ export default function EditOptions() {
             />
           </StackM>
 
-          <StackM variants={yScaleVar}>
+          <StackM variants={createMotionVar()}>
             <Typography>file type</Typography>
           </StackM>
-          <StackM variants={yScaleVar}>
+          <StackM variants={createMotionVar()}>
             <Select
               options={typeList}
               value={type}

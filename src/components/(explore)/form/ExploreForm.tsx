@@ -3,12 +3,10 @@
 import { useRef, useState } from "react";
 import type { ImageMetadata } from "@/data/type";
 
-import { TextField } from "..";
-import { PointSection, VariantSection, ViewSection } from "..";
-import { BoxM, DividerM, StackM } from "@/components/Motion";
-import { opacityVar, yScaleVar, yVar } from "@/components/MotionProps";
-
-import { Skeleton, Box, Fab, Typography } from "@mui/material";
+import Block from "@/components/Block";
+import { TextField, ViewSection } from "..";
+import { PointSection, VariantSection } from "..";
+import { Skeleton, Box, Fab, Typography, Stack } from "@mui/material";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 
 import { z } from "zod";
@@ -59,42 +57,50 @@ export default function ExploreForm({
       onSubmit={handleSubmit((data) => console.log(data))}
       sx={{
         position: "relative",
+        height: 1,
         display: "grid",
         gridTemplateColumns: "minmax(325px, 0.5fr) 1fr",
         gap: 4.5,
       }}
     >
-      <StackM variants={yScaleVar} gap={1.5}>
-        {rootError && (
-          <Typography variant="caption" color="error">
-            {rootError.message}
-          </Typography>
-        )}
+      <Stack gap={3}>
+        <Block decoration="left" layout>
+          <Stack gap={1.5}>
+            {rootError && (
+              <Typography variant="caption" color="error">
+                {rootError.message}
+              </Typography>
+            )}
 
-        <TextField register={register} errors={errors} />
+            <TextField register={register} errors={errors} />
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateRows:
-              "minmax(100px, auto) auto minmax(100px, auto) minmax(100px, auto)",
-            placeItems: "start stretch",
-            flexGrow: 1,
-            gap: 3,
+            <ViewSection
+              selected={selectedView}
+              onSelect={setSelectedView}
+              fields={views}
+              errors={errors}
+              register={register}
+              remove={removeView}
+              append={appendView}
+            />
+          </Stack>
+        </Block>
+
+        <Block
+          decoration="left"
+          sx={{ flexGrow: 1 }}
+          layout
+          SlotProps={{
+            childContainer: {
+              sx: {
+                display: "grid",
+                gridTemplateRows: "minmax(100px, auto) minmax(100px, auto)",
+                placeItems: "start stretch",
+                gap: 3,
+              },
+            },
           }}
         >
-          <ViewSection
-            selected={selectedView}
-            onSelect={setSelectedView}
-            fields={views}
-            errors={errors}
-            register={register}
-            remove={removeView}
-            append={appendView}
-          />
-
-          <DividerM layout variants={yVar} sx={{ height: "0px" }} />
-
           {views.map(({ id }, i) => (
             <VariantSection
               key={id}
@@ -118,12 +124,15 @@ export default function ExploreForm({
               control={control}
             />
           ))}
-        </Box>
-      </StackM>
+        </Block>
+      </Stack>
 
-      <BoxM variants={opacityVar}>
-        <Box
-          ref={imageContainerRef}
+      <Box>
+        <Block
+          color="primary.light"
+          variant="contained"
+          decoration="right"
+          layout
           sx={{
             position: "sticky",
             top: 0,
@@ -131,28 +140,36 @@ export default function ExploreForm({
             height: "auto",
             aspectRatio: 16 / 9,
           }}
+          SlotProps={{
+            childContainer: { sx: { p: 0 } },
+          }}
         >
-          <Skeleton
-            variant="rounded"
-            animation="wave"
-            sx={{ width: 1, height: 1 }}
-          />
-          <Fab
-            type="submit"
-            variant="extended"
-            color="primary"
-            sx={{
-              position: "absolute",
-              inset: "auto 0 0 auto",
-              translate: "0 50%",
-              mr: 2,
-              gap: 1,
-            }}
-          >
-            <SaveRoundedIcon /> Save
-          </Fab>
-        </Box>
-      </BoxM>
+          <Box ref={imageContainerRef} sx={{ height: 1 }}>
+            <Skeleton
+              variant="rounded"
+              animation="wave"
+              sx={{ width: 1, height: 1, bgcolor: "content.layer3" }}
+            />
+            <Fab
+              type="submit"
+              variant="extended"
+              color="primary"
+              sx={{
+                position: "absolute",
+                inset: "auto 0 0 auto",
+                translate: "0 50%",
+                mr: 2,
+                gap: 1,
+                "&:hover": { bgcolor: "primary.light", scale: "1.1" },
+                "&:active": { scale: "0.95" },
+                transition: "all 0.25s ease",
+              }}
+            >
+              <SaveRoundedIcon /> Save
+            </Fab>
+          </Box>
+        </Block>
+      </Box>
     </Box>
   );
 }

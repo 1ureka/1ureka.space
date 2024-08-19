@@ -3,19 +3,17 @@ import { BoxM } from "./Motion";
 import { createMotionVar } from "./MotionProps";
 
 type BlockProps = {
+  // custom props
   variant?: "outlined" | "contained";
-  variants?: ReturnType<typeof createMotionVar>;
   color?: string;
   decoration?: "both" | "left" | "right";
-  sx?: BoxProps["sx"];
   SlotProps?: {
-    root?: React.ComponentProps<typeof BoxM>;
     childContainer?: React.ComponentProps<typeof BoxM> & {
       "data-mui-color-scheme"?: "dark" | "light";
     };
   };
-  children: React.ReactNode;
-};
+  // inherit BoxProps
+} & React.ComponentProps<typeof BoxM>;
 
 const WIDTH = 35;
 const STROKE = 2;
@@ -25,9 +23,10 @@ export default function Block({
   variants = createMotionVar({ delayChildren: 0.35 }),
   color = "divider",
   decoration = "both",
-  sx = {},
+  sx,
   SlotProps,
   children,
+  ...props
 }: BlockProps) {
   const oulinedSx = {
     bgcolor: "content.layer1",
@@ -55,11 +54,7 @@ export default function Block({
   };
 
   return (
-    <BoxM
-      sx={{ position: "relative", ...sx }}
-      variants={variants}
-      {...SlotProps?.root}
-    >
+    <BoxM sx={{ position: "relative", ...sx }} variants={variants} {...props}>
       {/* for shadow */}
       <DecorationWrapper
         sx={{

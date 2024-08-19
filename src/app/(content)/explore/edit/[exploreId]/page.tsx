@@ -11,11 +11,9 @@ import { BoxM } from "@/components/Motion";
 import { createMotionProps } from "@/components/MotionProps";
 import { getSortedMetadata } from "@/data/table";
 
-export default async function EditPage({
-  params: { exploreId },
-}: {
-  params: { exploreId: unknown };
-}) {
+type PageProps = { params: { exploreId: unknown } };
+
+export default async function EditPage({ params: { exploreId } }: PageProps) {
   if (typeof exploreId !== "string") {
     notFound();
   }
@@ -31,7 +29,7 @@ export default async function EditPage({
   const metadataList = await getSortedMetadata("scene");
 
   return (
-    <BoxM {...createMotionProps()} sx={{ py: 3, px: { xs: 2, sm: 4, md: 7 } }}>
+    <BoxM {...createMotionProps()} sx={{ height: 1 }}>
       <ExploreForm metadataList={metadataList} />
     </BoxM>
   );

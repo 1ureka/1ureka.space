@@ -23,7 +23,7 @@ export default async function CreatePage() {
   const metadataList = await getSortedMetadata("scene");
 
   return (
-    <BoxM {...createMotionProps()} sx={{ py: 3, px: { xs: 2, sm: 4, md: 7 } }}>
+    <BoxM {...createMotionProps()} sx={{ height: 1 }}>
       <ExploreForm metadataList={metadataList} />
     </BoxM>
   );

@@ -4,6 +4,7 @@ import { createCommonVar } from "./MotionProps";
 
 type BlockProps = {
   variant?: "outlined" | "contained";
+  variants?: ReturnType<typeof createCommonVar>;
   color?: string;
   decoration?: "both" | "left" | "right";
   sx?: BoxProps["sx"];
@@ -21,6 +22,7 @@ const STROKE = 2;
 
 export default function Block({
   variant = "outlined",
+  variants = createCommonVar({ delayChildren: 0.35 }),
   color = "divider",
   decoration = "both",
   sx = {},
@@ -55,7 +57,7 @@ export default function Block({
   return (
     <BoxM
       sx={{ position: "relative", ...sx }}
-      variants={createCommonVar({ delayChildren: 0.35 })}
+      variants={variants}
       {...SlotProps?.root}
     >
       {/* for shadow */}

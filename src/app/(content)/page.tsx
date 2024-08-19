@@ -60,7 +60,7 @@ const cardsProps: React.ComponentProps<typeof Card>[] = [
   {
     variant: "outlined",
     color: "primary",
-    href: "/scene",
+    href: "/gallery/scene",
     sx: { gridArea: "book1" },
     decoration: "left",
     media: <CardMedia1 />,
@@ -71,7 +71,7 @@ const cardsProps: React.ComponentProps<typeof Card>[] = [
   {
     variant: "outlined",
     color: "primary",
-    href: "/props",
+    href: "/gallery/props",
     sx: { gridArea: "book2" },
     decoration: "right",
     media: <CardMedia2 />,

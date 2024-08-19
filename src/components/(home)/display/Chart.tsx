@@ -7,7 +7,7 @@ const PieChart = dynamic(() =>
 );
 
 import { StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 type Data = { value: number; label: string; color: string }[];
 
@@ -32,12 +32,12 @@ export default function Chart({ data }: { data: Data }) {
 
   return (
     <StackM
-      variants={yScaleVar}
+      variants={createMotionVar()}
       direction={{ xs: "column", sm: "column", md: "row" }}
       alignItems="flex-end"
       gap={2}
     >
-      <StackM variants={yScaleVar}>
+      <StackM variants={createMotionVar()}>
         <Typography variant="subtitle1">Storage: </Typography>
         <Typography variant="body2">{amount} / 256 MB</Typography>
       </StackM>

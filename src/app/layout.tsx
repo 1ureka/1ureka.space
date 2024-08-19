@@ -64,10 +64,8 @@ function MuiToaster() {
 }
 
 export default function RootLayout({
-  header,
   children,
 }: {
-  header: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (

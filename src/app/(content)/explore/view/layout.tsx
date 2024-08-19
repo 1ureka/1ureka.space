@@ -42,7 +42,7 @@ export default function ExploreLayout({
       </Block>
 
       <Block
-        sx={{ gridArea: "thumbnail" }}
+        sx={{ gridArea: "thumbnail", aspectRatio: "16/9" }}
         variant="outlined"
         color="primary.light"
         variants={createMotionVar({ from: { scale: 1, y: 0 } })}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ButtonMediaWrapper } from "../input/Button";
+import { Button, ButtonMediaWrapper } from "./input/Button";
 import { Typography, useColorScheme } from "@mui/material";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ButtonMediaWrapper } from "../input/Button";
+import { Button, ButtonMediaWrapper } from "./input/Button";
 import { Typography } from "@mui/material";
 import CollectionsRoundedIcon from "@mui/icons-material/CollectionsRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";

@@ -6,7 +6,7 @@ import "@/css/index.css";
 
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
-import Docker from "@/components/(docker)";
+import Docker from "@/components/(docker)/Docker";
 
 export const metadata: Metadata = {
   title: {

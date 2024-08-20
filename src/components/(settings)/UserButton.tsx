@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Avatar, Button, Typography } from "@mui/material";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";

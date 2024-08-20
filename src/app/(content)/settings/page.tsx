@@ -10,8 +10,14 @@ import type { BoxProps } from "@mui/material";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 
 import Block from "@/components/Block";
-import { DisplayToggle, ThemeToggle } from "@/components/(settings)";
-import { AuthMessages, UserButton } from "@/components/(settings)";
+import AuthMessages from "@/components/(settings)/AuthMessages";
+import UserButton from "@/components/(settings)/UserButton";
+import DisplayToggle from "@/components/(settings)/DisplayToggle";
+import dynamic from "next/dynamic";
+const ThemeToggle = dynamic(
+  () => import("@/components/(settings)/ThemeToggle"),
+  { ssr: false }
+);
 
 const gap = {
   xs: 1.5,

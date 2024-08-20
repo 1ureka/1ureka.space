@@ -1,3 +1,5 @@
+"use client";
+
 import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
 import { Box, ButtonBase } from "@mui/material";
@@ -8,11 +10,13 @@ export function Button({
   active,
   sx,
   children,
+  onClick,
 }: {
   color?: "primary" | "secondary";
   active?: boolean;
   sx?: React.ComponentProps<typeof ButtonBase>["sx"];
   children?: React.ReactNode;
+  onClick?: () => void;
 }) {
   const activeSx = {
     outline: "2px solid",
@@ -24,16 +28,17 @@ export function Button({
   return (
     <BoxM variants={createMotionVar()} sx={{ width: 1 }}>
       <ButtonBase
+        onClick={onClick}
         sx={{
           position: "relative",
           width: 1,
-          bgcolor: "grey.300",
+          bgcolor: "#88888850",
           color: "text.secondary",
           borderRadius: 2,
           overflow: "hidden",
           transition: "all 0.25s ease",
           scale: "1.001",
-          "&:hover": { bgcolor: "grey.200", scale: "1.03" },
+          "&:hover": { bgcolor: "#88888830", scale: "1.03" },
           "&:active": { scale: "0.97" },
           ...(active ? activeSx : {}),
           ...sx,

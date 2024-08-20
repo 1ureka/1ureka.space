@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ImageMetadataWithIndex } from "@/data/type";
-import { auth, validateUserSession } from "@/auth";
+import { validateUserSession } from "@/auth";
 
 import { BoxM } from "@/components/Motion";
 import { carouselsImageVar } from "@/components/MotionProps";

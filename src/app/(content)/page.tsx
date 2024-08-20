@@ -6,13 +6,14 @@ export const metadata: Metadata = {
 import { Box, Stack, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
-
-import { delay } from "@/utils/server-utils";
 import { summaryCategorySize } from "@/data/table";
 
 import Block from "@/components/Block";
-import { Card, CardMedia1, CardMedia2, Chart } from "@/components/(home)";
-import { CardMedia3, CardMedia4, CardMedia5 } from "@/components/(home)";
+import Chart from "@/components/(home)/Chart";
+import Card from "@/components/(home)/Card";
+
+import { CardMedia1, CardMedia2, CardMedia3 } from "@/components/(home)/media";
+import { CardMedia4, CardMedia5 } from "@/components/(home)/media";
 import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { createMotionVar, createMotionProps } from "@/components/MotionProps";
 
@@ -105,8 +106,6 @@ const cardsProps: React.ComponentProps<typeof Card>[] = [
 ];
 
 export default async function Page() {
-  await delay(Math.random() * 2000);
-
   const { props, scene } = await summaryCategorySize();
   const propsSize = parseFloat((props / 1024 / 1024).toFixed(2));
   const sceneSize = parseFloat((scene / 1024 / 1024).toFixed(2));

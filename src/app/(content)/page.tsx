@@ -10,7 +10,7 @@ import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
 import { delay } from "@/utils/server-utils";
 import { summaryCategorySize } from "@/data/table";
 
-import AuthToastLogic from "@/components/(auth)/AuthToast";
+import AuthToastLogic from "@/components/(settings)/AuthToast";
 import Block from "@/components/Block";
 import { Card, CardMedia1, CardMedia2, Chart } from "@/components/(home)";
 import { CardMedia3, CardMedia4, CardMedia5 } from "@/components/(home)";

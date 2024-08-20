@@ -6,11 +6,12 @@ export const metadata: Metadata = {
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionProps, createMotionVar } from "@/components/MotionProps";
 import { Alert, Stack, Typography } from "@mui/material";
+import type { BoxProps } from "@mui/material";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 
-import type { BoxProps } from "@mui/material";
 import Block from "@/components/Block";
 import { DisplayToggle, ThemeToggle } from "@/components/(settings)";
+import { AuthMessages, UserButton } from "@/components/(settings)";
 
 const gap = {
   xs: 1.5,
@@ -26,9 +27,17 @@ const containerSx: BoxProps["sx"] = {
   height: 1,
 };
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const { success, error } = searchParams;
+
   return (
     <BoxM {...createMotionProps()} sx={containerSx}>
+      <AuthMessages success={success} error={error} />
+
       <Stack sx={{ gap }}>
         <Block color="primary.main" decoration="left">
           <StackM gap={0.5} mb={3} variants={createMotionVar()}>
@@ -43,6 +52,18 @@ export default function Page() {
               in.
             </Alert>
           </StackM>
+
+          <BoxM
+            variants={createMotionVar()}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr auto",
+              placeItems: "center start",
+              gap: 1,
+            }}
+          >
+            <UserButton />
+          </BoxM>
         </Block>
 
         <Block color="primary.main" decoration="left">

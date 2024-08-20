@@ -19,7 +19,7 @@ export default function RefreshButton() {
 
   return (
     <motion.div variants={yScaleVar} style={{ rotate }}>
-      <IconButton color="primary" onClick={handleClick}>
+      <IconButton onClick={handleClick}>
         <RefreshRoundedIcon />
       </IconButton>
     </motion.div>

@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { validateUserSession } from "@/auth";
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
@@ -6,17 +6,12 @@ import { Table } from "@/components/(files)";
 import { DeleteForm, UploadForm } from "@/components/(files)";
 import { ModifyForm, VerifyForm } from "@/components/(files)";
 
-export default async function FilesContent({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const session = await auth();
-  const userId = session?.user.id;
-  const expectedUserId = process.env.ALLOWED_USER;
-  if (!userId || !expectedUserId || JSON.stringify(userId) !== expectedUserId) {
-    redirect("/unAuth");
-  }
+  await validateUserSession();
 
   const form = searchParams.form;
   const category = searchParams.category ?? "scene";

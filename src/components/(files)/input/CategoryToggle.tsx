@@ -18,7 +18,7 @@ export default function CategoryToggle() {
   const value = isValidPath(pathname) ?? "images";
 
   return (
-    <ToggleButtonGroup color="primary" value={value} exclusive size="small">
+    <ToggleButtonGroup value={value} exclusive size="small">
       <Link href="/files/images">
         <ToggleButton value="images" sx={{ px: 1, py: 0.5 }}>
           Images

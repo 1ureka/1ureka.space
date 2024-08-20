@@ -5,22 +5,29 @@ export const metadata: Metadata = {
 
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { BoxM } from "@/components/Motion";
-import { createMotionProps } from "@/components/MotionProps";
+import { Typography } from "@mui/material";
 
-const containerSx = {
+import Block from "@/components/Block";
+import { CategoryToggle, RefreshButton } from "@/components/(files)";
+import { BoxM, StackM } from "@/components/Motion";
+import { createMotionProps, createMotionVar } from "@/components/MotionProps";
+
+const gap = { xs: 1.5, md: 2.5, lg: 3.5 };
+
+const containerSx: React.ComponentProps<typeof BoxM>["sx"] = {
   position: "relative",
-  py: 3,
-  px: { xs: 2, sm: 7 },
-
-  // 不知底下這個為何可以讓內部子元素的minWidth與overflowX: "auto"生效
-  // 是與Y無關的overflowX喔! 有夠詭異的，CSS真棒
-  overflowY: "hidden",
+  display: "grid",
+  gridTemplateAreas: `"header1 header2" "content content"`,
+  gridTemplateColumns: "auto 1fr",
+  height: "fit-content",
+  gap,
 };
 
-export default async function FilesContent({
+export default async function Layout({
+  header,
   children,
 }: {
+  header: React.ReactNode;
   children: React.ReactNode;
 }) {
   const session = await auth();
@@ -32,10 +39,46 @@ export default async function FilesContent({
   }
 
   return (
-    <BoxM sx={containerSx} {...createMotionProps()}>
-      {children}
+    <BoxM {...createMotionProps()} sx={containerSx}>
+      <Block
+        decoration="left"
+        variant="contained"
+        color="primary.main"
+        SlotProps={{
+          childContainer: {
+            "data-mui-color-scheme": "dark",
+            sx: {
+              gridArea: "header1",
+              display: "flex",
+              alignItems: "flex-end",
+              gap,
+            },
+          },
+        }}
+      >
+        <BoxM variants={createMotionVar()} mr={1}>
+          <Typography variant="h5" sx={{ color: "text.primary" }}>
+            File Shelf
+          </Typography>
+        </BoxM>
+
+        <StackM variants={createMotionVar()} gap={1}>
+          <Typography variant="subtitle2">CATEGORY:</Typography>
+          <CategoryToggle />
+        </StackM>
+
+        <RefreshButton />
+      </Block>
+
+      <Block
+        decoration="right"
+        color="primary.main"
+        sx={{ gridArea: "header2" }}
+      >
+        {header}
+      </Block>
+
+      <Block sx={{ gridArea: "content" }}>{children}</Block>
     </BoxM>
   );
 }
-
-export const dynamic = "force-dynamic";

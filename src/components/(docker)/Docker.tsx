@@ -63,7 +63,7 @@ export default function Docker() {
         </DockItem>
 
         <DockItem title="Files">
-          <NavLink href={"/files"}>
+          <NavLink href={"/files/images"}>
             <BackupTableRoundedIcon fontSize="small" />
           </NavLink>
         </DockItem>

@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { isValidIndex } from "@/utils/utils";
 import { delay } from "@/utils/server-utils";
 import { notFound } from "next/navigation";
@@ -6,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Skeleton } from "@mui/material";
 import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
+import { validateUserSession } from "@/auth";
 
 export default async function Page({
   params: { index: indexString },
@@ -14,18 +14,14 @@ export default async function Page({
   params: { index: unknown };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  await delay(Math.random() * 2000);
+  const session = await validateUserSession({ isRedirect: false });
+
+  if (!session) return null;
 
   const index = isValidIndex(indexString, 10);
   if (index === -1) notFound();
 
-  const session = await auth();
-  const userId = JSON.stringify(session?.user.id);
-  const expectedUserId = process.env.ALLOWED_USER;
-
-  if (!userId || !expectedUserId || userId !== expectedUserId) {
-    return null;
-  }
+  await delay(Math.random() * 2000);
 
   return (
     <BoxM

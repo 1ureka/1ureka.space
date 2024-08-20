@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ImageMetadataWithIndex } from "@/data/type";
-import { auth } from "@/auth";
+import { auth, validateUserSession } from "@/auth";
 
 import { BoxM } from "@/components/Motion";
 import { carouselsImageVar } from "@/components/MotionProps";
@@ -26,7 +26,7 @@ export default async function CarouselsImage({
 }: {
   metadataList: ImageMetadataWithIndex[];
 }) {
-  const session = await auth();
+  const session = await validateUserSession({ isRedirect: false });
 
   return (
     <BoxM

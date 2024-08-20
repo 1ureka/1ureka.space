@@ -55,13 +55,19 @@ const { handlers, signIn, signOut, auth } = NextAuth({
   },
 });
 
-const validateUserSession = async () => {
+const validateUserSession = async ({
+  isRedirect = true,
+}: { isRedirect?: boolean } = {}) => {
   const session = await auth();
   const userId = session?.user.id;
   const expectedUserId = process.env.ALLOWED_USER;
 
   if (!userId || !expectedUserId || JSON.stringify(userId) !== expectedUserId) {
-    redirect("/unAuth");
+    if (isRedirect) {
+      redirect("/unAuth");
+    } else {
+      return false;
+    }
   }
 
   return session;

@@ -9,9 +9,9 @@ import type { BoxProps } from "@mui/material";
 import PhotoRoundedIcon from "@mui/icons-material/PhotoRounded";
 
 import { StackM } from "@/components/Motion";
-import { RightClickIcon, LeftClickIcon } from "..";
 import { useCarouselIndex } from "@/hooks";
 import type { ImageMetadataWithIndex } from "@/data/type";
+import { LeftClickIcon, RightClickIcon } from "../media/SvgIcon";
 
 export default function Asides({
   metadataList,

@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Alert, AlertTitle } from "@mui/material";
 import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";

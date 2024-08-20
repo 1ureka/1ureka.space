@@ -1,6 +1,13 @@
+import "server-only";
+
 import type { ImageMetadataWithIndex } from "@/data/type";
-import { Asides, CarouselsImage, Container, Name, Slides } from "..";
 import { Box } from "@mui/material";
+
+import Asides from "./block/Asides";
+import Container from "./display/Container";
+import CarouselsImage from "./block/CarouselsImage";
+import Name from "./display/Name";
+import Slides from "./media/Slides";
 
 export default function Carousels({
   metadataList,

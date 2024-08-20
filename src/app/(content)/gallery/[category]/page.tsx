@@ -13,7 +13,7 @@ import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded";
 
 import Block from "@/components/Block";
 import { FilterAccordion, Gallery } from "@/components/(books)";
-import { Carousels } from "@/components/(carousels)";
+import Carousels from "@/components/(carousels)/Carousels";
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionProps, createMotionVar } from "@/components/MotionProps";
 

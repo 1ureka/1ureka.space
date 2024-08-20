@@ -1,9 +1,14 @@
+import "server-only";
+
 import type { ImageMetadataWithIndex } from "@/data/type";
 import { auth } from "@/auth";
 
-import { Alert, Origin, Thumbnail } from "..";
 import { BoxM } from "@/components/Motion";
 import { carouselsImageVar } from "@/components/MotionProps";
+
+import Thumbnail from "../media/Thumbnail";
+import Origin from "../media/Origin";
+import Alert from "../display/Alert";
 
 const createImageContainerSx = (width: string, height: string) => ({
   position: "relative",

@@ -1,17 +1,16 @@
 import type { ImageMetadataWithIndex } from "@/data/type";
-import { Table as MuiTable, TableContainer } from "@mui/material";
+import { Table, TableContainer } from "@mui/material";
 
-import { TableHeader, TableHead, TableFooter } from "..";
 import { BoxM } from "@/components/Motion";
 import { yScaleVar } from "@/components/MotionProps";
 
+import TableHeader from "./display/TableHeader";
+import TableFooter from "./display/TableFooter";
+import TableHead from "./display/TableHead";
 import dynamic from "next/dynamic";
-const TableBody = dynamic(
-  () => import("..").then(({ TableBody }) => TableBody),
-  { ssr: false }
-);
+const TableBody = dynamic(() => import("./display/TableBody"), { ssr: false });
 
-export default function Table({
+export default function FileTable({
   metadataList,
 }: {
   metadataList: ImageMetadataWithIndex[];
@@ -21,10 +20,10 @@ export default function Table({
       <TableHeader />
 
       <TableContainer>
-        <MuiTable sx={{ minWidth: 300, overflow: "hidden" }}>
+        <Table sx={{ minWidth: 300, overflow: "hidden" }}>
           <TableHead metadataList={metadataList} />
           <TableBody metadataList={metadataList} />
-        </MuiTable>
+        </Table>
       </TableContainer>
 
       <TableFooter metadataList={metadataList} />

@@ -18,7 +18,8 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
-import { FileDropField, UploadField } from "..";
+import UploadField from "../input/UploadField";
+import FileDropField from "../input/FileDropField";
 
 interface UploadFormProps {
   open: boolean;

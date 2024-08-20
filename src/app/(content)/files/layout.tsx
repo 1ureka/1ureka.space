@@ -3,12 +3,12 @@ export const metadata: Metadata = {
   title: "files",
 };
 
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import { Typography } from "@mui/material";
-
 import Block from "@/components/Block";
-import { CategoryToggle, RefreshButton } from "@/components/(files)";
+import CategoryToggle from "@/components/(files)/CategoryToggle";
+import RefreshButton from "@/components/(files)/RefreshButton";
+
+import { validateUserSession } from "@/auth";
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionProps, createMotionVar } from "@/components/MotionProps";
 
@@ -30,13 +30,7 @@ export default async function Layout({
   header: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  const userId = session?.user.id;
-  const expectedUserId = process.env.ALLOWED_USER;
-
-  if (!userId || !expectedUserId || JSON.stringify(userId) !== expectedUserId) {
-    redirect("/unAuth");
-  }
+  await validateUserSession();
 
   return (
     <BoxM {...createMotionProps()} sx={containerSx}>

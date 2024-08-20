@@ -2,9 +2,9 @@ import { validateUserSession } from "@/auth";
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/table";
 
-import { Table } from "@/components/(files)";
-import { DeleteForm, UploadForm } from "@/components/(files)";
-import { ModifyForm, VerifyForm } from "@/components/(files)";
+import { DeleteForm, UploadForm } from "@/components/(files)/form";
+import { ModifyForm, VerifyForm } from "@/components/(files)/form";
+import Table from "@/components/(files)/Table";
 
 export default async function Page({
   searchParams,

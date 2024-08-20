@@ -4,13 +4,18 @@ export const metadata: Metadata = {
 };
 
 import ErrorBlock from "@/components/ErrorBlock";
+import Link from "next/link";
 import { Button } from "@mui/material";
 
 export default function UnAuth() {
   return (
     <ErrorBlock
       error={new Error("401: Unauthorized")}
-      action={<Button href="/settings">Sign In</Button>}
+      action={
+        <Button href="/settings" component={Link}>
+          Sign In
+        </Button>
+      }
     />
   );
 }

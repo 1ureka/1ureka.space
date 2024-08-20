@@ -99,6 +99,7 @@ export default function Origin({
         <AnimatePresence>
           {Props.open && (
             <motion.div
+              id="CarouselsFullScreen"
               onContextMenu={handleExitFull}
               style={{
                 pointerEvents,

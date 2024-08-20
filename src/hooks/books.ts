@@ -155,7 +155,7 @@ export const useBooksFilter = () => {
   useEffect(() => {
     const style = document.createElement("style");
     style.id = "imageFilterCSS";
-    style.innerHTML = `:where(#Gallery, #Carousels) img{ filter: ${filter} }`;
+    style.innerHTML = `:where(#Gallery, #Carousels, #CarouselsFullScreen) img{ filter: ${filter} }`;
     document.head.appendChild(style);
 
     return () => {

@@ -8,7 +8,7 @@ import { IconButton, MenuItem, TextField } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 const containerSx = {
   borderRadius: 2,
@@ -37,7 +37,7 @@ export default function DeleteField({
   disabled,
 }: UploadFieldProps) {
   return (
-    <StackM variants={yScaleVar} sx={containerSx}>
+    <StackM variants={createMotionVar()} sx={containerSx}>
       <Stack direction="row" alignItems="center" spacing={2}>
         <TextField
           fullWidth

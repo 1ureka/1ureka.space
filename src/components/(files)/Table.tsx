@@ -2,7 +2,7 @@ import type { ImageMetadataWithIndex } from "@/data/type";
 import { Table, TableContainer } from "@mui/material";
 
 import { BoxM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 import TableHeader from "./display/TableHeader";
 import TableFooter from "./display/TableFooter";
@@ -16,7 +16,7 @@ export default function FileTable({
   metadataList: ImageMetadataWithIndex[];
 }) {
   return (
-    <BoxM variants={yScaleVar}>
+    <BoxM variants={createMotionVar()}>
       <TableHeader />
 
       <TableContainer>

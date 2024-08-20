@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { IconButton } from "@mui/material";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 import { motion, useSpring } from "framer-motion";
 
 export default function RefreshButton() {
@@ -18,7 +18,7 @@ export default function RefreshButton() {
   };
 
   return (
-    <motion.div variants={yScaleVar} style={{ rotate }}>
+    <motion.div variants={createMotionVar()} style={{ rotate }}>
       <IconButton onClick={handleClick}>
         <RefreshRoundedIcon />
       </IconButton>

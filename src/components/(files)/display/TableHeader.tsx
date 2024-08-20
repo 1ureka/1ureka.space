@@ -14,7 +14,7 @@ import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 
 import { BoxM, TypographyM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 export default function TableHeader() {
   const searchParams = useSearchParams();
@@ -38,7 +38,7 @@ export default function TableHeader() {
       justifyContent="space-between"
       alignItems="center"
     >
-      <BoxM variants={yScaleVar}>
+      <BoxM variants={createMotionVar()}>
         <Button
           onClick={handleClick}
           startIcon={<FilterListRoundedIcon />}
@@ -72,14 +72,14 @@ export default function TableHeader() {
 
       <Stack direction="row" alignItems="center" gap={1.5}>
         <TypographyM
-          variants={yScaleVar}
+          variants={createMotionVar()}
           sx={{ pr: 1.5, textTransform: "uppercase" }}
           variant="subtitle2"
         >
           {selected.length} Selected:
         </TypographyM>
 
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Button
             startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
@@ -90,7 +90,7 @@ export default function TableHeader() {
           </Button>
         </BoxM>
 
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Button
             startIcon={<DownloadRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
@@ -99,7 +99,7 @@ export default function TableHeader() {
           </Button>
         </BoxM>
 
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Button
             startIcon={<DeleteRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}

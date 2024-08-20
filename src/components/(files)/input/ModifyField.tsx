@@ -10,7 +10,7 @@ import { Box, Chip, Skeleton, Stack } from "@mui/material";
 import { MenuItem, TextField } from "@mui/material";
 
 import { StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 import { useRef } from "react";
 
 const containerSx = {
@@ -50,7 +50,7 @@ export default function ModifyField({
   const error = errors.fieldArray && errors.fieldArray[index];
 
   return (
-    <StackM variants={yScaleVar} sx={containerSx}>
+    <StackM variants={createMotionVar()} sx={containerSx}>
       <Stack direction="row" alignItems="center" spacing={2}>
         <TextField
           fullWidth

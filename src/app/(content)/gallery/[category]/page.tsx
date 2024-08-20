@@ -140,7 +140,7 @@ export default async function Page({ params }: { params: unknown }) {
         <Gallery metadataList={metadataList} />
       </Block>
 
-      {/* <Carousels metadataList={metadataList} /> */}
+      <Carousels metadataList={metadataList} />
     </BoxM>
   );
 }

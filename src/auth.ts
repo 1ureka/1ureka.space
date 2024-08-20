@@ -1,6 +1,11 @@
-import NextAuth, { type DefaultSession } from "next-auth";
-import type {} from "next-auth/jwt";
+import "server-only";
+
+import { redirect } from "next/navigation";
+import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
+
+import type { DefaultSession } from "next-auth";
+import type {} from "next-auth/jwt";
 
 declare module "next-auth/jwt" {
   interface JWT {
@@ -16,7 +21,7 @@ declare module "next-auth" {
   }
 }
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub],
   pages: {
     signIn: "/",
@@ -49,3 +54,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 });
+
+const validateUserSession = async () => {
+  const session = await auth();
+  const userId = session?.user.id;
+  const expectedUserId = process.env.ALLOWED_USER;
+
+  if (!userId || !expectedUserId || JSON.stringify(userId) !== expectedUserId) {
+    redirect("/unAuth");
+  }
+
+  return session;
+};
+
+export { handlers, signIn, signOut, auth, validateUserSession };

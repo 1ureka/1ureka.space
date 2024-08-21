@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useSpring, useTransform } from "framer-motion";
 import { useParams } from "next/navigation";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 
 import { Skeleton, IconButton, Box } from "@mui/material";
 import type { BoxProps } from "@mui/material";

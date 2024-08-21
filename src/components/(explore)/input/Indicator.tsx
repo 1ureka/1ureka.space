@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { isValidIndex } from "@/utils/utils";
 

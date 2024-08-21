@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Button, Typography } from "@mui/material";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 

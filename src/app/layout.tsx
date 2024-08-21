@@ -4,6 +4,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Box, CssBaseline } from "@mui/material";
 import "@/css/index.css";
 
+import { ViewTransitions } from "next-view-transitions";
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
 import Docker from "@/components/(docker)/Docker";
@@ -69,20 +70,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider>
-            <CssBaseline />
+    <ViewTransitions>
+      <html lang="en">
+        <body>
+          <AppRouterCacheProvider>
+            <ThemeProvider>
+              <CssBaseline />
 
-            <ContextProvider>
-              <Layout>{children}</Layout>
+              <ContextProvider>
+                <Layout>{children}</Layout>
 
-              <MuiToaster />
-            </ContextProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-      </body>
-    </html>
+                <MuiToaster />
+              </ContextProvider>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

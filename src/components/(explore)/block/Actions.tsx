@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Divider, IconButton, Stack } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 

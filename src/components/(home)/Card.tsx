@@ -1,6 +1,6 @@
 import "server-only";
 
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Box, Stack, ButtonBase, Typography } from "@mui/material";
 import ArrowCircleRightRoundedIcon from "@mui/icons-material/ArrowCircleRightRounded";
 

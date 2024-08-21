@@ -4,7 +4,7 @@ export const metadata: Metadata = {
 };
 
 import ErrorBlock from "@/components/ErrorBlock";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Button } from "@mui/material";
 
 export default function UnAuth() {

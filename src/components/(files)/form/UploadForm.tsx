@@ -137,7 +137,10 @@ export default function UploadForm({
         toast.dismiss("submit");
 
         res.forEach((r, index) => {
-          if (!r.success) toast.error(`Failed to upload image ${index + 1}`);
+          if (r.success) return;
+          r.error.map((message) =>
+            toast.error(`File ${index + 1}: ${message}`)
+          );
         });
       }
     } catch {

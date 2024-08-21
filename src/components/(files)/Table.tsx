@@ -17,7 +17,7 @@ export default function FileTable({
 }) {
   return (
     <BoxM variants={createMotionVar()}>
-      <TableHeader />
+      <TableHeader metadataList={metadataList} />
 
       <TableContainer>
         <Table sx={{ minWidth: 300, overflow: "hidden" }}>

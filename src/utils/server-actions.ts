@@ -6,8 +6,7 @@ import { createMetadataSchema } from "@/schema/metadataSchema";
 import { MetadataSchema, MetadataWithIdSchema } from "@/schema/metadataSchema";
 
 import { validateUserSession } from "@/auth";
-import { log } from "@/utils/server-utils";
-import { createOriginBuffer } from "@/utils/server-utils";
+import { createOriginBuffer, log } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
 import { createMetadata, createOrigins, createThumbnails } from "@/data/table";
@@ -46,7 +45,10 @@ export async function verifyUpload(data: z.infer<typeof MetadataSchema>) {
       return { error: errorMessages };
     }
   } catch (error) {
-    console.error(`Error: ${error}`);
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 }
@@ -99,7 +101,10 @@ export async function uploadImage(
 
     return { success: ["File uploaded successfully."] };
   } catch (error) {
-    console.error(`Error: ${error}`);
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 }
@@ -154,6 +159,10 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
     }));
     await updateMetadata(metadataList);
   } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 
@@ -183,6 +192,10 @@ export async function deleteImages(ids: string[]) {
 
     await deleteMetadata(ids);
   } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 
@@ -218,6 +231,10 @@ export async function verifyIntegrity() {
       },
     };
   } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 }

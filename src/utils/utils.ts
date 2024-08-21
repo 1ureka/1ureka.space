@@ -99,3 +99,17 @@ export function isValidIndex(any: unknown, total: number) {
 
   return index;
 }
+
+/**
+ * 產生一個偽隨機數生成器 (PRNG) 函數。
+ */
+export function createPRNG(seed: number) {
+  let x = seed;
+
+  function next() {
+    x = (x * 1664525 + 1013904223) % 4294967296;
+    return x / 4294967296;
+  }
+
+  return next;
+}

@@ -1,5 +1,5 @@
-import { BoxM as UnModifyBox } from "@/components/Motion";
-import { opacityVar, yScaleVar } from "@/components/MotionProps";
+import { BoxM as _BoxM } from "@/components/Motion";
+import { createMotionVar } from "@/components/MotionProps";
 import { ButtonBase, Tooltip, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 import type { motion } from "framer-motion";
@@ -9,12 +9,11 @@ type DragConstraints = React.ComponentProps<
 >["dragConstraints"];
 type DragEvent = React.ComponentProps<typeof motion.div>["onDragEnd"];
 
-interface BoxMProps
-  extends Omit<React.ComponentProps<typeof UnModifyBox>, "onDragEnd"> {
-  onDragEnd: DragEvent;
-}
-
-const BoxM = UnModifyBox as React.FC<BoxMProps>;
+const BoxM = _BoxM as React.FC<
+  Omit<React.ComponentProps<typeof _BoxM>, "onDragEnd"> & {
+    onDragEnd: DragEvent;
+  }
+>;
 
 type PointProps = {
   color: React.CSSProperties["color"];
@@ -47,7 +46,7 @@ export default function Point({
       dragMomentum={false}
       dragConstraints={dragConstraints}
       onDragEnd={onDragEnd}
-      variants={isDragable ? opacityVar : yScaleVar}
+      variants={createMotionVar(isDragable ? { from: { y: 0 } } : undefined)}
       sx={{
         display: "grid",
         placeItems: "center",

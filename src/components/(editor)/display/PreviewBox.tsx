@@ -1,11 +1,12 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import { Box, LinearProgress, Typography } from "@mui/material";
 import { useMotionTemplate, useMotionValue } from "framer-motion";
 import { motion, type MotionValue } from "framer-motion";
 
 import { BoxM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 import { useDecode, useEditorPreview } from "@/hooks";
 import { getImageDimensions } from "@/utils/client-utils";
 
@@ -68,7 +69,7 @@ export default function PreviewBox() {
   const [resultSrc, resultState] = useDecode(previewUrl);
 
   return (
-    <BoxM variants={yScaleVar} sx={{ height: 1 }}>
+    <BoxM variants={createMotionVar()} sx={{ height: 1 }}>
       <Box
         position="relative"
         ref={constraintsRef}
@@ -89,7 +90,7 @@ export default function PreviewBox() {
           <Box sx={{ position: "relative", width: 1, height: 1 }}>
             {originState && (
               <motion.img
-                variants={yScaleVar}
+                variants={createMotionVar()}
                 src={originSrc}
                 alt={""}
                 style={{
@@ -102,7 +103,7 @@ export default function PreviewBox() {
             )}
             {resultState && (
               <motion.img
-                variants={yScaleVar}
+                variants={createMotionVar()}
                 src={resultSrc}
                 alt={""}
                 style={{

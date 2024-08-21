@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { FILES_SELECTED } from "@/context/store";
-import { useSearchParams } from "next/navigation";
-import { NextLinkComposed } from "@/components/Link";
 
 import { Stack, Button, Menu, MenuItem, Checkbox } from "@mui/material";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
@@ -13,7 +14,7 @@ import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 
 import { BoxM, TypographyM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 export default function TableHeader() {
   const searchParams = useSearchParams();
@@ -37,7 +38,7 @@ export default function TableHeader() {
       justifyContent="space-between"
       alignItems="center"
     >
-      <BoxM variants={yScaleVar}>
+      <BoxM variants={createMotionVar()}>
         <Button
           onClick={handleClick}
           startIcon={<FilterListRoundedIcon />}
@@ -48,8 +49,8 @@ export default function TableHeader() {
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           <MenuItem
             onClick={handleClose}
-            component={NextLinkComposed}
-            to={{ pathname: "/files/images", query: { category: "scene" } }}
+            component={Link}
+            href="/files/images?category=scene"
             sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
             dense
           >
@@ -58,8 +59,8 @@ export default function TableHeader() {
           </MenuItem>
           <MenuItem
             onClick={handleClose}
-            component={NextLinkComposed}
-            to={{ pathname: "/files/images", query: { category: "props" } }}
+            component={Link}
+            href="/files/images?category=props"
             sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
             dense
           >
@@ -71,28 +72,25 @@ export default function TableHeader() {
 
       <Stack direction="row" alignItems="center" gap={1.5}>
         <TypographyM
-          variants={yScaleVar}
+          variants={createMotionVar()}
           sx={{ pr: 1.5, textTransform: "uppercase" }}
           variant="subtitle2"
         >
           {selected.length} Selected:
         </TypographyM>
 
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Button
             startIcon={<DriveFileRenameOutlineRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
-            component={NextLinkComposed}
-            to={{
-              pathname: "/files/images",
-              query: { category, form: "modify" },
-            }}
+            component={Link}
+            href={`/files/images?category=${category}&form=modify`}
           >
             Modify
           </Button>
         </BoxM>
 
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Button
             startIcon={<DownloadRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
@@ -101,15 +99,12 @@ export default function TableHeader() {
           </Button>
         </BoxM>
 
-        <BoxM variants={yScaleVar}>
+        <BoxM variants={createMotionVar()}>
           <Button
             startIcon={<DeleteRoundedIcon fontSize="small" />}
             disabled={selected.length === 0}
-            component={NextLinkComposed}
-            to={{
-              pathname: "/files/images",
-              query: { category, form: "delete" },
-            }}
+            component={Link}
+            href={`/files/images?category=${category}&form=delete`}
             color="error"
           >
             Delete

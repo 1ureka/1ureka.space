@@ -5,10 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import type { ImageMetadataWithIndex } from "@/data/type";
 import { useCarousels } from "@/hooks";
-
 import { carouselsVar } from "@/components/MotionProps";
 
-export default function Carousels({
+export default function Container({
   metadataList,
   children,
 }: {
@@ -19,7 +18,7 @@ export default function Carousels({
 
   const theme = useTheme();
   const style = {
-    zIndex: theme.zIndex.drawer - 1,
+    zIndex: theme.zIndex.modal,
     background: theme.vars.palette.content.backdrop,
     position: "absolute",
     inset: 0,
@@ -27,7 +26,7 @@ export default function Carousels({
   } as const;
 
   return (
-    <Portal container={() => document.getElementById("portal-root")}>
+    <Portal>
       <AnimatePresence>
         {open && (
           <motion.div

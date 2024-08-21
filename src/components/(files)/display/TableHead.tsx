@@ -9,7 +9,7 @@ import type { TableCellProps } from "@mui/material";
 import { useFilesHead, useFilesReset } from "@/hooks";
 
 import { TableCellM, TableRowM } from "@/components/Motion";
-import { xVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 const headCells: {
   id: FilesTableCol;
@@ -33,7 +33,9 @@ export default function TableHead({
 
   return (
     <MuiTableHead>
-      <TableRowM variants={xVar}>
+      <TableRowM
+        variants={createMotionVar({ from: { y: 0, x: 65, scale: 1 } })}
+      >
         <TableCell padding="checkbox">
           <Checkbox color="primary" size="small" {...CheckboxProps} />
         </TableCell>

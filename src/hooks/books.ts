@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { type AnimationDefinition, useMotionValue } from "framer-motion";
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -112,4 +112,70 @@ export const useCarouselIndex = (metadataList: ImageMetadataWithIndex[]) => {
   const indexToShow = open ? index : 0;
 
   return indexToShow;
+};
+
+type n = number;
+type FilterString = `saturate(${n}) contrast(${n}) brightness(${n})`;
+const defaultFilter: FilterString = "saturate(1) contrast(1) brightness(1)";
+
+const isFilterString = (filter: string): filter is FilterString => {
+  return /^saturate\(\d+(\.\d+)?\) contrast\(\d+(\.\d+)?\) brightness\(\d+(\.\d+)?\)$/.test(
+    filter
+  );
+};
+
+const getSave = () => {
+  if (typeof window === "undefined") return defaultFilter;
+
+  const CSSFilterString = localStorage.getItem(`imageFilter`);
+  if (CSSFilterString && isFilterString(CSSFilterString))
+    return CSSFilterString;
+
+  return defaultFilter;
+};
+
+const parseFilter = (filter: FilterString) => {
+  const [s, c, e] = filter.split(" ");
+  return {
+    saturation: Number(s.match(/\d+(\.\d+)?/)?.[0] ?? 1),
+    contrast: Number(c.match(/\d+(\.\d+)?/)?.[0] ?? 1),
+    exposure: Number(e.match(/\d+(\.\d+)?/)?.[0] ?? 1),
+  };
+};
+
+/**
+ * 用於管理書籍畫廊的圖片濾鏡效果。
+ * @returns 包含以下屬性：
+ *  `filter` - 當前的濾鏡效果字串
+ *  `createSliderHandler` - 用於處理滑桿事件的函式。
+ */
+export const useBooksFilter = () => {
+  const [filter, setFilter] = useState(getSave());
+
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.id = "imageFilterCSS";
+    style.innerHTML = `:where(#Gallery, #Carousels, #CarouselsFullScreen) img{ filter: ${filter} }`;
+    document.head.appendChild(style);
+
+    return () => {
+      const style = document.getElementById("imageFilterCSS");
+      if (style) document.head.removeChild(style);
+    };
+  }, [filter]);
+
+  const createSliderHandler =
+    (type: "saturation" | "contrast" | "exposure") =>
+    (_: Event, val: number) => {
+      setFilter((prev) => {
+        const filter = parseFilter(prev);
+        filter[type] = val;
+
+        const FilterString: FilterString = `saturate(${filter.saturation}) contrast(${filter.contrast}) brightness(${filter.exposure})`;
+        localStorage.setItem(`imageFilter`, FilterString);
+        return FilterString;
+      });
+    };
+
+  return { filter: parseFilter(filter), createSliderHandler };
 };

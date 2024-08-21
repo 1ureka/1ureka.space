@@ -6,6 +6,6 @@ export { default as Illustration } from "./display/Illustration ";
 export { default as Gallery } from "./block/Gallery";
 
 import dynamic from "next/dynamic";
-export const Accordion = dynamic(() => import("./block/Accordion"), {
+export const FilterAccordion = dynamic(() => import("./block/Accordion"), {
   ssr: false,
 });

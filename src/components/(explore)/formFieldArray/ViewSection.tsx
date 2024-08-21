@@ -2,7 +2,7 @@
 
 import { ViewField } from "..";
 import { StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 import { Button, Box, Stack, Typography } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
@@ -33,7 +33,7 @@ export default function ViewSection({
   append: UseFieldArrayAppend<Z, "views">;
 }) {
   return (
-    <StackM layout="preserve-aspect" variants={yScaleVar}>
+    <StackM layout="preserve-aspect" variants={createMotionVar()}>
       <Box>
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Views: </Typography>

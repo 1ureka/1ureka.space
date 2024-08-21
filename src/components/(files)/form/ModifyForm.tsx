@@ -16,7 +16,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
-import { ModifyField } from "..";
+import ModifyField from "../input/ModifyField";
 
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";

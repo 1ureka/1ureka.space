@@ -15,7 +15,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
-import { DeleteField } from "..";
+import DeleteField from "../input/DeleteField";
 
 interface DeleteFormProps {
   open: boolean;

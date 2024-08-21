@@ -1,5 +1,10 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "404",
+};
+
+import ErrorBlock from "@/components/ErrorBlock";
 
 export default function NotFound() {
-  redirect("/404");
+  return <ErrorBlock error={new Error("404: Page not found")} />;
 }

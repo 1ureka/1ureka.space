@@ -18,7 +18,8 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { BoxM, GridM, DialogTitleM } from "@/components/Motion";
 import { DialogActionsM, DialogContentM } from "@/components/Motion";
-import { FileDropField, UploadField } from "..";
+import UploadField from "../input/UploadField";
+import FileDropField from "../input/FileDropField";
 
 interface UploadFormProps {
   open: boolean;
@@ -136,7 +137,10 @@ export default function UploadForm({
         toast.dismiss("submit");
 
         res.forEach((r, index) => {
-          if (!r.success) toast.error(`Failed to upload image ${index + 1}`);
+          if (r.success) return;
+          r.error.map((message) =>
+            toast.error(`File ${index + 1}: ${message}`)
+          );
         });
       }
     } catch {

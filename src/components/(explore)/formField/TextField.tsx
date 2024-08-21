@@ -2,7 +2,7 @@
 
 import { Typography, TextField } from "@mui/material";
 import { BoxM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 import { z } from "zod";
 import { ExploreSchema } from "@/schema/exploreSchema";
@@ -17,7 +17,7 @@ export default function TextSection({
 }) {
   return (
     <>
-      <BoxM layout="preserve-aspect" variants={yScaleVar}>
+      <BoxM layout="preserve-aspect" variants={createMotionVar()}>
         <TextField
           label="Explore name"
           variant="filled"
@@ -31,7 +31,7 @@ export default function TextSection({
         />
       </BoxM>
 
-      <BoxM layout="preserve-aspect" variants={yScaleVar}>
+      <BoxM layout="preserve-aspect" variants={createMotionVar()}>
         <Typography variant="subtitle1">Description: </Typography>
         <TextField
           variant="filled"

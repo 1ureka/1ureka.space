@@ -8,6 +8,7 @@ import { Portal } from "@mui/material";
 import type { ImageMetadataWithIndex } from "@/data/type";
 import { useCarouselIndex, useDecode } from "@/hooks";
 import { carouselsOriginVar } from "@/components/MotionProps";
+import "@/css/loader.css";
 
 function calcScale(originW: number, originH: number) {
   const containerRatio = window.innerWidth / window.innerHeight;
@@ -80,6 +81,8 @@ export default function Origin({
 
   return (
     <>
+      <span className="carousels-image-loader" />
+
       <motion.img
         ref={ref}
         variants={carouselsOriginVar}
@@ -99,6 +102,7 @@ export default function Origin({
         <AnimatePresence>
           {Props.open && (
             <motion.div
+              id="CarouselsFullScreen"
               onContextMenu={handleExitFull}
               style={{
                 pointerEvents,

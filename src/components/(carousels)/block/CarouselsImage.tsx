@@ -1,9 +1,14 @@
-import type { ImageMetadataWithIndex } from "@/data/type";
-import { auth } from "@/auth";
+import "server-only";
 
-import { Alert, Origin, Thumbnail } from "..";
+import type { ImageMetadataWithIndex } from "@/data/type";
+import { validateUserSession } from "@/auth";
+
 import { BoxM } from "@/components/Motion";
 import { carouselsImageVar } from "@/components/MotionProps";
+
+import Thumbnail from "../media/Thumbnail";
+import Origin from "../media/Origin";
+import Alert from "../display/Alert";
 
 const createImageContainerSx = (width: string, height: string) => ({
   position: "relative",
@@ -21,7 +26,7 @@ export default async function CarouselsImage({
 }: {
   metadataList: ImageMetadataWithIndex[];
 }) {
-  const session = await auth();
+  const session = await validateUserSession({ isRedirect: false });
 
   return (
     <BoxM

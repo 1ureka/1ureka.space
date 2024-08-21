@@ -7,7 +7,7 @@ import type { ImageMetadataWithIndex } from "@/data/type";
 import type { TableCellProps } from "@mui/material";
 import { Checkbox, TableCell } from "@mui/material";
 import { TableBodyM, TableRowM } from "@/components/Motion";
-import { xVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 const bodyCells: {
   id: FilesTableCol;
@@ -49,7 +49,7 @@ export default function TableBody({
       {visibleRows.map((metadata) => (
         <TableRowM
           key={metadata.id}
-          variants={xVar}
+          variants={createMotionVar({ from: { y: 0, x: 65, scale: 1 } })}
           hover
           tabIndex={-1}
           sx={{ cursor: "pointer" }}

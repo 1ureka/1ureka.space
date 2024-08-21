@@ -5,9 +5,8 @@ import { z } from "zod";
 import { createMetadataSchema } from "@/schema/metadataSchema";
 import { MetadataSchema, MetadataWithIdSchema } from "@/schema/metadataSchema";
 
-import { auth } from "@/auth";
-import { log } from "@/utils/server-utils";
-import { createOriginBuffer } from "@/utils/server-utils";
+import { validateUserSession } from "@/auth";
+import { createOriginBuffer, log } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
 import { createMetadata, createOrigins, createThumbnails } from "@/data/table";
@@ -24,7 +23,7 @@ export async function verifyUpload(data: z.infer<typeof MetadataSchema>) {
   log("ACTION", "Verifying upload");
 
   try {
-    const session = await auth();
+    const session = await validateUserSession({ isRedirect: false });
     if (!session) {
       return { error: ["Authentication required to upload files."] };
     }
@@ -46,7 +45,10 @@ export async function verifyUpload(data: z.infer<typeof MetadataSchema>) {
       return { error: errorMessages };
     }
   } catch (error) {
-    console.error(`Error: ${error}`);
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 }
@@ -62,7 +64,7 @@ export async function uploadImage(
   log("ACTION", "Uploading images");
 
   try {
-    const session = await auth();
+    const session = await validateUserSession({ isRedirect: false });
     if (!session) {
       return { error: ["Authentication required to upload files."] };
     }
@@ -99,7 +101,10 @@ export async function uploadImage(
 
     return { success: ["File uploaded successfully."] };
   } catch (error) {
-    console.error(`Error: ${error}`);
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 }
@@ -112,7 +117,7 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
   log("ACTION", "Updating images");
 
   try {
-    const session = await auth();
+    const session = await validateUserSession({ isRedirect: false });
     if (!session) {
       return { error: ["Authentication required to modify files."] };
     }
@@ -154,6 +159,10 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
     }));
     await updateMetadata(metadataList);
   } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 
@@ -168,7 +177,7 @@ export async function deleteImages(ids: string[]) {
   log("ACTION", "Deleting images");
 
   try {
-    const session = await auth();
+    const session = await validateUserSession({ isRedirect: false });
     if (!session) {
       return { error: ["Authentication required to delete files."] };
     }
@@ -183,6 +192,10 @@ export async function deleteImages(ids: string[]) {
 
     await deleteMetadata(ids);
   } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 
@@ -197,7 +210,7 @@ export async function verifyIntegrity() {
   log("ACTION", "Verifying integrity");
 
   try {
-    const session = await auth();
+    const session = await validateUserSession({ isRedirect: false });
     if (!session) {
       return { error: ["Authentication required to verify integrity."] };
     }
@@ -218,6 +231,10 @@ export async function verifyIntegrity() {
       },
     };
   } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
     return { error: ["Something went wrong"] };
   }
 }

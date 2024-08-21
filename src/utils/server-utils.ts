@@ -1,5 +1,6 @@
 import "server-only";
 import sharp from "sharp";
+import { encryptAesGcm } from "@/utils/crypto";
 
 /** 用於包裝所有在伺服器上log的函數 */
 export function log(
@@ -37,10 +38,25 @@ export async function createOriginBuffer(sharp: sharp.Sharp) {
     height = Math.floor((width * 9) / 16);
   }
 
-  return sharp
+  const imageBuffer = await sharp
     .resize(width, height, { fit: "cover" })
     .webp({ quality: 100 })
     .toBuffer();
+
+  if (!process.env.ENCRYPTION_KEY) {
+    throw new Error("Create image only available in production");
+  }
+
+  const encryptedBuffer = encryptAesGcm(
+    imageBuffer,
+    process.env.ENCRYPTION_KEY
+  );
+
+  if (!encryptedBuffer) {
+    throw new Error("Failed to encrypt image");
+  }
+
+  return encryptedBuffer;
 }
 
 /**
@@ -48,8 +64,23 @@ export async function createOriginBuffer(sharp: sharp.Sharp) {
  * @returns 一個Promise，解析為包含調整大小和轉換後圖像的Buffer。
  */
 export async function createThumbnailBuffer(sharp: sharp.Sharp) {
-  return sharp
+  const imageBuffer = await sharp
     .resize(480, 270, { fit: "cover" })
     .webp({ quality: 50 })
     .toBuffer();
+
+  if (!process.env.ENCRYPTION_KEY) {
+    throw new Error("Create image only available in production");
+  }
+
+  const encryptedBuffer = encryptAesGcm(
+    imageBuffer,
+    process.env.ENCRYPTION_KEY
+  );
+
+  if (!encryptedBuffer) {
+    throw new Error("Failed to encrypt image");
+  }
+
+  return encryptedBuffer;
 }

@@ -1,5 +1,4 @@
 export { default as ActionSection } from "./block/Actions";
-export { default as PortalContainer } from "./display/Portal";
 
 export { default as Carousels } from "./input/Carousels";
 export { default as Indicator } from "./input/Indicator";

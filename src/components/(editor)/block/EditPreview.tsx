@@ -3,7 +3,7 @@ import { Button, Typography, styled } from "@mui/material";
 import { useDropArea, useEditorInput } from "@/hooks";
 
 import { BoxM, StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 import PreviewBox from "../display/PreviewBox";
 
 const VisuallyHiddenInput = styled("input")({
@@ -27,7 +27,7 @@ export default function EditingPreview() {
 
   return (
     <StackM
-      variants={yScaleVar}
+      variants={createMotionVar()}
       spacing={1}
       sx={{
         borderRadius: 4,
@@ -46,7 +46,7 @@ export default function EditingPreview() {
     >
       <PreviewBox />
 
-      <BoxM variants={yScaleVar}>
+      <BoxM variants={createMotionVar()}>
         <Typography variant="caption">
           {"* Drop images in the box above or "}
           <Button

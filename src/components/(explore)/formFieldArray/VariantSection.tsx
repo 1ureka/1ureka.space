@@ -5,7 +5,7 @@ import type { ImageMetadata } from "@/data/type";
 
 import { ImagesDialog, VariantField } from "..";
 import { BoxM, StackM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 import { Button, Stack, Typography } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
@@ -53,7 +53,7 @@ export default function VariantSection({
   if (!isCurrentView) return null;
 
   return (
-    <StackM variants={yScaleVar}>
+    <StackM variants={createMotionVar()}>
       <BoxM layout="preserve-aspect">
         <Stack direction="row" alignItems="center" gap={1}>
           <Typography variant="subtitle1">Variants: </Typography>

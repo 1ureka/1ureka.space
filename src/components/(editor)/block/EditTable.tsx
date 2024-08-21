@@ -1,12 +1,13 @@
 "use client";
+
 import { TableHead, TableRow, TableSortLabel } from "@mui/material";
 import { Table, TableCell, TableContainer } from "@mui/material";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { Button, Checkbox } from "@mui/material";
 
 import { TableRow as TableRowM } from "..";
-import { PaperM, TableBodyM } from "@/components/Motion";
-import { yScaleVar } from "@/components/MotionProps";
+import { StackM, TableBodyM } from "@/components/Motion";
+import { createMotionVar } from "@/components/MotionProps";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { EDITOR_ORDER, EDITOR_ORDERED_FILES } from "@/context/store";
@@ -29,8 +30,12 @@ export default function EditTable() {
   const numSelected = orderedFiles.filter(({ selected }) => selected).length;
 
   return (
-    <PaperM variants={yScaleVar} sx={{ borderRadius: 2, overflowX: "hidden" }}>
-      <TableContainer sx={{ overflowX: "hidden", minHeight: 335 }}>
+    <StackM
+      variants={createMotionVar()}
+      justifyContent="space-between"
+      sx={{ overflowX: "hidden", height: 1, gap: 1.5 }}
+    >
+      <TableContainer sx={{ overflowX: "hidden", height: 1, maxHeight: 600 }}>
         <Table sx={{ tableLayout: "fixed" }}>
           <TableHead>
             <TableRow>
@@ -68,10 +73,9 @@ export default function EditTable() {
               },
             }}
           >
-            {orderedFiles.map(({ file, selected, display }, i) => (
+            {orderedFiles.map(({ file, selected, display }) => (
               <TableRowM
                 key={file.name}
-                i={i}
                 name={file.name}
                 isSelected={selected}
                 isDisplay={display}
@@ -83,7 +87,7 @@ export default function EditTable() {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" sx={{ alignItems: "center", pl: 2, pr: 1, py: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center" }}>
         <Typography sx={{ flex: "1" }} component="div">
           {numSelected} selected
         </Typography>
@@ -91,6 +95,7 @@ export default function EditTable() {
         <Button
           disabled={numSelected === 0 || loading}
           variant="contained"
+          disableElevation
           onClick={handleConvert}
         >
           Convert
@@ -99,6 +104,6 @@ export default function EditTable() {
           )}
         </Button>
       </Stack>
-    </PaperM>
+    </StackM>
   );
 }

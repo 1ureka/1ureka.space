@@ -2,7 +2,7 @@ import { Checkbox, Box, TableCell } from "@mui/material";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 
 import { TableRowM } from "@/components/Motion";
-import { xVar } from "@/components/MotionProps";
+import { createMotionVar } from "@/components/MotionProps";
 
 function CellSelectBox({
   checked,
@@ -57,7 +57,6 @@ function CellDisplayBox({ isDisplay }: { isDisplay: boolean }) {
 }
 
 interface TableRowProps {
-  i: number;
   name: string;
   isSelected: boolean;
   isDisplay: boolean;
@@ -66,26 +65,20 @@ interface TableRowProps {
 }
 
 export default function TableRow({
-  i,
   name,
   isSelected,
   isDisplay,
   onSelect,
   onClick,
 }: TableRowProps) {
-  const sx = {
-    cursor: "pointer",
-    backdropFilter: i % 2 ? "" : "brightness(0.85)",
-  };
-
   return (
     <TableRowM
       hover
-      variants={xVar}
+      variants={createMotionVar({ from: { y: 0, x: 65, scale: 1 } })}
       tabIndex={-1}
       selected={isDisplay}
       onClick={onClick}
-      sx={sx}
+      sx={{ cursor: "pointer" }}
     >
       <CellSelectBox checked={isSelected} onClick={onSelect} />
       <CellName name={name} isDisplay={isDisplay} />

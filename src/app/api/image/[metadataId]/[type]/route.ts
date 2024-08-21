@@ -1,7 +1,38 @@
 import { NextResponse } from "next/server";
 import { getMetadataById, getOriginById, getThumbnailById } from "@/data/table";
-import { log } from "@/utils/server-utils";
 import { auth } from "@/auth";
+
+import { decryptAesGcm } from "@/utils/crypto";
+import { log } from "@/utils/server-utils";
+
+const getImage = async (metadataId: string, createAt: Date, type: string) => {
+  let image: { bytes: Buffer } | null = null;
+
+  if (type === "origin") {
+    image = await getOriginById(metadataId);
+  } else {
+    image = await getThumbnailById(metadataId);
+  }
+
+  if (!image) return null;
+
+  const encryptionStartDate = new Date(2024, 7, 21);
+  if (createAt < encryptionStartDate) {
+    return image.bytes;
+  }
+
+  if (!process.env.ENCRYPTION_KEY) {
+    throw new Error("This image is only available in production");
+  }
+
+  const bytes = decryptAesGcm(image.bytes, process.env.ENCRYPTION_KEY);
+
+  if (!bytes) {
+    throw new Error("Failed to decrypt image");
+  }
+
+  return bytes;
+};
 
 export const GET = auth(async function GET(request, segments) {
   const { params } = segments as {
@@ -19,7 +50,9 @@ export const GET = auth(async function GET(request, segments) {
       );
     }
 
-    if (type === "origin" && !request.auth) {
+    const adminId = process.env.ALLOWED_USER ?? false;
+    const userId = JSON.stringify(request.auth?.user.id) ?? "none";
+    if (type === "origin" && (!adminId || userId !== adminId)) {
       return NextResponse.json(
         { error: `Authentication required to access origin image.` },
         { status: 401 }
@@ -27,7 +60,7 @@ export const GET = auth(async function GET(request, segments) {
     }
 
     const metadata = await getMetadataById(metadataId);
-    if (!metadata || !metadata.updateAt) {
+    if (!metadata || !metadata.updateAt || !metadata.createAt) {
       return NextResponse.json(
         { error: `Image metadata is missing or invalid` },
         { status: 500 }
@@ -39,19 +72,12 @@ export const GET = auth(async function GET(request, segments) {
       return new NextResponse(null, { status: 304 });
     }
 
-    let image: { bytes: Buffer } | null = null;
-    if (type === "origin") {
-      image = await getOriginById(metadataId);
-    } else {
-      image = await getThumbnailById(metadataId);
-    }
-
-    if (!image) {
+    const imageBuffer = await getImage(metadata.id, metadata.createAt, type);
+    if (!imageBuffer) {
       return NextResponse.json({ error: `image not found` }, { status: 404 });
     }
 
-    const buffer: Buffer = image.bytes;
-    return new NextResponse(buffer, {
+    return new NextResponse(imageBuffer, {
       status: 200,
       headers: {
         "Content-Type": "image/webp",
@@ -60,6 +86,10 @@ export const GET = auth(async function GET(request, segments) {
       },
     });
   } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
     return NextResponse.json(
       { error: `Internal server error` },
       { status: 500 }

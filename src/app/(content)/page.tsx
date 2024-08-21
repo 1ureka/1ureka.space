@@ -3,6 +3,8 @@ export const metadata: Metadata = {
   title: { absolute: "1ureka's space" },
 };
 
+export const dynamic = "force-dynamic";
+
 import { Box, Stack, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { usePathname } from "next/navigation";
 

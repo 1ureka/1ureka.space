@@ -5,6 +5,14 @@ import { auth } from "@/auth";
 import { decryptAesGcm } from "@/utils/crypto";
 import { log } from "@/utils/server-utils";
 
+const getDevelopmentImage = async () => {
+  const image = await getThumbnailById("clyuz9fkd0000s8hg5rdwevy0");
+
+  if (!image) throw new Error("Failed to get development placeholder image");
+
+  return image.bytes;
+};
+
 const getImage = async (metadataId: string, createAt: Date, type: string) => {
   let image: { bytes: Buffer } | null = null;
 
@@ -22,7 +30,7 @@ const getImage = async (metadataId: string, createAt: Date, type: string) => {
   }
 
   if (!process.env.ENCRYPTION_KEY) {
-    throw new Error("This image is only available in production");
+    return getDevelopmentImage();
   }
 
   const bytes = decryptAesGcm(image.bytes, process.env.ENCRYPTION_KEY);

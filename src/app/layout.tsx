@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Box, CssBaseline } from "@mui/material";
 import "@/css/index.css";
+import "@/css/page-transition.css";
 
 import { ViewTransitions } from "next-view-transitions";
 import ContextProvider from "@/context/ContextProvider";

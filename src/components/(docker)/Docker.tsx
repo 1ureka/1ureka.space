@@ -21,6 +21,7 @@ export default function Docker() {
         alignItems: "center",
         height: 1,
         maxHeight: "100dvh",
+        zIndex: "appBar",
       }}
     >
       <Dock>

@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { Button, Stack, Typography } from "@mui/material";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
-import { Link } from "next-view-transitions";
 
 import { validateUserSession } from "@/auth";
 import { StackM } from "@/components/Motion";

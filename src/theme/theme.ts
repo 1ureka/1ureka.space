@@ -92,7 +92,7 @@ export const theme = extendTheme({
           main: "#83e7bd",
         },
         content: {
-          layer1: "rgba(255, 255, 255, 0.05)",
+          layer1: "#1e1e1e",
           layer2: "#121212",
           layer3: "rgba(0, 0, 0, 0.25)",
           backdrop: "#121212d8",

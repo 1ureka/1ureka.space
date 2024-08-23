@@ -6,7 +6,7 @@ type BlockProps = {
   // custom props
   variant?: "outlined" | "contained";
   color?: string;
-  decoration?: "both" | "left" | "right";
+  decoration?: "both" | "left" | "right" | "none";
   SlotProps?: {
     childContainer?: React.ComponentProps<typeof BoxM> & {
       "data-mui-color-scheme"?: "dark" | "light";

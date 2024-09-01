@@ -25,7 +25,7 @@ export function delay(ms: number) {
  * 在調整大小時保持輸入圖像的寬高比。
  * @returns 一個Promise，解析為包含調整大小和轉換後圖像的Buffer。
  */
-export async function createOriginBuffer(sharp: sharp.Sharp) {
+export async function createOriginBuffer(sharp: sharp.Sharp, key: string) {
   let { width, height } = await sharp.metadata();
 
   if (width === undefined || height === undefined) {
@@ -43,15 +43,11 @@ export async function createOriginBuffer(sharp: sharp.Sharp) {
     .webp({ quality: 100 })
     .toBuffer();
 
-  if (!process.env.ENCRYPTION_KEY) {
-    throw new Error("Create image only available in production");
+  if (key.length < 32) {
+    throw new Error("The key is too short");
   }
 
-  const encryptedBuffer = encryptAesGcm(
-    imageBuffer,
-    process.env.ENCRYPTION_KEY
-  );
-
+  const encryptedBuffer = encryptAesGcm(imageBuffer, key);
   if (!encryptedBuffer) {
     throw new Error("Failed to encrypt image");
   }
@@ -69,18 +65,5 @@ export async function createThumbnailBuffer(sharp: sharp.Sharp) {
     .webp({ quality: 50 })
     .toBuffer();
 
-  if (!process.env.ENCRYPTION_KEY) {
-    throw new Error("Create image only available in production");
-  }
-
-  const encryptedBuffer = encryptAesGcm(
-    imageBuffer,
-    process.env.ENCRYPTION_KEY
-  );
-
-  if (!encryptedBuffer) {
-    throw new Error("Failed to encrypt image");
-  }
-
-  return encryptedBuffer;
+  return imageBuffer;
 }

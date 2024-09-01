@@ -112,7 +112,9 @@ export function decryptAesGcm(imageData: Buffer, password: Password) {
  * Salt and hash password
  */
 export function hashPassword(password: string) {
-  return crypto.pbkdf2Sync(password, "", 100000, 64, "sha512").toString("hex");
+  return crypto
+    .pbkdf2Sync(password, "1ureka", 100000, 64, "sha512")
+    .toString("hex");
 }
 
 /**

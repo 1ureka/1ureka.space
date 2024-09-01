@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { getMetadataById, getOriginById, getThumbnailById } from "@/data/table";
+import { getMetadataById } from "@/data/metadata";
+import { getThumbnailById } from "@/data/thumbnail";
+import { getOriginById } from "@/data/origin";
 import { auth } from "@/auth";
 
 import { decryptAesGcm } from "@/utils/crypto";

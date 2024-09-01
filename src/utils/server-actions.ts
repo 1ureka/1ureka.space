@@ -9,11 +9,13 @@ import { validateUserSession } from "@/auth";
 import { createOriginBuffer, log } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
-import { createMetadata, createOrigins, createThumbnails } from "@/data/table";
-import { getAllMetadata, deleteMetadata, updateMetadata } from "@/data/table";
+import { getAllMetadata, createMetadata } from "@/data/metadata";
+import { deleteMetadata, updateMetadata } from "@/data/metadata";
+import { createThumbnails } from "@/data/thumbnail";
+import { createOrigins } from "@/data/origin";
 
-import { verifyAllCategory, summaryCategorySize } from "@/data/table";
-import { verifyAllOrigin, verifyAllThumbnail } from "@/data/table";
+import { verifyAllCategory, summaryCategorySize } from "@/data/verify";
+import { verifyAllOrigin, verifyAllThumbnail } from "@/data/verify";
 
 /**
  * 驗證上傳的圖片元數據。

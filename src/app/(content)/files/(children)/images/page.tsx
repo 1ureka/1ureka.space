@@ -1,6 +1,6 @@
 import { validateUserSession } from "@/auth";
 import { redirect } from "next/navigation";
-import { getSortedMetadata } from "@/data/table";
+import { getSortedMetadata } from "@/data/metadata";
 
 import { DeleteForm, UploadForm } from "@/components/(files)/form";
 import { ModifyForm, VerifyForm } from "@/components/(files)/form";

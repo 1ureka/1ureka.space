@@ -4,7 +4,7 @@ export const metadata: Metadata = {
 };
 
 import { validateUserSession } from "@/auth";
-import { getSortedMetadata } from "@/data/table";
+import { getSortedMetadata } from "@/data/metadata";
 
 import { ExploreForm } from "@/components/(explore)";
 import { BoxM } from "@/components/Motion";

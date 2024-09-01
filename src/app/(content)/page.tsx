@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 import { Box, Stack, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
-import { summaryCategorySize } from "@/data/table";
+import { summaryCategorySize } from "@/data/verify";
 
 import Block from "@/components/Block";
 import Chart from "@/components/(home)/Chart";

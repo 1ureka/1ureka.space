@@ -107,3 +107,17 @@ export function decryptAesGcm(imageData: Buffer, password: Password) {
     return void 0;
   }
 }
+
+/**
+ * Salt and hash password
+ */
+export function hashPassword(password: string) {
+  return crypto.pbkdf2Sync(password, "", 100000, 64, "sha512").toString("hex");
+}
+
+/**
+ * Generate random key
+ */
+export function generateKey(length: number) {
+  return crypto.randomBytes(length).toString("hex");
+}

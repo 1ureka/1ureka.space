@@ -1,6 +1,6 @@
 import "server-only";
 import sharp from "sharp";
-import { encryptAesGcm } from "@/utils/crypto";
+import { encryptAesGcm } from "@/auth";
 
 /** 用於包裝所有在伺服器上log的函數 */
 export function log(

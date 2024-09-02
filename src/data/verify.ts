@@ -1,23 +1,22 @@
 import "server-only";
 
-import { validateUserSession } from "@/auth";
+import { validateKey } from "@/auth";
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
 
-async function auth() {
-  const session = await validateUserSession({ isRedirect: false });
+function auth() {
+  const key = validateKey({ redirect: false });
 
-  if (!session) {
+  if (!key) {
     throw new Error(`Unauthorized access to database: User session not found`);
   }
 }
 
 export async function verifyAllCategory() {
   log("DATABASE", `verify metadata category`);
+  auth();
 
   try {
-    await auth();
-
     const count = await db.imageMetadata.count({
       where: { NOT: { category: { in: ["scene", "props"] } } },
     });
@@ -30,10 +29,9 @@ export async function verifyAllCategory() {
 
 export async function verifyAllThumbnail() {
   log("DATABASE", `verify thumbnails`);
+  auth();
 
   try {
-    await auth();
-
     const count = await db.imageMetadata.count({
       where: { thumbnail: null },
     });
@@ -46,10 +44,9 @@ export async function verifyAllThumbnail() {
 
 export async function verifyAllOrigin() {
   log("DATABASE", `verify origins`);
+  auth();
 
   try {
-    await auth();
-
     const count = await db.imageMetadata.count({
       where: { origin: null },
     });

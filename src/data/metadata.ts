@@ -1,6 +1,6 @@
 import "server-only";
 
-import { validateUserSession } from "@/auth";
+import { validateKey } from "@/auth";
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
 import type { ImageMetadataWithIndex, ImageMetadata } from "@/data/type";
@@ -10,10 +10,10 @@ type RequiredField = "category" | "group" | "name";
 type CreateList = Pick<ImageMetadata, RequiredField | "size">[];
 type UpdateList = Pick<ImageMetadataWithIndex, RequiredField | "id">[];
 
-async function auth() {
-  const session = await validateUserSession({ isRedirect: false });
+function auth() {
+  const key = validateKey({ redirect: false });
 
-  if (!session) {
+  if (!key) {
     throw new Error(`Unauthorized access to database: User session not found`);
   }
 }
@@ -63,9 +63,9 @@ export async function getMetadataById(metadataId: string) {
 // 管理員查詢
 export async function getAllMetadata<T extends Select>(select: T) {
   log("DATABASE", `get all metadata`);
+  auth();
 
   try {
-    await auth();
     return db.imageMetadata.findMany({ select });
   } catch (error) {
     throw new Error(`Failed to query image metadata`);
@@ -74,10 +74,9 @@ export async function getAllMetadata<T extends Select>(select: T) {
 
 export async function createMetadata(metadataList: CreateList) {
   log("DATABASE", `create metadata`);
+  auth();
 
   try {
-    await auth();
-
     const res = await db.imageMetadata.createManyAndReturn({
       data: metadataList,
       select: { id: true },
@@ -91,10 +90,9 @@ export async function createMetadata(metadataList: CreateList) {
 
 export async function updateMetadata(metadataList: UpdateList): Promise<void> {
   log("DATABASE", `update metadata`);
+  auth();
 
   try {
-    await auth();
-
     const updateOperations = metadataList.map((metadata) =>
       db.imageMetadata.update({
         where: { id: metadata.id },
@@ -110,10 +108,9 @@ export async function updateMetadata(metadataList: UpdateList): Promise<void> {
 
 export async function deleteMetadata(metadataIds: string[]) {
   log("DATABASE", `delete metadata`);
+  auth();
 
   try {
-    await auth();
-
     const res = await db.imageMetadata.deleteMany({
       where: { id: { in: metadataIds } },
     });

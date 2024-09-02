@@ -1,23 +1,22 @@
 import "server-only";
 
-import { validateUserSession } from "@/auth";
+import { validateKey } from "@/auth";
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
 
-async function auth() {
-  const session = await validateUserSession({ isRedirect: false });
+function auth() {
+  const key = validateKey({ redirect: false });
 
-  if (!session) {
+  if (!key) {
     throw new Error(`Unauthorized access to database: User session not found`);
   }
 }
 
 export async function getOriginById(metadataId: string) {
   log("DATABASE", `get origin by metadataId (${metadataId})`);
+  auth();
 
   try {
-    await auth();
-
     const origin = await db.origin.findUnique({
       where: { metadataId },
       select: { bytes: true },
@@ -33,10 +32,9 @@ export async function createOrigins(
   originList: { metadataId: string; bytes: Buffer }[]
 ) {
   log("DATABASE", `create origins`);
+  auth();
 
   try {
-    await auth();
-
     const res = await db.origin.createMany({
       data: originList,
     });

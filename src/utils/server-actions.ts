@@ -5,7 +5,7 @@ import { z } from "zod";
 import { createMetadataSchema } from "@/schema/metadataSchema";
 import { MetadataSchema, MetadataWithIdSchema } from "@/schema/metadataSchema";
 
-import { validateUserSession } from "@/auth";
+import { validateKey } from "@/auth";
 import { createOriginBuffer, log } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
@@ -25,8 +25,8 @@ export async function verifyUpload(data: z.infer<typeof MetadataSchema>) {
   log("ACTION", "Verifying upload");
 
   try {
-    const session = await validateUserSession({ isRedirect: false });
-    if (!session) {
+    const key = validateKey({ redirect: false });
+    if (!key) {
       return { error: ["Authentication required to upload files."] };
     }
 
@@ -66,8 +66,8 @@ export async function uploadImage(
   log("ACTION", "Uploading images");
 
   try {
-    const session = await validateUserSession({ isRedirect: false });
-    if (!session) {
+    const key = validateKey({ redirect: false });
+    if (!key) {
       return { error: ["Authentication required to upload files."] };
     }
 
@@ -83,7 +83,7 @@ export async function uploadImage(
 
     const image = sharp(arrayBuffer);
     const [bufferO, bufferT] = await Promise.all([
-      createOriginBuffer(image),
+      createOriginBuffer(image, key),
       createThumbnailBuffer(image),
     ]);
 
@@ -119,7 +119,7 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
   log("ACTION", "Updating images");
 
   try {
-    const session = await validateUserSession({ isRedirect: false });
+    const session = validateKey({ redirect: false });
     if (!session) {
       return { error: ["Authentication required to modify files."] };
     }
@@ -179,8 +179,8 @@ export async function deleteImages(ids: string[]) {
   log("ACTION", "Deleting images");
 
   try {
-    const session = await validateUserSession({ isRedirect: false });
-    if (!session) {
+    const key = validateKey({ redirect: false });
+    if (!key) {
       return { error: ["Authentication required to delete files."] };
     }
 
@@ -212,8 +212,8 @@ export async function verifyIntegrity() {
   log("ACTION", "Verifying integrity");
 
   try {
-    const session = await validateUserSession({ isRedirect: false });
-    if (!session) {
+    const key = validateKey({ redirect: false });
+    if (!key) {
       return { error: ["Authentication required to verify integrity."] };
     }
 

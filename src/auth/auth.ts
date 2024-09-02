@@ -13,6 +13,8 @@ type SignUp = (password: string) => Promise<void>;
 type SignIn = (password: string) => Promise<{ error?: string }>;
 type SignOut = () => void;
 type ValidateKey = (options?: { redirect?: boolean }) => null | string;
+type EncryptImage = (image: Buffer, key: string) => Buffer | { error: string };
+type DecryptImage = (image: Buffer, key: string) => Buffer | { error: string };
 
 // 系統設計：
 // 註冊：首先生成一個json，再用雜湊後的密碼加密json，最後將加密後的json存入資料庫。
@@ -140,4 +142,30 @@ const validateKey: ValidateKey = ({ redirect: r = true } = {}) => {
   }
 };
 
-export { signUp, signIn, signOut, validateKey };
+/**
+ * 加密圖片
+ */
+const encryptImage: EncryptImage = (image, key) => {
+  try {
+    const buffer = encryptAesGcm(image, key + SECRET);
+    if (!buffer) return { error: "Failed to encrypt image." };
+    return buffer;
+  } catch (error) {
+    return { error: "Failed to encrypt image." };
+  }
+};
+
+/**
+ * 解密圖片
+ */
+const decryptImage: DecryptImage = (image, key) => {
+  try {
+    const buffer = decryptAesGcm(image, key + SECRET);
+    if (!buffer) return { error: "Failed to decrypt image." };
+    return buffer;
+  } catch (error) {
+    return { error: "Failed to decrypt image." };
+  }
+};
+
+export { signUp, signIn, signOut, validateKey, encryptImage, decryptImage };

@@ -5,7 +5,7 @@ import { z } from "zod";
 import { createMetadataSchema } from "@/schema/metadataSchema";
 import { MetadataSchema, MetadataWithIdSchema } from "@/schema/metadataSchema";
 
-import { validateKey } from "@/auth";
+import { encryptImage, validateKey } from "@/auth";
 import { createOriginBuffer, log } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
@@ -67,38 +67,36 @@ export async function uploadImage(
 
   try {
     const key = validateKey({ redirect: false });
-    if (!key) {
+    if (!key || key.length < 32) {
       return { error: ["Authentication required to upload files."] };
     }
 
     //
     // 檢查檔案是否有效，創建圖像資料
     const file = fileData.get("file");
-
     if (!file || !(file instanceof File) || !file.type.startsWith("image/")) {
       return { error: ["Invalid files."] };
     }
 
     const arrayBuffer = await file.arrayBuffer();
-
     const image = sharp(arrayBuffer);
-    const [bufferO, bufferT] = await Promise.all([
-      createOriginBuffer(image, key),
+    const [_bufferO, bufferT] = await Promise.all([
+      createOriginBuffer(image),
       createThumbnailBuffer(image),
     ]);
 
+    const result = encryptImage(_bufferO, key);
+    if ("error" in result) return { error: [result.error] };
+    const bufferO = result;
+
     //
     // 上傳加上大小的圖片元數據與圖片
-    const metadataWithSize = {
-      ...metadata,
-      size: bufferO.byteLength + bufferT.byteLength,
-    };
-
-    const [id] = await createMetadata([metadataWithSize]);
+    const [id] = await createMetadata([
+      { ...metadata, size: bufferO.byteLength + bufferT.byteLength },
+    ]);
 
     const listO = [{ metadataId: id, bytes: bufferO }];
     const listT = [{ metadataId: id, bytes: bufferT }];
-
     await Promise.all([createOrigins(listO), createThumbnails(listT)]);
 
     return { success: ["File uploaded successfully."] };

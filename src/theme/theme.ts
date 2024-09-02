@@ -1,6 +1,6 @@
 "use client";
 import { Comfortaa } from "next/font/google";
-import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import type { TypographyOptions } from "@mui/material/styles/createTypography";
 import type {} from "@mui/material/themeCssVarsAugmentation";
 
@@ -62,7 +62,8 @@ const typography: TypographyOptions = {
   // overline : {}
 };
 
-export const theme = extendTheme({
+export const theme = createTheme({
+  cssVariables: { colorSchemeSelector: "data" },
   typography,
   colorSchemes: {
     light: {

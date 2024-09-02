@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import { Box, CssBaseline } from "@mui/material";
 import "@/css/index.css";
 import "@/css/page-transition.css";
@@ -74,6 +75,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html lang="en">
         <body>
+          <InitColorSchemeScript attribute="[data-%s]" />
           <AppRouterCacheProvider>
             <ThemeProvider>
               <CssBaseline />

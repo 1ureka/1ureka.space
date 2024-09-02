@@ -53,6 +53,13 @@ export default function Block({
     bgcolor: color,
   };
 
+  const colorScheme = SlotProps?.childContainer?.["data-mui-color-scheme"];
+  const attribute = colorScheme
+    ? colorScheme === "dark"
+      ? "data-dark"
+      : "data-light"
+    : undefined;
+
   return (
     <BoxM sx={{ position: "relative", ...sx }} variants={variants} {...props}>
       {/* for shadow */}
@@ -75,6 +82,7 @@ export default function Block({
         <BoxM
           {...SlotProps?.childContainer}
           sx={{ height: 1, py: 3, px: 4, ...SlotProps?.childContainer?.sx }}
+          {...(attribute ? { [attribute]: "" } : {})}
         >
           {children}
         </BoxM>

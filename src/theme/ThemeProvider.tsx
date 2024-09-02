@@ -1,4 +1,4 @@
-import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
+import { ThemeProvider as TP } from "@mui/material/styles";
 import { theme } from "./theme";
 
 export default function ThemeProvider({
@@ -6,5 +6,5 @@ export default function ThemeProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <CssVarsProvider theme={theme}>{children}</CssVarsProvider>;
+  return <TP theme={theme}>{children}</TP>;
 }

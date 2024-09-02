@@ -1,6 +1,5 @@
 import "server-only";
 import sharp from "sharp";
-import { encryptAesGcm } from "@/auth";
 
 /** 用於包裝所有在伺服器上log的函數 */
 export function log(
@@ -25,7 +24,7 @@ export function delay(ms: number) {
  * 在調整大小時保持輸入圖像的寬高比。
  * @returns 一個Promise，解析為包含調整大小和轉換後圖像的Buffer。
  */
-export async function createOriginBuffer(sharp: sharp.Sharp, key: string) {
+export async function createOriginBuffer(sharp: sharp.Sharp) {
   let { width, height } = await sharp.metadata();
 
   if (width === undefined || height === undefined) {
@@ -43,16 +42,7 @@ export async function createOriginBuffer(sharp: sharp.Sharp, key: string) {
     .webp({ quality: 100 })
     .toBuffer();
 
-  if (key.length < 32) {
-    throw new Error("The key is too short");
-  }
-
-  const encryptedBuffer = encryptAesGcm(imageBuffer, key);
-  if (!encryptedBuffer) {
-    throw new Error("Failed to encrypt image");
-  }
-
-  return encryptedBuffer;
+  return imageBuffer;
 }
 
 /**

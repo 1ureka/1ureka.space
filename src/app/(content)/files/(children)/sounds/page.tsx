@@ -1,12 +1,12 @@
-import { validateUserSession } from "@/auth";
+import { validateKey } from "@/auth";
 import { Box, Typography } from "@mui/material";
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 
 import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
 
-export default async function Page() {
-  await validateUserSession();
+export default function Page() {
+  validateKey();
 
   return (
     <Box sx={{ display: "grid", placeItems: "center", height: 1 }}>

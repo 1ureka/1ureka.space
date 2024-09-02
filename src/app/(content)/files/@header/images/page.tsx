@@ -3,16 +3,16 @@ import { Button, Stack, Typography } from "@mui/material";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
 
-import { validateUserSession } from "@/auth";
+import { validateKey } from "@/auth";
 import { StackM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
 
-export default async function Page({
+export default function Page({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  await validateUserSession();
+  validateKey();
 
   const { category: categoryParam } = searchParams;
   const category =

@@ -111,9 +111,13 @@ export function decryptAesGcm(imageData: Buffer, password: Password) {
 /**
  * Salt and hash password
  */
-export function hashPassword(password: string) {
+export function hashPassword(password: string, salt: string) {
+  if (salt.length < 64) {
+    throw new Error("Salt must be at least 64 characters long");
+  }
+
   return crypto
-    .pbkdf2Sync(password, "1ureka", 100000, 64, "sha512")
+    .pbkdf2Sync(password, salt, 100000, 64, "sha512")
     .toString("hex");
 }
 

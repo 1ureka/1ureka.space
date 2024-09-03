@@ -10,8 +10,8 @@ import { createMotionVar } from "@/components/MotionProps";
 
 const containerSx = {
   display: "grid",
-  gridTemplateColumns: "1fr auto",
-  placeItems: "center",
+  gridTemplateColumns: "auto 1fr auto",
+  placeItems: "center start",
   gap: 1,
 };
 

@@ -2,17 +2,14 @@ import { NextResponse } from "next/server";
 import { getMetadataById } from "@/data/metadata";
 import { getThumbnailById } from "@/data/thumbnail";
 import { getOriginById } from "@/data/origin";
-
 import { decryptImage, validateSession } from "@/auth";
-import { log } from "@/utils/server-utils";
+
+type Slugs = { params: { metadataId: string; type: string } };
 
 const GET = async (
   request: Request,
-  { params }: { params: { metadataId: string; type: string } }
+  { params: { metadataId, type } }: Slugs
 ) => {
-  const { metadataId, type } = params;
-  log("API", `/image/${type}/${metadataId} GET`);
-
   try {
     //
     // 驗證要求
@@ -34,14 +31,14 @@ const GET = async (
     //
     // 元資料與快取
     const metadata = await getMetadataById(metadataId);
-    if (!metadata || !metadata.updateAt || !metadata.createAt) {
+    if (!metadata || !metadata.updatedAt) {
       return NextResponse.json(
         { error: `Image metadata is missing or invalid` },
         { status: 500 }
       );
     }
 
-    const ETag = metadata.updateAt.toISOString();
+    const ETag = metadata.updatedAt.toISOString();
     if (request.headers.get("if-none-match") === ETag) {
       return new NextResponse(null, { status: 304 });
     }
@@ -53,22 +50,15 @@ const GET = async (
     // 原始圖片
     if (type === "origin") {
       const image = await getOriginById(metadataId);
-      switch (true) {
-        case !image:
-          imageBuffer = null;
-          break;
 
-        case metadata.createAt < new Date(2024, 7, 21):
-          imageBuffer = image.bytes;
-          break;
+      if (image) {
+        const result = await decryptImage(image.bytes);
 
-        default:
-          const result = await decryptImage(image.bytes);
-          if ("error" in result) {
-            return NextResponse.json({ error: result.error }, { status: 401 });
-          }
-          imageBuffer = result;
-          break;
+        if ("error" in result) {
+          return NextResponse.json({ error: result.error }, { status: 401 });
+        }
+
+        imageBuffer = result;
       }
     }
 

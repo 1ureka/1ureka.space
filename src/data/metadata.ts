@@ -2,7 +2,6 @@ import "server-only";
 
 import { validateSession } from "@/auth";
 import { db } from "@/data/db";
-import { log } from "@/utils/server-utils";
 import type { ImageMetadataWithIndex, ImageMetadata } from "@/data/type";
 
 type Select = Partial<Record<keyof ImageMetadata, boolean>>;
@@ -22,8 +21,6 @@ async function auth() {
 export async function getSortedMetadata(
   category: string
 ): Promise<ImageMetadataWithIndex[]> {
-  log("DATABASE", `get sorted metadata list category (${category})`);
-
   try {
     const metadataList = await db.imageMetadata.findMany({
       where: { category },
@@ -37,8 +34,6 @@ export async function getSortedMetadata(
 }
 
 export async function getMetadataCount(category: string) {
-  log("DATABASE", `get metadata count category (${category})`);
-
   try {
     return db.imageMetadata.count({
       where: { category },
@@ -49,8 +44,6 @@ export async function getMetadataCount(category: string) {
 }
 
 export async function getMetadataById(metadataId: string) {
-  log("DATABASE", `get metadata by metadataId (${metadataId})`);
-
   try {
     return db.imageMetadata.findUnique({
       where: { id: metadataId },
@@ -62,10 +55,9 @@ export async function getMetadataById(metadataId: string) {
 
 // 管理員查詢
 export async function getAllMetadata<T extends Select>(select: T) {
-  log("DATABASE", `get all metadata`);
-  await auth();
-
   try {
+    await auth();
+
     return db.imageMetadata.findMany({ select });
   } catch (error) {
     throw new Error(`Failed to query image metadata`);
@@ -73,10 +65,9 @@ export async function getAllMetadata<T extends Select>(select: T) {
 }
 
 export async function createMetadata(metadataList: CreateList) {
-  log("DATABASE", `create metadata`);
-  await auth();
-
   try {
+    await auth();
+
     const res = await db.imageMetadata.createManyAndReturn({
       data: metadataList,
       select: { id: true },
@@ -89,10 +80,9 @@ export async function createMetadata(metadataList: CreateList) {
 }
 
 export async function updateMetadata(metadataList: UpdateList): Promise<void> {
-  log("DATABASE", `update metadata`);
-  await auth();
-
   try {
+    await auth();
+
     const updateOperations = metadataList.map((metadata) =>
       db.imageMetadata.update({
         where: { id: metadata.id },
@@ -107,10 +97,9 @@ export async function updateMetadata(metadataList: UpdateList): Promise<void> {
 }
 
 export async function deleteMetadata(metadataIds: string[]) {
-  log("DATABASE", `delete metadata`);
-  await auth();
-
   try {
+    await auth();
+
     const res = await db.imageMetadata.deleteMany({
       where: { id: { in: metadataIds } },
     });

@@ -6,7 +6,7 @@ import { createMetadataSchema } from "@/schema/metadataSchema";
 import { MetadataSchema, MetadataWithIdSchema } from "@/schema/metadataSchema";
 
 import { encryptImage, validateSession } from "@/auth";
-import { createOriginBuffer, log } from "@/utils/server-utils";
+import { createOriginBuffer } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
 import { getAllMetadata, createMetadata } from "@/data/metadata";
@@ -22,8 +22,6 @@ import { verifyAllOrigin, verifyAllThumbnail } from "@/data/verify";
  * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
  */
 export async function verifyUpload(data: z.infer<typeof MetadataSchema>) {
-  log("ACTION", "Verifying upload");
-
   try {
     const session = await validateSession({ redirect: false });
     if (!session) {
@@ -63,8 +61,6 @@ export async function uploadImage(
   metadata: z.infer<typeof MetadataSchema>["fieldArray"][number],
   fileData: FormData
 ) {
-  log("ACTION", "Uploading images");
-
   try {
     const session = await validateSession({ redirect: false });
     if (!session) {
@@ -114,8 +110,6 @@ export async function uploadImage(
  * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
  */
 export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
-  log("ACTION", "Updating images");
-
   try {
     const session = await validateSession({ redirect: false });
     if (!session) {
@@ -174,8 +168,6 @@ export async function updateImages(data: z.infer<typeof MetadataWithIdSchema>) {
  * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
  */
 export async function deleteImages(ids: string[]) {
-  log("ACTION", "Deleting images");
-
   try {
     const session = await validateSession({ redirect: false });
     if (!session) {
@@ -207,8 +199,6 @@ export async function deleteImages(ids: string[]) {
  * @returns 成功時回傳一個包含完整性檢查結果的物件，失敗時回傳一個包含錯誤訊息的物件。
  */
 export async function verifyIntegrity() {
-  log("ACTION", "Verifying integrity");
-
   try {
     const session = await validateSession({ redirect: false });
     if (!session) {

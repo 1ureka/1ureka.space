@@ -2,7 +2,6 @@ import "server-only";
 
 import { validateSession } from "@/auth";
 import { db } from "@/data/db";
-import { log } from "@/utils/server-utils";
 
 async function auth() {
   const session = await validateSession({ redirect: false });
@@ -13,10 +12,9 @@ async function auth() {
 }
 
 export async function getOriginById(metadataId: string) {
-  log("DATABASE", `get origin by metadataId (${metadataId})`);
-  await auth();
-
   try {
+    await auth();
+
     const origin = await db.origin.findUnique({
       where: { metadataId },
       select: { bytes: true },
@@ -31,10 +29,9 @@ export async function getOriginById(metadataId: string) {
 export async function createOrigins(
   originList: { metadataId: string; bytes: Buffer }[]
 ) {
-  log("DATABASE", `create origins`);
-  await auth();
-
   try {
+    await auth();
+
     const res = await db.origin.createMany({
       data: originList,
     });

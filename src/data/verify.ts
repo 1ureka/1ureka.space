@@ -2,7 +2,6 @@ import "server-only";
 
 import { validateSession } from "@/auth";
 import { db } from "@/data/db";
-import { log } from "@/utils/server-utils";
 
 async function auth() {
   const session = await validateSession({ redirect: false });
@@ -13,10 +12,9 @@ async function auth() {
 }
 
 export async function verifyAllCategory() {
-  log("DATABASE", `verify metadata category`);
-  await auth();
-
   try {
+    await auth();
+
     const count = await db.imageMetadata.count({
       where: { NOT: { category: { in: ["scene", "props"] } } },
     });
@@ -28,10 +26,9 @@ export async function verifyAllCategory() {
 }
 
 export async function verifyAllThumbnail() {
-  log("DATABASE", `verify thumbnails`);
-  await auth();
-
   try {
+    await auth();
+
     const count = await db.imageMetadata.count({
       where: { thumbnail: null },
     });
@@ -43,10 +40,9 @@ export async function verifyAllThumbnail() {
 }
 
 export async function verifyAllOrigin() {
-  log("DATABASE", `verify origins`);
-  await auth();
-
   try {
+    await auth();
+
     const count = await db.imageMetadata.count({
       where: { origin: null },
     });
@@ -58,8 +54,6 @@ export async function verifyAllOrigin() {
 }
 
 export async function summaryCategorySize() {
-  log("DATABASE", `summary category size`);
-
   try {
     const groupBy = await db.imageMetadata.groupBy({
       by: ["category"],

@@ -2,7 +2,6 @@ import "server-only";
 
 import { validateSession } from "@/auth";
 import { db } from "@/data/db";
-import { log } from "@/utils/server-utils";
 
 async function auth() {
   const session = await validateSession({ redirect: false });
@@ -13,8 +12,6 @@ async function auth() {
 }
 
 export async function getThumbnailById(metadataId: string) {
-  log("DATABASE", `get thumbnail by metadataId (${metadataId})`);
-
   try {
     const thumbnail = await db.thumbnail.findUnique({
       where: { metadataId },
@@ -30,10 +27,9 @@ export async function getThumbnailById(metadataId: string) {
 export async function createThumbnails(
   thumbnailList: { metadataId: string; bytes: Buffer }[]
 ) {
-  log("DATABASE", `create thumbnails`);
-  await auth();
-
   try {
+    await auth();
+
     const res = await db.thumbnail.createMany({
       data: thumbnailList,
     });

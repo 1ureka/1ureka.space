@@ -12,12 +12,13 @@ model ImageMetadata {
   category    String
   group       String
   name        String      @unique
-  thumbnail   Thumbnail?   
-  origin      Origin?
   createAt    DateTime?   @default(now())
   updateAt    DateTime?   @default(now()) @updatedAt
   deletedAt   DateTime?
   size        Int
+
+  thumbnail   Thumbnail?
+  origin      Origin?
 }
 
 model Thumbnail {
@@ -33,4 +34,3 @@ model Origin {
   metadata    ImageMetadata  @relation(fields: [metadataId], references: [id], onDelete: Cascade)
   metadataId  String         @unique
 }
-

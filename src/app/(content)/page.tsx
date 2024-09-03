@@ -108,7 +108,7 @@ const cardsProps: React.ComponentProps<typeof Card>[] = [
 ];
 
 export default async function Page() {
-  const { props, scene } = await summaryCategorySize();
+  const { props = 0, scene = 0 } = await summaryCategorySize();
   const propsSize = parseFloat((props / 1024 / 1024).toFixed(2));
   const sceneSize = parseFloat((scene / 1024 / 1024).toFixed(2));
 

@@ -19,15 +19,10 @@ export const BOOKS_CAROUSELS = atom({
 
 //
 // files
-export type FilesTableCol = (
-  | "name"
-  | "group"
-  | "createAt"
-  | "updateAt"
-  | "size"
-) &
-  keyof ImageMetadataWithIndex;
-
+export type FilesTableCol = keyof Pick<
+  ImageMetadataWithIndex,
+  "name" | "group" | "size" | "createdAt" | "updatedAt"
+>;
 export const FILES_ORDER = atom<"desc" | "asc">({
   key: "filesOrder",
   default: "asc",

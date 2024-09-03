@@ -65,7 +65,7 @@ const { handlers, signIn, signOut, auth } = NextAuth({
     // 生成jwt(登錄成功後)
     jwt({ token, profile }) {
       if (!profile || !profile.id) {
-        throw new Error("No id for jwt.");
+        return token;
       }
 
       // 由於會話是公開的，所以需要在jwt中先加密id
@@ -73,7 +73,7 @@ const { handlers, signIn, signOut, auth } = NextAuth({
       const idBuffer = Buffer.from(idString);
       const keyBuffer = encryptAesGcm(idBuffer, SECRET);
       if (!keyBuffer) {
-        throw new Error("Failed to encrypt key.");
+        return token;
       }
 
       token.key = keyBuffer.toString("base64");
@@ -82,7 +82,7 @@ const { handlers, signIn, signOut, auth } = NextAuth({
     // 生成會話(會暴露給客戶端)
     session({ session, token }) {
       if (!token.key) {
-        throw new Error("No key for session.");
+        return session;
       }
 
       session.key = token.key; //加密後的id作為金鑰
@@ -124,7 +124,7 @@ const validateSession: ValidateSession = async ({
     }
 
     // 驗證id
-    const id = JSON.parse(idBuffer.toString());
+    const id = idBuffer.toString();
     if (hashPassword(id, "") !== USER_ID) {
       if (r) redirect("/unAuth");
       return null;

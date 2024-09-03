@@ -142,11 +142,18 @@ const validateSession: ValidateSession = async ({
  */
 const encryptImage: EncryptImage = async (image) => {
   try {
+    // 驗證會話
     const session = await validateSession({ redirect: false });
     if (!session || !session.key) return { error: "Failed to encrypt image." };
 
-    // 使用環境變數 + 加密後的id作為密鑰
-    const buffer = encryptAesGcm(image, SECRET + session.key);
+    // 解密金鑰，獲取id
+    const keyBuffer = Buffer.from(session.key, "base64");
+    const idBuffer = decryptAesGcm(keyBuffer, SECRET);
+    if (!idBuffer) return { error: "Failed to encrypt image." };
+
+    // 生成金鑰，加密圖片
+    const key = SECRET + hashPassword(idBuffer.toString(), "517");
+    const buffer = encryptAesGcm(image, key);
     if (!buffer) return { error: "Failed to encrypt image." };
 
     return buffer;
@@ -160,11 +167,18 @@ const encryptImage: EncryptImage = async (image) => {
  */
 const decryptImage: DecryptImage = async (image) => {
   try {
+    // 驗證會話
     const session = await validateSession({ redirect: false });
     if (!session || !session.key) return { error: "Failed to decrypt image." };
 
-    // 使用環境變數 + 加密後的id作為密鑰
-    const buffer = decryptAesGcm(image, SECRET + session.key);
+    // 解密金鑰，獲取id
+    const keyBuffer = Buffer.from(session.key, "base64");
+    const idBuffer = decryptAesGcm(keyBuffer, SECRET);
+    if (!idBuffer) return { error: "Failed to decrypt image." };
+
+    // 生成金鑰，解密圖片
+    const key = SECRET + hashPassword(idBuffer.toString(), "517");
+    const buffer = decryptAesGcm(image, key);
     if (!buffer) return { error: "Failed to decrypt image." };
 
     return buffer;

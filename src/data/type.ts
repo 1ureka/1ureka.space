@@ -1,6 +1,6 @@
-import type { ImageMetadata } from "@prisma/client";
+import type { ImageMetadata, ExploreMetadata } from "@prisma/client";
 
-export type { ImageMetadata };
+export type { ImageMetadata, ExploreMetadata };
 
 export type ImageMetadataWithIndex = {
   index: number;

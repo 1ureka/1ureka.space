@@ -35,7 +35,7 @@ export default function Page() {
   return (
     <BoxM {...createMotionProps()} sx={containerSx}>
       <Stack sx={{ gap }}>
-        <Block color="primary.main" decoration="left">
+        <Block decoration="left">
           <StackM gap={0.5} mb={3} variants={createMotionVar()}>
             <Typography variant="h6">Authentication</Typography>
             <Alert
@@ -52,7 +52,7 @@ export default function Page() {
           <AuthForm />
         </Block>
 
-        <Block color="primary.main" decoration="left">
+        <Block decoration="left">
           <StackM gap={0.5} mb={1} variants={createMotionVar()}>
             <Typography variant="h6">Theme</Typography>
           </StackM>
@@ -64,7 +64,7 @@ export default function Page() {
       </Stack>
 
       <Stack sx={{ gap }}>
-        <Block color="secondary.main" decoration="right">
+        <Block decoration="right">
           <StackM gap={0.5} mb={3} variants={createMotionVar()}>
             <Typography variant="h6">Images Display</Typography>
             <Alert

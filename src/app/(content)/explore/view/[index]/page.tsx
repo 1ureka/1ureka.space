@@ -1,4 +1,4 @@
-import { validateKey } from "@/auth";
+import { validateSession } from "@/auth";
 import { isValidIndex } from "@/utils/utils";
 import { delay } from "@/utils/server-utils";
 
@@ -15,7 +15,7 @@ export default async function Page({
 }: {
   params: { index: unknown };
 }) {
-  const key = validateKey({ redirect: false });
+  const session = await validateSession({ redirect: false });
 
   const index = isValidIndex(indexString, 10);
   if (index === -1) notFound();
@@ -33,7 +33,7 @@ export default async function Page({
         sx={{ height: 1, width: 1 }}
       />
 
-      {key && (
+      {session && (
         <Button
           component={Link}
           href={`/explore/fullscreen/${index}`}

@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ImageMetadataWithIndex } from "@/data/type";
-import { validateKey } from "@/auth";
+import { validateSession } from "@/auth";
 
 import { BoxM } from "@/components/Motion";
 import { carouselsImageVar } from "@/components/MotionProps";
@@ -21,12 +21,12 @@ const createImageContainerSx = (width: string, height: string) => ({
   maxHeight: `calc(${width} * (9 / 16))`,
 });
 
-export default function CarouselsImage({
+export default async function CarouselsImage({
   metadataList,
 }: {
   metadataList: ImageMetadataWithIndex[];
 }) {
-  const key = validateKey({ redirect: false });
+  const session = await validateSession({ redirect: false });
 
   return (
     <BoxM
@@ -34,7 +34,7 @@ export default function CarouselsImage({
       sx={createImageContainerSx("75vw", "77.5vh")}
     >
       <Thumbnail metadataList={metadataList} />
-      {key ? <Origin metadataList={metadataList} /> : <Alert />}
+      {session ? <Origin metadataList={metadataList} /> : <Alert />}
     </BoxM>
   );
 }

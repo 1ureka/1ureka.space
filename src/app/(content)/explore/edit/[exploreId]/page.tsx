@@ -4,7 +4,7 @@ export const metadata: Metadata = {
 };
 
 import { notFound } from "next/navigation";
-import { validateKey } from "@/auth";
+import { validateSession } from "@/auth";
 import { getSortedMetadata } from "@/data/metadata";
 
 import { ExploreForm } from "@/components/(explore)";
@@ -16,7 +16,7 @@ type PageProps = { params: { exploreId: unknown } };
 export default async function Page({ params: { exploreId } }: PageProps) {
   if (typeof exploreId !== "string") notFound();
 
-  validateKey();
+  await validateSession();
 
   const metadataList = await getSortedMetadata("scene");
 

@@ -3,7 +3,7 @@ export const metadata: Metadata = {
   title: "create explore",
 };
 
-import { validateKey } from "@/auth";
+import { validateSession } from "@/auth";
 import { getSortedMetadata } from "@/data/metadata";
 
 import { ExploreForm } from "@/components/(explore)";
@@ -11,7 +11,7 @@ import { BoxM } from "@/components/Motion";
 import { createMotionProps } from "@/components/MotionProps";
 
 export default async function Page() {
-  validateKey();
+  await validateSession();
 
   const metadataList = await getSortedMetadata("scene");
 

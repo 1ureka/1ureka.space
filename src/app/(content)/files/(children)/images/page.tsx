@@ -1,4 +1,4 @@
-import { validateKey } from "@/auth";
+import { validateSession } from "@/auth";
 import { redirect } from "next/navigation";
 import { getSortedMetadata } from "@/data/metadata";
 
@@ -11,7 +11,7 @@ export default async function Page({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  validateKey();
+  await validateSession();
 
   const form = searchParams.form;
   const category = searchParams.category ?? "scene";

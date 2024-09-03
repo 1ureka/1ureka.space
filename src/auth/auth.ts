@@ -1,142 +1,137 @@
 import "server-only";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { db } from "@/data/db";
-import { decryptAesGcm, encryptAesGcm } from "./crypto";
-import { generateKey, hashPassword } from "./crypto";
-
-const SECRET = process.env.SECRET;
-if (!SECRET) throw new Error("Missing secret");
-
-type SignUp = (password: string) => Promise<void>;
-type SignIn = (password: string) => Promise<{ error?: string }>;
-type SignOut = () => void;
-type ValidateKey = (options?: { redirect?: boolean }) => null | string;
-type EncryptImage = (image: Buffer, key: string) => Buffer | { error: string };
-type DecryptImage = (image: Buffer, key: string) => Buffer | { error: string };
-
-// 系統設計：
-// 註冊：首先生成一個json，再用雜湊後的密碼加密json，最後將加密後的json存入資料庫。
-// 登入：首先取得加密後的json，再用雜湊後的密碼解密json，最後取得json中的金鑰。
-// 會話：將金鑰加密後存入cookie，每次驗證時取得cookie，解密金鑰，並使用金鑰進行加密與解密用戶資料。
-// 登出：刪除cookie。
-
-// 金鑰週期：
-// 註冊：生成json > 用戶雜湊密碼加密 > 存入資料庫
-// 登入：取得json > 用戶雜湊密碼解密 > 取得金鑰 > 環境變數加密 > 存入cookie
-// 驗證：取得cookie > 環境變數解密 > 取得金鑰
-
-// 相關文件：
-// crypto.ts：加密演算法
-// auth.ts：註冊、登入、登出、驗證邏輯
-// server-actions.ts：登入、登出服務器邏輯
-// AuthForm.tsx：註冊、登入表單，需要上層伺服器組件提供金鑰
+import { decryptAesGcm, encryptAesGcm, hashPassword } from "./crypto";
+import NextAuth, { type Session } from "next-auth";
+import GitHub from "next-auth/providers/github";
+import type {} from "next-auth/jwt";
 
 /**
- * 註冊邏輯
+ * 延伸`next-auth/jwt`和`next-auth`模組，添加`key`屬性
  */
-const signUp: SignUp = async (password) => {
-  try {
-    // 生成金鑰json
-    const json = JSON.stringify({ status: "success", key: generateKey(64) });
-
-    // 加密json
-    const hashedPassword = hashPassword(password, SECRET);
-    const buffer = encryptAesGcm(Buffer.from(json), hashedPassword);
-    if (!buffer) {
-      throw new Error("Failed to encrypt json");
-    }
-
-    // 存入資料庫
-    await db.auth.create({ data: { bytes: buffer } });
-  } catch (error) {
-    throw new Error("Failed to sign up");
+declare module "next-auth/jwt" {
+  interface JWT {
+    key?: string;
   }
-};
+}
 
-/**
- * 登入邏輯，應該在`server action`中使用
- */
-const signIn: SignIn = async (password) => {
-  try {
-    // 查詢註冊訊息
-    const jsonBuffer = (await db.auth.findFirst())?.bytes;
-    if (!jsonBuffer) {
-      return { error: "No user found" };
-    }
-
-    // 解密訊息
-    const hashedPassword = hashPassword(password, SECRET);
-    let jsonString: Buffer | undefined;
-    try {
-      jsonString = decryptAesGcm(jsonBuffer, hashedPassword);
-      if (!jsonString) return { error: "Password is incorrect" };
-    } catch (error) {
-      return { error: "Password is incorrect" };
-    }
-
-    // 解析訊息
-    const json = JSON.parse(jsonString.toString()) as {
-      status: string;
-      key: string;
-    };
-    if (json?.status !== "success") {
-      return { error: "Password is incorrect" };
-    }
-
-    // 加密金鑰，並設定cookie
-    const token = encryptAesGcm(Buffer.from(json.key), SECRET);
-    if (!token) {
-      return { error: "Failed to encrypt token" };
-    }
-
-    cookies().set("token", token.toString("base64"), {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      maxAge: 10 * 60,
-      path: "/",
-    });
-
-    return {};
-  } catch (error) {
-    return { error: "Something went wrong" };
+declare module "next-auth" {
+  interface Session {
+    key?: string;
   }
-};
+}
 
 /**
- * 登出邏輯，應該在`server action`中使用
+ * 獲取環境變數
  */
-const signOut: SignOut = () => {
-  cookies().delete("token");
-};
+const SECRET = process.env.AUTH_SECRET;
+const USER_ID = process.env.USER_ID;
+if (!SECRET || !USER_ID) {
+  throw new Error("No secret provided for encryption.");
+}
 
 /**
- * 驗證金鑰邏輯，可以在`server action`, `server component`, `api`中使用。
+ * NextAuth配置
+ */
+const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [GitHub],
+
+  // 會話配置
+  session: {
+    maxAge: 30 * 60,
+  },
+
+  // 防止自動生成的路由
+  pages: {
+    signIn: "/",
+    signOut: "/",
+    error: "/",
+  },
+
+  callbacks: {
+    // 登錄後檢查
+    async signIn({ profile }) {
+      if (!profile || !profile.id) {
+        return false;
+      }
+
+      const id = JSON.stringify(profile.id);
+      if (hashPassword(id, "") !== USER_ID) {
+        return false;
+      }
+
+      return true;
+    },
+    // 生成jwt(登錄成功後)
+    jwt({ token, profile }) {
+      if (!profile || !profile.id) {
+        throw new Error("No id for jwt.");
+      }
+
+      // 由於會話是公開的，所以需要在jwt中先加密id
+      const idString = JSON.stringify(profile.id);
+      const idBuffer = Buffer.from(idString);
+      const keyBuffer = encryptAesGcm(idBuffer, SECRET);
+      if (!keyBuffer) {
+        throw new Error("Failed to encrypt key.");
+      }
+
+      token.key = keyBuffer.toString("base64");
+      return token;
+    },
+    // 生成會話(會暴露給客戶端)
+    session({ session, token }) {
+      if (!token.key) {
+        throw new Error("No key for session.");
+      }
+
+      session.key = token.key; //加密後的id作為金鑰
+      return session;
+    },
+  },
+});
+
+/**
+ * 包裝介面，確保整個應用程序的驗證邏輯一致
+ */
+type ValidateSession = (options?: {
+  redirect?: boolean;
+}) => Promise<Session | null>;
+type EncryptImage = (image: Buffer) => Promise<Buffer | { error: string }>;
+type DecryptImage = (image: Buffer) => Promise<Buffer | { error: string }>;
+
+/**
+ * 驗證邏輯，可以在`server action`, `server component`中使用。
  * 返回金鑰或者重導向到`/unAuth`
  */
-const validateKey: ValidateKey = ({ redirect: r = true } = {}) => {
+const validateSession: ValidateSession = async ({
+  redirect: r = true,
+} = {}) => {
   try {
-    // 取得cookie
-    const tokenCookie = cookies().get("token");
-    if (!tokenCookie) {
+    // 獲取會話
+    const session = await auth();
+    if (!session || !session.key) {
       if (r) redirect("/unAuth");
       return null;
     }
 
-    // 解密金鑰
-    const { value: token } = tokenCookie;
-    const keyBuffer = decryptAesGcm(Buffer.from(token, "base64"), SECRET);
-
-    if (!keyBuffer) {
+    // 解密金鑰，獲取id
+    const keyBuffer = Buffer.from(session.key, "base64");
+    const idBuffer = decryptAesGcm(keyBuffer, SECRET);
+    if (!idBuffer) {
       if (r) redirect("/unAuth");
       return null;
     }
 
-    return keyBuffer.toString();
+    // 驗證id
+    const id = JSON.parse(idBuffer.toString());
+    if (hashPassword(id, "") !== USER_ID) {
+      if (r) redirect("/unAuth");
+      return null;
+    }
+
+    return session;
   } catch (error) {
-    // decryptAesGcm 當金鑰不正確時會拋出錯誤
     if (r) redirect("/unAuth");
     return null;
   }
@@ -145,10 +140,15 @@ const validateKey: ValidateKey = ({ redirect: r = true } = {}) => {
 /**
  * 加密圖片
  */
-const encryptImage: EncryptImage = (image, key) => {
+const encryptImage: EncryptImage = async (image) => {
   try {
-    const buffer = encryptAesGcm(image, key + SECRET);
+    const session = await validateSession({ redirect: false });
+    if (!session || !session.key) return { error: "Failed to encrypt image." };
+
+    // 使用環境變數 + 加密後的id作為密鑰
+    const buffer = encryptAesGcm(image, SECRET + session.key);
     if (!buffer) return { error: "Failed to encrypt image." };
+
     return buffer;
   } catch (error) {
     return { error: "Failed to encrypt image." };
@@ -158,14 +158,22 @@ const encryptImage: EncryptImage = (image, key) => {
 /**
  * 解密圖片
  */
-const decryptImage: DecryptImage = (image, key) => {
+const decryptImage: DecryptImage = async (image) => {
   try {
-    const buffer = decryptAesGcm(image, key + SECRET);
+    const session = await validateSession({ redirect: false });
+    if (!session || !session.key) return { error: "Failed to decrypt image." };
+
+    // 使用環境變數 + 加密後的id作為密鑰
+    const buffer = decryptAesGcm(image, SECRET + session.key);
     if (!buffer) return { error: "Failed to decrypt image." };
+
     return buffer;
   } catch (error) {
     return { error: "Failed to decrypt image." };
   }
 };
 
-export { signUp, signIn, signOut, validateKey, encryptImage, decryptImage };
+// 內部使用
+export { signIn, signOut };
+// 外部使用
+export { handlers, validateSession, encryptImage, decryptImage };

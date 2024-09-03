@@ -18,22 +18,23 @@ async function auth() {
 }
 
 // 公開查詢
-export async function getSortedMetadata(
-  category: string
-): Promise<ImageMetadataWithIndex[]> {
+export async function getSortedMetadata(category: "scene" | "props") {
   try {
     const metadataList = await db.imageMetadata.findMany({
       where: { category },
       orderBy: [{ group: "asc" }, { name: "asc" }],
     });
 
-    return metadataList.map((data, index) => ({ index, ...data }));
+    return metadataList.map((data, index) => ({
+      index,
+      ...data,
+    })) as ImageMetadataWithIndex[];
   } catch (error) {
     throw new Error(`Failed to query image metadata`);
   }
 }
 
-export async function getMetadataCount(category: string) {
+export async function getMetadataCount(category: "scene" | "props") {
   try {
     return db.imageMetadata.count({
       where: { category },

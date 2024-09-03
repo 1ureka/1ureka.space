@@ -3,7 +3,7 @@ export const metadata: Metadata = {
   title: "settings",
 };
 
-import { validateKey, AuthForm } from "@/auth";
+import { AuthForm } from "@/auth";
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionProps, createMotionVar } from "@/components/MotionProps";
 import { Alert, Stack, Typography, type BoxProps } from "@mui/material";
@@ -32,8 +32,6 @@ const containerSx: BoxProps["sx"] = {
 };
 
 export default function Page() {
-  const key = validateKey({ redirect: false });
-
   return (
     <BoxM {...createMotionProps()} sx={containerSx}>
       <Stack sx={{ gap }}>
@@ -46,11 +44,12 @@ export default function Page() {
               sx={{ bgcolor: "primary.main", py: 0.5 }}
               icon={<WarningRoundedIcon />}
             >
-              This is for internal use only.
+              This is for internal use only. Only specific github users can sign
+              in.
             </Alert>
           </StackM>
 
-          <AuthForm key={key} />
+          <AuthForm />
         </Block>
 
         <Block color="primary.main" decoration="left">

@@ -1,20 +1,20 @@
 import "server-only";
 
-import { validateKey } from "@/auth";
+import { validateSession } from "@/auth";
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
 
-function auth() {
-  const key = validateKey({ redirect: false });
+async function auth() {
+  const session = await validateSession({ redirect: false });
 
-  if (!key) {
+  if (!session) {
     throw new Error(`Unauthorized access to database: User session not found`);
   }
 }
 
 export async function verifyAllCategory() {
   log("DATABASE", `verify metadata category`);
-  auth();
+  await auth();
 
   try {
     const count = await db.imageMetadata.count({
@@ -29,7 +29,7 @@ export async function verifyAllCategory() {
 
 export async function verifyAllThumbnail() {
   log("DATABASE", `verify thumbnails`);
-  auth();
+  await auth();
 
   try {
     const count = await db.imageMetadata.count({
@@ -44,7 +44,7 @@ export async function verifyAllThumbnail() {
 
 export async function verifyAllOrigin() {
   log("DATABASE", `verify origins`);
-  auth();
+  await auth();
 
   try {
     const count = await db.imageMetadata.count({

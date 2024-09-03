@@ -3,7 +3,7 @@ import { getMetadataById } from "@/data/metadata";
 import { getThumbnailById } from "@/data/thumbnail";
 import { getOriginById } from "@/data/origin";
 
-import { validateKey, decryptImage } from "@/auth";
+import { decryptImage, validateSession } from "@/auth";
 import { log } from "@/utils/server-utils";
 
 const GET = async (
@@ -23,8 +23,8 @@ const GET = async (
       );
     }
 
-    const key = validateKey({ redirect: false });
-    if (type === "origin" && !key) {
+    const session = await validateSession({ redirect: false });
+    if (type === "origin" && !session) {
       return NextResponse.json(
         { error: `Authentication required to access origin image.` },
         { status: 401 }
@@ -51,7 +51,7 @@ const GET = async (
     let imageBuffer: Buffer | null = null;
 
     // 原始圖片
-    if (type === "origin" && key) {
+    if (type === "origin") {
       const image = await getOriginById(metadataId);
       switch (true) {
         case !image:
@@ -63,7 +63,7 @@ const GET = async (
           break;
 
         default:
-          const result = decryptImage(image.bytes, key);
+          const result = await decryptImage(image.bytes);
           if ("error" in result) {
             return NextResponse.json({ error: result.error }, { status: 401 });
           }

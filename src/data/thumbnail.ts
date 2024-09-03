@@ -1,13 +1,13 @@
 import "server-only";
 
-import { validateKey } from "@/auth";
+import { validateSession } from "@/auth";
 import { db } from "@/data/db";
 import { log } from "@/utils/server-utils";
 
-function auth() {
-  const key = validateKey({ redirect: false });
+async function auth() {
+  const session = await validateSession({ redirect: false });
 
-  if (!key) {
+  if (!session) {
     throw new Error(`Unauthorized access to database: User session not found`);
   }
 }
@@ -31,7 +31,7 @@ export async function createThumbnails(
   thumbnailList: { metadataId: string; bytes: Buffer }[]
 ) {
   log("DATABASE", `create thumbnails`);
-  auth();
+  await auth();
 
   try {
     const res = await db.thumbnail.createMany({

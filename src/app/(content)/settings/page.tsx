@@ -3,15 +3,13 @@ export const metadata: Metadata = {
   title: "settings",
 };
 
+import { AuthForm } from "@/auth";
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionProps, createMotionVar } from "@/components/MotionProps";
-import { Alert, Stack, Typography } from "@mui/material";
-import type { BoxProps } from "@mui/material";
+import { Alert, Stack, Typography, type BoxProps } from "@mui/material";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 
 import Block from "@/components/Block";
-import AuthMessages from "@/components/(settings)/AuthMessages";
-import UserButton from "@/components/(settings)/UserButton";
 import DisplayToggle from "@/components/(settings)/DisplayToggle";
 import dynamic from "next/dynamic";
 const ThemeToggle = dynamic(
@@ -33,19 +31,11 @@ const containerSx: BoxProps["sx"] = {
   height: 1,
 };
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const { success, error } = searchParams;
-
+export default function Page() {
   return (
     <BoxM {...createMotionProps()} sx={containerSx}>
-      <AuthMessages success={success} error={error} />
-
       <Stack sx={{ gap }}>
-        <Block color="primary.main" decoration="left">
+        <Block decoration="left">
           <StackM gap={0.5} mb={3} variants={createMotionVar()}>
             <Typography variant="h6">Authentication</Typography>
             <Alert
@@ -59,20 +49,10 @@ export default function Page({
             </Alert>
           </StackM>
 
-          <BoxM
-            variants={createMotionVar()}
-            sx={{
-              display: "grid",
-              gridTemplateColumns: "auto 1fr auto",
-              placeItems: "center start",
-              gap: 1,
-            }}
-          >
-            <UserButton />
-          </BoxM>
+          <AuthForm />
         </Block>
 
-        <Block color="primary.main" decoration="left">
+        <Block decoration="left">
           <StackM gap={0.5} mb={1} variants={createMotionVar()}>
             <Typography variant="h6">Theme</Typography>
           </StackM>
@@ -84,7 +64,7 @@ export default function Page({
       </Stack>
 
       <Stack sx={{ gap }}>
-        <Block color="secondary.main" decoration="right">
+        <Block decoration="right">
           <StackM gap={0.5} mb={3} variants={createMotionVar()}>
             <Typography variant="h6">Images Display</Typography>
             <Alert

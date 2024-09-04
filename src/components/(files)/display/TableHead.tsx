@@ -19,8 +19,8 @@ const headCells: {
   { id: "name", label: "File name", align: "left" },
   { id: "group", label: "Group", align: "right" },
   { id: "size", label: "Size (KB)", align: "right" },
-  { id: "updateAt", label: "Update at", align: "right" },
-  { id: "createAt", label: "Create at", align: "right" },
+  { id: "updatedAt", label: "Update at", align: "right" },
+  { id: "createdAt", label: "Create at", align: "right" },
 ] as const;
 
 export default function TableHead({

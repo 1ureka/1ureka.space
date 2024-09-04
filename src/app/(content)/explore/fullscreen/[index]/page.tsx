@@ -1,4 +1,4 @@
-import { validateUserSession } from "@/auth";
+import { validateSession } from "@/auth";
 import { delay } from "@/utils/server-utils";
 import { isValidIndex } from "@/utils/utils";
 
@@ -25,7 +25,7 @@ export default async function Page({
 }: {
   params: { index: unknown };
 }) {
-  await validateUserSession();
+  await validateSession();
 
   const index = isValidIndex(indexString, 10);
   if (index === -1) notFound();

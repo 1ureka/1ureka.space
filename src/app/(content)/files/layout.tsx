@@ -8,7 +8,7 @@ import Block from "@/components/Block";
 import CategoryToggle from "@/components/(files)/CategoryToggle";
 import RefreshButton from "@/components/(files)/RefreshButton";
 
-import { validateUserSession } from "@/auth";
+import { validateSession } from "@/auth";
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionProps, createMotionVar } from "@/components/MotionProps";
 
@@ -30,7 +30,7 @@ export default async function Layout({
   header: React.ReactNode;
   children: React.ReactNode;
 }) {
-  await validateUserSession();
+  await validateSession();
 
   return (
     <BoxM {...createMotionProps()} sx={containerSx}>

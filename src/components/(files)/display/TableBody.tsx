@@ -16,8 +16,8 @@ const bodyCells: {
   { id: "name", align: "left" },
   { id: "group", align: "right" },
   { id: "size", align: "right" },
-  { id: "updateAt", align: "right" },
-  { id: "createAt", align: "right" },
+  { id: "updatedAt", align: "right" },
+  { id: "createdAt", align: "right" },
 ] as const;
 
 export default function TableBody({

@@ -3,7 +3,7 @@ export const metadata: Metadata = {
   title: "gallery",
 };
 
-import { getSortedMetadata } from "@/data/table";
+import { getSortedMetadata } from "@/data/metadata";
 import { notFound } from "next/navigation";
 
 import { Typography } from "@mui/material";
@@ -20,7 +20,7 @@ import { createMotionProps, createMotionVar } from "@/components/MotionProps";
 const staticText = {
   props: {
     project: "PJ26",
-    info: `It includes a variety of models, from small screws to buildings, 
+    info: `It includes a variety of models, from small screws to buildings,
         to meet outdoor scene requirements. It provides pre-packaged objects
         based on instances.`,
   },

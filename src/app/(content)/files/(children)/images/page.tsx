@@ -1,6 +1,6 @@
-import { validateUserSession } from "@/auth";
+import { validateSession } from "@/auth";
 import { redirect } from "next/navigation";
-import { getSortedMetadata } from "@/data/table";
+import { getSortedMetadata } from "@/data/metadata";
 
 import { DeleteForm, UploadForm } from "@/components/(files)/form";
 import { ModifyForm, VerifyForm } from "@/components/(files)/form";
@@ -11,7 +11,7 @@ export default async function Page({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  await validateUserSession();
+  await validateSession();
 
   const form = searchParams.form;
   const category = searchParams.category ?? "scene";

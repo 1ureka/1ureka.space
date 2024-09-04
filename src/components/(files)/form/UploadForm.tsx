@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 import { uploadImage, verifyUpload } from "@/utils/server-actions";
 import { trackProgress, isArrayNotEmpty } from "@/utils/utils";
-import { compressImage } from "@/utils/client-utils";
+import { blobGetDimensions, compressImage } from "@/utils/client-utils";
 
 import { Button, Grid, IconButton, Dialog } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -81,7 +81,24 @@ export default function UploadForm({
 
       if (result?.error) {
         toast.dismiss("submit");
-        result.error.map((message) => toast.error(message));
+        result.error.forEach((m) => toast.error(m));
+        return;
+      }
+
+      //
+      // 檢查圖片尺寸
+      const dimensions = await Promise.all(
+        filesList.map((file) => blobGetDimensions(file))
+      );
+      const dimensionErrors = dimensions.map((dimension, i) => {
+        const { width, height } = dimension;
+        if (width === 3840 && height === 2160) return null;
+        return `image ${i} (${metadataList[i].name}) is not 3840px * 2160px`;
+      });
+
+      if (dimensionErrors.some((error) => error)) {
+        toast.dismiss("submit");
+        dimensionErrors.forEach((m) => m && toast.error(m));
         return;
       }
 
@@ -91,9 +108,10 @@ export default function UploadForm({
         id: "submit",
       });
 
+      const maxSize = 4 * 1024 * 1024;
       const compressedFiles = await trackProgress(
         filesList.map((file) =>
-          compressImage(file, { type: "webp", maxSize: 4 * 1024 * 1024 })
+          compressImage(file, { type: "webp", maxSize, scale: 0.5 })
         ),
         (_, done) =>
           toast.loading(`Compressing Files... (${done + 1} / ${totalCount})`, {
@@ -101,7 +119,7 @@ export default function UploadForm({
           })
       );
 
-      if (!compressedFiles.every(({ size }) => size <= 4 * 1024 * 1024)) {
+      if (!compressedFiles.every(({ size }) => size <= maxSize)) {
         toast.error("Some file size exceeds 4 MB", { id: "submit" });
         return;
       }

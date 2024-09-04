@@ -1,36 +1,48 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
+}
+
+enum Category {
+    props
+    scene
 }
 
 model ImageMetadata {
-  id          String      @id @default(cuid())
-  category    String
-  group       String
-  name        String      @unique
-  thumbnail   Thumbnail?   
-  origin      Origin?
-  createAt    DateTime?   @default(now())
-  updateAt    DateTime?   @default(now()) @updatedAt
-  deletedAt   DateTime?
-  size        Int
+    id        String           @id @default(cuid())
+    category  Category
+    group     String
+    name      String           @unique
+    createdAt DateTime?        @default(now())
+    updatedAt DateTime?        @default(now()) @updatedAt
+    size      Int
+    thumbnail Thumbnail?
+    origin    Origin?
+    explore   ExploreMetadata?
+}
+
+model ExploreMetadata {
+    id         String        @id @default(cuid())
+    project    String
+    type       String
+    metadata   ImageMetadata @relation(fields: [metadataId], references: [id], onDelete: Cascade)
+    metadataId String        @unique
 }
 
 model Thumbnail {
-  id          String         @id @default(cuid())
-  bytes       Bytes
-  metadata    ImageMetadata  @relation(fields: [metadataId], references: [id], onDelete: Cascade)
-  metadataId  String         @unique
+    id         String        @id @default(cuid())
+    bytes      Bytes
+    metadata   ImageMetadata @relation(fields: [metadataId], references: [id], onDelete: Cascade)
+    metadataId String        @unique
 }
 
 model Origin {
-  id          String      @id @default(cuid())
-  bytes       Bytes
-  metadata    ImageMetadata  @relation(fields: [metadataId], references: [id], onDelete: Cascade)
-  metadataId  String         @unique
+    id         String        @id @default(cuid())
+    bytes      Bytes
+    metadata   ImageMetadata @relation(fields: [metadataId], references: [id], onDelete: Cascade)
+    metadataId String        @unique
 }
-

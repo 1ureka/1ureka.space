@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 import { Box, Stack, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
-import { summaryCategorySize } from "@/data/table";
+import { summaryCategorySize } from "@/data/verify";
 
 import Block from "@/components/Block";
 import Chart from "@/components/(home)/Chart";
@@ -108,7 +108,7 @@ const cardsProps: React.ComponentProps<typeof Card>[] = [
 ];
 
 export default async function Page() {
-  const { props, scene } = await summaryCategorySize();
+  const { props = 0, scene = 0 } = await summaryCategorySize();
   const propsSize = parseFloat((props / 1024 / 1024).toFixed(2));
   const sceneSize = parseFloat((scene / 1024 / 1024).toFixed(2));
 

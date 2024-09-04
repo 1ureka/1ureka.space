@@ -59,6 +59,12 @@ export default function TableHeader({
           onClick={handleClick}
           startIcon={<FilterListRoundedIcon />}
           variant="outlined"
+          sx={{
+            transition: "all 0.25s ease",
+            scale: "1.001",
+            "&:hover": { scale: "1.03" },
+            "&:active": { scale: "0.97" },
+          }}
         >
           Filter List
         </Button>
@@ -67,7 +73,7 @@ export default function TableHeader({
             onClick={handleClose}
             component={Link}
             href="/files/images?category=scene"
-            sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
+            sx={{ alignItems: "center", gap: 1.25, pl: 0, py: 0 }}
             dense
           >
             <Checkbox checked={category === "scene"} size="small" />
@@ -77,7 +83,7 @@ export default function TableHeader({
             onClick={handleClose}
             component={Link}
             href="/files/images?category=props"
-            sx={{ alignItems: "center", gap: 1.25, pl: 0 }}
+            sx={{ alignItems: "center", gap: 1.25, pl: 0, py: 0 }}
             dense
           >
             <Checkbox checked={category === "props"} size="small" />

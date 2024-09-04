@@ -31,6 +31,12 @@ export default async function Page({
           disableElevation
           component={Link}
           href={`/files/images?category=${category}&form=upload`}
+          sx={{
+            transition: "all 0.25s ease",
+            scale: "1.001",
+            "&:hover": { bgcolor: "primary.light", scale: "1.03" },
+            "&:active": { scale: "0.97" },
+          }}
         >
           Add Image
         </Button>
@@ -40,6 +46,12 @@ export default async function Page({
           variant="outlined"
           component={Link}
           href={`/files/images?category=${category}&form=verify`}
+          sx={{
+            transition: "all 0.25s ease",
+            scale: "1.001",
+            "&:hover": { scale: "1.03" },
+            "&:active": { scale: "0.97" },
+          }}
         >
           Verify Integrity
         </Button>

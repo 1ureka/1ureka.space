@@ -38,7 +38,7 @@ const { handlers, signIn, signOut, auth } = NextAuth({
 
   // 會話配置
   session: {
-    maxAge: 30 * 60,
+    maxAge: 24 * 60 * 60,
   },
 
   // 防止自動生成的路由

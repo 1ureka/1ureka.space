@@ -39,7 +39,7 @@ export default function Chart({ data }: { data: Data }) {
     >
       <StackM variants={createMotionVar()}>
         <Typography variant="subtitle1">Storage: </Typography>
-        <Typography variant="body2">{amount} / 256 MB</Typography>
+        <Typography variant="body2">{amount.toFixed(2)} / 256 MB</Typography>
       </StackM>
 
       <PieChart

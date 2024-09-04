@@ -80,7 +80,7 @@ export const theme = createTheme({
           layer1: "#ffffff", // top
           layer2: "#e0e0e0",
           layer3: "#bdbdbd",
-          backdrop: "#ffffffd8",
+          backdrop: "#ffffff60",
         },
       },
     },
@@ -93,10 +93,10 @@ export const theme = createTheme({
           main: "#83e7bd",
         },
         content: {
-          layer1: "#1e1e1e",
-          layer2: "#121212",
-          layer3: "rgba(0, 0, 0, 0.25)",
-          backdrop: "#121212d8",
+          layer1: "#1F1F1F",
+          layer2: "#1A1A1A",
+          layer3: "#1A1A1A",
+          backdrop: "#00000099",
         },
       },
     },

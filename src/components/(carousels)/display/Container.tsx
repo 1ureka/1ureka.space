@@ -42,6 +42,18 @@ export default function Container({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: theme.zIndex.modal - 1,
+          pointerEvents: "none",
+          backdropFilter: "blur(20px) contrast(0.8)",
+          opacity: open ? 1 : 0,
+          transition: "opacity 0.65s ease",
+        }}
+      />
     </Portal>
   );
 }

@@ -19,6 +19,8 @@ const createImageContainerSx = (width: string, height: string) => ({
   height,
   maxWidth: `calc(${height} * (16 / 9))`,
   maxHeight: `calc(${width} * (9 / 16))`,
+  boxShadow: 20,
+  borderRadius: 1,
 });
 
 export default async function CarouselsImage({

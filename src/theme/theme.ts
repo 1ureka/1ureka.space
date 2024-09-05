@@ -82,6 +82,9 @@ export const theme = createTheme({
           layer3: "#bdbdbd",
           backdrop: "#ffffff60",
         },
+        background: {
+          default: "#e0e0e0",
+        },
       },
     },
     dark: {
@@ -97,6 +100,9 @@ export const theme = createTheme({
           layer2: "#1A1A1A",
           layer3: "#1A1A1A",
           backdrop: "#00000099",
+        },
+        background: {
+          default: "#1A1A1A",
         },
       },
     },

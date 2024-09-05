@@ -4,13 +4,13 @@ import Link from "next/link";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { usePathname } from "next/navigation";
 
-function isValidPath(path: string): "images" | "sounds" | "3d" | null {
+function isValidPath(path: string): "images" | "projects" | null {
   if (!path.startsWith("/files/")) return null;
 
   const value = path.split("/")[2];
-  if (!["images", "sounds", "3d"].includes(value)) return null;
+  if (value === "images" || value === "projects") return value;
 
-  return value as "images" | "sounds" | "3d";
+  return null;
 }
 
 export default function CategoryToggle() {
@@ -24,14 +24,9 @@ export default function CategoryToggle() {
           Images
         </ToggleButton>
       </Link>
-      <Link href="/files/sounds">
-        <ToggleButton value="sounds" sx={{ px: 1, py: 0.5 }}>
-          Sounds
-        </ToggleButton>
-      </Link>
-      <Link href="/files/3d">
-        <ToggleButton value="3d" sx={{ px: 1, py: 0.5 }}>
-          3D
+      <Link href="/files/projects">
+        <ToggleButton value="projects" sx={{ px: 1, py: 0.5 }}>
+          Projects
         </ToggleButton>
       </Link>
     </ToggleButtonGroup>

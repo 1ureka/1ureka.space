@@ -5,6 +5,7 @@ import { getSortedMetadata } from "@/data/metadata";
 import { DeleteForm, UploadForm } from "@/components/(files)/form";
 import { ModifyForm, VerifyForm } from "@/components/(files)/form";
 import Table from "@/components/(files)/Table";
+import Block from "@/components/Block";
 
 export default async function Page({
   searchParams,
@@ -22,7 +23,7 @@ export default async function Page({
   const metadataList = await getSortedMetadata(category);
 
   return (
-    <>
+    <Block sx={{ gridArea: "content" }}>
       <Table metadataList={metadataList} />
       <UploadForm
         open={form === "upload"}
@@ -43,6 +44,6 @@ export default async function Page({
         open={form === "verify"}
         closeHref={{ pathname: "/files/images", query: { category } }}
       />
-    </>
+    </Block>
   );
 }

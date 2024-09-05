@@ -3,7 +3,7 @@ export const metadata: Metadata = {
   title: "files",
 };
 
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import Block from "@/components/Block";
 import CategoryToggle from "@/components/(files)/CategoryToggle";
 import RefreshButton from "@/components/(files)/RefreshButton";
@@ -69,10 +69,13 @@ export default async function Layout({
         color="primary.main"
         sx={{ gridArea: "header2" }}
       >
-        {header}
+        <Stack gap={1}>
+          <Typography variant="subtitle2">OPERATION:</Typography>
+          {header}
+        </Stack>
       </Block>
 
-      <Block sx={{ gridArea: "content" }}>{children}</Block>
+      {children}
     </BoxM>
   );
 }

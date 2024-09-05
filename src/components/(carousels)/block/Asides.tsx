@@ -4,9 +4,11 @@ import { Major_Mono_Display } from "next/font/google";
 import { useEffect } from "react";
 import { useMotionTemplate, useSpring } from "framer-motion";
 
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 import PhotoRoundedIcon from "@mui/icons-material/PhotoRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
 
 import { StackM } from "@/components/Motion";
 import { useCarouselIndex } from "@/hooks";
@@ -106,23 +108,69 @@ function Indicator({ current, total }: { current: number; total: number }) {
   );
 }
 
+function KBD({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      component="kbd"
+      sx={{
+        borderRadius: 1,
+        bgcolor: "divider",
+        aspectRatio: 1,
+        display: "grid",
+        placeItems: "center",
+        p: 0.5,
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+
 function Hint() {
   return (
     <Stack
-      direction="row"
-      alignItems="ceter"
-      spacing={3.5}
-      sx={{ color: "text.secondary" }}
+      gap={2.5}
+      sx={{ position: "relative", color: "text.secondary", zIndex: 999 }}
     >
-      <Stack direction="row" alignItems="ceter" spacing={1}>
-        <RightClickIcon fontSize="small" />
-        <Typography variant="caption">exit</Typography>
+      <Stack direction="row" alignItems="center" gap={1}>
+        <IconButton
+          sx={{
+            transition: "all 0.15s ease",
+            scale: "1.001",
+            "&:hover": { scale: "1.07" },
+            "&:active": { scale: "0.97" },
+          }}
+        >
+          <CloseRoundedIcon fontSize="small" />
+        </IconButton>
+
+        <Typography variant="body2">exit</Typography>
+
+        <KBD>
+          <RightClickIcon fontSize="small" />
+        </KBD>
       </Stack>
 
-      <Stack direction="row" alignItems="ceter" spacing={1}>
-        <LeftClickIcon fontSize="small" />
-        <PhotoRoundedIcon fontSize="small" />
-        <Typography variant="caption">fullscreen</Typography>
+      <Stack direction="row" alignItems="center" gap={1}>
+        <IconButton
+          sx={{
+            transition: "all 0.15s ease",
+            scale: "1.001",
+            "&:hover": { scale: "1.07" },
+            "&:active": { scale: "0.97" },
+          }}
+        >
+          <OpenInFullRoundedIcon fontSize="small" />
+        </IconButton>
+
+        <Typography variant="body2">fullscreen</Typography>
+
+        <KBD>
+          <LeftClickIcon fontSize="small" />
+        </KBD>
+        <KBD>
+          <PhotoRoundedIcon fontSize="small" />
+        </KBD>
       </Stack>
     </Stack>
   );

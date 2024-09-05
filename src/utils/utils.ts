@@ -89,18 +89,6 @@ export function trackProgress<T>(
 }
 
 /**
- * 檢查任何值是否為有效的索引值，若是則返回索引值，否則返回 -1。
- */
-export function isValidIndex(any: unknown, total: number) {
-  if (typeof any !== "string" && typeof any !== "number") return -1;
-
-  const index = parseInt(`${any}`, 10);
-  if (Number.isNaN(index) || index < 0 || index >= total) return -1;
-
-  return index;
-}
-
-/**
  * 產生一個偽隨機數生成器 (PRNG) 函數。
  */
 export function createPRNG(seed: number) {
@@ -112,4 +100,110 @@ export function createPRNG(seed: number) {
   }
 
   return next;
+}
+
+/**
+ * 生成偽隨機陣列，根據種子、長度、關鍵字
+ * 若關鍵字為字串陣列或不是兩個數字的數字陣列，則生成對應關鍵字的隨機索引陣列
+ * 若關鍵字為兩個數字的數字陣列，則生成對應範圍的隨機數字陣列
+ */
+export function generatePRNGArray<T extends string | number>(
+  seed: number,
+  length: number,
+  keywords: T[]
+): T[] {
+  if (keywords.every((e) => typeof e === "string") || keywords.length !== 2) {
+    const generate = createPRNG(seed);
+    const emptys = Array(length).fill(null);
+    const random01 = emptys.map(() => generate());
+
+    const randomIndexes = random01.map((value) =>
+      Math.floor(value * keywords.length)
+    );
+    return randomIndexes.map((index) => keywords[index]) as T[];
+  } else {
+    const generate = createPRNG(seed);
+    const emptys = Array(length).fill(null);
+    const random01 = emptys.map(() => generate());
+
+    const [min, max] = keywords;
+    if (typeof min !== "number" || typeof max !== "number") throw new Error("");
+    const randomNumbers = random01.map((value) => value * (max - min) + min);
+    return randomNumbers as T[];
+  }
+}
+
+/**
+ * 將陣列依照指定種子利用偽隨機排序
+ */
+export function sortArrayByPRNG<T>(array: T[], seed: number): T[] {
+  const generate = createPRNG(seed);
+  const emptys = Array(array.length).fill(null);
+  const random01 = emptys.map(() => generate());
+
+  const randomIndexes = random01.map((value) => value * array.length);
+  return (
+    array
+      // 準備一個物件陣列，包含原始物件與隨機權重
+      .map((item, i) => ({ item, randomWeight: randomIndexes[i] }))
+      // 依照隨機權重排序
+      .toSorted((a, b) => a.randomWeight - b.randomWeight)
+      // 取出原始物件
+      .map(({ item }) => item)
+  );
+}
+
+/**
+ * 緊固數字至指定範圍
+ */
+export function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+/**
+ * 將數值陣列映射到指定範圍，並選擇是否離散化
+ */
+export function mapArrayToRange(
+  array: number[],
+  range: [number, number],
+  isDiscrete = false
+) {
+  const [min, max] = range;
+  const arrayMax = Math.max(...array);
+  const arrayMin = Math.min(...array);
+  const arrayRange = arrayMax - arrayMin;
+  const rangeLength = max - min;
+  const ratio = rangeLength / arrayRange;
+
+  const output = array.map((num) => (num - arrayMin) * ratio + min);
+  return isDiscrete ? output.map(Math.round) : output;
+}
+
+/**
+ * 將數值陣列做極化處理，利用次方運算中，小於1的數字次方後會變小，反之則變大的特性
+ * 其中exp為次方數，offset為偏移量(-1 ~ 1)
+ */
+export function polarizeArray(array: number[], exp = 2, offset = 0) {
+  if (Number.isNaN(exp)) return array;
+  if (offset < -1) offset = -1;
+  if (offset > 1) offset = 1;
+
+  const max = Math.max(...array);
+  const min = Math.min(...array);
+  const range = max - min;
+
+  // 先將數值標準化(0 ~ 1)
+  const normalizedArray = array.map((value) => (value - min) / range);
+  // 根據偏移量調整數值
+  const offsetArray = normalizedArray.map((value) =>
+    clamp(value + offset, 0, 1)
+  );
+  // 轉換成(0 ~ 2)，因為小於1的數字次方後會變小，反之則變大
+  const array02 = offsetArray.map((value) => value * 2);
+
+  const cb = (value: number) => value ** exp;
+  const pollarizedArray = array02.map(cb);
+  const output = mapArrayToRange(pollarizedArray, [min, max]);
+
+  return output;
 }

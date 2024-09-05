@@ -40,7 +40,7 @@ export default function Docker() {
         </DockItem>
 
         <DockItem title="Explore">
-          <NavLink href={"/explore/view/0"}>
+          <NavLink href={"/explore"}>
             <AutoStoriesRoundedIcon fontSize="small" />
           </NavLink>
         </DockItem>

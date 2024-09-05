@@ -45,7 +45,7 @@ const cardsProps: React.ComponentProps<typeof Card>[] = [
   {
     variant: "contained",
     color: "primary",
-    href: "/explore/view/0",
+    href: "/explore",
     sx: { gridArea: "main" },
     decoration: "both",
     icon: (

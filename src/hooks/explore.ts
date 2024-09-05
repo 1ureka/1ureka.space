@@ -1,39 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Fuse from "fuse.js";
-import { delay } from "@/utils/client-utils";
-import type { ImageMetadata } from "@/data/type";
+import { useParams } from "next/navigation";
 
 /**
- * 用於探索頁面的表單選取搜尋功能。
+ * 根據 slug 參數取得當前索引，並確保其在合法範圍內，若不合法則回傳預設值 0。
  */
-export function useExploreSearch(
-  search: string,
-  metadataList: ImageMetadata[]
-) {
-  const [filteredMetadataList, setFilteredMetadataList] =
-    useState(metadataList);
+export function useExploreIndex(total: number) {
+  const index = 0;
+  const params = useParams() as { [key: string]: string };
 
-  useEffect(() => {
-    if (search === "") {
-      setFilteredMetadataList(metadataList);
-      return;
-    }
+  if (!params || !params.slug) return index;
 
-    let current = true;
-    (async () => {
-      await delay(250);
-      if (!current) return;
-      const fuse = new Fuse(metadataList, { keys: ["name"] });
-      const result = fuse.search(search);
-      setFilteredMetadataList(result.map((r) => r.item));
-    })();
+  const slug = params.slug;
+  const num = parseInt(slug, 10);
 
-    return () => {
-      current = false;
-    };
-  }, [search, metadataList]);
+  if (!Number.isSafeInteger(num) || num < 0 || num >= total) return index;
 
-  return filteredMetadataList;
+  return num;
 }

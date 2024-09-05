@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
 
 import { validateSession } from "@/auth";
-import { StackM } from "@/components/Motion";
+import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
 
 export default async function Page({
@@ -21,10 +21,8 @@ export default async function Page({
       : "scene";
 
   return (
-    <StackM variants={createMotionVar()} gap={1}>
-      <Typography variant="subtitle2">OPERATION:</Typography>
-
-      <Stack direction="row" gap={1.5}>
+    <Stack direction="row" gap={1.5}>
+      <BoxM variants={createMotionVar()}>
         <Button
           startIcon={<AddToPhotosRoundedIcon fontSize="small" />}
           variant="contained"
@@ -40,7 +38,9 @@ export default async function Page({
         >
           Add Image
         </Button>
+      </BoxM>
 
+      <BoxM variants={createMotionVar()}>
         <Button
           startIcon={<ImageSearchRoundedIcon fontSize="small" />}
           variant="outlined"
@@ -55,7 +55,7 @@ export default async function Page({
         >
           Verify Integrity
         </Button>
-      </Stack>
-    </StackM>
+      </BoxM>
+    </Stack>
   );
 }

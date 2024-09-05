@@ -1,7 +1,7 @@
+import { validateSession } from "@/auth";
 import { Box, Portal } from "@mui/material";
 import Feed from "@/components/(explore)/Feed";
 import Intro from "@/components/(explore)/Intro";
-import { validateSession } from "@/auth";
 
 function MaxWidthContainer({ children }: { children: React.ReactNode }) {
   const width = "clamp(1200px, 100%, 1700px)";

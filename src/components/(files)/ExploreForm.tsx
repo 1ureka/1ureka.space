@@ -1,34 +1,14 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ButtonBase,
-  Divider,
-  MenuItem,
-  Skeleton,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
 import { useFieldArray, useForm } from "react-hook-form";
 import type { UseFormRegister, FieldArrayWithId } from "react-hook-form";
+import type { FieldErrors } from "react-hook-form";
+import { exploreSchema } from "@/schema/exploreSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-const exploreSchema = z.object({
-  project: z.string().min(1, "Please select a group first"),
-  description: z.string().min(1, "Please enter a description"),
-  imageFields: z.array(
-    z.object({
-      id: z.string().min(1, "Image ID is invalid"),
-      name: z.string().min(1, "Please select an image"),
-      camera: z
-        .number()
-        .int("Camera index must be integer")
-        .gte(0, "Camera index must be greater than or equal to 0"),
-      tag: z.string().min(1, "Please enter a tag for the image"),
-    })
-  ),
-});
+import { Divider, Portal, Skeleton, Stack, Typography } from "@mui/material";
+import { Button, ButtonBase, MenuItem, TextField } from "@mui/material";
 
 export default function Form({
   defaultValues,
@@ -36,6 +16,7 @@ export default function Form({
   defaultValues?: z.infer<typeof exploreSchema>;
 }) {
   const {
+    handleSubmit,
     register,
     control,
     formState: { errors, isSubmitting, isDirty },
@@ -53,6 +34,12 @@ export default function Form({
 
   return (
     <Stack gap={2}>
+      {errors.project?.message && (
+        <Typography variant="caption" color="error">
+          {errors.project.message}
+        </Typography>
+      )}
+
       <TextField
         variant="filled"
         label="Description"
@@ -62,12 +49,20 @@ export default function Form({
         multiline
         rows={3}
         {...register("description")}
+        helperText={errors.description?.message}
+        error={!!errors.description}
       />
 
       <Divider />
 
       <Stack gap={1.5}>
         <Typography>Images: </Typography>
+        {errors.imageFields?.root?.message ||
+          (errors.imageFields?.message && (
+            <Typography variant="caption" color="error">
+              {errors.imageFields?.message || errors.imageFields?.root?.message}
+            </Typography>
+          ))}
 
         {fields.map((field, i) => (
           <ImageField
@@ -76,9 +71,26 @@ export default function Form({
             cameras={possibleCameras}
             register={register}
             field={field}
+            errors={errors}
           />
         ))}
       </Stack>
+
+      <Portal container={() => document.getElementById("form-submit")}>
+        <Button
+          variant="contained"
+          disabled={isSubmitting || !isDirty}
+          onClick={handleSubmit((data) => console.log(data))}
+          sx={{
+            transition: "all 0.2s ease",
+            scale: "1.001",
+            "&:hover": { scale: "1.05" },
+            "&:active": { scale: "0.97" },
+          }}
+        >
+          {isSubmitting ? "Saving..." : "Save"}
+        </Button>
+      </Portal>
     </Stack>
   );
 }
@@ -89,9 +101,16 @@ type ImageFieldProps = {
   active?: boolean;
   register: UseFormRegister<z.infer<typeof exploreSchema>>;
   field: FieldArrayWithId<z.infer<typeof exploreSchema>>;
+  errors: FieldErrors<z.infer<typeof exploreSchema>>;
 };
 
-function ImageField({ index, cameras, register, field }: ImageFieldProps) {
+function ImageField({
+  index,
+  cameras,
+  register,
+  field,
+  errors,
+}: ImageFieldProps) {
   return (
     <Stack
       sx={{
@@ -109,6 +128,7 @@ function ImageField({ index, cameras, register, field }: ImageFieldProps) {
         fullWidth
         disabled
         defaultValue={field.name}
+        error={!!errors.imageFields?.[index]?.root}
       />
 
       <ButtonBase
@@ -135,6 +155,8 @@ function ImageField({ index, cameras, register, field }: ImageFieldProps) {
           fullWidth
           defaultValue={field.camera}
           {...register(`imageFields.${index}.camera`)}
+          helperText={errors.imageFields?.[index]?.camera?.message}
+          error={!!errors.imageFields?.[index]?.camera}
           sx={{ flex: 1 }}
         >
           {cameras.map((i) => (
@@ -152,6 +174,8 @@ function ImageField({ index, cameras, register, field }: ImageFieldProps) {
           fullWidth
           defaultValue={field.tag}
           {...register(`imageFields.${index}.tag`)}
+          helperText={errors.imageFields?.[index]?.tag?.message}
+          error={!!errors.imageFields?.[index]?.tag}
           sx={{ flex: 1 }}
         />
       </Stack>

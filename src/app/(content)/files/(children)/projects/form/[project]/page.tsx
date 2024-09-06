@@ -9,20 +9,30 @@ import Block from "@/components/Block";
 import Form from "@/components/(files)/ExploreForm";
 const MenuItem = MuiMenuItem as React.ElementType;
 
+const allGroups = ["group1", "group2", "group3", "group4", "group5"];
+const avalibleGroups = ["group1", "group2", "group3"];
+
 async function getGroups() {
   await delay(Math.random() * 1000);
-  const allGroups = ["group1", "group2", "group3", "group4", "group5"];
-  const avalibleGroups = ["group1", "group2", "group3"];
   return { allGroups, avalibleGroups };
 }
 
-// 根據組獲取該組的ImageFields，若該組未創建過，有關explore訊息為預設值
 async function getImageFieldsByGroup(group: string) {
   await delay(Math.random() * 1000);
+
+  if (!group) return [];
+
+  if (avalibleGroups.includes(group))
+    return [
+      { id: "image01Id", name: "image01", camera: 0, tag: "" },
+      { id: "image02Id", name: "image02", camera: 0, tag: "" },
+      { id: "image03Id", name: "image03", camera: 0, tag: "" },
+    ];
+
   return [
-    { id: "image01Id", name: "image01", camera: 0, tag: "" },
-    { id: "image02Id", name: "image02", camera: 0, tag: "" },
-    { id: "image03Id", name: "image03", camera: 0, tag: "" },
+    { id: "image01Id", name: "image01", camera: 0, tag: "tag01" },
+    { id: "image02Id", name: "image02", camera: 2, tag: "tag02" },
+    { id: "image03Id", name: "image03", camera: 2, tag: "tag03" },
   ];
 }
 
@@ -96,6 +106,8 @@ export default async function Page({
               sx={{ width: 1, height: 1 }}
             />
           </Box>
+
+          <Box id="form-submit" sx={{ display: "grid", justifyItems: "end" }} />
         </Stack>
       </Box>
     </Block>

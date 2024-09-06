@@ -54,6 +54,20 @@ export async function getMetadataById(metadataId: string) {
   }
 }
 
+export async function getMetadataByGroup(group: string) {
+  try {
+    if (!group) return [];
+
+    return db.imageMetadata.findMany({
+      where: { group },
+      select: { id: true, name: true, explore: true },
+      orderBy: { name: "asc" },
+    });
+  } catch (error) {
+    throw new Error(`Failed to query metadata by group`);
+  }
+}
+
 // 管理員查詢
 export async function getAllMetadata<T extends Select>(select: T) {
   try {
@@ -62,6 +76,28 @@ export async function getAllMetadata<T extends Select>(select: T) {
     return db.imageMetadata.findMany({ select });
   } catch (error) {
     throw new Error(`Failed to query image metadata`);
+  }
+}
+
+export async function getAllGroups() {
+  try {
+    await auth();
+
+    const result = await db.imageMetadata.findMany({
+      where: { category: "scene" },
+      select: { group: true, explore: { select: { id: true } } },
+      distinct: ["group"],
+      orderBy: { group: "asc" },
+    });
+
+    const allGroups = result.map(({ group }) => group);
+    const avalibleGroups = result
+      .filter(({ explore }) => !explore)
+      .map(({ group }) => group);
+
+    return { allGroups, avalibleGroups };
+  } catch (error) {
+    throw new Error(`Failed to query group metadata`);
   }
 }
 

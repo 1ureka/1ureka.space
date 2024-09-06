@@ -3,6 +3,8 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import type { UseFormRegister, FieldArrayWithId } from "react-hook-form";
 import type { FieldErrors } from "react-hook-form";
+
+import { useFilesBeforeUnload } from "@/hooks";
 import { exploreSchema } from "@/schema/exploreSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -10,7 +12,7 @@ import { z } from "zod";
 import { Divider, Portal, Skeleton, Stack, Typography } from "@mui/material";
 import { Button, ButtonBase, MenuItem, TextField } from "@mui/material";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
-import { useFilesBeforeUnload } from "@/hooks";
+import Image from "next/image";
 
 export default function Form({
   defaultValues,
@@ -149,6 +151,12 @@ function ImageField({
           animation="wave"
           variant="rectangular"
           sx={{ width: 1, height: 1 }}
+        />
+        <Image
+          src={`/api/image/${field.metadataId}/thumbnail`}
+          alt={field.name}
+          fill
+          unoptimized
         />
       </ButtonBase>
 

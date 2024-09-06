@@ -107,7 +107,10 @@ export default async function Page({
             />
           </Box>
 
-          <Box id="form-submit" sx={{ display: "grid", justifyItems: "end" }} />
+          <Box
+            id="form-submit"
+            sx={{ display: "grid", justifyItems: "center", mt: 1 }}
+          />
         </Stack>
       </Box>
     </Block>

@@ -9,6 +9,7 @@ import { z } from "zod";
 
 import { Divider, Portal, Skeleton, Stack, Typography } from "@mui/material";
 import { Button, ButtonBase, MenuItem, TextField } from "@mui/material";
+import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 
 export default function Form({
   defaultValues,
@@ -78,14 +79,17 @@ export default function Form({
 
       <Portal container={() => document.getElementById("form-submit")}>
         <Button
+          startIcon={<SaveRoundedIcon />}
           variant="contained"
           disabled={isSubmitting || !isDirty}
           onClick={handleSubmit((data) => console.log(data))}
+          size="large"
           sx={{
             transition: "all 0.2s ease",
             scale: "1.001",
-            "&:hover": { scale: "1.05" },
-            "&:active": { scale: "0.97" },
+            "&:hover": { scale: "1.02" },
+            "&:active": { scale: "1" },
+            px: 3,
           }}
         >
           {isSubmitting ? "Saving..." : "Save"}

@@ -6,7 +6,7 @@ export const exploreSchema = z.object({
   imageFields: z
     .array(
       z.object({
-        id: z.string().trim().min(1, "Image ID is invalid"),
+        metadataId: z.string().trim().min(1, "Image ID is invalid"),
         name: z.string().trim().min(1, "Please select an image"),
         camera: z
           .number()

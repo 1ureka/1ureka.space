@@ -9,10 +9,13 @@ import { exploreSchema } from "@/schema/exploreSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { Divider, Portal, Skeleton, Stack, Typography } from "@mui/material";
-import { Button, ButtonBase, MenuItem, TextField } from "@mui/material";
+import { Box, Skeleton, Stack, Typography } from "@mui/material";
+import { Button, MenuItem, TextField, Portal } from "@mui/material";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
+
 import Image from "next/image";
+import { BoxM, DividerM, StackM } from "@/components/Motion";
+import { createMotionVar } from "../MotionProps";
 
 export default function Form({
   defaultValues,
@@ -46,29 +49,34 @@ export default function Form({
         </Typography>
       )}
 
-      <TextField
-        variant="filled"
-        label="Description"
-        required
-        size="small"
-        fullWidth
-        multiline
-        rows={3}
-        {...register("description")}
-        helperText={errors.description?.message}
-        error={!!errors.description}
-      />
+      <BoxM variants={createMotionVar()} layout>
+        <TextField
+          variant="filled"
+          label="Description"
+          required
+          size="small"
+          fullWidth
+          multiline
+          rows={3}
+          {...register("description")}
+          helperText={errors.description?.message}
+          error={!!errors.description}
+        />
+      </BoxM>
 
-      <Divider />
+      <DividerM layout variants={createMotionVar()} />
 
       <Stack gap={1.5}>
-        <Typography>Images: </Typography>
-        {errors.imageFields?.root?.message ||
-          (errors.imageFields?.message && (
-            <Typography variant="caption" color="error">
-              {errors.imageFields?.message || errors.imageFields?.root?.message}
-            </Typography>
-          ))}
+        <StackM gap={1} layout variants={createMotionVar()}>
+          <Typography>Images: </Typography>
+          {errors.imageFields?.root?.message ||
+            (errors.imageFields?.message && (
+              <Typography variant="caption" color="error">
+                {errors.imageFields?.message ||
+                  errors.imageFields?.root?.message}
+              </Typography>
+            ))}
+        </StackM>
 
         {fields.map((field, i) => (
           <ImageField
@@ -86,7 +94,7 @@ export default function Form({
         <Button
           startIcon={<SaveRoundedIcon />}
           variant="contained"
-          disabled={isSubmitting || !isDirty}
+          disabled={isSubmitting || !isDirty || !defaultValues?.project}
           onClick={handleSubmit((data) => console.log(data))}
           size="large"
           sx={{
@@ -107,7 +115,6 @@ export default function Form({
 type ImageFieldProps = {
   index: number;
   cameras: number[];
-  active?: boolean;
   register: UseFormRegister<z.infer<typeof exploreSchema>>;
   field: FieldArrayWithId<z.infer<typeof exploreSchema>>;
   errors: FieldErrors<z.infer<typeof exploreSchema>>;
@@ -121,11 +128,13 @@ function ImageField({
   errors,
 }: ImageFieldProps) {
   return (
-    <Stack
+    <StackM
+      variants={createMotionVar()}
+      layout="position"
       sx={{
         gap: 1,
         border: "2px solid",
-        borderColor: index === 0 ? "primary.main" : "divider",
+        borderColor: "divider",
         borderRadius: 2,
         p: 1,
       }}
@@ -140,8 +149,9 @@ function ImageField({
         error={!!errors.imageFields?.[index]?.root}
       />
 
-      <ButtonBase
+      <Box
         sx={{
+          position: "relative",
           aspectRatio: 16 / 9,
           borderRadius: 1,
           overflow: "hidden",
@@ -158,7 +168,7 @@ function ImageField({
           fill
           unoptimized
         />
-      </ButtonBase>
+      </Box>
 
       <Stack sx={{ flexDirection: "row", gap: 1 }}>
         <TextField
@@ -194,6 +204,6 @@ function ImageField({
           sx={{ flex: 1 }}
         />
       </Stack>
-    </Stack>
+    </StackM>
   );
 }

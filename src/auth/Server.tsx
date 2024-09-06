@@ -32,7 +32,7 @@ export default async function AuthForm() {
     <BoxM variants={createMotionVar()} sx={containerSx}>
       <Avatar
         src={(session && session.user?.image) ?? undefined}
-        sx={{ width: 36, height: 36 }}
+        sx={{ width: 36, height: 36, color: "primary.contrastText" }}
       />
 
       <Typography sx={{ fontSize: "0.8rem" }}>

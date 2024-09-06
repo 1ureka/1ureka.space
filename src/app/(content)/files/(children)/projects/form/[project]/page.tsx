@@ -1,40 +1,17 @@
 import { validateSession } from "@/auth";
-import { delay } from "@/utils/server-utils";
+import { getAllGroups, getMetadataByGroup } from "@/data/metadata";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 import { Box, Skeleton, Stack, TextField, Typography } from "@mui/material";
 import { MenuItem as MuiMenuItem } from "@mui/material";
-import Block from "@/components/Block";
-import Form from "@/components/(files)/ExploreForm";
 const MenuItem = MuiMenuItem as React.ElementType;
 
-const allGroups = ["group1", "group2", "group3", "group4", "group5"];
-const avalibleGroups = ["group1", "group2", "group3"];
-
-async function getGroups() {
-  await delay(Math.random() * 1000);
-  return { allGroups, avalibleGroups };
-}
-
-async function getImageFieldsByGroup(group: string) {
-  await delay(Math.random() * 1000);
-
-  if (!group) return [];
-
-  if (avalibleGroups.includes(group))
-    return [
-      { id: "image01Id", name: "image01", camera: 0, tag: "" },
-      { id: "image02Id", name: "image02", camera: 0, tag: "" },
-      { id: "image03Id", name: "image03", camera: 0, tag: "" },
-    ];
-
-  return [
-    { id: "image01Id", name: "image01", camera: 0, tag: "tag01" },
-    { id: "image02Id", name: "image02", camera: 2, tag: "tag02" },
-    { id: "image03Id", name: "image03", camera: 2, tag: "tag03" },
-  ];
-}
+import Block from "@/components/Block";
+import Form from "@/components/(files)/ExploreForm";
+import { BoxM, StackM } from "@/components/Motion";
+import { createMotionVar } from "@/components/MotionProps";
 
 export default async function Page({
   params,
@@ -43,10 +20,10 @@ export default async function Page({
 }) {
   await validateSession();
 
-  const { avalibleGroups, allGroups } = await getGroups();
+  const { avalibleGroups, allGroups } = await getAllGroups();
   let group: string | null = null;
   let isEdit = false;
-  const { project } = params;
+  const project = decodeURIComponent(params.project);
 
   if (project === "new") {
     group = "";
@@ -56,13 +33,24 @@ export default async function Page({
     group = project;
   }
 
-  const imageFields = await getImageFieldsByGroup(group);
-  const defaultValues = { project: group, description: "", imageFields };
+  const result = await getMetadataByGroup(group);
+  const imageFields = result.map(({ id, name, explore }) => ({
+    metadataId: id,
+    name,
+    camera: explore?.camera ?? 0,
+    tag: explore?.tag ?? "",
+  }));
+
+  const defaultValues = {
+    project: group,
+    description: result[0]?.explore?.detail ?? "",
+    imageFields,
+  };
 
   return (
     <Block sx={{ gridArea: "content" }}>
       <Box sx={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 5 }}>
-        <Stack gap={2} sx={{ minWidth: 350 }}>
+        <StackM gap={2} sx={{ minWidth: 350 }} variants={createMotionVar()}>
           <Stack gap={1.5}>
             <Typography>Project Name: </Typography>
 
@@ -76,6 +64,13 @@ export default async function Page({
               helperText="A project is inherited from the group"
               defaultValue={group}
               disabled={isEdit}
+              slotProps={{
+                select: {
+                  MenuProps: {
+                    slotProps: { paper: { style: { maxHeight: 300 } } },
+                  },
+                },
+              }}
             >
               {!isEdit &&
                 avalibleGroups.map((g) => (
@@ -92,22 +87,45 @@ export default async function Page({
           </Stack>
 
           <Form defaultValues={defaultValues} />
-        </Stack>
+        </StackM>
 
         <Stack
           sx={{ position: "sticky", top: 0, gap: 1, height: "fit-content" }}
         >
-          <Typography variant="subtitle2">Cover Image: </Typography>
+          <BoxM variants={createMotionVar()}>
+            <Typography variant="subtitle1">Cover Image: </Typography>
+            <Typography variant="caption">
+              (the first image order by name in the group)
+            </Typography>
+          </BoxM>
 
-          <Box sx={{ width: 1, aspectRatio: 16 / 9 }}>
+          <BoxM
+            variants={createMotionVar({ from: { y: 0 } })}
+            sx={{
+              position: "relative",
+              width: 1,
+              aspectRatio: 16 / 9,
+              borderRadius: 2,
+              overflow: "clip",
+            }}
+          >
             <Skeleton
               animation="wave"
-              variant="rounded"
+              variant="rectangular"
               sx={{ width: 1, height: 1 }}
             />
-          </Box>
+            {imageFields[0]?.metadataId && (
+              <Image
+                src={`/api/image/${imageFields[0]?.metadataId}/origin`}
+                alt={imageFields[0]?.name}
+                fill
+                unoptimized
+              />
+            )}
+          </BoxM>
 
-          <Box
+          <BoxM
+            variants={createMotionVar()}
             id="form-submit"
             sx={{ display: "grid", justifyItems: "center", mt: 1 }}
           />

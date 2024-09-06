@@ -6,7 +6,11 @@ import { validateSession } from "@/auth";
 import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
 
-export default async function Page() {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   await validateSession();
 
   return (
@@ -28,6 +32,8 @@ export default async function Page() {
           Back to Projects
         </Button>
       </BoxM>
+
+      {children}
     </Stack>
   );
 }

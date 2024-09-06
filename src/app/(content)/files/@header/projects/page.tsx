@@ -17,7 +17,7 @@ export default async function Page() {
           variant="contained"
           disableElevation
           component={Link}
-          href={`/files/projects/create`}
+          href={`/files/projects/form/new`}
           sx={{
             transition: "all 0.25s ease",
             scale: "1.001",

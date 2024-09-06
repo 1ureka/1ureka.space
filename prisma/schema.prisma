@@ -27,10 +27,13 @@ model ImageMetadata {
 
 model ExploreMetadata {
     id         String        @id @default(cuid())
-    project    String
-    type       String
+    detail     String
+    tag        String
+    camera     Int
     metadata   ImageMetadata @relation(fields: [metadataId], references: [id], onDelete: Cascade)
     metadataId String        @unique
+
+    @@unique([tag, camera, detail])
 }
 
 model Thumbnail {

@@ -10,6 +10,7 @@ import { z } from "zod";
 import { Divider, Portal, Skeleton, Stack, Typography } from "@mui/material";
 import { Button, ButtonBase, MenuItem, TextField } from "@mui/material";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
+import { useFilesBeforeUnload } from "@/hooks";
 
 export default function Form({
   defaultValues,
@@ -25,6 +26,8 @@ export default function Form({
     resolver: zodResolver(exploreSchema),
     defaultValues,
   });
+
+  useFilesBeforeUnload(isDirty);
 
   const { fields } = useFieldArray({
     control,

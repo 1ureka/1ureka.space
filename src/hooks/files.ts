@@ -149,3 +149,20 @@ export const useFilesRows = () => {
 
   return { TableRowProps, CheckBoxProps };
 };
+
+/**
+ * 負責在isDirty時，註冊一個事件監聽器，以提示用戶離開頁面時的未保存更改。
+ */
+export const useFilesBeforeUnload = (isDirty: boolean) => {
+  useEffect(() => {
+    if (!isDirty) return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
+};

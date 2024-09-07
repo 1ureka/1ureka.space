@@ -1,12 +1,18 @@
 import { validateSession } from "@/auth";
-import { getProject } from "../utils";
+import { getCoverData, getProject } from "../utils";
 import { ButtonBase, Skeleton } from "@mui/material";
 import Image from "next/image";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   await validateSession();
   const data = await getProject(params.slug);
-  const coverData = data[0];
+  const coverData = getCoverData(data, searchParams);
   const src = `/api/image/${coverData.metadataId}/origin`;
 
   return (

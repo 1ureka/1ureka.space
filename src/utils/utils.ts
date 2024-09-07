@@ -207,3 +207,23 @@ export function polarizeArray(array: number[], exp = 2, offset = 0) {
 
   return output;
 }
+
+/**
+ * 實現 Single Flight 模式，用於限制同時只能執行一個相同的異步操作，並共享它的結果。
+ */
+export class SingleFlight {
+  private _inFlight: Promise<unknown> | null = null;
+
+  async execute<T>(fn: () => Promise<T>): Promise<T> {
+    if (this._inFlight === null) {
+      this._inFlight = (async () => {
+        try {
+          return await fn();
+        } finally {
+          this._inFlight = null;
+        }
+      })();
+    }
+    return this._inFlight as Promise<T>;
+  }
+}

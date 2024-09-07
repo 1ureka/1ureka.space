@@ -4,7 +4,7 @@ import { getSortedMetadata } from "@/data/metadata";
 
 import { DeleteForm, UploadForm } from "@/components/(files)/form";
 import { ModifyForm, VerifyForm } from "@/components/(files)/form";
-import Table from "@/components/(files)/Table";
+import Table from "@/components/(files)/ImagesTable";
 import Block from "@/components/Block";
 
 export default async function Page({

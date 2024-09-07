@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "explore",
+};
+
 import { validateSession } from "@/auth";
+import { BoxM } from "@/components/Motion";
+import { createMotionProps } from "@/components/MotionProps";
+
 import { Box, Portal } from "@mui/material";
 import Feed from "@/components/(explore)/Feed";
 import Intro from "@/components/(explore)/Intro";
-import { BoxM } from "@/components/Motion";
-import { createMotionProps } from "@/components/MotionProps";
 
 function MaxWidthContainer({ children }: { children: React.ReactNode }) {
   const width = "clamp(1200px, 100%, 1700px)";

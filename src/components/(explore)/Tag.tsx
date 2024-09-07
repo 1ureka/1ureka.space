@@ -4,6 +4,7 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
 
+import Link from "next/link";
 import { Chip } from "@mui/material";
 import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
@@ -16,9 +17,14 @@ const iconMap: { [key: string]: React.JSX.Element } = {
   defaultTag: <TagRoundedIcon fontSize="small" />,
 };
 
-type TagProps = { active?: boolean; label: string; disabled?: boolean };
+type TagProps = {
+  active?: boolean;
+  label: string;
+  disabled?: boolean;
+  href: string;
+};
 
-function Tag({ active, label, disabled }: TagProps) {
+function Tag({ active, label, disabled, href }: TagProps) {
   const baseSx = {
     transition: "all 0.15s ease",
     scale: "0.9",
@@ -39,13 +45,15 @@ function Tag({ active, label, disabled }: TagProps) {
     : iconMap.defaultTag;
 
   return (
-    <BoxM variants={createMotionVar()}>
+    <BoxM variants={createMotionVar()} layout>
       <Chip
         label={label}
         clickable
         color={active ? "primary" : "default"}
         sx={!active ? baseSx : { ...baseSx, ...activeSx }}
         icon={active ? icon : undefined}
+        component={Link}
+        href={href}
         disabled={disabled}
       />
     </BoxM>

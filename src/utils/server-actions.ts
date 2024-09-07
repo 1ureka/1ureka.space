@@ -4,18 +4,23 @@ import sharp from "sharp";
 import { z } from "zod";
 import { createMetadataSchema } from "@/schema/metadataSchema";
 import { MetadataSchema, MetadataWithIdSchema } from "@/schema/metadataSchema";
+import { exploreSchema } from "@/schema/exploreSchema";
 
 import { encryptImage, validateSession } from "@/auth";
 import { createOriginBuffer } from "@/utils/server-utils";
 import { createThumbnailBuffer } from "@/utils/server-utils";
 
-import { getAllMetadata, createMetadata } from "@/data/metadata";
+import { getAllMetadata, getMetadataByGroup } from "@/data/metadata";
+import { getAllGroups, createMetadata } from "@/data/metadata";
 import { deleteMetadata, updateMetadata } from "@/data/metadata";
+import { createExploreMetadata, deleteExploreMetadata } from "@/data/metadata";
+import { updateExploreMetadata } from "@/data/metadata";
 import { createThumbnails } from "@/data/thumbnail";
 import { createOrigins } from "@/data/origin";
 
 import { verifyAllCategory, summaryCategorySize } from "@/data/verify";
 import { verifyAllOrigin, verifyAllThumbnail } from "@/data/verify";
+import { redirect } from "next/navigation";
 
 /**
  * 驗證上傳的圖片元數據。
@@ -220,6 +225,151 @@ export async function verifyIntegrity() {
         summary,
       },
     };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
+    return { error: ["Something went wrong"] };
+  }
+}
+
+/**
+ * 用於上傳或更新explore project的驗證。
+ */
+async function validateProject(data: z.infer<typeof exploreSchema>) {
+  // 基本檢查
+  const result = exploreSchema.safeParse(data);
+  if (!result.success) {
+    const errorMessages = result.error.issues.map((issue) => {
+      const { path, message } = issue;
+      return `"${message}" at field "${path.join(".")}"`;
+    });
+
+    return { error: errorMessages };
+  }
+
+  // 獲取檢查所需的數據
+  const [groups, metadataList] = await Promise.all([
+    getAllGroups(),
+    getMetadataByGroup(data.project),
+  ]);
+
+  // 檢查project name
+  const { allGroups, avalibleGroups } = groups;
+  if (!allGroups.includes(data.project)) {
+    return { error: ["Group does not exist."] };
+  }
+
+  // 檢查metadataId是否存在，並且數量是否等於該group的metadata數量
+  const metadataIds = data.imageFields.map(({ metadataId }) => metadataId);
+  const groupIds = metadataList.map(({ id }) => id);
+  if (!metadataIds.every((id) => groupIds.includes(id))) {
+    return { error: ["Some image do not exist."] };
+  }
+  if (metadataIds.length !== groupIds.length) {
+    return { error: ["Some image are missing."] };
+  }
+
+  // imageFields的@@unique([tag, camera, detail])約束
+  const detail = data.description;
+  const uniqueFields = new Set();
+  for (const { tag, camera } of data.imageFields) {
+    const key = `${tag}-${camera}-${detail}`;
+    if (uniqueFields.has(key)) {
+      return { error: ["Duplicate image fields."] };
+    }
+
+    uniqueFields.add(key);
+  }
+
+  if (!avalibleGroups.includes(data.project)) {
+    return { type: "update", metadataList };
+  }
+
+  return { type: "create" };
+}
+
+/**
+ * 上傳或更新新explore project
+ * @returns 成功時redirect，失敗時回傳一個包含錯誤訊息的物件。
+ */
+export async function uploadProject(data: z.infer<typeof exploreSchema>) {
+  try {
+    const session = await validateSession({ redirect: false });
+    if (!session) {
+      return { error: ["Authentication required to upload files."] };
+    }
+
+    const result = await validateProject(data);
+    if (result.error) return result;
+
+    if (result.type === "create") {
+      await createExploreMetadata(
+        data.imageFields.map((field) => ({
+          detail: data.description,
+          tag: field.tag,
+          camera: field.camera,
+          metadataId: field.metadataId,
+        }))
+      );
+    }
+
+    if (result.type === "update" && result.metadataList) {
+      await updateExploreMetadata(
+        data.imageFields.map((field) => {
+          const metadata = result.metadataList.find(
+            ({ id }) => id === field.metadataId
+          );
+
+          if (!metadata || !metadata.explore)
+            throw new Error("Something went wrong");
+
+          return {
+            id: metadata.explore.id,
+            detail: data.description,
+            tag: field.tag,
+            camera: field.camera,
+            metadataId: field.metadataId,
+          };
+        })
+      );
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: [error.message] };
+    }
+
+    return { error: ["Something went wrong"] };
+  }
+
+  redirect("/files/projects");
+}
+
+/**
+ * 刪除explore project
+ * @returns 成功時回傳 undefined，失敗時回傳一個包含錯誤訊息的物件。
+ */
+export async function deleteProject(project: string) {
+  try {
+    const session = await validateSession({ redirect: false });
+    if (!session) {
+      return { error: ["Authentication required to delete files."] };
+    }
+
+    // 檢查project是否存在
+    const metadataList = await getMetadataByGroup(project);
+    if (metadataList.length === 0) {
+      return { error: ["Project does not exist."] };
+    }
+
+    // 檢查該group下的每張圖片是否都有explore metadata
+    const exploreIds = metadataList.map(({ explore }) => explore?.id);
+    if (!exploreIds.every((id) => typeof id === "string")) {
+      return { error: ["Some images are not in the project."] };
+    }
+
+    await deleteExploreMetadata(exploreIds);
   } catch (error) {
     if (error instanceof Error) {
       return { error: [error.message] };

@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import { useMemo, useState, useTransition } from "react";
 import type { ExploreMetadata } from "@/data/type";
 import { comparator } from "@/utils/utils";
+import { deleteProject } from "@/utils/server-actions";
 
 import { Menu, MenuItem, IconButton } from "@mui/material";
 import { TableHead, TableSortLabel } from "@mui/material";
@@ -12,6 +14,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BoxM, TableBodyM, TableRowM } from "@/components/Motion";
 import { TablePaginationM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
@@ -26,18 +29,32 @@ const rowCells: { id: TableCol; label: string; align: "left" | "right" }[] = [
 ] as const;
 
 export default function FileTable({ list }: { list: MetadataList }) {
+  // Table
   const { SortLabelProps, PaginationProps, rows } = useTable(list);
-
   const variants = {
     animate: {
       transition: { staggerChildren: 1 / (3 * rows.length) },
     },
   };
 
+  // Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [link, setLink] = useState("");
   const open = Boolean(anchorEl);
   const handleClose = () => setAnchorEl(null);
+
+  // Delete Action
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const handleDelete = async () => {
+    startTransition(async () => {
+      const errors = await deleteProject(link);
+      if (errors) errors.error.forEach((error) => toast.error(error));
+      handleClose();
+      router.refresh();
+      toast.success(`Project ${link} has been deleted.`);
+    });
+  };
 
   return (
     <BoxM variants={createMotionVar({ from: { y: 0 } })}>
@@ -47,7 +64,7 @@ export default function FileTable({ list }: { list: MetadataList }) {
             <TableRowM variants={createMotionVar()}>
               {rowCells.map(({ id, label, align }) => (
                 <TableCell key={id} align={align}>
-                  <TableSortLabel {...SortLabelProps(id)}>
+                  <TableSortLabel {...SortLabelProps(id)} disabled={isPending}>
                     {label}
                   </TableSortLabel>
                 </TableCell>
@@ -68,13 +85,14 @@ export default function FileTable({ list }: { list: MetadataList }) {
                 <TableRowM key={key} variants={variants} hover tabIndex={-1}>
                   {rowCells.map(({ id, align }) => (
                     <TableCell key={id} align={align}>
-                      {id === "camera" ? `Cam ${row[id]}` : row[id]}
+                      {id === "camera" ? `Cam ${row[id] + 1}` : row[id]}
                     </TableCell>
                   ))}
 
                   <TableCell padding="checkbox" align="right">
                     <IconButton
                       sx={{ mr: 1 }}
+                      disabled={isPending}
                       onClick={(e) => {
                         setAnchorEl(e.currentTarget);
                         setLink(row.project);
@@ -101,10 +119,16 @@ export default function FileTable({ list }: { list: MetadataList }) {
           sx={{ px: 1.5, gap: 1 }}
           component={Link}
           href={`/files/projects/form/${link}`}
+          disabled={isPending}
         >
           <EditRoundedIcon fontSize="small" /> Edit
         </MenuItem>
-        <MenuItem dense sx={{ px: 1.5, gap: 1, color: "error.main" }}>
+        <MenuItem
+          dense
+          sx={{ px: 1.5, gap: 1, color: "error.main" }}
+          onClick={handleDelete}
+          disabled={isPending}
+        >
           <DeleteRoundedIcon fontSize="small" /> Delete
         </MenuItem>
       </Menu>

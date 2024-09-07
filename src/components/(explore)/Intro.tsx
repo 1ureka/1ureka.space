@@ -2,6 +2,8 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import ShuffleRoundedIcon from "@mui/icons-material/ShuffleRounded";
 import Block from "@/components/Block";
 import DropShadowContainer from "./display/DropShadowContainer";
+import { BoxM } from "@/components/Motion";
+import { createMotionVar } from "@/components/MotionProps";
 
 export default function Intro({
   sx,
@@ -28,7 +30,8 @@ export default function Intro({
       </Block>
 
       <Block decoration="right">
-        <Box
+        <BoxM
+          variants={createMotionVar()}
           sx={{ position: "relative", display: "flex", alignItems: "center" }}
         >
           <Typography variant="button" sx={{ pl: 1 }}>
@@ -50,11 +53,13 @@ export default function Intro({
               <ShuffleRoundedIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-        </Box>
+        </BoxM>
 
-        <Typography variant="caption" sx={{ pl: 1 }}>
-          discover different camera angles, lighting and more . . .
-        </Typography>
+        <BoxM variants={createMotionVar()}>
+          <Typography variant="caption" sx={{ pl: 1 }}>
+            discover different camera angles, lighting and more . . .
+          </Typography>
+        </BoxM>
 
         {tags}
       </Block>

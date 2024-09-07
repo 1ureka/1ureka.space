@@ -2,6 +2,8 @@ import { validateSession } from "@/auth";
 import { Box, Portal } from "@mui/material";
 import Feed from "@/components/(explore)/Feed";
 import Intro from "@/components/(explore)/Intro";
+import { BoxM } from "@/components/Motion";
+import { createMotionProps } from "@/components/MotionProps";
 
 function MaxWidthContainer({ children }: { children: React.ReactNode }) {
   const width = "clamp(1200px, 100%, 1700px)";
@@ -33,12 +35,12 @@ function Gradients() {
 function GridContainer({
   children,
   sx,
+  ...props
 }: {
   children: React.ReactNode;
-  sx?: React.ComponentProps<typeof Box>["sx"];
-}) {
+} & React.ComponentProps<typeof BoxM>) {
   return (
-    <Box
+    <BoxM
       sx={{
         display: "grid",
         gridTemplateColumns: `repeat(8, 1fr)`,
@@ -46,9 +48,10 @@ function GridContainer({
         width: 1,
         ...sx,
       }}
+      {...props}
     >
       {children}
-    </Box>
+    </BoxM>
   );
 }
 
@@ -72,13 +75,17 @@ export default async function Layout({
       <Box sx={{ overflow: "auto", position: "absolute", inset: 0 }}>
         <MaxWidthContainer>
           <GridContainer
+            {...createMotionProps({ stagger: 0.05 })}
             sx={{ position: "absolute", inset: 0, overflow: "clip", height: 1 }}
           >
             {images}
             <Gradients />
           </GridContainer>
 
-          <GridContainer sx={{ position: "relative", zIndex: 20 }}>
+          <GridContainer
+            {...createMotionProps()}
+            sx={{ position: "relative", zIndex: 20 }}
+          >
             {children}
 
             <Intro

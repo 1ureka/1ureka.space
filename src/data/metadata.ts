@@ -2,12 +2,14 @@ import "server-only";
 
 import { validateSession } from "@/auth";
 import { db } from "@/data/db";
-import type { ImageMetadataWithIndex, ImageMetadata } from "@/data/type";
+import type { ImageMetadataWithIndex } from "@/data/type";
+import type { ImageMetadata, ExploreMetadata } from "@/data/type";
 
 type Select = Partial<Record<keyof ImageMetadata, boolean>>;
 type RequiredField = "category" | "group" | "name";
 type CreateList = Pick<ImageMetadata, RequiredField | "size">[];
 type UpdateList = Pick<ImageMetadataWithIndex, RequiredField | "id">[];
+type CreateExploreList = Omit<ExploreMetadata, "id">[];
 
 async function auth() {
   const session = await validateSession({ redirect: false });
@@ -101,6 +103,18 @@ export async function getAllGroups() {
   }
 }
 
+export async function getAllExploreMetadata() {
+  try {
+    await auth();
+
+    return db.exploreMetadata.findMany({
+      include: { metadata: true },
+    });
+  } catch (error) {
+    throw new Error(`Failed to query explore metadata`);
+  }
+}
+
 export async function createMetadata(metadataList: CreateList) {
   try {
     await auth();
@@ -144,5 +158,43 @@ export async function deleteMetadata(metadataIds: string[]) {
     return res.count;
   } catch (error) {
     throw new Error(`Failed to delete ImageMetadata`);
+  }
+}
+
+export async function createExploreMetadata(metadataList: CreateExploreList) {
+  try {
+    await auth();
+
+    return db.exploreMetadata.createMany({ data: metadataList });
+  } catch (error) {
+    throw new Error(`Failed to create ExploreMetadata`);
+  }
+}
+
+export async function updateExploreMetadata(metadataList: ExploreMetadata[]) {
+  await auth();
+
+  const data = metadataList.map(({ metadataId, ...fields }) => fields);
+  const updateOperations = data.map((fields) =>
+    db.exploreMetadata.update({
+      where: { id: fields.id },
+      data: fields,
+    })
+  );
+
+  await Promise.all(updateOperations);
+}
+
+export async function deleteExploreMetadata(exploreIds: string[]) {
+  try {
+    await auth();
+
+    const res = await db.exploreMetadata.deleteMany({
+      where: { id: { in: exploreIds } },
+    });
+
+    return res.count;
+  } catch (error) {
+    throw new Error(`Failed to delete ExploreMetadata`);
   }
 }

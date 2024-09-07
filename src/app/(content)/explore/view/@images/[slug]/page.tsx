@@ -1,18 +1,15 @@
-import { getSortedMetadata } from "@/data/metadata";
-import { getProjectId } from "../../utils";
-
-import { delay } from "@/utils/server-utils";
+import { getProject } from "../../utils";
 import { clamp, mapArrayToRange, polarizeArray } from "@/utils/utils";
 import { generatePRNGArray, sortArrayByPRNG } from "@/utils/utils";
-
 import MasonryImage from "@/components/(explore)/MasonryImage";
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  await delay(Math.random() * 2500);
-  const id = await getProjectId(params.slug);
-
   const randomArrays = generateRandomArrays();
-  const randomSrcList = await getThumbnails(id); // TODO: get the project's thumbnails
+  const data = await getProject(params.slug);
+  const randomSrcList = sortArrayByPRNG(
+    data.map(({ metadataId }) => `/api/image/${metadataId}/thumbnail`),
+    200
+  );
 
   return (
     <>
@@ -32,27 +29,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
   );
 }
 
-async function getThumbnails(projectId: string) {
-  const idList = await getSortedMetadata("props");
-  const thumbnailPathList = idList.map(
-    ({ id }) => `/api/image/${id}/thumbnail`
-  );
-
-  return sortArrayByPRNG(thumbnailPathList, 200);
-}
-
 function generateRandomArrays() {
   const amount = 55;
   const rows = generatePRNGArray(0, amount, [1, 2, 3]);
-  const x = generatePRNGArray(21, amount, [0, 100]);
-  const y = generatePRNGArray(23, amount, [0, 100]);
+  const x = generatePRNGArray(13, amount, [1, 3]);
+  const y = generatePRNGArray(24, amount, [1, 3]);
 
-  const opacity = polarizeArray(
-    generatePRNGArray(3.22, amount, [0, 1]),
-    2.5,
-    0.5
-  );
-  const shadow = mapArrayToRange(polarizeArray(opacity), [1, 20], true);
+  const raw = polarizeArray(generatePRNGArray(3.22, amount, [0, 1]), 2.5, 0.5);
+  const shadow = mapArrayToRange(polarizeArray(raw), [1, 20], true);
+  const opacity = mapArrayToRange(raw, [0.45, 0.85]);
 
   return { rows, x, y, opacity, shadow };
 }

@@ -1,18 +1,13 @@
 import { validateSession } from "@/auth";
-import { getSortedMetadata } from "@/data/metadata";
-
-import { getProjectId } from "../utils";
-import { sortArrayByPRNG } from "@/utils/utils";
-import { delay } from "@/utils/server-utils";
-
-import { ButtonBase } from "@mui/material";
+import { getProject } from "../utils";
+import { ButtonBase, Skeleton } from "@mui/material";
+import Image from "next/image";
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  await delay(Math.random() * 2500);
   await validateSession();
-
-  const id = await getProjectId(params.slug);
-  const src = await getCoverSrc(id); // TODO: get the project's cover image
+  const data = await getProject(params.slug);
+  const coverData = data[0];
+  const src = `/api/image/${coverData.metadataId}/origin`;
 
   return (
     <ButtonBase
@@ -20,27 +15,25 @@ export default async function Page({ params }: { params: { slug: string } }) {
         gridColumn: "2 / span 4",
         gridRow: "2 / span 6",
         boxShadow: 10,
-        backgroundImage: `url(${src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        filter: "brightness(1.3)",
+        overflow: "hidden",
         transition: "all 0.3s ease",
         scale: "1.001",
         "&:hover": { scale: "1.05", borderRadius: 5 },
         "&:active": { scale: "1" },
       }}
-    />
-  );
-}
-
-async function getCoverSrc(projectId: string) {
-  const idList = await getSortedMetadata("props");
-  const thumbnailPathList = idList.map(
-    ({ id }) => `/api/image/${id}/thumbnail`
-  );
-
-  return sortArrayByPRNG(thumbnailPathList, 200)[0].replace(
-    "thumbnail",
-    "origin"
+    >
+      <Skeleton
+        variant="rectangular"
+        animation="wave"
+        sx={{ position: "absolute", width: 1, height: 1 }}
+      />
+      <Image
+        unoptimized
+        src={src}
+        alt={coverData.name}
+        fill
+        style={{ objectFit: "cover", filter: "brightness(1.3)" }}
+      />
+    </ButtonBase>
   );
 }

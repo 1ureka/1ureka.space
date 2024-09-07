@@ -1,23 +1,23 @@
-import { delay } from "@/utils/server-utils";
-import { getProjectId } from "../../utils";
-
+import { getProject } from "../../utils";
 import { Box, Stack, Typography } from "@mui/material";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  await delay(Math.random() * 2500);
-
-  const id = await getProjectId(params.slug);
-  const text = null; // TODO: get the project's information
+  const data = await getProject(params.slug);
+  const { project, description } = data[0];
 
   return (
-    <Stack sx={{ height: 1, gap: 1, justifyContent: "space-between" }}>
-      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-        <AutoStoriesRoundedIcon color="action" />
-        <Typography variant="h4" sx={{ color: "text.primary" }}>
-          Stories
-        </Typography>
-      </Box>
+    <Stack sx={{ height: 1, gap: 2, justifyContent: "space-between" }}>
+      <Stack sx={{ gap: 1.5 }}>
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <AutoStoriesRoundedIcon color="action" />
+          <Typography variant="h4" sx={{ color: "text.primary" }}>
+            {project}
+          </Typography>
+        </Box>
+
+        <Typography sx={{ color: "text.primary" }}>{description}</Typography>
+      </Stack>
 
       <Typography variant="caption">
         * click on the image to view the full resolution

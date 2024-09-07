@@ -174,7 +174,7 @@ export async function createExploreMetadata(metadataList: CreateExploreList) {
 export async function updateExploreMetadata(metadataList: ExploreMetadata[]) {
   await auth();
 
-  const data = metadataList.map(({ metadataId, ...fields }) => fields);
+  const data = metadataList.map(({ metadataId: _, ...fields }) => fields);
   const updateOperations = data.map((fields) =>
     db.exploreMetadata.update({
       where: { id: fields.id },

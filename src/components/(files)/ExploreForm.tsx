@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import type { UseFormRegister, FieldArrayWithId } from "react-hook-form";
 import type { FieldErrors } from "react-hook-form";
+import { uploadProject } from "@/utils/server-actions";
 
 import { useFilesBeforeUnload } from "@/hooks";
 import { exploreSchema } from "@/schema/exploreSchema";
@@ -13,6 +15,7 @@ import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import { Button, MenuItem, TextField, Portal } from "@mui/material";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 
+import toast from "react-hot-toast";
 import Image from "next/image";
 import { BoxM, DividerM, StackM } from "@/components/Motion";
 import { createMotionVar } from "../MotionProps";
@@ -26,7 +29,7 @@ export default function Form({
     handleSubmit,
     register,
     control,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isDirty },
   } = useForm<z.infer<typeof exploreSchema>>({
     resolver: zodResolver(exploreSchema),
     defaultValues,
@@ -40,6 +43,24 @@ export default function Form({
   });
 
   const possibleCameras = fields.map((_, i) => i);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const onSubmit = async (data: z.infer<typeof exploreSchema>) => {
+    setIsSubmitting(true);
+    toast.loading("Saving project...", { id: "saving" });
+
+    const errors = await uploadProject(data);
+
+    if (!errors) {
+      toast.dismiss("saving");
+      toast.success("Project saved successfully!");
+      return;
+    }
+
+    toast.dismiss("saving");
+    errors.error.forEach((error) => toast.error(error));
+    setIsSubmitting(false);
+  };
 
   return (
     <Stack gap={2}>
@@ -95,7 +116,7 @@ export default function Form({
           startIcon={<SaveRoundedIcon />}
           variant="contained"
           disabled={isSubmitting || !isDirty || !defaultValues?.project}
-          onClick={handleSubmit((data) => console.log(data))}
+          onClick={handleSubmit(onSubmit)}
           size="large"
           sx={{
             transition: "all 0.2s ease",

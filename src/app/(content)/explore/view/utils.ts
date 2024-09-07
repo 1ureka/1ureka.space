@@ -41,8 +41,8 @@ export async function getProject(slug: string) {
     data = orderedByTime[0];
   }
 
-  if (Number.isInteger(Number(slug)) && Number(slug) >= 0) {
-    const index = Number(slug);
+  const index = Number(slug);
+  if (Number.isInteger(index) && index >= 0) {
     data = orderedByTime[index] || null;
   }
 
@@ -52,3 +52,32 @@ export async function getProject(slug: string) {
 
   return data.sort((a, b) => a.name.localeCompare(b.name));
 }
+
+export function getCoverData(
+  data: Awaited<ReturnType<typeof getProject>>,
+  searchParams: { [key: string]: string | string[] | undefined }
+) {
+  const { tag, camera } = searchParams;
+
+  if (isValidSearchParam(tag)) {
+    data = data.filter((item) => item.tag === tag);
+  }
+
+  const cameraIndex = Number(camera);
+
+  if (
+    isValidSearchParam(camera) &&
+    Number.isInteger(cameraIndex) &&
+    cameraIndex >= 0
+  ) {
+    data = data.filter((item) => item.camera === cameraIndex);
+  }
+
+  return data[0];
+}
+
+const isValidSearchParam = (
+  param: string | string[] | undefined
+): param is string => {
+  return typeof param === "string";
+};

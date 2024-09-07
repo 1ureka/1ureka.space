@@ -134,6 +134,15 @@ function Hint() {
     >
       <Stack direction="row" alignItems="center" gap={1}>
         <IconButton
+          onClick={() => {
+            const el = document.getElementById("Carousels");
+            const event = new MouseEvent("contextmenu", {
+              bubbles: true,
+              cancelable: true,
+              view: window,
+            });
+            if (el) el.dispatchEvent(event);
+          }}
           sx={{
             transition: "all 0.15s ease",
             scale: "1.001",
@@ -153,6 +162,10 @@ function Hint() {
 
       <Stack direction="row" alignItems="center" gap={1}>
         <IconButton
+          onClick={() => {
+            const el = document.getElementById("CarouselsOrigin");
+            if (el) el.click();
+          }}
           sx={{
             transition: "all 0.15s ease",
             scale: "1.001",

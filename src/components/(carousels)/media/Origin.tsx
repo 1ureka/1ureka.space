@@ -84,6 +84,7 @@ export default function Origin({
       <span className="carousels-image-loader" />
 
       <motion.img
+        id="CarouselsOrigin"
         ref={ref}
         variants={carouselsOriginVar}
         animate={state ? "show" : "hide"}

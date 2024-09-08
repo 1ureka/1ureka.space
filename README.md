@@ -1,3 +1,9 @@
+# 1ureka.space
+
+This project is my personal portfolio website showcasing 3D CG works, with tools for image management and basic editing. Built using **Next.js**, it demonstrates modern web development practices like server-side rendering and component-driven architecture.
+
+The frontend utilizes **Material UI** for design, **Framer Motion** for animations, and **Recoil** for state management. On the backend, **Neon Postgres** and **Prisma** manage data, while **NextAuth.js** provides authentication. **Sharp** handles image processing and optimization.
+
 ## Tech Stack
 
 **Frontend:**

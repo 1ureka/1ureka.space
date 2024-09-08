@@ -1,6 +1,7 @@
+"use client";
+
 import Image from "next/image";
 import { BoxM } from "@/components/Motion";
-import { createMotionVar } from "@/components/MotionProps";
 
 type MasonryImageProps = {
   src: string;
@@ -21,9 +22,18 @@ export default function MasonryImage({
   x,
   y,
 }: MasonryImageProps) {
+  const variants = {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: { type: "spring", bounce: 0, duration: 1.5 },
+    },
+  };
+
   return (
     <BoxM
-      variants={createMotionVar({ from: { y: 0 } })}
+      variants={variants}
       sx={{
         position: "relative",
         display: "grid",

@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { BoxM } from "@/components/Motion";
 
@@ -43,6 +41,7 @@ export default function MasonryImage({
         zIndex,
         opacity,
         overflow: "hidden",
+        bgcolor: "gray",
       }}
     >
       <Image

@@ -28,6 +28,19 @@ const rowCells: { id: TableCol; label: string; align: "left" | "right" }[] = [
   { id: "detail", label: "Description", align: "right" },
 ] as const;
 
+const createLabel = (id: TableCol, value: string | number) => {
+  if (typeof value === "number") return `Cam ${value + 1}`;
+
+  // truncate description ，保留前6個word，後面用...代替
+  if (id === "detail") {
+    const list = value.split(" ").slice(0, 2);
+    if (list.length < 2) return value;
+    return `${list.join(" ")}...`;
+  }
+
+  return value;
+};
+
 export default function FileTable({ list }: { list: MetadataList }) {
   // Table
   const { SortLabelProps, PaginationProps, rows } = useTable(list);
@@ -85,7 +98,7 @@ export default function FileTable({ list }: { list: MetadataList }) {
                 <TableRowM key={key} variants={variants} hover tabIndex={-1}>
                   {rowCells.map(({ id, align }) => (
                     <TableCell key={id} align={align}>
-                      {id === "camera" ? `Cam ${row[id] + 1}` : row[id]}
+                      {createLabel(id, row[id])}
                     </TableCell>
                   ))}
 

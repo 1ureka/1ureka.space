@@ -12,22 +12,20 @@ import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 
 import { BoxM, StackM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
+import Image from "next/image";
 
 const imageWidth = 240;
 const imageHeight = (240 * 9) / 16;
 
 export default function Carousels({
   sx,
-  total,
+  srcList,
 }: {
   sx?: BoxProps["sx"];
-  total: number;
+  srcList: string[];
 }) {
+  const total = srcList.length;
   const index = useExploreIndex(total);
-
-  const fakeData = Array(total)
-    .fill(0)
-    .map((_, i) => i);
 
   const containerSx: BoxProps["sx"] = {
     position: "relative",
@@ -66,9 +64,10 @@ export default function Carousels({
           style={{ x }}
           sx={{ overflowY: "visible", overflowX: "vidible" }}
         >
-          {fakeData.map((i) => (
+          {srcList.map((src, i) => (
             <CarouselItem
               key={i}
+              src={src}
               sx={{
                 scale: i === index ? "0.95" : "0.8",
                 translate: i === index ? "-50% -5px" : "-50% 5px",
@@ -132,9 +131,9 @@ export default function Carousels({
   );
 }
 
-function CarouselItem({ sx }: { sx?: BoxProps["sx"] }) {
+function CarouselItem({ sx, src }: { sx?: BoxProps["sx"]; src: string }) {
   return (
-    <Box sx={sx}>
+    <Box sx={{ position: "relative", ...sx }}>
       <Skeleton
         animation="wave"
         variant="rounded"
@@ -143,6 +142,14 @@ function CarouselItem({ sx }: { sx?: BoxProps["sx"] }) {
           height: imageHeight,
           minWidth: imageWidth,
         }}
+      />
+      <Image
+        unoptimized
+        src={src}
+        alt="image"
+        width={imageWidth}
+        height={imageHeight}
+        style={{ position: "absolute", inset: 0 }}
       />
     </Box>
   );

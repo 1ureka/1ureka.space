@@ -74,8 +74,6 @@ export default async function Layout({
 }) {
   await validateSession();
 
-  const totalProjects = 10; // TODO: fetch from server
-
   return (
     <Portal>
       <Box sx={{ overflow: "auto", position: "absolute", inset: 0 }}>
@@ -106,7 +104,6 @@ export default async function Layout({
             />
 
             <Feed
-              total={totalProjects}
               sx={{
                 gridRow: "10 / span 3",
                 gridColumn: "2 / span 7",

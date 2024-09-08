@@ -24,7 +24,7 @@ export default function CoverImage({ src, name }: CoverImageProps) {
     <BoxM variants={variants} sx={{ position: "absolute", inset: 0 }}>
       <Image
         unoptimized
-        src={src}
+        src={_src}
         alt={name}
         fill
         style={{ objectFit: "cover", filter: "brightness(1.3)" }}

@@ -3,14 +3,35 @@ import Block from "@/components/Block";
 import DropShadowContainer from "./display/DropShadowContainer";
 import Carousels from "./block/Carousels";
 import Indicator from "./block/Indicator";
+import { getAllExploreMetadata } from "@/data/metadata";
 
-export default function Feed({
+export default async function Feed({
   sx,
-  total,
 }: {
   sx?: React.ComponentProps<typeof Box>["sx"];
-  total: number;
 }) {
+  const res = await getAllExploreMetadata();
+  const sortedByProject: Record<string, typeof res> = res.reduce(
+    (acc, item) => {
+      if (!acc[item.metadata.group]) {
+        acc[item.metadata.group] = [];
+      }
+      acc[item.metadata.group].push(item);
+      return acc;
+    },
+    {} as Record<string, typeof res>
+  );
+
+  const metadataList = Object.values(sortedByProject).map(
+    (list) =>
+      list.toSorted((a, b) => a.metadata.name.localeCompare(b.metadata.name))[0]
+  );
+
+  const total = metadataList.length;
+  const srcList = metadataList
+    .toSorted((a, b) => a.metadata.name.localeCompare(b.metadata.name))
+    .map(({ metadataId }) => `/api/image/${metadataId}/thumbnail`);
+
   const typoProps: React.ComponentProps<typeof Typography> = {
     variant: "button",
     sx: { color: "text.secondary" },
@@ -24,7 +45,7 @@ export default function Feed({
         <Block decoration="left" sx={{ gridColumn: "span 5" }}>
           <Typography {...typoProps}>Continue exploring . . .</Typography>
 
-          <Carousels total={total} />
+          <Carousels srcList={srcList} />
         </Block>
 
         <Block decoration="right" sx={{ gridColumn: "span 2" }}>

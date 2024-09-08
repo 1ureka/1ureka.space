@@ -21,7 +21,7 @@ const additionalRadius = -2.5;
 
 export default function Chart({ data }: { data: Data }) {
   const amount = data.reduce((acc, { value }) => acc + value, 0);
-  const remain = 256 - amount;
+  const remain = 32 - amount;
 
   if (remain < 0) {
     throw new Error("Invalid data");
@@ -39,7 +39,7 @@ export default function Chart({ data }: { data: Data }) {
     >
       <StackM variants={createMotionVar()}>
         <Typography variant="subtitle1">Storage: </Typography>
-        <Typography variant="body2">{amount.toFixed(2)} / 256 MB</Typography>
+        <Typography variant="body2">{amount.toFixed(2)} / 32 MB</Typography>
       </StackM>
 
       <PieChart

@@ -1,7 +1,6 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import ShuffleRoundedIcon from "@mui/icons-material/ShuffleRounded";
 import Block from "@/components/Block";
-import DropShadowContainer from "./display/DropShadowContainer";
 import { BoxM } from "@/components/Motion";
 import { createMotionVar } from "@/components/MotionProps";
 
@@ -15,13 +14,12 @@ export default function Intro({
   tags: React.ReactNode;
 }) {
   return (
-    <DropShadowContainer
-      sx={{ display: "grid", gridTemplateRows: "1fr 1fr", gap: 3, ...sx }}
-    >
+    <Box sx={{ display: "grid", gridTemplateRows: "1fr 1fr", gap: 3, ...sx }}>
       <Block
         color="primary.main"
         variant="contained"
         decoration="right"
+        shadow={20}
         SlotProps={{
           childContainer: { "data-mui-color-scheme": "dark" },
         }}
@@ -29,7 +27,7 @@ export default function Intro({
         {intro}
       </Block>
 
-      <Block decoration="right">
+      <Block decoration="right" shadow={20}>
         <BoxM
           variants={createMotionVar()}
           sx={{ position: "relative", display: "flex", alignItems: "center" }}
@@ -63,6 +61,6 @@ export default function Intro({
 
         {tags}
       </Block>
-    </DropShadowContainer>
+    </Box>
   );
 }

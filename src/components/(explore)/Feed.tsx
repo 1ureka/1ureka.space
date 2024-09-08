@@ -1,6 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
 import Block from "@/components/Block";
-import DropShadowContainer from "./display/DropShadowContainer";
 import Carousels from "./block/Carousels";
 import Indicator from "./block/Indicator";
 import { getAllExploreMetadata } from "@/data/metadata";
@@ -38,17 +37,17 @@ export default async function Feed({
   };
 
   return (
-    <DropShadowContainer sx={sx}>
+    <Box sx={sx}>
       <Box
         sx={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 3 }}
       >
-        <Block decoration="left" sx={{ gridColumn: "span 5" }}>
+        <Block decoration="left" shadow={20} sx={{ gridColumn: "span 5" }}>
           <Typography {...typoProps}>Continue exploring . . .</Typography>
 
           <Carousels srcList={srcList} />
         </Block>
 
-        <Block decoration="right" sx={{ gridColumn: "span 2" }}>
+        <Block decoration="right" shadow={20} sx={{ gridColumn: "span 2" }}>
           <Stack sx={{ height: 1 }}>
             <Typography {...typoProps}>Current At . . .</Typography>
 
@@ -58,6 +57,6 @@ export default async function Feed({
           </Stack>
         </Block>
       </Box>
-    </DropShadowContainer>
+    </Box>
   );
 }

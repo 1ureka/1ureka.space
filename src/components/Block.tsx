@@ -7,6 +7,7 @@ type BlockProps = {
   variant?: "outlined" | "contained";
   color?: string;
   decoration?: "both" | "left" | "right" | "none";
+  shadow?: number;
   SlotProps?: {
     childContainer?: React.ComponentProps<typeof BoxM> & {
       "data-mui-color-scheme"?: "dark" | "light";
@@ -23,6 +24,7 @@ export default function Block({
   variants = createMotionVar({ delayChildren: 0.35 }),
   color = "divider",
   decoration = "both",
+  shadow = 2,
   sx,
   SlotProps,
   children,
@@ -67,7 +69,7 @@ export default function Block({
         sx={{
           inset: 0,
           borderRadius: 1,
-          boxShadow: 2,
+          boxShadow: shadow,
         }}
       />
 

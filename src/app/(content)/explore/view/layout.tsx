@@ -26,7 +26,7 @@ function Gradients() {
   };
 
   const horizontalGradient =
-    "linear-gradient(to left, #fff, transparent 20%, transparent 80%, #fff)";
+    "linear-gradient(to left, #fff, transparent 50%, transparent 80%, #fff)";
   const verticalGradient =
     "linear-gradient(transparent, transparent 80%, #fff)";
 

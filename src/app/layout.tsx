@@ -10,6 +10,7 @@ import { ViewTransitions } from "next-view-transitions";
 import ContextProvider from "@/context/ContextProvider";
 import ThemeProvider from "@/theme/ThemeProvider";
 import Docker from "@/components/(docker)/Docker";
+import Cursor from "@/components/Cursor";
 
 export const metadata: Metadata = {
   title: {
@@ -82,7 +83,7 @@ export default function RootLayout({
 
               <ContextProvider>
                 <Layout>{children}</Layout>
-
+                <Cursor />
                 <MuiToaster />
               </ContextProvider>
             </ThemeProvider>

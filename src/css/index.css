@@ -11,6 +11,7 @@ body {
   scrollbar-color: gray transparent;
   scrollbar-width: thin;
   overflow-wrap: break-word;
+  cursor: none !important;
 }
 
 .text-ellipsis {

@@ -79,7 +79,7 @@ const GET = async (
       status: 200,
       headers: {
         "Content-Type": "image/webp",
-        "Cache-Control": "max-age=360, must-revalidate",
+        "Cache-Control": "max-age=604800, must-revalidate",
         ETag,
       },
     });

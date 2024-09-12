@@ -21,6 +21,7 @@ import { createOrigins } from "@/data/origin";
 import { verifyAllCategory, summaryCategorySize } from "@/data/verify";
 import { verifyAllOrigin, verifyAllThumbnail } from "@/data/verify";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 /**
  * 驗證上傳的圖片元數據。
@@ -100,6 +101,7 @@ export async function uploadImage(
     const listT = [{ metadataId: id, bytes: bufferT }];
     await Promise.all([createOrigins(listO), createThumbnails(listT)]);
 
+    revalidatePath("/");
     return { success: ["File uploaded successfully."] };
   } catch (error) {
     if (error instanceof Error) {
@@ -188,6 +190,8 @@ export async function deleteImages(ids: string[]) {
     }
 
     await deleteMetadata(ids);
+    revalidatePath("/");
+    return;
   } catch (error) {
     if (error instanceof Error) {
       return { error: [error.message] };
@@ -195,8 +199,6 @@ export async function deleteImages(ids: string[]) {
 
     return { error: ["Something went wrong"] };
   }
-
-  return;
 }
 
 /**

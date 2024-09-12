@@ -3,7 +3,8 @@ export const metadata: Metadata = {
   title: { absolute: "1ureka's space" },
 };
 
-export const dynamic = "force-dynamic";
+// 七天的快取時間 ( 60 * 60 * 24 * 7 )
+export const revalidate = 604800;
 
 import { Box, Stack, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material";

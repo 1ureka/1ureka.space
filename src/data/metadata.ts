@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { validateSession } from "@/auth";
 import { db } from "@/data/db";
 import type { ImageMetadataWithIndex } from "@/data/type";
@@ -20,7 +21,9 @@ async function auth() {
 }
 
 // 公開查詢
-export async function getSortedMetadata(category: "scene" | "props") {
+export const getSortedMetadata = cache(async function (
+  category: "scene" | "props"
+) {
   try {
     const metadataList = await db.imageMetadata.findMany({
       where: { category },
@@ -34,9 +37,11 @@ export async function getSortedMetadata(category: "scene" | "props") {
   } catch (error) {
     throw new Error(`Failed to query image metadata`);
   }
-}
+});
 
-export async function getMetadataCount(category: "scene" | "props") {
+export const getMetadataCount = cache(async function (
+  category: "scene" | "props"
+) {
   try {
     return db.imageMetadata.count({
       where: { category },
@@ -44,9 +49,9 @@ export async function getMetadataCount(category: "scene" | "props") {
   } catch (error) {
     throw new Error(`Failed to query metadata count`);
   }
-}
+});
 
-export async function getMetadataById(metadataId: string) {
+export const getMetadataById = cache(async function (metadataId: string) {
   try {
     return db.imageMetadata.findUnique({
       where: { id: metadataId },
@@ -54,9 +59,9 @@ export async function getMetadataById(metadataId: string) {
   } catch (error) {
     throw new Error(`Failed to query metadata`);
   }
-}
+});
 
-export async function getMetadataByGroup(group: string) {
+export const getMetadataByGroup = cache(async function (group: string) {
   try {
     if (!group) return [];
 
@@ -68,10 +73,12 @@ export async function getMetadataByGroup(group: string) {
   } catch (error) {
     throw new Error(`Failed to query metadata by group`);
   }
-}
+});
 
 // 管理員查詢
-export async function getAllMetadata<T extends Select>(select: T) {
+export const getAllMetadata = cache(async function <T extends Select>(
+  select: T
+) {
   try {
     await auth();
 
@@ -79,9 +86,9 @@ export async function getAllMetadata<T extends Select>(select: T) {
   } catch (error) {
     throw new Error(`Failed to query image metadata`);
   }
-}
+});
 
-export async function getAllGroups() {
+export const getAllGroups = cache(async function () {
   try {
     await auth();
 
@@ -101,9 +108,9 @@ export async function getAllGroups() {
   } catch (error) {
     throw new Error(`Failed to query group metadata`);
   }
-}
+});
 
-export async function getAllExploreMetadata() {
+export const getAllExploreMetadata = cache(async function () {
   try {
     await auth();
 
@@ -113,9 +120,9 @@ export async function getAllExploreMetadata() {
   } catch (error) {
     throw new Error(`Failed to query explore metadata`);
   }
-}
+});
 
-export async function createMetadata(metadataList: CreateList) {
+export const createMetadata = async function (metadataList: CreateList) {
   try {
     await auth();
 
@@ -128,9 +135,11 @@ export async function createMetadata(metadataList: CreateList) {
   } catch (error) {
     throw new Error(`Failed to create ImageMetadata: ${error}`);
   }
-}
+};
 
-export async function updateMetadata(metadataList: UpdateList): Promise<void> {
+export const updateMetadata = async function (
+  metadataList: UpdateList
+): Promise<void> {
   try {
     await auth();
 
@@ -145,9 +154,9 @@ export async function updateMetadata(metadataList: UpdateList): Promise<void> {
   } catch (error) {
     throw new Error(`Failed to update ImageMetadata`);
   }
-}
+};
 
-export async function deleteMetadata(metadataIds: string[]) {
+export const deleteMetadata = async function (metadataIds: string[]) {
   try {
     await auth();
 
@@ -159,9 +168,11 @@ export async function deleteMetadata(metadataIds: string[]) {
   } catch (error) {
     throw new Error(`Failed to delete ImageMetadata`);
   }
-}
+};
 
-export async function createExploreMetadata(metadataList: CreateExploreList) {
+export const createExploreMetadata = async function (
+  metadataList: CreateExploreList
+) {
   try {
     await auth();
 
@@ -169,9 +180,11 @@ export async function createExploreMetadata(metadataList: CreateExploreList) {
   } catch (error) {
     throw new Error(`Failed to create ExploreMetadata`);
   }
-}
+};
 
-export async function updateExploreMetadata(metadataList: ExploreMetadata[]) {
+export const updateExploreMetadata = async function (
+  metadataList: ExploreMetadata[]
+) {
   await auth();
 
   const data = metadataList.map(({ metadataId: _, ...fields }) => fields);
@@ -183,9 +196,9 @@ export async function updateExploreMetadata(metadataList: ExploreMetadata[]) {
   );
 
   await Promise.all(updateOperations);
-}
+};
 
-export async function deleteExploreMetadata(exploreIds: string[]) {
+export const deleteExploreMetadata = async function (exploreIds: string[]) {
   try {
     await auth();
 
@@ -197,4 +210,4 @@ export async function deleteExploreMetadata(exploreIds: string[]) {
   } catch (error) {
     throw new Error(`Failed to delete ExploreMetadata`);
   }
-}
+};
